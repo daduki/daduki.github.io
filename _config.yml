@@ -14,7 +14,7 @@ email: daduki@gmail.com
 
 # Authors
 authors:
-  sal:
+  emstudio:
     name: emstudio
     display_name: EmStudio
     gravatar: e56154546cf4be74e393c62d1ae9f9d4
@@ -22,7 +22,7 @@ authors:
     web: https://www.melon.com/artist/timeline.htm?artistId=221803
     twitter: https://twitter.com/caferoman
     description: "@emstudio : Modern Folk Singer Songwriter"
-  john:
+  caferoman:
     name: caferoman
     display_name: Caferoman
     avatar: 'assets/images/avatar.png'
