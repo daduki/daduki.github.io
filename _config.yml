@@ -17,6 +17,7 @@ authors:
   emstudio:
     name: emstudio
     display_name: EmStudio
+    avatar: 'assets/images/emstudio_avatar.jpg'
     gravatar: e56154546cf4be74e393c62d1ae9f9d4
     email: daduki@gmail.com
     web: https://www.melon.com/artist/timeline.htm?artistId=221803
@@ -25,7 +26,7 @@ authors:
   caferoman:
     name: caferoman
     display_name: Caferoman
-    avatar: 'assets/images/avatar.png'
+    avatar: 'assets/images/caferoman_avatar.jpg'
     gravatar: b1cc14991db7a456fcd761680bbc8f81
     email: daduki@gmail.com
     web: https://steempeak.com/@caferoman
