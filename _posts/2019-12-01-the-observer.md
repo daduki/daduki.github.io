@@ -1,16 +1,29 @@
 ---
 layout: post
-title:  "The Observer - National Gallery of Art, Washington, United States"
+title:  "임시휴업(2011) - 정말로 그는 그 앨범 뒤에 임시휴업을 단행했다."
 author: emstudio
-categories: [ Lifestyle ]
-image: assets/images/1.jpg
+categories: [ Sounds ]
+image: assets/images/a0.jpg
 ---
-The National Gallery of Art, and its attached Sculpture Garden, is a national art museum in Washington, D.C., located on the National Mall, between 3rd and 9th Streets, at Constitution Avenue NW. Open to the public and free of charge, the museum was privately established in 1937 for the American people by a joint resolution of the United States Congress. Andrew W. Mellon donated a substantial art collection and funds for construction. 
 
-> The core collection includes major works of art donated by Paul Mellon, Ailsa Mellon Bruce, Lessing J. Rosenwald, Samuel Henry Kress, Rush Harrison Kress, Peter Arrell Browne Widener, Joseph E. Widener, and Chester Dale. 
+조대득 밴드 - [임시휴업]
 
-The Gallery's collection of paintings, drawings, prints, photographs, sculpture, medals, and decorative arts traces the development of Western Art from the Middle Ages to the present, including the only painting by Leonardo da Vinci in the Americas and the largest mobile created by Alexander Calder.
+> 잃어버린 이야기들...
 
-The Gallery's campus includes the original neoclassical West Building designed by John Russell Pope, which is linked underground to the modern East Building, designed by I. M. Pei, and the 6.1-acre (25,000 m2) Sculpture Garden. 
+졸업하면 내게 봄이 올거라 했던 그 언젠가의 이야기
 
-The Gallery often presents temporary special exhibitions spanning the world and the history of art. It is one of the largest museums in North America.
+이번이 마지막일지 모르는 면접에서의 마지막 한마디
+
+늘어나는 뱃살과 카드값, 줄어드는 그녀와의 대화
+
+오늘 내일이 어제와 같을 것 같은 불안감…
+
+쇼윈도에 진열된 기타를 보며 전설의 밴드를 만들자던 아이들은 구직과 보직에 목숨을 걸다 하나 둘씩 특유의 사는 법을 잃어버렸다.
+
+노래가 일상, 일상이 노래가 되던 아이들의 삶
+
+임시휴업이라는 제목처럼 조대득밴드의 이번 앨범은 그런 “잃어버린 이야기”들을 노래하고 있다.
+
+평범하게 나약한 사람들이 간직하던 꿈들이 “폐점”이 아닌 “임시휴업”이길 바라는 마음으로 부르는 일상의 노래.
+
+꾸밈없는 언어와 조곤조곤 부르는 그의 노래에는 공감할 수 있는 따뜻함이 있다.

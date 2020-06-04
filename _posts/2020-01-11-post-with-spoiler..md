@@ -1,28 +1,37 @@
 ---
 layout: post
-title:  "Spoliers Inside - a film review needs hidden spoilers like this post"
+title:  "괴로운 날엔 쇼펜하우어 - 셀린 벨로크 저"
 author: caferoman
-categories: [ Lifestyle ]
-tags: [ Movies ]
-image: assets/images/12.jpg
+categories: [ Words ]
+tags: [ Book Review ]
+image: assets/images/br001.jfif
 ---
 
-Director Roland Suso Richter's enigmatic psychological thriller (direct to video/DVD) was based upon screenwriter Michael Cooney's own play "Point of Death" - a title that gave away the film's entire plot twist premise.
+### **개인적으로 가장 큰 영향을 준 철학가, 쇼펜하우어**
 
-As in many similar films, such as Jacob's Ladder (1990), Soul Survivors (2001), and The Butterfly Effect (2004), events and people were thoroughly distorted and confused because the protagonist was at the point of death. The tagline was misleading:
+~~삶의 본질을 통찰하기 위한 목적으로~~ 철학자들의 언어유희/사고유희를 읽는 것에 재미를 느끼기 시작한 이래로 읽어온 철학서적들을 헤아려 보니 가장 빈번하게 나온 이름은 바로 "아르뚜르 쇼펜하우어(Arthur Schopenhauer)"였다.
 
-**"When You Don't Have a Memory, How Can You Remember Who to Trust?"**
+이 철학자에게 애착을 가지는 이유는 참 단순하다.
 
-The mind-warping film opened with a hospital patient Simon Cable (Ryan Phillippe) awakening in a <span class="spoiler"> hospital with little knowledge (amnesia perhaps?) of what had happened, and why he was there, etc. He was told by attending Dr. Jeremy Newman (Stephen Rea) that it was July 29, 2002 (Simon thought it was the year 2000 - he was confused - he heard a doctor say 20:00 hours!) and that he had died for two minutes from cardiac arrest following the near-fatal accident -- but he had been revived ("You're as good as new").</span> Dr. Newman: "Simon, this is the 29th of July. The year is 2002. And your wife, whose name is Anna, is waiting outside." 
+**병맛 스럽지만 매력적인 어투
+2인자의 감성에서 나오는 깨알같은 냉소
+무기력한 현자타임 가운데 '인생 뭐 있어?'라는 시크한 위로**
 
-#### What critiques say?
-
-> "There's almost no single moment in Portrait of a Lady on Fire that couldn't be captured, mounted, and hung on a wall as high art." <cite>— Entertainment Weekly</cite>
-
-A major clue to everything that truly happened was the scene that played next under the credits - hospital staff failed to bring a patient back to life with a defibrillator after a car accident. Chest compressions failed and there was no pulse. A second major clue was provided by hospital orderly Travis (Stephen Graham): Everybody dies. No mystery there. But why and how everyone dies. Now, there's a mystery worth solving. Probably the biggest mystery there is.
-
-#### So how do we add spoilers in this theme?
+### 철학계의 옴므파탈
 
 ```html
 <span class="spoiler">My hidden paragraph here.</span>
 ```
+
+언뜻 보기에 오늘을 발버둥치며 살아가는 우리에게 '아이고 의미없다'라며 냉소적인 관조를 보이는 것 같다가도 그의 문장과 생각들을 곱씹다보면 그 행간에서 '인생 힘들지? 근데 그거 어떨 수 없어, 너나 나나 다 그래' 라는 위로를 전하는 철학계 옴므파탈.
+
+### **의외로 건성건성 살지 않았던 그의 일침**
+
+이 책을 읽으면서 쇼펜하우어를 다시 보게 된 구절은 책의 말미에 나오는 그의 일생에 관련된 기술이었다.
+
+> 스물여섯 살에 이미 『의지와 표상으로서의 세계』라는 큰 저작을 완성했지만, 팔리지도 않고 읽히지도 않았다. 전 세계를 향한 가르침은 대실패였다. 대학 강의도 실패였다. 적수인 헤겔의 강의 시간과 같은 시간에 강의를 개설했으니, 헤겔의 계단식 강의실은 꽉 찬 반면, 쇼펜하우어는 거의 텅 빈 강의실에서 강의해야 했기 때문이다.
+
+> 생애 마지막까지도 그는 아주 절제된 생활을 했다(식사 후 15분은 꼭 플루트를 불었고, 자기 개와 함께 고독한 산책을 즐겼다).
+
+하다 못해 철학자인 쇼펜하우어도 하루에 15분씩 이라도 악기연습을 게을리하지 않았는데...
+본의 아니게 가장 찔리는 대목이었다.
