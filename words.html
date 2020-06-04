@@ -4,12 +4,30 @@ title: Book Shelf
 permalink: /words
 ---
 
-<!-- Posts Index
-================================================== -->
 <div class="blog-grid-container">
-    {% for post in paginator.posts %}
-    		{% if page.categories contains "Words" %}
-        		{% include postbox.html %}
+    {% assign category = "Words" %}
+    {% for post in site.posts %}
+        
+        {% assign sameTagCount = 0 %}
+        {% assign commonTags = '' %}
+        
+        {% for category in post.categories %}
+            {% if post.url != page.url %}
+                {% if page.categories contains category %}
+                {% assign sameTagCount = sameTagCount | plus: 1 %}
+                {% capture tagmarkup %} {{ category }} {% endcapture %}
+                {% assign commonTags = commonTags | append: tagmarkup %}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        
+        {% if sameTagCount >= minCommonTags %}
+            {% include postbox.html %}
+            {% assign maxRelatedCounter = maxRelatedCounter | plus: 1 %}
+            {% if maxRelatedCounter >= maxRelated %}
+                {% break %}
+            {% endif %}
         {% endif %}
+        
     {% endfor %}
 </div>
