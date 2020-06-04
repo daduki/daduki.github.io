@@ -13,8 +13,8 @@ imageshadow: true
 <p float="left">
   <img src="assets/images/a0.jpg" width="100" />
   <img src="assets/images/a1.jpg" width="100" />
-  <img src="assets/images/ba1.jpg" width="100" />
-  <img src="assets/images/ba2.jpg" width="100" />
+  <img src="assets/images/ab1.jpg" width="100" />
+  <img src="assets/images/ab2.jpg" width="100" />
 </p>
 
 임시휴업 – 조대득밴드(2011)
