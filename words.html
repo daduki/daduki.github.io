@@ -4,21 +4,18 @@ title: Book Shelf
 permalink: /words
 ---
 
- ### Book Shelf TEXT
-
-<!-- Posts Index
-================================================== -->
+{% for category in site.categories %}
+<h4 class="mt-5 mb-neg-30" id="{{ category[0] | replace: " ","-" }}"><span class="text-capitalize badge badge-primary text-small">{{ category[0] }}</span></h4>
 <div class="blog-grid-container">
-    {% for post in paginator.posts %}
-        {% include wordbox.html %}
-    {% endfor %}
+	{% assign pages_list = category[1] %}
+	{% for post in pages_list %}
+	{% if post.title != null and post.categories == "Words" %}
+	{% if group == null or group == post.group %}
+	{% include postbox.html %}
+	{% endif %}
+	{% endif %}
+	{% endfor %}
+	{% assign pages_list = nil %}
+	{% assign group = nil %}
 </div>
-
-<!-- Pagination
-================================================== -->
-<div class="bottompagination">
-<span class="navigation" role="navigation">
-    {% include pagination.html %}
-</span>
-</div>
-
+{% endfor %}
