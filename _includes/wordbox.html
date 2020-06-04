@@ -2,8 +2,8 @@
 {% assign author = site.authors[post.author] %}
 
 <div class="blog-grid-item">
-		{% if post.categories == "Words" %}
     <div class="card h-100">
+		{% if post.categories != "Words" %}
         <div class="maxthumb">
             <a href="{{ site.baseurl }}{{ post.url }}">
                 {% if post.image %}
@@ -44,7 +44,7 @@
                 <div class="clearfix"></div>
             </div>
         </div>
-    </div>
 		{% endif %}
+    </div>
 </div>
 <!-- end post -->
