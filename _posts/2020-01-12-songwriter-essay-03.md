@@ -13,7 +13,6 @@ image: "http://muzineer.files.wordpress.com/2014/07/wpid-cam00173.jpg"
 
 [2. 저는 곡을 만들지만 악보를 볼 줄 모릅니다.](https://steemit.com/music/@caferoman/2, "2. 저는 곡을 만들지만 악보를 볼 줄 모릅니다.")
 
-![가사 : 한심한 질문들](http://muzineer.files.wordpress.com/2014/07/wpid-cam00173.jpg "가사 : 한심한 질문들")
 
 노트에 적은  운율도 없고 아름답지도 않은 푸념...
 
@@ -36,4 +35,5 @@ image: "http://muzineer.files.wordpress.com/2014/07/wpid-cam00173.jpg"
 
 > “잘 정리된 감정과 달리 무료한 기억의 Rewind 너를 노래하고 있지만 따뜻한 감성을 잃어버렸지”
 
-[youtube https://www.youtube.com/watch?v=MRpvXuMV2dc] 한심한 질문들(2013)
+<iframe src="https://www.youtube.com/watch?v=MRpvXuMV2dc"  
+ frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
