@@ -21,7 +21,11 @@ categories: [ Sounds ]
     <div class="blog-grid-container">
         {% for post in site.posts %}
             {% for category in post.categories %}
-                {% include postbox.html %}
+
+                {% if page.categories contains category %}
+                    {% include postbox.html %}
+                    {% break %}
+                {% endif %}
             {% endfor %}
         {% endfor %}
     </div>        
