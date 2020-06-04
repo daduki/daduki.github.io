@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "임시휴업(2011) - 정말로 그는 그 앨범 뒤에 임시휴업을 단행했다."
+title:  "임시휴업(2011) 정말 이 앨범 뒤에 임시휴업이 찾아왔다."
 author: emstudio
 categories: [ Sounds ]
 image: assets/images/a0.jpg
