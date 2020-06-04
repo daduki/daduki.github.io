@@ -8,7 +8,7 @@ permalink: /sounds
 ================================================== -->
 <div class="blog-grid-container">
     {% for post in paginator.posts %}
-    		{% if post.categories == "Sounds" %}
+    		{% if page.categories contains "Sounds" %}
         		{% include postbox.html %}
         {% endif %}
     {% endfor %}

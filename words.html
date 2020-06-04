@@ -8,7 +8,7 @@ permalink: /words
 ================================================== -->
 <div class="blog-grid-container">
     {% for post in paginator.posts %}
-    		{% if post.categories == Words %}
+    		{% if page.categories contains "Words" %}
         		{% include postbox.html %}
         {% endif %}
     {% endfor %}
