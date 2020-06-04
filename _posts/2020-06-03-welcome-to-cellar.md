@@ -2,6 +2,7 @@
 title: "Welcome to Cellar Inside!"
 date: 2020-06-03 15:26:28 -0400
 categories: Sounds Words
+image: assets/images/1.jpg
 ---
 
 ### To Do List in 2020
