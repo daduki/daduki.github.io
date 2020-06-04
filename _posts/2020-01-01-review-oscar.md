@@ -1,29 +1,72 @@
 ---
 layout: post
-title:  "Reviewing the best Oscar movies of all time"
-author: caferoman
+title:  "첫키스의 기억으로 노래 만들기"
+author: emstudio
 categories: [ Sounds ]
-tags: [Movies]
-image: assets/images/4.jpg
-description: "My review of Inception movie. Acting, plot and something else in this short description."
+tags: [Songwriting]
+image: https://c2.staticflickr.com/2/1486/23767931970_c2caefdb68_o.jpg
+description: "마이너 코드를 쳐도 메이져 같은 대책 없는 밝음으로 만든 첫키스의 멜로디"
 rating: 4.5
 ---
 
-Review products, books, movies, restaurant and anything you like on your Jekyll blog with **Memoirs**! JSON-LD ready for review property.
-
 #### How to use?
 
-It's actually really simple! Add the rating in your YAML front matter. It also supports halfs:
+지금의 저로선
+구사하기 어려운 언어들이 있습니다. 
+특히 "혼자도 나쁘진 않은것 같아", "누군가를 만난다는건 내게는 사치인가?" 같은 개똥철학을 남발하던 솔로시절, 외로움과 찌질한 정서로는 표현할 수 없는 아름다운 사랑의 언어들을 잊지 않도록 노력해야겠다는 마음을 먹고...
+
+**"마이너 코드를 쳐도 메이져 같은 대책 없는 밝음"**으로 표현이 되는 고유의 종족특성을 마음껏 살려 사랑 노래... 를 만등어 보기로 마음 먹었습니다.
+
+그런 의미에서
+동년배들 평균보다는 조금 늦었던 첫키스의 순간이 운 좋게도 일기를 쓰던 기간과 겹쳐서 발견된 몇줄의 메모는 이집션들에게 우려먹기 좋은 피라미드마냥 무척이나 반가운 발견이었습니다. 도굴할 가치가 있는 언어들을 찾은 셈이죠.(도굴이라 하기엔 더 어린 내가 쓴 내 소유의 언어지만서도...)
+어찌 되었건 몇일 복원 작업을 거쳐서 오래된 기록을 인질로 기억의 파편을 맘대로 맞춰보다가 곡 하나가 될 만한 분량의 가사를 써 보았습니다.
+
+그렇게 나온 가사가...
+부끄럽지만 아래와 같습니다.
+네... 압니다. 손발이 오그라드네요.
+
+하지만...
+한번뿐인 처음의 기억은 소중하니까요.
+
+>뭔지는 알고 있었죠
+>소설과 영화에서 세상이 하예지는 순간
+>언제 부턴가 그대와
+>함께있다 보면 고개를 흔들고 "아~ 아니야 아니야"
+
+>별 다를것 없는 어느날
+>쌀쌀한 바람에 조금 추위를 타고
+>그대는 말이 없었죠
+>시덥지 않은 농담이 갑자기 멈춰 버린 순간
+
+>그대 목소리에 귀기울이다
+>조금 더 가까이 그댈 보려다
+>나 잠시 어지러웠고
+>아찔한 상상에 그만 눈을 감았죠
+
+>간지러운 바람과 스며드는 입술이
+>어지러운 그대의 따뜻함
+>멈춰 버린 노래와 몰려오는 졸음에
+>이제 같은 숨을 쉬는 우리
+
+>첫 키스는 말이 없었죠
+>다시 보는 그댄 조금 더 아름다워
+>그대는 조금 놀랐고
+>아프지 않은 주먹이 내게 날라왔죠
+
+>세상이 하예진 순간 나 눈을 감았는지 눈을 떴는지
+>코로 숨을 쉰건지 입으로 숨을 삼킨건지
+>고개를 기울였는지 나의 왼손은 어디에 있었는지
+>시간이 멈춰버린건지...
 
 ```md
 ---
 layout: post
-title:  "Inception Movie"
-author: john
-categories: [ Lifestyle ]
-tags: [red, yellow]
-image: assets/images/5.jpg
-description: "My review of Inception movie. Actors, directing and more."
+title:  "첫키스"
+author: 조대득밴드
+categories: [ Sounds ]
+tags: [여기까지,Songwriting]
+image: assets/images/a1.jpg
+description: "그대는 조금 놀랐고 아프지 않은 주먹이 내게 날라왔죠"
 rating: 4.5
 ---
 ```
