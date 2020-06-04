@@ -35,5 +35,4 @@ image: "http://muzineer.files.wordpress.com/2014/07/wpid-cam00173.jpg"
 
 > “잘 정리된 감정과 달리 무료한 기억의 Rewind 너를 노래하고 있지만 따뜻한 감성을 잃어버렸지”
 
-<iframe src="https://www.youtube.com/watch?v=MRpvXuMV2dc"  
- frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<iframe width="100%" style="height:100%" scrolling="auto" src="https://www.youtube.com/embed/MRpvXuMV2dc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
