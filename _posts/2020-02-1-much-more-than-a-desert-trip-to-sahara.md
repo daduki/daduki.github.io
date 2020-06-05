@@ -4,25 +4,26 @@ title:  "지금 만나러 갑니다(දෙන් ඔයාව බලන්න �
 author: emstudio
 categories: [ Travel ]
 tags: [ 여행,스리랑카,월드비전 ]
-image: assets/images/3.jpg
+image: https://muzineer.files.wordpress.com/2014/09/0002.jpg
 ---
 
-<blockquote><strong>#1. Play : 2014년 9월 3일, 만나러 가는 길, Biblie</strong></blockquote>
-<a href="https://muzineer.files.wordpress.com/2014/09/0002.jpg"><img class="alignleft wp-image-179 size-medium" src="https://muzineer.files.wordpress.com/2014/09/0002.jpg?w=300" alt="000" width="300" height="168" /></a>
+#### 2014년 9월 3일, 그녀를 만나러 가는 길
 
-9월 3일...
 이번 여행에서 가장 떨리고 중요한 순간이다.
-스리랑카의 수도 Colombo에서 11시간 남짓 기차를 타고 Ella까지 왔고, 이제 새벽 6시 로컬버스를 2번 갈아 타고 여행자들의 발걸음이 전무하다시피 한 낮선 루트를 따라 비빌리(Biblie)로 향했다.
+스리랑카의 수도 Colombo에서 11시간 남짓 기차를 타고 Ella까지 왔고, 이제 새벽 6시 로컬버스를 2번 갈아 타고 여행자들의 발걸음이 전무하다시피 한 낮선 루트를 따라 비빌리(Bibile)로 향했다.
 
-<a href="http://muzineer.files.wordpress.com/2014/09/001a1.jpg">
-</a><a href="http://muzineer.files.wordpress.com/2014/09/001a1.jpg"><img class="alignleft wp-image-177 size-medium" src="https://muzineer.files.wordpress.com/2014/09/001a1.jpg?w=300" alt="001a" width="300" height="168" /></a><a href="http://muzineer.files.wordpress.com/2014/09/001a1.jpg"><img class="alignleft wp-image-178 size-medium" src="https://muzineer.files.wordpress.com/2014/09/001b1.jpg?w=168" alt="001b" width="168" height="300" /></a>
+![Way to Bibile](http://muzineer.files.wordpress.com/2014/09/001a1.jpg)
 
 사실 비빌리는 일반적으로 관광객이 찾는 동네는 아니다. 오히려 지금까지 만난 현지인들이 나의 여행계획을 물어봤을때 비빌리를 말하면 거기는 아무것도 볼게 없는데 왜 가냐고 매우 궁금해 했고 나는 매번 그 이유를 설명 해주어야 했다.
-<blockquote>나의 작은 친구를 만나러 가요(මගේ පොදි යනවා බලන්න යනවා)</blockquote>
+
+> 나의 작은 친구를 만나러 가요(මගේ පොදි යනවා බලන්න යනවා)
+
 콜롬보에서 총 이동시간 13시간,
 한국에서 가져온 내 짐의 8할,
-번거롭게도 꾸역꾸역 우쿨렐레를 가져와야만 했던 이유의 그 친구를 만나러 간다.
-<blockquote><strong>#2. Rewind : 실론섬에 사는 10살 소녀를 알게 되다.</strong></blockquote>
+번거롭게도 꾸역꾸역 우쿨렐레를 가져 와야만 했던 이유의 그 친구를 만나러 간다.
+
+#### 실론섬에 사는 10살 소녀를 알게 되다.
+
 Sumudu라는 아이를 처음 알게 된것은 제작년 11월 월드비전을 통해서 후원 결연아동으로 Sumudu가 지정되어서이다.
 사실 이전에 같은 기관 및 다른 기관에 여러번 후원 신청을 했으나 나의 조건이 까다로워서였는지, '조건에 맞는 아이가 생기면 연락을 해주었으면 좋겠다'라고 따로 후원관리국에 전화를 해보기도 했었지만 내가 원하는 후원아동을 찾을 수가 없어 번번히 실패했다가 제작년 늦가을 즈음, 다시 한번 연락을 해서 가까스로 맺어진 친구이다.
 사실 내가 바라던 조건은 복잡할 것 없이 딱 하나였다.
@@ -33,90 +34,109 @@ Sumudu라는 아이를 처음 알게 된것은 제작년 11월 월드비전을 �
 그렇게 현지사람들과 어울리며 외국인 치고는 흔치 않게 현지어(싱할라어)를 남부 해안 사투리로 배운 곳이
 그래서 우리나라라고 하면 괜히 한국 다음으로 생각이 나는 마음의 고향같은 곳이었기에
 기왕이면 그 나라를, 그 나라 아이를 돕고 싶었다.
-남들 누구나 해줄 수 있는 물질적인 측면을 넘어서 아이에게 좀더 정서적인 교감을 해줄 수 있고, 부족한 어휘로나마 현지 어(싱할라어)로 편지 한통 정성스럽게 써주고 싶어서, 그래야 나 역시도 오랫동안 가치 있는 후원을 할 수 있을것 같아 내린 나름의 고집이었다.
+남들 누구나 해 줄 수 있는 물질적인 측면을 넘어서 아이에게 좀더 정서적인 교감을 해줄 수 있고, 부족한 어휘로나마 현지 어(싱할라어)로 편지 한통 정성스럽게 써주고 싶어서, 그래야 나 역시도 오랫동안 가치 있는 후원을 할 수 있을것 같아 내린 나름의 고집이었다.
 
-<a href="http://muzineer.files.wordpress.com/2014/09/002b1.jpg">
-</a><a href="http://muzineer.files.wordpress.com/2014/09/002b1.jpg"><img class="alignleft wp-image-150 size-medium" src="https://muzineer.files.wordpress.com/2014/09/002b1.jpg?w=220" alt="002b" width="220" height="300" /></a>그렇게 가까스로 인연이 맺어진 이제 12살이 된 <strong>Sumudu</strong>(<strong>M. P. Gunawardana Sumudu D)</strong> 내가 딸아이라고 부르는 아이(주:참고로 글쓰는 사람은 아직 미혼입니다.)
+![She is Sumudu](http://muzineer.files.wordpress.com/2014/09/002b1.jpg)
+M. P. Gunawardana Sumudu D)
 
 사실 이 친구에 대해서 내가 아는 것은 이 아이의 10살, 12살 때의 사진2장과
-"난 한국에서 핸드폰 만드는 엔지니어야, 갈레에서 수영하는 걸 좋아해. 랑카 좋아. 라이스엔 카레에 빠빠담이랑 먹고 싶어" 와 같은 초등학교 수준의 싱할라어 어휘로 주고 받은 4장의 편지가 전부였다.
+
+> "난 한국에서 핸드폰 만드는 엔지니어야, 갈레에서 수영하는 걸 좋아해. 랑카 좋아. 라이스엔 카레에 빠빠담이랑 먹고 싶어"
+
+와 같은 초등학교 수준의 싱할라어 어휘로 주고 받은 4장의 편지가 전부였다.
 
 편지를 통해
 나는 예전에 2005년에서 2007년까지 Sumudu의 마을에서 버스로 6시간 정도 걸리는 남쪽 바다 마을 Galle에서 살았던 이야기들과 함께 스리랑카에서 있었던 추억들을 편지로 이야기 해 주었고,
 Sumudu역시 이제 스리랑카는 내전도 끝나고(주 : 내가 파견되었을 당시에는 정부군과 타밀 반군간의 내전으로 정세와 치안이 극도로 불안했을 시기였다.) 너무 많이 변했다면서 꼭 다시 랑카에 와서 자기네 마을로 놀러오라는 편지를 마지막으로 보내주었다. 친절하게도 Sumudu는 나에게 '우리 마을 오려면 관광지 Nuwara Eliya에서 버스타고 오면되요'라며 친절하게 길까지 알려주었다. 녀석! 나도 거기 살았던 사람이야. 너네 집 정도는 찾아갈 수 있다고.
 
-<a href="http://muzineer.files.wordpress.com/2014/09/002a1.jpg"><img class="alignleft wp-image-149 size-medium" src="https://muzineer.files.wordpress.com/2014/09/002a1.jpg?w=225" alt="002a" width="225" height="300" /></a>
+![Letters between us](http://muzineer.files.wordpress.com/2014/09/002a1.jpg)
 
 별 생각없이 아이가 던진 말 한마디 였을 수도 있지만
 나 역시 실론섬을 떠난지 7년이 지나 무척이나 가 보고 싶기도 했는데, Sumudu의 "우리 마을 놀러오세요"라는 꾹꾹 눌러쓴 한마디가 마음에 강한 불을 붙였고 월드비전 사무소에 현지 방문 신청을 하고 구체적인 준비를 하기 시작했다.
 
 최근 대한항공에서 직항이 생겨서 표를 구하기는 더 쉬워졌지만 해당 비행편이 스리랑카를 거쳐 몰디브로 가는 노선인지라 일반적인 여름휴가철에 표를 구하는 것은 거의 불가능 했다. 불행인지 다행인지, 해당 기간에는 G3 Cat6프로젝트로 인해서 기존 하계휴가보다 2달정도 미루어 계획을 잡을 수 밖에 없었고 9월 초에 스리랑카를 다녀오기로 했다.
-<blockquote><strong>#3. Fast Forward : 이제 눈 앞에 다가선 Sumudu</strong></blockquote>
-<a href="http://muzineer.files.wordpress.com/2014/09/0031.jpg"><img class="alignleft wp-image-151 size-medium" src="https://muzineer.files.wordpress.com/2014/09/0031.jpg?w=168" alt="003" width="168" height="300" /></a>
+
+#### 이제 눈 앞에 다가선 Sumudu
+
+![Way to Meet Her](http://muzineer.files.wordpress.com/2014/09/0031.jpg)
 
 Sumudu를 한번에 알아볼수 있을까,
 이 친구가 나를 무서워하면 어쩌지?
 내가 가져온 선물들이 마음에 들지 않으면 어쩌지...
 떨리는 마음으로 수무두의 집으로 이동하던길...
 
-<a href="http://muzineer.files.wordpress.com/2014/09/0041.jpg"><img class="alignleft wp-image-152 size-medium" src="https://muzineer.files.wordpress.com/2014/09/0041.jpg?w=300" alt="004" width="300" height="168" /></a><a href="http://muzineer.files.wordpress.com/2014/09/0051.jpg"><img class="alignleft wp-image-153 size-medium" src="https://muzineer.files.wordpress.com/2014/09/0051.jpg?w=300" alt="005" width="300" height="168" /></a>
+![Way to Meet Her2](http://muzineer.files.wordpress.com/2014/09/0041.jpg)
 
-걱정과 달리 멀리서도 Sumudu를 한번에 알아볼 수 있었다. 녀석! 사진빨이 안 받았었구나. 실물이 사진보다 100배는 더 예쁜 아이였다. 도착하자마자 Sumudu가 걸어주는 나뭇잎과 발의 입맞추는 인사를 받았는데 쑥쓰러워 몸둘바를 몰랐다.(스리랑카에서는 왕이나 스승과 같은 분께 신선한 나뭇잎을 드리며 함께 발에 입을 맞추며 존경을 표하는 풍습이 있다. 참고: http://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=104&oid=001&aid=0001439548 )
+걱정과 달리 멀리서도 Sumudu를 한번에 알아볼 수 있었다. 녀석! 사진빨이 안 받았었구나. 실물이 사진보다 100배는 더 예쁜 아이였다. 도착하자마자 Sumudu가 걸어주는 나뭇잎과 발의 입맞추는 인사를 받았는데 쑥쓰러워 몸둘바를 몰랐다.(스리랑카에서는 왕이나 스승과 같은 분께 신선한 나뭇잎을 드리며 함께 발에 입을 맞추며 존경을 표하는 풍습이 있다.
 
-<a href="http://muzineer.files.wordpress.com/2014/09/0071.jpg"><img class="alignleft wp-image-155 size-medium" src="https://muzineer.files.wordpress.com/2014/09/0071.jpg?w=199" alt="007" width="199" height="300" /><img class="alignleft wp-image-154 size-medium" src="https://muzineer.files.wordpress.com/2014/09/0061.jpg?w=168" alt="006" width="168" height="300" /></a>
+![I Met Her](http://muzineer.files.wordpress.com/2014/09/0071.jpg)
+![I Met Her](http://muzineer.files.wordpress.com/2014/09/0061.jpg)
 
-무엇보다 감동이었던 것은 내가 회사 사무실에, 그리고 우리집에 Sumudu의 사진을 걸어 놓고 있었던 것 처럼 Sumudu 역시 집에 내 사진을 걸어 놓고 있었다. 나만 Sumudu를 각별하게 생각했던 건 아니었겠구나 라는 마음에 뭔가 긴장 가득했던 마음이 풀어지는 기분이었다. 하나도 빼놓지 않고 모아놓은 내가 쓴 편지의 내용을 다시 보니 조금 오글거리긴 했다.
+무엇보다 감동이었던 것은 내가 회사 사무실에, 그리고 우리집에 Sumudu의 사진을 걸어 놓고 있었던 것 처럼 Sumudu 역시 집에 내 사진을 걸어 놓고 있었다. 나만 Sumudu를 각별하게 생각했던 건 아니었겠구나 라는 마음에 뭔가 긴장 가득했던 마음이 풀어지는 기분이었다. 하나도 빼놓지 않고 모아 놓은 내가 쓴 편지의 내용을 다시 보니 조금 오글거리긴 했다.
 
-<a href="http://muzineer.files.wordpress.com/2014/09/0081.jpg"><img class="alignleft wp-image-156 size-medium" src="https://muzineer.files.wordpress.com/2014/09/0081.jpg?w=168" alt="008" width="168" height="300" /></a><a href="http://muzineer.files.wordpress.com/2014/09/0091.jpg"><img class="alignleft wp-image-157 size-medium" src="https://muzineer.files.wordpress.com/2014/09/0091.jpg?w=300" alt="009" width="300" height="168" /></a>
+![I Met Her](http://muzineer.files.wordpress.com/2014/09/0081.jpg)
+![I Met Her](http://muzineer.files.wordpress.com/2014/09/0091.jpg)
 
 이번 여행 내내, 가방 가득했던 Sumudu와 그 남매들에게 줄 옷과 한국 과자, 학용품 등을 하나씩 조심스럽게 꺼내어 나누어주었다. 정성을 표현하기에 부족하지 않으면서 위화감이 들지 않도록 과하지 않은 선물이 뭐가 좋을까 무척 고민했었는데 그런 마음이 온전히 전달되길 바라며...
 
-<a href="http://muzineer.files.wordpress.com/2014/09/0141.jpg"><img class="alignleft wp-image-162 size-medium" src="https://muzineer.files.wordpress.com/2014/09/0141.jpg?w=300" alt="014" width="300" height="168" /></a> <a href="http://muzineer.files.wordpress.com/2014/09/0101.jpg"><img class="alignleft wp-image-158 size-medium" src="https://muzineer.files.wordpress.com/2014/09/0101.jpg?w=300" alt="010" width="300" height="168" /></a>
+![I Met Her](http://muzineer.files.wordpress.com/2014/09/0141.jpg)
+![I Met Her](http://muzineer.files.wordpress.com/2014/09/0101.jpg)
 
-한국에서 Sumudu 주려고 갔던 장신구가게에서 생긴 재미있는 에피소드.
+#### 한국에서 Sumudu 주려고 갔던 장신구가게에서 생긴 재미있는 에피소드.
+
 앙증맞은 목걸이와 팔찌를 골라서 계산하려고 하는데 카운터 아주머니께서
 "딸 아이 주시려구요?"라고 해서
-"아니요, (저 아직 결혼도 안했어요!) 여자... 꼬마... 친구요"라고 했더니
-다큰 남자애가 핑크핑크한 장신구를 계산하려고 서있는 걸 보시고는 옆의 카운터 아주머니께서
+"아니요, (저 아직 결혼도 안했어요!) 여자... 꼬마... 친구요"라고 했던...
+
+다 큰 총각이 핑크핑크한 장신구를 계산하려고 서있는 걸 보시고는 옆의 카운터 아주머니께서
 "총각, 패물 사가는 거에요?"고 물으셨던 웃지 못할 이야기를 해주었더니
 Sumudu도 함께 했던 가족들도 큰 웃음을 터뜨렸다.
+
 아래 사진은 수무두에게 그 목걸이와 팔찌를 걸어준 사진인데... Sumudu가 맘에 들어해서 참 다행이다.
 
-<img class="alignleft wp-image-163 size-medium" src="https://muzineer.files.wordpress.com/2014/09/0151.jpg?w=300" alt="015" width="300" height="168" /><img class="alignleft wp-image-165 size-medium" src="https://muzineer.files.wordpress.com/2014/09/0171.jpg?w=168" alt="017" width="168" height="300" />
+![I Met Her](http://muzineer.files.wordpress.com/2014/09/0151.jpg)
+![I Met Her](http://muzineer.files.wordpress.com/2014/09/0171.jpg)
 
 가방 가득 담겨있던 선물들을 나누어 주고,
 마음 가득 담겨있던 충분하진 않지만 꽤나 열심히 연습했던 노래들을 불러주려고 우쿨렐레를 꺼내었다.
 스리랑카 봉사단원시절 즐겨 부르던 에떠란 위만 뚜린(랑카 모든사람이 알만한 유명한 사랑노래)과 싱할라어로 후렴구를 번역한 이승철의 '소리쳐', 싱할라어 버전의 '자기소개 노래'를 불러주었다.
 
-<a href="http://muzineer.files.wordpress.com/2014/09/0111.jpg"><img class="alignleft wp-image-159 size-medium" src="https://muzineer.files.wordpress.com/2014/09/0111.jpg?w=300" alt="011" width="300" height="168" /></a><a href="http://muzineer.files.wordpress.com/2014/09/0121.jpg"><img class="alignleft wp-image-160 size-medium" src="https://muzineer.files.wordpress.com/2014/09/0121.jpg?w=300" alt="012" width="300" height="168" /></a><a href="http://muzineer.files.wordpress.com/2014/09/0131.jpg"><img class="alignleft wp-image-161 size-medium" src="https://muzineer.files.wordpress.com/2014/09/0131.jpg?w=300" alt="013" width="300" height="168" /></a>
+![I Met Her](http://muzineer.files.wordpress.com/2014/09/0111.jpg)
+![I Met Her](http://muzineer.files.wordpress.com/2014/09/0121.jpg)
+![I Met Her](http://muzineer.files.wordpress.com/2014/09/0131.jpg)
 
 노래를 부르고 Sumudu와 이런 저런 이야기를 나누던 사이 어머니께서 준비해주신 진수성찬을 준비해주셨다.
 먹을 것이 너무 많아서 정신 못차리고 먹고 있으니 조금 있다가 밥 차려 주실테니 너무 많이 먹지 말라고 하신다.(응? 밥은 또 따로 있었어?)
 
-<a href="http://muzineer.files.wordpress.com/2014/09/0181.jpg"><img class="alignleft wp-image-166 size-medium" src="https://muzineer.files.wordpress.com/2014/09/0181.jpg?w=168" alt="018" width="168" height="300" /></a><a href="http://muzineer.files.wordpress.com/2014/09/0191.jpg"><img class="alignleft wp-image-167 size-medium" src="https://muzineer.files.wordpress.com/2014/09/0191.jpg?w=300" alt="019" width="300" height="168" /></a><a href="http://muzineer.files.wordpress.com/2014/09/0201.jpg"><img class="alignleft wp-image-168 size-medium" src="https://muzineer.files.wordpress.com/2014/09/0201.jpg?w=168" alt="020" width="168" height="300" /></a>
+![I Met Her](http://muzineer.files.wordpress.com/2014/09/0181.jpg)
+![I Met Her](http://muzineer.files.wordpress.com/2014/09/0191.jpg)
+![I Met Her](http://muzineer.files.wordpress.com/2014/09/0201.jpg)
 
 Sumudu네 가족은 월드비전의 새집 짓기 프로젝트의 일환으로 옛날집 바로 옆에 멋진 새집을 일부 지원받아서 지은(집을 짓는 모든 노동력은 수무두네 가족들이 벽돌 하나하나 쌓아가며 함께 참여한 프로젝트) 집에 살고 있었다. 이전에 살았던 옛날 집이 주방 옆에 있어 들어가 볼수 있었는데... 아이요!(싱할라어로 아이고!라는 감탄사) 아버지가 반주를 즐기셨는지 아락(코코넛으로 빛은 현지 전통주) 몇병이 옛 집에 널려 있었다. 아버지 이렇게 토끼같은 딸 아이들이 있는데 금주 좀 하셔야겠어요.ㅎㅎ
 
-쭈뼜쭈뼛 전통 복장을 갈아입고 온 수무두와 그 친구가 내 주위를 어슬렁 거리길래 무슨일인가 싶었더니 자기네들 역시 답가로 공연을 준비했다며 작지만 멋진 뮤지컬 비스무래한 공연을 보여주었다. 이름하여 Sumudu와 그의 친구들!!(+동생들)
+쭈뼛쭈뼛 전통 복장을 갈아입고 온 수무두와 그 친구가 내 주위를 어슬렁 거리길래 무슨일인가 싶었더니 자기네들 역시 답가로 공연을 준비했다며 작지만 멋진 뮤지컬 비스무래한 공연을 보여주었다. 이름하여 Sumudu와 그의 친구들!!(+동생들)
 스리랑카 고대 왕이 이방 여자를 만나 애기까지 가졌는데, 자기는 이제 본국으로 돌아가야 한다며 무책임하게 휙 가버린다 하고 이방민족 여자는 아이고 그럼 우리 애기는 어찌합니까? 라며 주고 받는 슬픈 이야기...
 
-<a href="http://muzineer.files.wordpress.com/2014/09/023.jpg"><img class="alignleft wp-image-171 size-medium" src="https://muzineer.files.wordpress.com/2014/09/023.jpg?w=300" alt="023" width="300" height="168" /></a><a href="http://muzineer.files.wordpress.com/2014/09/022.jpg"><img class="alignleft wp-image-170 size-medium" src="https://muzineer.files.wordpress.com/2014/09/022.jpg?w=300" alt="022" width="300" height="168" /></a>
+![I Met Her](http://muzineer.files.wordpress.com/2014/09/023.jpg)
+![I Met Her](http://muzineer.files.wordpress.com/2014/09/022.jpg)
 
 아까 주신 가벼운(??) 다과 뒤에 내가 가장 좋아하는 매운감자 카레와 치킨카레, 빠빠담과.. 암튼 다 일일히 나열할수도 없는 풍성한 음식을 준비해 주셨다. 내가 좀더 위가 컸더라면 더 많이 배에 담아왔을텐데 암튼 2그릇 가득 배에 담아왔고 어머니께서는 가는길에 먹으라고 남은 음식들도 모두 싸 주셨다. 한국까지 가져올 수만 있다면 얼마나 좋았을까... 하지만 이곳 날씨도 그렇고 그 많은 카레를 한국에 가져갈 방법이 좀체 떠오르질 않아 안타까웠다.
 
-<a href="http://muzineer.files.wordpress.com/2014/09/024.jpg"><img class="alignleft wp-image-172 size-medium" src="https://muzineer.files.wordpress.com/2014/09/024.jpg?w=300" alt="024" width="300" height="168" /></a>
+![I Met Her](http://muzineer.files.wordpress.com/2014/09/024.jpg)
 
 마지막으로 Sumudu와 그 가족들과 인사를 하는데 뭔가 가슴이 시큰해지고 머리를 한방 맞은 기분이었다. 이번에 오면 당분간 올일은 없겠지 하며 맘먹고 찾아온 랑카였는데. 처음 수줍어하는 모습과는 다르게 다정하게 인사해주는 수무두를 보니 이 아이가 좀 더 자라면 머지 않아 다시 보러 와야할 것 같은 기분이 너무 강하게 들어서...
 나는 이 아이에게 이런 발에 입맞추는 인사를 받을 자격이 없는 사람인데... 어찌할 바를 모르고 그저 당황하고 고마웠다.
 
-<a href="http://muzineer.files.wordpress.com/2014/09/0261.jpg"><img class="alignleft wp-image-174 size-medium" src="https://muzineer.files.wordpress.com/2014/09/0261.jpg?w=300" alt="026" width="300" height="168" /></a><a href="http://muzineer.files.wordpress.com/2014/09/025.jpg"><img class="alignleft wp-image-173 size-medium" src="https://muzineer.files.wordpress.com/2014/09/025.jpg?w=300" alt="025" width="300" height="168" /></a><a href="http://muzineer.files.wordpress.com/2014/09/0271.jpg"><img class="alignleft wp-image-175 size-medium" src="https://muzineer.files.wordpress.com/2014/09/0271.jpg?w=300" alt="027" width="300" height="168" /></a>
+![I Met Her](http://muzineer.files.wordpress.com/2014/09/0261.jpg)
+![I Met Her](http://muzineer.files.wordpress.com/2014/09/0271.jpg)
 
-#4. Pause : 짧지만 행복했던 하루
+#### 짧지만 행복했던 하루
 
 짐과 사진 정리를 마치는 대로 수무두에게 이번에 함께 했던 사진들을 출력해서 편지와 함께 보내야겠다. 이젠 서로 얼굴도 보고 함께 공유한 시간들도 있으니 편지에 쓸 말이 더 많을 것 같다.
 친구들에게 이 사진 저 사진을 보여주며 "근데 우리 Sumudu 좀 예쁘지 않아?" 라는 내 모습을 보며 처음으로 나에게 있는 딸바보의 가능성을 보았다. 거짓말 같이 생긴 12살 딸아이 Sumudu는 몇년 뒤에 어떤 모습을 하고 있을까?
 (수무두를 만나러 가는 과정에서 현지 방문을 Arrange해주신 국내, 그리고 현지에서 방문에서 사진까지 멋진 추억을 간직하는데에 도움을 주신 현지 월드비전 직원 분들께 감사 드리며...)
 
-<a href="http://muzineer.files.wordpress.com/2014/09/0211.jpg"><img class="alignleft wp-image-169 size-medium" src="https://muzineer.files.wordpress.com/2014/09/0211.jpg?w=168" alt="021" width="168" height="300" /></a>
-<blockquote><strong>සනිප වේවා. සහා නෙවත හමුවිමු.</strong>
-<strong> (건강해야해. 그리고 다시 만나자.)</strong></blockquote>
+![I Met Her](http://muzineer.files.wordpress.com/2014/09/0211.jpg)
+
+### සනිප වේවා. සහා නෙවත හමුවිමු.
+#### (건강해야해. 그리고 다시 만나자.)
