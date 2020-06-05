@@ -9,7 +9,7 @@ description: "사람들은 속삭이는 초저음과 고음역에 민감하게 �
 rating: 4.5
 ---
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/xpj9MRm7hsc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/xpj9MRm7hsc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 **Alison Balsom feat. Milos: Piazzolla's Café 1930 (Paris)**
 (공유드리는 노래는 사실 오늘 포스팅과는 크게 상관 없지만 감미로운 톤이라는 이야기를 공유드리면서 함께하기 좋은 BGM이 될 것 같아 골라봤습니다. 여담이지만 Alison Balsom은 저 트럼펫 연주에 저정도 미모를 가지면 반칙 아닌가요?)
