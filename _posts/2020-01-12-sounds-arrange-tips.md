@@ -7,38 +7,38 @@ tags: [편곡,화성악]
 image: https://muzineer.files.wordpress.com/2014/07/wpid-wp-1405167366866.jpeg
 ---
 
-### 다른 코드, 다른 느낌
+#### 다른 코드, 다른 느낌
 같은 와인도 어떠한 음식과 먹느냐에 따라 전혀 다른 와인이 되는 것 같이...
 멜로디 역시 어떠한 코드와 주법에 담느냐에 따라 전혀 다른 느낌의 곡이 되기도 합니다.
 
 위의 운지법은 현재 담당하고 있는 고등부 찬양팀의 건반치는 친구가 Nell 빠돌이라서 한번 이 친구의 화성악적인 취향대로 코드 편성을 바꿔본 것입니다.
 엄청난 기술이 사용된 것은 아니구요
 
-> **E    ☞  C#m(7)**
-**F#m  ☞  AMaj7**
-**A    ☞  B7**
-**B7   ☞  G#7**
+> **E    ☞  C#m(7)**  
+**F#m  ☞  AMaj7**  
+**A    ☞  B7**  
+**B7   ☞  G#7**  
 
 3번째 줄을 제외하고는 Maj 코드의 대용으로 한키반(프렛 기준으로 3프렛) 낮춘 minor7 코드를
 혹은 반대로 minor 코드 대용으로 한키반 올린 Maj 코드로 변환하여 만든 코드 입니다.
 
 위의 코드 구성을 Mode표기법으로 바꿔보면 아래와 같습니다.
 
-> **E   Ionian			☞	C# Aeolian**
-**F#m Dorian			☞	A Lydian**
-**A   Lydian			☞	B Mixolydian**
-**B7  Mixolydian	☞   G Phrygian**
+> **E   Ionian			☞	C# Aeolian**  
+**F#m Dorian			☞	A Lydian**  
+**A   Lydian			☞	B Mixolydian**  
+**B7  Mixolydian	☞   G Phrygian**  
 
 
 참고 화성악에서 구분하는 주요 7가지 모드는 아래와 같습니다.
 
-> Ionian 아이오니안
-Dorian 도리안
-Phrygian 프리지안
-Lydian 리디안
-Mixolydian 믹솔리디안
-Aeolian 에올리안
-Locrian 로크리안
+> Ionian		아이오니안  
+Dorian		도리안  
+Phrygian		프리지안  
+Lydian		리디안  
+Mixolydian	믹솔리디안  
+Aeolian		에올리안  
+Locrian		로크리안  
 
 실제 코드톤에 사용되는 음의 조합은 거의 비슷하지만
 
