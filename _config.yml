@@ -5,7 +5,7 @@ description: "Cellar of Sounds and Words"
 logo: 'assets/images/logo.jpg'
 favicon: 'assets/images/logo.jpg'
 baseurl: ''
-google_analytics: 'G-DLXWZ5NENR'
+google_analytics: '234778001'
 disqus: 'demowebsite'
 mailchimp-list: 'https://daduki.github.io'
 include: ["_pages"]
