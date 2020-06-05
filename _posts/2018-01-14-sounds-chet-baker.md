@@ -4,7 +4,7 @@ title:  "Chet Baker - 밤안개를 배회하는듯한  우울한 톤의 트럼�
 author: emstudio
 categories: [ Sounds ]
 tags: [Chet Baker, 트럼펫, Jazz]
-image: assets/images/alison.jpg
+image: assets/images/chet.jpg
 description: "I get along without you very well... The last Great concert에 담긴 말년의 목소리"
 ---
 
