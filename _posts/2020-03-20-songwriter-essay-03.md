@@ -3,15 +3,15 @@ layout: post
 title:  "일상의 언어들이 노랫말이 되어가는 과정"
 author: emstudio
 categories: [ Sounds ]
-tags: [ Songwriter ]
+tags: [ Songwriter,작사,작곡 ]
 image: "http://muzineer.files.wordpress.com/2014/07/wpid-cam00173.jpg"
 ---
 
 #### 지난 작곡 에세이
 
-[1. 작사가 먼저냐 작곡이 먼저냐 - 이승환 case study](https://google.com, "1. 작사가 먼저냐 작곡이 먼저냐 - 이승환 case study")
+[1. 작사가 먼저냐 작곡이 먼저냐 - 이승환 case study](/songwriter-case-study-01, "1. 작사가 먼저냐 작곡이 먼저냐 - 이승환 case study")
 
-[2. 저는 곡을 만들지만 악보를 볼 줄 모릅니다.](https://steemit.com/music/@caferoman/2, "2. 저는 곡을 만들지만 악보를 볼 줄 모릅니다.")
+[2. 저는 곡을 만들지만 악보를 볼 줄 모릅니다.](https://daduki.github.io/songwriter-case-study-01/, "2. 저는 곡을 만들지만 악보를 볼 줄 모릅니다.")
 
 
 노트에 적은  운율도 없고 아름답지도 않은 푸념...

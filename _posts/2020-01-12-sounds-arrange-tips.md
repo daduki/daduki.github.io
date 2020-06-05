@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "One day we just started our adventure"
+title:  "Arrangement for I could sing of your love forever"
 author: caferoman
 categories: [ Sounds ]
 tags: [편곡,화성악]
