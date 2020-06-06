@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  "아무튼 떡볶이 - 요조 : "
+title:  "아무튼 떡볶이 - 요조 : But 나의 최애 떡볶이는 '맑은샘 분식'"
 author: caferoman
 categories: [ Words ]
-tags: [ Book Review, 인문학, 사회문화, 90년생 ]
+tags: [ Book Review, 에세이, 떡볶이 ]
 image: assets/images/br003.jpg
 ---
 
