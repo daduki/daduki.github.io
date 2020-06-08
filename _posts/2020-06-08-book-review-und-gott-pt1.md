@@ -3,7 +3,7 @@ layout: post
 title:  "그리고 신은 얘기나 좀 하다고 했다 - 한스 라트"
 author: caferoman
 categories: [ Words ]
-tags: [ Book Review, 소설, 한스라트, '그리고 신은' 시리즈 ]
+tags: [ Book Review, 소설, 한스라트, 그리고 신은 시리즈 ]
 image: assets/images/br004.jfif
 ---
 > 「신이 노름꾼이라고요? 거참 흥미롭네요. 예전에 아인슈타인이 이런 말을 했죠. 신은 주사위를 던지지 않는다고.」   
