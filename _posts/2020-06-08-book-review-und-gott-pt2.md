@@ -3,7 +3,7 @@ layout: post
 title:  "악마도 때론 인간일 뿐이다 - 한스 라트"
 author: caferoman
 categories: [ Words ]
-tags: [ Book Review, 소설, 한스라트, 그리고 신은 시리즈 ]
+tags: [ Book Review, 소설, 한스라트, 단테, 신곡, 그리고 신은 시리즈 ]
 image: assets/images/br005.jfif
 ---
 > 「지옥에 오신 걸 환영합니다.」 토니 아우어바흐가 말한다.   
