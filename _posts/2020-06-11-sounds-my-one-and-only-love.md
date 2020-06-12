@@ -1,18 +1,21 @@
 ---
 layout: post
-title:  "My one and only love - 비오는 날 듣기 좋은 Jazz"
+title:  "My one and only love - 다른 뮤지션 다른 느낌"
 author: emstudio
 categories: [ Sounds ]
 tags: [ Chet Baker, Oscar Peterson, George Benson, Trumpet, Guitar, Jazz ]
 image: assets/images/chris.jfif
 ---
 
-##### 매년 초가 되면
-1년 안에 해보고 싶은 소소한 목표&버킷 리스트들을 적어보는데요,
-그 중 하나가 트럼펫 배우기와 좋아하는 Jazz Standard 곡 Head 연주해보기 였습니다.
-'악기 하나라도 제대로 하지 뭘 또 다른걸 배우려고 하나" 싶긴 하지만
-관악기 하나는 꼭 배워 봤음 싶었고
-그러던 중 쳇베이커의 마지막 콘서트 앨범을 듣게 되자 어느순간 제 손은 중고 트럼펫 하나를 들고 있더라구요.
+##### 살면서 관악기 하나쯤은 배워야겠다
+라는 마음으로 여러 목관악기/금관악기를 저울질 한 끝에 서른초반 즈음에 트럼펫이라는 악기에 입문하게 되었습니다.
+(주관적인 감상으로) 색소폰은 대놓고 여자 꼬시려는 음색 같아보였고 당장 운지를 익히고 소리는 내는 것도 쉽게 접근할 수 있어서 였을까요?
+이에 비해 압도적으로 적은 키(3개의 벨브 키)를 이용하여 자유자재로 프레이즈를 연주하는 Jazz에서의 트럼펫의 매력과
+Chet Baker/Miles Davis의 대체할 수 없는 트럼펫만의 사운드에 빠져든 나머지 이 악기가 소리하나 내는 것만도 얼마나 고생스러운줄도 모르고 덜컥 중고 악기를 구입하고나서
+이렇게 저렇게 씨름해온것이 벌써 반 십년이네요.
+
+올해는 코로나의 여파도 있어 연습실 이용/밴드합주가 불가능하여 꽤 오래 연습을 쉬고 있지만
+매해 변함없는 올해의 버킷리스트에 오르는 Standard Jazz N곡 연습/연주/녹음하기를 올해 하반기에라도 달성하려면 어떻게든 연습할 방법을 찾아야 할 것 같습니다.
 
 ##### 2018년이 되며 트럼펫 선생님도 구하고
 올해 첫번째 목표 연습곡으로 "My One and Only Love"를 골랐습니다만
@@ -28,7 +31,7 @@ image: assets/images/chris.jfif
 
 <iframe width="100%" height="315" src="https://www.youtube.com/embed/7CV0y-eXh2g" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-쳇베이커의 생애에 관한 다큐멘터리 Let's get lost 에 수록된 곡입니다. 결국 이 다큐멘터리는 쳇 베이커가 세상을 떠난 뒤에 세상에 공개되었지만 그의 힘에 부치는듯 해도 우수에 가득찬 그의 말녀과도 같은 연주는 정말 대체 불가능한 무언가가 있습니다.
+쳇 베이커의 생애에 관한 다큐멘터리 Let's get lost 에 수록된 곡입니다. 결국 이 다큐멘터리는 쳇 베이커가 세상을 떠난 뒤에 세상에 공개되었지만 그의 힘에 부치는듯 해도 우수에 가득찬 그의 말년과도 같은 연주는 정말 대체 불가능한 무언가가 있습니다.
 
 트럼펫 계의 제임스딘이라는 수식어가 붙을 정도로 미남이던 쳇베이커는 마약과 세월의 풍랑을 거쳐 급속도로 나이를 먹은 노인이 되어있네요.
 
@@ -36,7 +39,7 @@ image: assets/images/chris.jfif
 
 <iframe width="100%" height="315" src="https://www.youtube.com/embed/aJ46TQTcIio" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-피아노 버전으로는 Oscar Peterson의 버전이 가장 익숙하네요. 캐나다 출신 재즈 피아니스트인 Oscar Peterson의 약어는 O.P. 말 그대로 사기캐인듯 합니다.
+피아노 버전으로는 Oscar Peterson의 버전이 가장 익숙하네요. 캐나다 출신 재즈 피아니스트인 Oscar Peterson의 약어는 OP(Over Powered) 말 그대로 사기캐인듯 합니다.
 
 #### George Benson 버전
 
