@@ -17,13 +17,10 @@ Chet Baker/Miles Davis의 대체할 수 없는 트럼펫만의 사운드에 빠�
 올해는 코로나의 여파도 있어 연습실 이용/밴드합주가 불가능하여 꽤 오래 연습을 쉬고 있지만
 매해 변함없는 올해의 버킷리스트에 오르는 Standard Jazz N곡 연습/연주/녹음하기를 올해 하반기에라도 달성하려면 어떻게든 연습할 방법을 찾아야 할 것 같습니다.
 
-##### 2018년이 되며 트럼펫 선생님도 구하고
-올해 첫번째 목표 연습곡으로 "My One and Only Love"를 골랐습니다만
-정작 레슨해주시는 선생님께서 기초가 잡히기 전까지 어설프게 연주곡 카피하지 말라고 일침을 놓으셔서
-
-한동안 참고 기본기 연습에 충실하다가...
-요즘은 중간 중간 조금 조금씩 탈선을 하고 있습니다.
-정말 순수하게 나팔로 저 멜로디를 불러보고 싶었거든요.
+##### 오늘 공유 드리는 Jazz Trumpet 연습생의 연습곡 - My one and only love
+Jazz Ballad 곡인 이 곡이 구성과 템포면에서 솔로하기에 어렵지 않을거라는 생각으로 겁없이 도전했지만
+의외로 집중력을 가지고 감정과 흐트러지지 않은 톤을 유지하는 것 부터가 쉽지가 않네요,
+시도한지는 꽤 오래된 곡인데 언제 원테이크로 녹음해서 모니터링할 실력이 될런지...
 
 아직은 타인의 귀에 유익한 연주가 불가능 하기에 좋아하는 버전의 My one and only love 몇 곡을 공유드립니다.
 
@@ -32,7 +29,6 @@ Chet Baker/Miles Davis의 대체할 수 없는 트럼펫만의 사운드에 빠�
 <iframe width="100%" height="315" src="https://www.youtube.com/embed/7CV0y-eXh2g" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 쳇 베이커의 생애에 관한 다큐멘터리 Let's get lost 에 수록된 곡입니다. 결국 이 다큐멘터리는 쳇 베이커가 세상을 떠난 뒤에 세상에 공개되었지만 그의 힘에 부치는듯 해도 우수에 가득찬 그의 말년과도 같은 연주는 정말 대체 불가능한 무언가가 있습니다.
-
 트럼펫 계의 제임스딘이라는 수식어가 붙을 정도로 미남이던 쳇베이커는 마약과 세월의 풍랑을 거쳐 급속도로 나이를 먹은 노인이 되어있네요.
 
 #### Oscar Peterson 버전
@@ -46,7 +42,6 @@ Chet Baker/Miles Davis의 대체할 수 없는 트럼펫만의 사운드에 빠�
 <iframe width="100%" height="315" src="https://www.youtube.com/embed/LdEN8HZjmwk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 감미로운 보컬톤에 로멘틱한 기타톤으로 노래하는 재즈 기타리스트인지, 기타치는 재즈 보컬리스트인지, 아무튼 둘다에 뛰어난 크로스 오버 뮤지션 George Benson을 빼놓을 수 없죠
-
 가사 또한 정말 멜로디 만큼이나 아름답습니다.
 마치 옆에 누워있는 연인에게 조곤 조곤 사랑의 언어로 귓속말을 하듯 말이죠
 
