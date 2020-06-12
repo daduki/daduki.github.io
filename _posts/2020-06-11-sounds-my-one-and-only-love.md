@@ -17,6 +17,7 @@ Chet Baker/Miles Davis의 대체할 수 없는 트럼펫만의 사운드에 빠�
 올해는 코로나의 여파도 있어 연습실 이용/밴드합주가 불가능하여 꽤 오래 연습을 쉬고 있지만
 매해 변함없는 올해의 버킷리스트에 오르는 Standard Jazz N곡 연습/연주/녹음하기를 올해 하반기에라도 달성하려면 어떻게든 연습할 방법을 찾아야 할 것 같습니다.
 
+
 ##### 오늘 공유 드리는 Jazz Trumpet 연습생의 연습곡 - My one and only love
 Jazz Ballad 곡인 이 곡이 구성과 템포면에서 솔로하기에 어렵지 않을거라는 생각으로 겁없이 도전했지만
 의외로 집중력을 가지고 감정과 흐트러지지 않은 톤을 유지하는 것 부터가 쉽지가 않네요,
@@ -24,30 +25,38 @@ Jazz Ballad 곡인 이 곡이 구성과 템포면에서 솔로하기에 어렵�
 
 아직은 타인의 귀에 유익한 연주가 불가능 하기에 좋아하는 버전의 My one and only love 몇 곡을 공유드립니다.
 
+
 #### Chet Baker 버전
 
 <iframe width="100%" height="315" src="https://www.youtube.com/embed/7CV0y-eXh2g" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
+
 쳇 베이커의 생애에 관한 다큐멘터리 Let's get lost 에 수록된 곡입니다. 결국 이 다큐멘터리는 쳇 베이커가 세상을 떠난 뒤에 세상에 공개되었지만 그의 힘에 부치는듯 해도 우수에 가득찬 그의 말년과도 같은 연주는 정말 대체 불가능한 무언가가 있습니다.
 트럼펫 계의 제임스딘이라는 수식어가 붙을 정도로 미남이던 쳇베이커는 마약과 세월의 풍랑을 거쳐 급속도로 나이를 먹은 노인이 되어있네요.
+
 
 #### Oscar Peterson 버전
 
 <iframe width="100%" height="315" src="https://www.youtube.com/embed/aJ46TQTcIio" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
+
 피아노 버전으로는 Oscar Peterson의 버전이 가장 익숙하네요. 캐나다 출신 재즈 피아니스트인 Oscar Peterson의 약어는 OP(Over Powered) 말 그대로 사기캐인듯 합니다.
+
 
 #### George Benson 버전
 
 <iframe width="100%" height="315" src="https://www.youtube.com/embed/LdEN8HZjmwk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-감미로운 보컬톤에 로멘틱한 기타톤으로 노래하는 재즈 기타리스트인지, 기타치는 재즈 보컬리스트인지, 아무튼 둘다에 뛰어난 크로스 오버 뮤지션 George Benson을 빼놓을 수 없죠
-가사 또한 정말 멜로디 만큼이나 아름답습니다.
-마치 옆에 누워있는 연인에게 조곤 조곤 사랑의 언어로 귓속말을 하듯 말이죠
+
+감미로운 보컬톤과 로맨틱한 기타톤을 가진 이분은   
+노래하는 재즈 기타리스트인지, 기타치는 재즈 보컬리스트인지,   
+아무튼 둘다에 뛰어난 크로스 오버 뮤지션 George Benson을 빼놓을 수 없죠.
+
 
 #### 그리고 Chris Botti 버전
 
 <iframe width="100%" height="315" src="https://www.youtube.com/embed/xPMF4W_7j7Y" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 
 사실 이 분은 트럼펫도 잘 불면서 너무 잘생긴 것이 짜증나서 안 넣을까 하다가...
 또 워낙에 멜로우한 감성을 가진 낭만파 트럼페터인지라 이 곡의 감성과 트럼펫 톤이 너무 잘어울리기 때문에...
