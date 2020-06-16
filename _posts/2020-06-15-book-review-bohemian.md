@@ -93,4 +93,4 @@ Any way the wind blows - Bohemian Rhapsody 중
 원래는 이방인에 대한 감상문을 쓰려고 했는데 본의 아니게 Bohemian Rhapsody에 대한 PPL이 되어버렸다.
 기왕 글의 방향을 잃은 김에 Mark Martel 보헤미안 랩소디 Cover버전을 함께 공유...
 
-<iframe width="100%" height="315" src="https://www.youtube.com/watch?v=QkCxE2Lh458" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/QkCxE2Lh458" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
