@@ -12,7 +12,7 @@ image: assets/images/twoway.jfif
 
 [musicoin에서 듣기](https://musicoin.org/embedded-player/0x48aaa4429656092608faf8d36501c1f59a7c863d)   
 [melon에서 듣기](https://melon.do/MoZMupy8L)   
-[bugs뮤직에서 듣기](https://music.bugs.co.kr/track/3316051)   
+[bugs뮤직에서 듣기](https://music.bugs.co.kr/track/3316051)      
 
 (Musicoin은 Chrome과 Edge 브라우저에서만 정상동작하는 것 같습니다.)
 
@@ -55,11 +55,7 @@ image: assets/images/twoway.jfif
 
 # 13
 
-<img src="assets/images/slide13.jfif" width="100%" />
-
-
-
-우리가 사랑에 빠졌을 때, 코카인을 할 때 처럼 이 '미상핵'이라는 붉은색 부분이 활성화 되는데 마약의 금단현상처럼, 사랑 역시 상사병 같은 금단증상을 겪죠.
+우리가 사랑에 빠졌을 때, 코카인을 할 때 처럼 이 '미상핵'이라는 부분이 활성화 되는데 마약의 금단현상처럼, 사랑 역시 상사병 같은 금단증상을 겪죠.
 이때 가장 좋은 해결책은 상실로 고통받은 뇌를 보상해 줄만한 행동을 하는 것인데요,
 
 저에게는 그것이 음악이었던 것 같습니다.
@@ -74,10 +70,6 @@ image: assets/images/twoway.jfif
 
 
 # 15
-
-<img src="assets/images/slide13.jfif" width="100%" />
-
-
 
 "고통스러운 기억과 연관된 경험"을 한 사람의 뇌사진입니다.
 노란색으로 표시된 영역인데요, 흥미로운 것은
