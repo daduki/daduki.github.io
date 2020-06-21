@@ -4,15 +4,15 @@ title:  "노래가 될 수 있어요 당신의 아픈 기억까지도(BGM-지금
 author: emstudio
 categories: [ Sounds ]
 tags: [조대득밴드, 여기까지, 지금 헤어지러 갑니다, 작곡]
-image: https://gateway.ipfs.io/ipfs/QmbziXcrDtvgQM8juA3kn84vE84GsHFFPpxm5tFFqadvey
+image: assets/images/twoway.jfif
 ---
 
 
 #### BGM : 지금 헤어지러 갑니다 (2013)
 
-[musicoin에서 듣기](https://musicoin.org/embedded-player/0x48aaa4429656092608faf8d36501c1f59a7c863d)
-[melon에서 듣기](https://melon.do/MoZMupy8L)
-[bugs뮤직에서 듣기](https://music.bugs.co.kr/track/3316051)
+[musicoin에서 듣기](https://musicoin.org/embedded-player/0x48aaa4429656092608faf8d36501c1f59a7c863d)   
+[melon에서 듣기](https://melon.do/MoZMupy8L)   
+[bugs뮤직에서 듣기](https://music.bugs.co.kr/track/3316051)   
 
 (Musicoin은 Chrome과 Edge 브라우저에서만 정상동작하는 것 같습니다.)
 
@@ -55,7 +55,8 @@ image: https://gateway.ipfs.io/ipfs/QmbziXcrDtvgQM8juA3kn84vE84GsHFFPpxm5tFFqadv
 
 # 13
 
-![슬라이드13.JPG](https://gateway.ipfs.io/ipfs/QmYk1MrzGrCYCNFcmRzgGrufP6NPnLsLy42DZV6uFZLuPU)
+<img src="assets/images/slide13.jfif" width="100%" />
+
 
 
 우리가 사랑에 빠졌을 때, 코카인을 할 때 처럼 이 '미상핵'이라는 붉은색 부분이 활성화 되는데 마약의 금단현상처럼, 사랑 역시 상사병 같은 금단증상을 겪죠.
@@ -74,7 +75,8 @@ image: https://gateway.ipfs.io/ipfs/QmbziXcrDtvgQM8juA3kn84vE84GsHFFPpxm5tFFqadv
 
 # 15
 
-![슬라이드15.JPG](https://gateway.ipfs.io/ipfs/QmV2RywcgNacq5j6wNNwrg2jGwWxKc11imTUcNj2rZetky)
+<img src="assets/images/slide13.jfif" width="100%" />
+
 
 
 "고통스러운 기억과 연관된 경험"을 한 사람의 뇌사진입니다.
