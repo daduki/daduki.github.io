@@ -4,7 +4,7 @@ title:  "설국 - 가와바타 야스나리"
 author: caferoman
 categories: [ Words ]
 tags: [ Book Review, 일본소설, 소설, 설국, 가와바타 야스나리 ]
-image: assets/images/br019.jfif
+image: assets/images/br020.jfif
 ---
 #### 소설 첫문장의 중요성을 말할 때 끊임 없이 화자되는 소설
 
