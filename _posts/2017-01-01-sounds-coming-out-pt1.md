@@ -1,9 +1,8 @@
 ---
 layout: post
 title:  "자연스럽게 나이가 들통나는 나의 Rock Star Idol밍아웃 - Part 1."
-author: emstudio
-categories: [ Sounds ]
-tags: [Rock, 서태지, Bon Jovi, N.EX.T]
+date: 2017-01-01
+category: sounds
 image: https://cdn.theatlantic.com/thumbor/7q6PqyJju68xyRnO7dbsuv3FOnw=/0x215:1024x791/720x405/media/img/upload/wire/2014/01/16/7367363482_b82de636dd_b/original.jpg
 description: "서태지 Bon Jovi를 거쳐 Rock을 입문하다"
 ---

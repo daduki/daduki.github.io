@@ -1,9 +1,8 @@
 ---
 layout: post
 title:  "언어의 장벽을 초월하는 음악 - 2014년 스리랑카를 여행하며"
-author: emstudio
+date: 2014-10-11
 categories: [ Travel ]
-tags: [ 여행,스리랑카 ]
 image: https://res.cloudinary.com/hpiynhbhq/image/upload/v1519286265/wvcl0r5mtkds0tpen1lu.jpg
 ---
 
