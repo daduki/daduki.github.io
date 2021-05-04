@@ -1,21 +1,14 @@
 ---
 layout: default
-title: Home
+title: DIARY
 ---
 
-<!-- Posts Index
-================================================== -->
-<div class="blog-grid-container">
-    {% for post in paginator.posts %}
-        {% include postbox.html %}
-    {% endfor %}
-</div>
 
-<!-- Pagination
-================================================== -->
-<div class="bottompagination">
-<span class="navigation" role="navigation">
-    {% include pagination.html %}
-</span>
-</div>
-
+<style>
+    #calendar {
+        display: block;
+    }
+    #closeBtn, #openBtn {
+        display: none;
+    }
+</style>
