@@ -1,14 +1,74 @@
----
-layout: default
-title: DIARY
----
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RailWayStudio | Official Website</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #0f172a; color: #f8fafc; }
+        .gradient-text { background: linear-gradient(90deg, #60a5fa, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+    </style>
+</head>
+<body class="scroll-smooth">
 
+    <nav class="fixed w-full z-50 glass">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <h1 class="text-xl font-bold tracking-tighter gradient-text">RailWayStudio</h1>
+            <div class="space-x-6 text-sm font-medium">
+                <a href="#about" class="hover:text-blue-400 transition">About</a>
+                <a href="#features" class="hover:text-blue-400 transition">Features</a>
+                <a href="#devlog" class="hover:text-blue-400 transition">Dev Log</a>
+                <a href="https://play.google.com/apps/internaltest/4701725011875288580" target="_blank" class="bg-blue-600 px-4 py-2 rounded-full hover:bg-blue-500 transition">Get Started</a>
+            </div>
+        </div>
+    </nav>
 
-<style>
-    #calendar {
-        display: block;
-    }
-    #closeBtn, #openBtn {
-        display: none;
-    }
-</style>
+    <section class="min-h-screen flex items-center justify-center pt-20 px-4 text-center">
+        <div>
+            <span class="text-blue-400 font-semibold tracking-widest uppercase text-sm mb-4 block">Independent Game Studio</span>
+            <h2 class="text-5xl md:text-7xl font-bold mb-6">창작과 흐름을 잇는<br><span class="gradient-text">RailWayStudio</span></h2>
+            <p class="text-slate-400 max-w-2xl mx-auto mb-10 text-lg">
+                정교한 캠페인 설계와 사용자 중심의 인터페이스를 통해<br>최상의 게임 경험을 제공하기 위한 여정을 시작합니다.
+            </p>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <a href="#devlog" class="glass px-8 py-3 rounded-lg hover:bg-slate-800 transition">개발 일지 확인</a>
+                <a href="https://play.google.com/apps/internaltest/4701725011875288580" class="bg-indigo-600 px-8 py-3 rounded-lg font-bold hover:bg-indigo-500 transition">비공개 테스트 참여</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="py-24 bg-slate-900/50">
+        <div class="max-w-6xl mx-auto px-4">
+            <h3 class="text-3xl font-bold mb-16 text-center">Core Features</h3>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass p-8 rounded-2xl">
+                    <div class="text-blue-400 mb-4 text-2xl">🎮</div>
+                    <h4 class="text-xl font-bold mb-3">캠페인 모드</h4>
+                    <p class="text-slate-400 leading-relaxed">심도 있는 밸런스 조정을 통해 초보자부터 숙련자까지 몰입할 수 있는 최적화된 난이도를 구현했습니다.</p>
+                </div>
+                <div class="glass p-8 rounded-2xl">
+                    <div class="text-purple-400 mb-4 text-2xl">💾</div>
+                    <h4 class="text-xl font-bold mb-3">안정적인 시스템</h4>
+                    <p class="text-slate-400 leading-relaxed">데이터 무결성을 보장하는 저장/불러오기 로직으로 기기 변경이나 업데이트 시에도 안전하게 데이터를 보호합니다.</p>
+                </div>
+                <div class="glass p-8 rounded-2xl">
+                    <div class="text-green-400 mb-4 text-2xl">⚡</div>
+                    <h4 class="text-xl font-bold mb-3">최적화된 UI/UX</h4>
+                    <p class="text-slate-400 leading-relaxed">직관적인 인터페이스 설계로 조작의 피로도를 낮추고 게임 플레이의 본질에 집중할 수 있도록 디자인되었습니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="devlog" class="py-24">
+        <div class="max-w-4xl mx-auto px-4">
+            <h3 class="text-3xl font-bold mb-16 text-center">Update History</h3>
+            <div class="space-y-12">
+                <div class="relative pl-8 border-l-2 border-blue-600">
+                    <div class="absolute w-4 h-4 bg-blue-600 rounded-full -left-[9px] top-1"></div>
+                    <p class="text-blue-400 font-bold mb-2">2026.04.22</p>
+                    <h4 class="text-xl font-bold mb-2">Google Login (OAuth) Issue Resolved</h4>
+                    <p class="text-slate-400">SHA-1 지문 및 클라이언트 ID 최적화를 통해 구글 로그인 에러(Code 10)를 완벽히 해결하고 보안
