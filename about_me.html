@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>버킷리스트 구현러 | Bucketlist Implementer</title>
+    <style>
+        :root {
+            --bg-color: #0b192c;
+            --card-bg: #1e3e62;
+            --accent-orange: #f15a24;
+            --accent-magenta: #ed1e79;
+            --text-main: #ffffff;
+            --text-sub: #b0c4de;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .brand-container {
+            max-width: 1000px;
+            width: 100%;
+            background: linear-gradient(135deg, #0f2b48 0%, #071424 100%);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.05);
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+        }
+
+        @media (max-width: 768px) {
+            .brand-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .visual-side {
+            position: relative;
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .visual-side img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .content-side {
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        @media (max-width: 480px) {
+            .content-side {
+                padding: 30px 20px;
+            }
+        }
+
+        .brand-header {
+            margin-bottom: 30px;
+        }
+
+        .brand-name {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--text-main), var(--text-sub));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .brand-name span {
+            font-size: 1.1rem;
+            display: block;
+            color: var(--accent-orange);
+            -webkit-text-fill-color: var(--accent-orange);
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        .slogan {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+            border-left: 4px solid var(--accent-magenta);
+            padding-left: 14px;
+            margin-top: 15px;
+            letter-spacing: -0.5px;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, rgba(241,90,36,0.3), transparent);
+            margin: 25px 0;
+        }
+
+        .sas-box {
+            background-color: rgba(30, 62, 98, 0.4);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+        }
+
+        .sas-text {
+            font-size: 1rem;
+            color: var(--text-sub);
+            text-align: justify;
+        }
+
+        .sas-text strong {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .keyword-tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .keyword-tag {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            font-weight: 500;
+        }
+
+        .keyword-tag.highlight {
+            border-color: var(--accent-orange);
+            color: #fff;
+            background: rgba(241, 90, 36, 0.1);
+        }
+
+        .system-log-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-orange);
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .counter-question {
+            font-size: 0.95rem;
+            color: #ffb74d;
+            font-style: italic;
+            border-top: 1px dashed rgba(255,255,255,0.1);
+            padding-top: 20px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="brand-container">
+        <!-- 좌측 구도: 정사각형 컨셉 이미지 배치 분면 -->
+        <div class="visual-side">
+            <img src="watermarked_img_12297969052032307174.png" alt="버킷리스트 구현러 브랜드 그래픽 기획 레이아웃">
+        </div>
+
+        <!-- 우측 구도: 브랜딩 메커니즘 텍스트 레이어 -->
+        <div class="content-side">
+            <header class="brand-header">
+                <h1 class="brand-name">
+                    버킷리스트 구현러
+                    <span>Bucketlist Implementer</span>
+                </h1>
+                <p class="slogan">"아이디어와 바램을 기어코 산출물로 만들어 냅니다."</p>
+            </header>
+
+            <div class="divider"></div>
+
+            <!-- 비전문가용 직관적 용어 기반 SAS 프레임워크 -->
+            <section class="sas-box">
+                <div class="system-log-title">Identity Statement</div>
+                <p class="sas-text">
+                    나는 <strong>머릿속 아이디어의 밑바닥 뼈대와 작동 원리를 내 손으로 직접 설계하는 일</strong>을 좋아하고, 
+                    <strong>기획부터 프로그램 완성까지의 모든 과정을 다른 사람 손을 빌리지 않고 혼자서 끝까지 해결하는 것</strong>에 강점이 있으며, 
+                    <strong>내 이름이 박힌 앱이나 음악을 스토어에 정식 출시하는 순간</strong>에 만족하는 사람이다. <br><br>
+                    또한, 앞으로 기술적 작동 원리를 완벽히 이해한 상태에서, 단순한 바램과 아이디어를 실제 시장에 내놓는 완성된 제품으로 가장 빠르게 바꾸는 
+                    <strong>'엔드투엔드(E2E) 프로덕트 테크니컬 디렉션'</strong>의 가치를 증명해 나가고 싶다.
+                </p>
+            </section>
+
+            <!-- 핵심 자산 도메인 태그 -->
+            <div class="system-log-title">Core Domain Keywords</div>
+            <div class="keyword-tag-container">
+                <span class="keyword-tag highlight">싱어송 라이터</span>
+                <span class="keyword-tag highlight">1인 크리에이터</span>
+                <span class="keyword-tag highlight">E2E 프로덕트 테크니컬 디렉션</span>
+                <span class="keyword-tag">창의적인</span>
+                <span class="keyword-tag">인간적인</span>
+                <span class="keyword-tag">진일보하는</span>
+            </div>
+
+            <!-- 미래의 내가 던지는 리스크 검증 질문 -->
+            <footer>
+                <p class="counter-question">
+                    운송수단을 좋아하는 아들을 위해 만든 게임 : 심지어 타이쿤
+                </p>
+            </footer>
+        </div>
+    </div>
+
+</body>
+</html>

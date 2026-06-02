@@ -20,8 +20,9 @@
             <h1 class="text-2xl font-bold tracking-tighter gradient-text">RailWayStudio</h1>
             <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-300">
                 <a href="#hero" class="hover:text-sky-400 transition">Home</a>
+                <a href="about_me.html" class="hover:text-sky-400 transition">About Me</a>
                 <a href="#updates" class="hover:text-sky-400 transition">Release Notes</a>
-                <a href="https://play.google.com/apps/internaltest/4701725011875288580" target="_blank" class="bg-sky-600/20 text-sky-400 border border-sky-500/50 px-5 py-2 rounded-full hover:bg-sky-500 hover:text-white transition">Tester Join</a>
+                <a href="https://play.google.com/store/apps/details?id=com.emstudio.railwaystudio" target="_blank" class="bg-sky-600/20 text-sky-400 border border-sky-500/50 px-5 py-2 rounded-full hover:bg-sky-500 hover:text-white transition">다운로드</a>
             </div>
         </div>
     </nav>
@@ -29,14 +30,14 @@
     <section id="hero" class="min-h-[70vh] flex items-center justify-center pt-24 px-6 text-center">
         <div class="max-w-3xl">
             <div class="inline-block px-4 py-1.5 mb-6 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-bold tracking-widest uppercase">
-                Now in Closed Beta v2.9.15
+                Now Available v4.3.33
             </div>
             <h2 class="text-4xl md:text-6xl font-extrabold mb-8 leading-tight">가장 정교한 시뮬레이션,<br><span class="gradient-text">현실을 넘어서는 항로</span></h2>
             <p class="text-slate-400 mb-12 text-lg leading-relaxed">
                 RailWayStudio는 끊임없는 엔진 최적화와 데이터 검증을 통해<br>완벽한 물류 시스템 시뮬레이션을 지향합니다.
             </p>
             <div class="flex flex-wrap justify-center gap-4">
-                <a href="https://play.google.com/apps/internaltest/4701725011875288580" class="bg-sky-600 px-10 py-4 rounded-xl font-bold text-white shadow-lg shadow-sky-900/20 hover:bg-sky-500 transition-all">지금 테스트 참여하기</a>
+                <a href="https://play.google.com/store/apps/details?id=com.emstudio.railwaystudio" class="bg-sky-600 px-10 py-4 rounded-xl font-bold text-white shadow-lg shadow-sky-900/20 hover:bg-sky-500 transition-all">다운로드</a>
             </div>
         </div>
     </section>
@@ -45,69 +46,58 @@
         <div class="max-w-4xl mx-auto px-6">
             <div class="flex items-center justify-between mb-16">
                 <h3 class="text-3xl font-bold">Release Notes</h3>
-                <span class="text-slate-500 text-sm">Last updated: 2026.04.26</span>
+                <span class="text-slate-500 text-sm">Last updated: 2026.06.02</span>
             </div>
 
             <div class="space-y-8">
                 <div class="glass p-8 rounded-3xl update-card">
                     <div class="flex items-center gap-3 mb-4">
                         <span class="px-3 py-1 rounded-md bg-sky-500 text-white text-xs font-bold">LATEST</span>
-                        <h4 class="text-2xl font-bold text-white">v2.9.15</h4>
-                        <span class="text-slate-500 text-sm ml-auto">2026-04-26</span>
+                        <h4 class="text-2xl font-bold text-white">v4.3.33</h4>
+                        <span class="text-slate-500 text-sm ml-auto">2026-06-02</span>
                     </div>
                     <ul class="space-y-3 text-slate-300 list-disc pl-5">
-                        <li><strong class="text-sky-400">해로 엔진 정교화:</strong> 남해안(목포 ↔ 순천) 및 제주/일본 구간 항로 최적화 (육지 관통 해결)</li>
-                        <li><strong class="text-sky-400">우회 경로 우선순위:</strong> 지역별 우회 로직을 글로벌 로직보다 우선 적용하여 효율성 개선</li>
-                        <li><strong class="text-sky-400">렌더링 수정:</strong> 선박 아이콘이 우회 경로 세그먼트에서 해로를 정확히 추적하도록 개선</li>
+                        <li><strong class="text-sky-400">아이콘 및 UI 대규모 개편:</strong> Gemini Imagen 4.0을 활용하여 38개의 게임 아이콘 리뉴얼 및 다이나믹 배경 크롭 적용</li>
+                        <li><strong class="text-sky-400">렌더링 최적화:</strong> 맵 스토어의 다이나믹 줌 스케일링 지원 및 저비율 줌 레벨에서의 공간 충돌 방지 로직 고도화</li>
+                        <li><strong class="text-sky-400">게임 플레이 강화:</strong> 전 세계 14,000개 이상의 항구 및 도시를 4단계 티어로 분류하는 다이나믹 인구 기반 휴리스틱 엔진 적용</li>
                     </ul>
                 </div>
 
                 <div class="glass p-8 rounded-3xl update-card">
                     <div class="flex items-center gap-3 mb-4">
-                        <h4 class="text-2xl font-bold text-white">v2.9.14</h4>
-                        <span class="text-slate-500 text-sm ml-auto">2026-04-25</span>
+                        <h4 class="text-2xl font-bold text-white">v4.3.18 ~ v4.3.27</h4>
                     </div>
                     <ul class="space-y-2 text-slate-400">
-                        <li>• 복잡한 해안선 및 군도 지역 항로 최적화 및 육지 관통 오류 최종 수정</li>
-                        <li>• 스테이지별 난이도 곡선에 따른 캠페인 목표 수치 재조정</li>
-                        <li>• 역명 및 도시명 가독성 향상을 위한 UI 렌더링 최적화</li>
+                        <li>• 지중해, 에게해 등 복잡한 해안선 및 주요 우회 항로(Biscay, Corinth) 최적화 고도화</li>
+                        <li>• 캠페인 목표 검증 스크립트 추가 및 역 ID 정합성 개선</li>
+                        <li>• 기차역 및 도시 데이터 사전 연산 티어 시스템(CSV)으로 마이그레이션</li>
                     </ul>
                 </div>
 
                 <div class="glass p-8 rounded-3xl update-card border-l-4 border-l-indigo-500">
                     <div class="flex items-center gap-3 mb-4">
-                        <h4 class="text-2xl font-bold text-white">v2.9.12</h4>
-                        <span class="text-slate-500 text-sm ml-auto">2026-04-25</span>
+                        <h4 class="text-2xl font-bold text-white">v4.3.00 ~ v4.3.09</h4>
                     </div>
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
-                            <p class="text-xs font-bold text-indigo-400 uppercase mb-2">Campaign Balance</p>
-                            <p class="text-sm text-slate-300">런던(Stage 5) 및 아드리아해(Stage 104) 목표 수치 대폭 조정 및 난이도 곡선 정렬</p>
+                            <p class="text-xs font-bold text-indigo-400 uppercase mb-2">Premium UI/UX</p>
+                            <p class="text-sm text-slate-300">비행기/선박 툴바 배지를 3D 메탈릭 스타일로 통일, 선택된 라인 색상 드래그 아이콘 테두리 반영</p>
                         </div>
                         <div>
-                            <p class="text-xs font-bold text-indigo-400 uppercase mb-2">UI/UX Glow</p>
-                            <p class="text-sm text-slate-300">도시명 최상단 레이어 배치 및 화이트 글로우(White Glow) 외곽선 효과 적용</p>
+                            <p class="text-xs font-bold text-indigo-400 uppercase mb-2">Map Rendering</p>
+                            <p class="text-sm text-slate-300">비행 모드에서의 비행기 각도 및 여객 카운트 UI 떨림 현상 수정, 메트로 모드 렌더링 최적화</p>
                         </div>
-                    </div>
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="glass p-6 rounded-2xl">
-                        <h5 class="font-bold text-white mb-3">v2.9.11 (Economy)</h5>
-                        <p class="text-sm text-slate-400 mb-2">운임 인플레이션율 상향(8%) 및 장거리 노선 수익성 강화를 위한 복리 할증 로직 도입</p>
-                    </div>
-                    <div class="glass p-6 rounded-2xl">
-                        <h5 class="font-bold text-white mb-3">v2.9.10 (Map Accuracy)</h5>
-                        <p class="text-sm text-slate-400">서해안/동해안 및 일본 세토 내해, 규슈 주변 해로 정밀도 향상 및 섬 우회 로직 추가</p>
                     </div>
                 </div>
 
                 <details class="group">
                     <summary class="flex items-center justify-center p-4 glass rounded-xl cursor-pointer text-slate-500 hover:text-white transition">
-                        <span>이전 업데이트 내역 보기 (v2.9.9)</span>
+                        <span>이전 업데이트 내역 보기 (v2.9.x)</span>
                     </summary>
                     <div class="p-6 mt-4 glass rounded-2xl text-slate-400 text-sm">
-                        <p><strong>v2.9.9:</strong> 매장 시설 수익율 구매 시점 가격 고정 (인플레이션 비례 상승 제외)</p>
+                        <p><strong>v2.9.15:</strong> 남해안 및 제주/일본 구간 항로 최적화, 우회 경로 로직 개선</p>
+                        <p><strong>v2.9.12:</strong> 런던 및 아드리아해 목표 수치 조정, 도시명 화이트 글로우 효과 적용</p>
+                        <p><strong>v2.9.10:</strong> 일본 세토 내해 해로 정밀도 향상 및 섬 우회 로직 추가</p>
                     </div>
                 </details>
             </div>
