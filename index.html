@@ -30,7 +30,7 @@
     <section id="hero" class="min-h-[70vh] flex items-center justify-center pt-24 px-6 text-center">
         <div class="max-w-3xl">
             <div class="inline-block px-4 py-1.5 mb-6 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-bold tracking-widest uppercase">
-                Now Available v4.3.33
+                Now Available v4.4.41
             </div>
             <h2 class="text-4xl md:text-6xl font-extrabold mb-8 leading-tight">가장 정교한 시뮬레이션,<br><span class="gradient-text">현실을 넘어서는 항로</span></h2>
             <p class="text-slate-400 mb-12 text-lg leading-relaxed">
@@ -46,13 +46,66 @@
         <div class="max-w-4xl mx-auto px-6">
             <div class="flex items-center justify-between mb-16">
                 <h3 class="text-3xl font-bold">Release Notes</h3>
-                <span class="text-slate-500 text-sm">Last updated: 2026.06.02</span>
+                <span class="text-slate-500 text-sm">Last updated: 2026.06.21</span>
             </div>
 
             <div class="space-y-8">
+
+                <!-- v4.4.41 LATEST -->
                 <div class="glass p-8 rounded-3xl update-card">
                     <div class="flex items-center gap-3 mb-4">
                         <span class="px-3 py-1 rounded-md bg-sky-500 text-white text-xs font-bold">LATEST</span>
+                        <h4 class="text-2xl font-bold text-white">v4.4.41</h4>
+                        <span class="text-slate-500 text-sm ml-auto">2026-06-21</span>
+                    </div>
+                    <ul class="space-y-3 text-slate-300 list-disc pl-5">
+                        <li><strong class="text-sky-400">화면 꺼짐 방지:</strong> 게임 실행 중 화면이 자동으로 꺼지지 않도록 개선. 백그라운드 전환 시 자동 해제되어 배터리 낭비 없음.</li>
+                    </ul>
+                </div>
+
+                <!-- v4.4.40 -->
+                <div class="glass p-8 rounded-3xl update-card">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="px-3 py-1 rounded-md bg-emerald-600 text-white text-xs font-bold">NEW</span>
+                        <h4 class="text-2xl font-bold text-white">v4.4.40</h4>
+                        <span class="text-slate-500 text-sm ml-auto">2026-06-21</span>
+                    </div>
+                    <ul class="space-y-3 text-slate-300 list-disc pl-5">
+                        <li><strong class="text-emerald-400">저장 슬롯 5개로 확장:</strong> Yellow(4번), Cyan(5번) 슬롯 추가. 자동저장 슬롯 + Red 슬롯은 기본 제공.</li>
+                        <li><strong class="text-emerald-400">광고 시청 기반 슬롯 개방:</strong> Green·Blue·Yellow·Cyan 슬롯은 광고 시청 후 해당 Google 계정에 영구 귀속.</li>
+                        <li><strong class="text-emerald-400">Firebase 계정 동기화:</strong> 슬롯 개방 상태를 Firestore에 저장하여 기기를 바꿔도 동일 계정으로 복원.</li>
+                    </ul>
+                </div>
+
+                <!-- v4.4.36~v4.4.39 -->
+                <div class="glass p-8 rounded-3xl update-card border-l-4 border-l-violet-500">
+                    <div class="flex items-center gap-3 mb-6">
+                        <h4 class="text-2xl font-bold text-white">v4.4.36 ~ v4.4.39</h4>
+                        <span class="text-slate-500 text-sm ml-auto">2026-06-21</span>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <p class="text-xs font-bold text-violet-400 uppercase mb-2">인플레이션 전면 재조정</p>
+                            <p class="text-sm text-slate-300">활성도시 증가만으로 운임 수익이 기하급수적으로 폭증하던 삼중 지수 복합 버그 해결. 도시·시설·차량·매장·광고·운임 인플레이션 6개 수치를 최적 밸런스로 재설정.</p>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-violet-400 uppercase mb-2">게임 밸런스 개선</p>
+                            <p class="text-sm text-slate-300">도시 인플레이션 0.16 / 차량 0.14 / 매장·광고 0.10으로 조정. 후반부에도 역·도시 확장과 차량 추가에 전략적 부담감이 유지되도록 시뮬레이션 검증 후 적용.</p>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-violet-400 uppercase mb-2">Regression 버그 수정</p>
+                            <p class="text-sm text-slate-300">FLIGHT/SHIP/TRADE 모드 재시작 및 캠페인 스테이지 진입 시 구버전 수치가 하드코딩으로 덮어쓰이던 문제 수정. <code class="text-violet-300">resetAllDevSettings()</code>를 단일 초기화 진실 공급원으로 정리.</p>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-violet-400 uppercase mb-2">운임 이중지수 제거</p>
+                            <p class="text-sm text-slate-300">캠페인 모드 운임 수익의 이중지수(<code class="text-violet-300">(1+N×0.001)^N</code>) 및 spawnInflation 지수 팽창 제거. 단순 지수 함수로 전환하여 예측 가능한 수익 곡선 확보.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- v4.3.33 -->
+                <div class="glass p-8 rounded-3xl update-card">
+                    <div class="flex items-center gap-3 mb-4">
                         <h4 class="text-2xl font-bold text-white">v4.3.33</h4>
                         <span class="text-slate-500 text-sm ml-auto">2026-06-02</span>
                     </div>
