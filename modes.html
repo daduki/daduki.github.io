@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Modes | RailWayStudio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;700&display=swap');
+        body { font-family: 'Pretendard', sans-serif; background-color: #020617; color: #f8fafc; }
+        .gradient-text { background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
+        .mode-card { transition: all 0.35s ease; }
+        .mode-card:hover { transform: translateY(-4px); }
+
+        /* 캠페인 서브모드 탭 */
+        .tab-btn { transition: all 0.2s; }
+        .tab-btn.active { background: rgba(56,189,248,0.15); border-color: rgba(56,189,248,0.5); color: #38bdf8; }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* 노선 애니메이션 */
+        @keyframes dash { to { stroke-dashoffset: -40; } }
+        .animated-line { stroke-dasharray: 8 6; animation: dash 1.2s linear infinite; }
+
+        /* 반짝이는 노드 */
+        @keyframes pulse-dot { 0%,100%{opacity:1;r:5} 50%{opacity:.5;r:7} }
+        .pulse-node { animation: pulse-dot 1.8s ease-in-out infinite; }
+
+        /* 비행기 움직임 */
+        @keyframes fly { 0%{transform:translateX(0)} 100%{transform:translateX(220px)} }
+        .fly-icon { animation: fly 3s linear infinite; }
+
+        /* 선박 파도 */
+        @keyframes wave { 0%,100%{d:path("M0 12 Q15 6 30 12 Q45 18 60 12")} 50%{d:path("M0 12 Q15 18 30 12 Q45 6 60 12")} }
+
+        /* 화물 float */
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+        .float-icon { animation: float 2.4s ease-in-out infinite; }
+
+        /* 멀티 핑 */
+        @keyframes ping-ring { 0%{r:6;opacity:.9} 100%{r:20;opacity:0} }
+        .ping-ring { animation: ping-ring 1.4s ease-out infinite; }
+    </style>
+</head>
+<body class="scroll-smooth">
+
+    <!-- Nav -->
+    <nav class="fixed w-full z-50 glass border-b border-white/5">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold tracking-tighter gradient-text">RailWayStudio</a>
+            <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-300">
+                <a href="index.html#hero" class="hover:text-sky-400 transition">Home</a>
+                <a href="about_me.html" class="hover:text-sky-400 transition">About Me</a>
+                <a href="modes.html" class="text-sky-400 font-bold">Game Modes</a>
+                <a href="index.html#updates" class="hover:text-sky-400 transition">Release Notes</a>
+                <a href="https://play.google.com/store/apps/details?id=com.emstudio.railwaystudio" target="_blank" class="bg-sky-600/20 text-sky-400 border border-sky-500/50 px-5 py-2 rounded-full hover:bg-sky-500 hover:text-white transition">다운로드</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="min-h-[40vh] flex items-center justify-center pt-28 pb-12 px-6 text-center">
+        <div class="max-w-3xl">
+            <div class="inline-block px-4 py-1.5 mb-6 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-bold tracking-widest uppercase">
+                Game Modes
+            </div>
+            <h2 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
+                당신만의 방식으로<br><span class="gradient-text">도시를 연결하세요</span>
+            </h2>
+            <p class="text-slate-400 text-lg leading-relaxed">
+                열차·선박·항공 캠페인부터 실시간 멀티플레이, 무역, 자유 모드까지<br>
+                다양한 플레이 스타일을 지원합니다.
+            </p>
+        </div>
+    </section>
+
+    <!-- Mode Overview Pills -->
+    <div class="flex flex-wrap justify-center gap-3 px-6 mb-16">
+        <a href="#campaign" class="px-5 py-2 rounded-full glass text-sm font-medium hover:border-sky-400/50 hover:text-sky-400 transition">🚂 캠페인</a>
+        <a href="#multiplayer" class="px-5 py-2 rounded-full glass text-sm font-medium hover:border-rose-400/50 hover:text-rose-400 transition">⚡ 멀티플레이</a>
+        <a href="#trade" class="px-5 py-2 rounded-full glass text-sm font-medium hover:border-amber-400/50 hover:text-amber-400 transition">📦 무역</a>
+        <a href="#free" class="px-5 py-2 rounded-full glass text-sm font-medium hover:border-emerald-400/50 hover:text-emerald-400 transition">🌍 자유</a>
+    </div>
+
+    <main class="max-w-5xl mx-auto px-6 pb-32 space-y-24">
+
+        <!-- ===== CAMPAIGN ===== -->
+        <section id="campaign">
+            <div class="flex items-center gap-4 mb-10">
+                <div class="w-1 h-10 rounded-full bg-gradient-to-b from-sky-400 to-violet-500"></div>
+                <h3 class="text-3xl font-bold">캠페인 모드</h3>
+                <span class="px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-bold">207 STAGES</span>
+            </div>
+            <p class="text-slate-400 mb-8 text-base leading-relaxed max-w-2xl">
+                열차·선박·항공 3개 분야, 각 69스테이지로 구성된 총 207개의 도전 과제를 클리어하세요.
+                스테이지마다 제한 시간 내에 특정 도시를 연결하고 목표 수익을 달성해야 합니다.
+                클리어할수록 더 복잡한 네트워크와 까다로운 조건이 기다립니다.
+            </p>
+
+            <!-- Sub-mode tabs -->
+            <div class="flex gap-3 mb-6 flex-wrap">
+                <button onclick="switchTab('metro')" id="tab-metro" class="tab-btn active px-5 py-2 rounded-xl glass border text-sm font-bold">🚂 열차 캠페인</button>
+                <button onclick="switchTab('ship')" id="tab-ship" class="tab-btn px-5 py-2 rounded-xl glass border text-sm font-bold">🚢 선박 캠페인</button>
+                <button onclick="switchTab('flight')" id="tab-flight" class="tab-btn px-5 py-2 rounded-xl glass border text-sm font-bold">✈️ 항공 캠페인</button>
+            </div>
+
+            <!-- Metro Panel -->
+            <div id="panel-metro" class="tab-panel active">
+                <div class="glass rounded-3xl p-8 mode-card">
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h4 class="text-xl font-bold text-sky-400 mb-3">열차 캠페인</h4>
+                            <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                                대도시 지하철·기차 노선을 설계하고 확장하는 캠페인. 국내·외 실제 도시를 배경으로 역과 역을 잇는 최적 노선 전략을 수립해야 합니다. 초반에는 단거리 도심 연결에서 시작해 후반에는 대륙 간 철도망 구축으로 이어집니다.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 rounded-full bg-sky-500/10 text-sky-300 text-xs">69 스테이지</span>
+                                <span class="px-3 py-1 rounded-full bg-sky-500/10 text-sky-300 text-xs">육상 노선 설계</span>
+                                <span class="px-3 py-1 rounded-full bg-sky-500/10 text-sky-300 text-xs">역 레벨업</span>
+                                <span class="px-3 py-1 rounded-full bg-sky-500/10 text-sky-300 text-xs">승객 수송</span>
+                            </div>
+                        </div>
+                        <!-- Metro SVG illustration -->
+                        <div class="flex justify-center">
+                            <svg viewBox="0 0 260 140" class="w-full max-w-xs" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="260" height="140" rx="16" fill="rgba(15,23,42,0.8)"/>
+                                <!-- Lines -->
+                                <line x1="30" y1="70" x2="230" y2="70" stroke="#38bdf8" stroke-width="3" stroke-opacity="0.3"/>
+                                <line x1="30" y1="70" x2="230" y2="70" stroke="#38bdf8" stroke-width="2" class="animated-line"/>
+                                <line x1="60" y1="30" x2="130" y2="70" stroke="#818cf8" stroke-width="2" stroke-opacity="0.3"/>
+                                <line x1="60" y1="30" x2="130" y2="70" stroke="#818cf8" stroke-width="1.5" class="animated-line"/>
+                                <line x1="130" y1="70" x2="200" y2="110" stroke="#34d399" stroke-width="2" stroke-opacity="0.3"/>
+                                <line x1="130" y1="70" x2="200" y2="110" stroke="#34d399" stroke-width="1.5" class="animated-line"/>
+                                <!-- Nodes -->
+                                <circle cx="30" cy="70" r="6" fill="#020617" stroke="#38bdf8" stroke-width="2"/>
+                                <circle cx="30" cy="70" r="3" fill="#38bdf8"/>
+                                <circle cx="90" cy="70" r="5" fill="#020617" stroke="#38bdf8" stroke-width="2"/>
+                                <circle cx="90" cy="70" r="2.5" fill="#38bdf8"/>
+                                <circle cx="130" cy="70" r="7" fill="#020617" stroke="#818cf8" stroke-width="2.5" class="pulse-node"/>
+                                <circle cx="130" cy="70" r="3.5" fill="#818cf8"/>
+                                <circle cx="60" cy="30" r="5" fill="#020617" stroke="#818cf8" stroke-width="2"/>
+                                <circle cx="60" cy="30" r="2.5" fill="#818cf8"/>
+                                <circle cx="180" cy="70" r="5" fill="#020617" stroke="#38bdf8" stroke-width="2"/>
+                                <circle cx="180" cy="70" r="2.5" fill="#38bdf8"/>
+                                <circle cx="230" cy="70" r="6" fill="#020617" stroke="#38bdf8" stroke-width="2"/>
+                                <circle cx="230" cy="70" r="3" fill="#38bdf8"/>
+                                <circle cx="200" cy="110" r="5" fill="#020617" stroke="#34d399" stroke-width="2"/>
+                                <circle cx="200" cy="110" r="2.5" fill="#34d399"/>
+                                <!-- Train icon -->
+                                <g transform="translate(98,58)">
+                                    <rect x="0" y="0" width="22" height="14" rx="3" fill="#38bdf8" opacity="0.9"/>
+                                    <rect x="3" y="3" width="5" height="5" rx="1" fill="#020617" opacity="0.6"/>
+                                    <rect x="11" y="3" width="5" height="5" rx="1" fill="#020617" opacity="0.6"/>
+                                    <circle cx="5" cy="15" r="2" fill="#94a3b8"/>
+                                    <circle cx="17" cy="15" r="2" fill="#94a3b8"/>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ship Panel -->
+            <div id="panel-ship" class="tab-panel">
+                <div class="glass rounded-3xl p-8 mode-card">
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h4 class="text-xl font-bold text-cyan-400 mb-3">선박 캠페인</h4>
+                            <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                                전 세계 14,000개 이상의 항구 데이터를 기반으로 해상 항로를 개척합니다. 해협·운하(수에즈, 파나마, 코린트)와 복잡한 해안선을 피하는 지능형 경로 탐색 알고리즘이 적용되어 현실감 있는 해운 네트워크를 구축할 수 있습니다.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-300 text-xs">69 스테이지</span>
+                                <span class="px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-300 text-xs">해상 항로 탐색</span>
+                                <span class="px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-300 text-xs">항구 레벨업</span>
+                                <span class="px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-300 text-xs">화물·여객 수송</span>
+                            </div>
+                        </div>
+                        <!-- Ship SVG -->
+                        <div class="flex justify-center">
+                            <svg viewBox="0 0 260 140" class="w-full max-w-xs" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="260" height="140" rx="16" fill="rgba(15,23,42,0.8)"/>
+                                <!-- Ocean waves -->
+                                <path d="M0 100 Q32 88 65 100 Q98 112 130 100 Q162 88 195 100 Q228 112 260 100 L260 140 L0 140 Z" fill="#0c4a6e" opacity="0.5"/>
+                                <path d="M0 110 Q32 100 65 110 Q98 120 130 110 Q162 100 195 110 Q228 120 260 110 L260 140 L0 140 Z" fill="#075985" opacity="0.4"/>
+                                <!-- Route curve -->
+                                <path d="M30 85 Q80 40 130 75 Q180 110 230 60" fill="none" stroke="#22d3ee" stroke-width="2" stroke-opacity="0.35"/>
+                                <path d="M30 85 Q80 40 130 75 Q180 110 230 60" fill="none" stroke="#22d3ee" stroke-width="1.5" class="animated-line"/>
+                                <!-- Port nodes -->
+                                <circle cx="30" cy="85" r="6" fill="#020617" stroke="#22d3ee" stroke-width="2"/>
+                                <circle cx="30" cy="85" r="3" fill="#22d3ee"/>
+                                <circle cx="130" cy="75" r="7" fill="#020617" stroke="#22d3ee" stroke-width="2.5" class="pulse-node"/>
+                                <circle cx="130" cy="75" r="3.5" fill="#22d3ee"/>
+                                <circle cx="230" cy="60" r="6" fill="#020617" stroke="#22d3ee" stroke-width="2"/>
+                                <circle cx="230" cy="60" r="3" fill="#22d3ee"/>
+                                <!-- Ship icon -->
+                                <g transform="translate(110,52)" class="float-icon">
+                                    <path d="M2 10 L18 10 L14 18 L6 18 Z" fill="#22d3ee" opacity="0.9"/>
+                                    <rect x="8" y="4" width="4" height="8" fill="#0e7490"/>
+                                    <rect x="5" y="2" width="10" height="3" rx="1" fill="#22d3ee" opacity="0.7"/>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flight Panel -->
+            <div id="panel-flight" class="tab-panel">
+                <div class="glass rounded-3xl p-8 mode-card">
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h4 class="text-xl font-bold text-violet-400 mb-3">항공 캠페인</h4>
+                            <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                                전 세계 공항 데이터를 바탕으로 항공 노선을 개설합니다. 대권항로(Great Circle) 기반의 정밀 경로 계산으로 현실과 동일한 비행 경로를 재현합니다. 여객기·화물기를 배치하고 허브 공항을 키워 글로벌 항공 네트워크를 완성하세요.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 rounded-full bg-violet-500/10 text-violet-300 text-xs">69 스테이지</span>
+                                <span class="px-3 py-1 rounded-full bg-violet-500/10 text-violet-300 text-xs">대권항로 계산</span>
+                                <span class="px-3 py-1 rounded-full bg-violet-500/10 text-violet-300 text-xs">공항 레벨업</span>
+                                <span class="px-3 py-1 rounded-full bg-violet-500/10 text-violet-300 text-xs">글로벌 노선망</span>
+                            </div>
+                        </div>
+                        <!-- Flight SVG -->
+                        <div class="flex justify-center overflow-hidden rounded-2xl">
+                            <svg viewBox="0 0 260 140" class="w-full max-w-xs" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="260" height="140" rx="16" fill="rgba(15,23,42,0.8)"/>
+                                <!-- Arc route -->
+                                <path d="M20 110 Q130 10 240 90" fill="none" stroke="#a78bfa" stroke-width="2" stroke-opacity="0.3"/>
+                                <path d="M20 110 Q130 10 240 90" fill="none" stroke="#a78bfa" stroke-width="1.5" class="animated-line"/>
+                                <!-- Airport nodes -->
+                                <circle cx="20" cy="110" r="6" fill="#020617" stroke="#a78bfa" stroke-width="2"/>
+                                <circle cx="20" cy="110" r="3" fill="#a78bfa"/>
+                                <circle cx="240" cy="90" r="6" fill="#020617" stroke="#a78bfa" stroke-width="2"/>
+                                <circle cx="240" cy="90" r="3" fill="#a78bfa"/>
+                                <circle cx="130" cy="48" r="8" fill="#020617" stroke="#c4b5fd" stroke-width="2.5" class="pulse-node"/>
+                                <circle cx="130" cy="48" r="4" fill="#c4b5fd"/>
+                                <!-- Plane -->
+                                <g transform="translate(60,55) rotate(-30)">
+                                    <path d="M0 4 L16 0 L14 4 L16 8 Z" fill="#a78bfa" opacity="0.95"/>
+                                    <path d="M4 2 L8 -4 L10 -3 L8 2 Z" fill="#c4b5fd" opacity="0.7"/>
+                                    <path d="M8 6 L12 10 L10 11 L8 8 Z" fill="#c4b5fd" opacity="0.7"/>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Campaign stats bar -->
+            <div class="grid grid-cols-3 gap-4 mt-6">
+                <div class="glass rounded-2xl p-5 text-center">
+                    <p class="text-3xl font-extrabold text-sky-400">207</p>
+                    <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest">Total Stages</p>
+                </div>
+                <div class="glass rounded-2xl p-5 text-center">
+                    <p class="text-3xl font-extrabold text-violet-400">3</p>
+                    <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest">Transport Types</p>
+                </div>
+                <div class="glass rounded-2xl p-5 text-center">
+                    <p class="text-3xl font-extrabold text-emerald-400">∞</p>
+                    <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest">Route Possibilities</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== MULTIPLAYER ===== -->
+        <section id="multiplayer">
+            <div class="flex items-center gap-4 mb-10">
+                <div class="w-1 h-10 rounded-full bg-gradient-to-b from-rose-400 to-orange-500"></div>
+                <h3 class="text-3xl font-bold">멀티플레이 모드</h3>
+                <span class="px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-bold">REAL-TIME</span>
+            </div>
+
+            <div class="glass rounded-3xl p-8 mode-card border border-rose-500/10">
+                <div class="grid md:grid-cols-2 gap-10 items-center">
+                    <div>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                            실시간으로 다른 플레이어와 같은 지도에서 경쟁합니다. Google 계정 로그인 후 매칭되며, 동일한 스테이지 조건에서 누가 먼저 목표 수익을 달성하는지 겨루는 PvP 형식입니다. 상대의 네트워크 확장을 실시간으로 확인하며 더 빠른 노선 전략이 승패를 결정합니다.
+                        </p>
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div class="glass rounded-xl p-4">
+                                <p class="text-xs font-bold text-rose-400 uppercase mb-1">매칭</p>
+                                <p class="text-sm text-slate-300">Google 계정 기반 실시간 매칭</p>
+                            </div>
+                            <div class="glass rounded-xl p-4">
+                                <p class="text-xs font-bold text-rose-400 uppercase mb-1">경쟁</p>
+                                <p class="text-sm text-slate-300">동일 맵, 동일 조건 PvP</p>
+                            </div>
+                            <div class="glass rounded-xl p-4">
+                                <p class="text-xs font-bold text-rose-400 uppercase mb-1">관전</p>
+                                <p class="text-sm text-slate-300">상대 네트워크 실시간 확인</p>
+                            </div>
+                            <div class="glass rounded-xl p-4">
+                                <p class="text-xs font-bold text-rose-400 uppercase mb-1">연동</p>
+                                <p class="text-sm text-slate-300">Firebase Firestore 온라인 상태 동기화</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 rounded-full bg-rose-500/10 text-rose-300 text-xs">Google 로그인 필요</span>
+                            <span class="px-3 py-1 rounded-full bg-rose-500/10 text-rose-300 text-xs">실시간 동기화</span>
+                            <span class="px-3 py-1 rounded-full bg-rose-500/10 text-rose-300 text-xs">PvP 경쟁</span>
+                        </div>
+                    </div>
+                    <!-- Multiplayer SVG -->
+                    <div class="flex justify-center">
+                        <svg viewBox="0 0 260 160" class="w-full max-w-xs" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="260" height="160" rx="16" fill="rgba(15,23,42,0.8)"/>
+                            <!-- Player A network (blue) -->
+                            <line x1="30" y1="50" x2="110" y2="80" stroke="#38bdf8" stroke-width="2" stroke-opacity="0.4"/>
+                            <line x1="110" y1="80" x2="70" y2="130" stroke="#38bdf8" stroke-width="2" stroke-opacity="0.4"/>
+                            <line x1="30" y1="50" x2="110" y2="80" stroke="#38bdf8" stroke-width="1.5" class="animated-line"/>
+                            <circle cx="30" cy="50" r="7" fill="#020617" stroke="#38bdf8" stroke-width="2.5"/>
+                            <circle cx="30" cy="50" r="3.5" fill="#38bdf8"/>
+                            <circle cx="110" cy="80" r="8" fill="#020617" stroke="#38bdf8" stroke-width="2.5" class="pulse-node"/>
+                            <circle cx="110" cy="80" r="4" fill="#38bdf8"/>
+                            <circle cx="70" cy="130" r="6" fill="#020617" stroke="#38bdf8" stroke-width="2"/>
+                            <circle cx="70" cy="130" r="3" fill="#38bdf8"/>
+                            <!-- Player B network (rose) -->
+                            <line x1="230" y1="40" x2="150" y2="80" stroke="#fb7185" stroke-width="2" stroke-opacity="0.4"/>
+                            <line x1="150" y1="80" x2="190" y2="130" stroke="#fb7185" stroke-width="2" stroke-opacity="0.4"/>
+                            <line x1="230" y1="40" x2="150" y2="80" stroke="#fb7185" stroke-width="1.5" class="animated-line"/>
+                            <circle cx="230" cy="40" r="7" fill="#020617" stroke="#fb7185" stroke-width="2.5"/>
+                            <circle cx="230" cy="40" r="3.5" fill="#fb7185"/>
+                            <circle cx="150" cy="80" r="8" fill="#020617" stroke="#fb7185" stroke-width="2.5" class="pulse-node"/>
+                            <circle cx="150" cy="80" r="4" fill="#fb7185"/>
+                            <circle cx="190" cy="130" r="6" fill="#020617" stroke="#fb7185" stroke-width="2"/>
+                            <circle cx="190" cy="130" r="3" fill="#fb7185"/>
+                            <!-- Online ping rings -->
+                            <circle cx="30" cy="50" r="6" stroke="#38bdf8" stroke-width="1.5" fill="none" class="ping-ring" style="animation-delay:0s"/>
+                            <circle cx="230" cy="40" r="6" stroke="#fb7185" stroke-width="1.5" fill="none" class="ping-ring" style="animation-delay:0.7s"/>
+                            <!-- VS badge -->
+                            <rect x="116" y="68" width="28" height="18" rx="9" fill="#1e1b4b"/>
+                            <text x="130" y="81" text-anchor="middle" font-size="9" font-weight="bold" fill="#a78bfa">VS</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== TRADE ===== -->
+        <section id="trade">
+            <div class="flex items-center gap-4 mb-10">
+                <div class="w-1 h-10 rounded-full bg-gradient-to-b from-amber-400 to-yellow-500"></div>
+                <h3 class="text-3xl font-bold">무역 모드</h3>
+                <span class="px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-bold">TRADE</span>
+            </div>
+
+            <div class="glass rounded-3xl p-8 mode-card border border-amber-500/10">
+                <div class="grid md:grid-cols-2 gap-10 items-center">
+                    <div>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                            단순한 운송을 넘어 도시 간 물자 거래를 통해 수익을 극대화하는 모드입니다. 각 도시의 공급·수요를 분석하고 물자를 싸게 사서 비싸게 파는 무역 루트를 개발하세요. 화물 가격은 시장 인플레이션에 따라 변동하며, 독점 루트를 확보할수록 더 큰 이익을 얻을 수 있습니다.
+                        </p>
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-start gap-3">
+                                <div class="w-2 h-2 rounded-full bg-amber-400 mt-1.5 flex-shrink-0"></div>
+                                <p class="text-sm text-slate-300"><span class="text-amber-300 font-semibold">공급·수요 시스템:</span> 도시별 물자 가격이 수요에 따라 실시간 변동</p>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-2 h-2 rounded-full bg-amber-400 mt-1.5 flex-shrink-0"></div>
+                                <p class="text-sm text-slate-300"><span class="text-amber-300 font-semibold">시장 인플레이션:</span> 장기 플레이일수록 물자 단가가 점진적으로 상승</p>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-2 h-2 rounded-full bg-amber-400 mt-1.5 flex-shrink-0"></div>
+                                <p class="text-sm text-slate-300"><span class="text-amber-300 font-semibold">화물 전용 운송:</span> 여객 대신 화물 중심의 노선 전략 필요</p>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-2 h-2 rounded-full bg-amber-400 mt-1.5 flex-shrink-0"></div>
+                                <p class="text-sm text-slate-300"><span class="text-amber-300 font-semibold">독립 인플레이션 곡선:</span> 무역 모드 전용 시장·광고 수익 인플레이션 적용</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 rounded-full bg-amber-500/10 text-amber-300 text-xs">화물 수송 중심</span>
+                            <span class="px-3 py-1 rounded-full bg-amber-500/10 text-amber-300 text-xs">가격 변동 시장</span>
+                            <span class="px-3 py-1 rounded-full bg-amber-500/10 text-amber-300 text-xs">무역 루트 개발</span>
+                        </div>
+                    </div>
+                    <!-- Trade SVG -->
+                    <div class="flex justify-center">
+                        <svg viewBox="0 0 260 160" class="w-full max-w-xs" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="260" height="160" rx="16" fill="rgba(15,23,42,0.8)"/>
+                            <!-- Route -->
+                            <line x1="40" y1="80" x2="220" y2="80" stroke="#fbbf24" stroke-width="3" stroke-opacity="0.25"/>
+                            <line x1="40" y1="80" x2="220" y2="80" stroke="#fbbf24" stroke-width="2" class="animated-line"/>
+                            <!-- Cities -->
+                            <circle cx="40" cy="80" r="14" fill="rgba(251,191,36,0.1)" stroke="#fbbf24" stroke-width="2"/>
+                            <text x="40" y="85" text-anchor="middle" font-size="14">🏭</text>
+                            <circle cx="220" cy="80" r="14" fill="rgba(251,191,36,0.1)" stroke="#fbbf24" stroke-width="2"/>
+                            <text x="220" y="85" text-anchor="middle" font-size="14">🏙️</text>
+                            <!-- Cargo boxes moving -->
+                            <g class="float-icon" style="animation-duration:2s">
+                                <rect x="115" y="64" width="18" height="14" rx="3" fill="#fbbf24" opacity="0.9"/>
+                                <line x1="115" y1="71" x2="133" y2="71" stroke="#92400e" stroke-width="1"/>
+                                <line x1="124" y1="64" x2="124" y2="78" stroke="#92400e" stroke-width="1"/>
+                            </g>
+                            <!-- Price arrows -->
+                            <g transform="translate(40,105)">
+                                <rect x="0" y="0" width="50" height="20" rx="4" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="1"/>
+                                <text x="25" y="14" text-anchor="middle" font-size="9" fill="#10b981" font-weight="bold">저가 매입</text>
+                            </g>
+                            <g transform="translate(170,105)">
+                                <rect x="0" y="0" width="50" height="20" rx="4" fill="rgba(251,191,36,0.15)" stroke="#fbbf24" stroke-width="1"/>
+                                <text x="25" y="14" text-anchor="middle" font-size="9" fill="#fbbf24" font-weight="bold">고가 판매</text>
+                            </g>
+                            <!-- Profit arrow -->
+                            <path d="M90 115 Q130 130 170 115" fill="none" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4 3"/>
+                            <text x="130" y="148" text-anchor="middle" font-size="9" fill="#a78bfa">▲ 차익 실현</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== FREE ===== -->
+        <section id="free">
+            <div class="flex items-center gap-4 mb-10">
+                <div class="w-1 h-10 rounded-full bg-gradient-to-b from-emerald-400 to-teal-500"></div>
+                <h3 class="text-3xl font-bold">자유 모드</h3>
+                <span class="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold">SANDBOX</span>
+            </div>
+
+            <div class="glass rounded-3xl p-8 mode-card border border-emerald-500/10">
+                <div class="grid md:grid-cols-2 gap-10 items-center">
+                    <div>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                            시간 제한도, 목표 수익도 없습니다. 원하는 도시에 역을 세우고, 노선을 설계하고, 매장을 확장하며 나만의 교통 제국을 자유롭게 건설하세요. 열차·선박·항공 중 원하는 모드를 선택하여 제약 없이 네트워크를 키울 수 있습니다.
+                        </p>
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div class="glass rounded-xl p-4">
+                                <p class="text-xs font-bold text-emerald-400 uppercase mb-1">무제한</p>
+                                <p class="text-sm text-slate-300">시간·목표 제약 없는 샌드박스</p>
+                            </div>
+                            <div class="glass rounded-xl p-4">
+                                <p class="text-xs font-bold text-emerald-400 uppercase mb-1">3모드 선택</p>
+                                <p class="text-sm text-slate-300">열차 / 선박 / 항공 중 자유 선택</p>
+                            </div>
+                            <div class="glass rounded-xl p-4">
+                                <p class="text-xs font-bold text-emerald-400 uppercase mb-1">경제 성장</p>
+                                <p class="text-sm text-slate-300">도시·역 인플레이션 기반 장기 성장</p>
+                            </div>
+                            <div class="glass rounded-xl p-4">
+                                <p class="text-xs font-bold text-emerald-400 uppercase mb-1">저장 슬롯</p>
+                                <p class="text-sm text-slate-300">최대 5개 슬롯에 독립 게임 저장</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-300 text-xs">제한 없음</span>
+                            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-300 text-xs">나만의 네트워크</span>
+                            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-300 text-xs">클라우드 저장</span>
+                        </div>
+                    </div>
+                    <!-- Free Mode SVG -->
+                    <div class="flex justify-center">
+                        <svg viewBox="0 0 260 160" class="w-full max-w-xs" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="260" height="160" rx="16" fill="rgba(15,23,42,0.8)"/>
+                            <!-- Web of connections -->
+                            <line x1="130" y1="80" x2="50" y2="40" stroke="#34d399" stroke-width="1.5" stroke-opacity="0.5"/>
+                            <line x1="130" y1="80" x2="210" y2="40" stroke="#34d399" stroke-width="1.5" stroke-opacity="0.5"/>
+                            <line x1="130" y1="80" x2="30" y2="120" stroke="#34d399" stroke-width="1.5" stroke-opacity="0.5"/>
+                            <line x1="130" y1="80" x2="230" y2="120" stroke="#34d399" stroke-width="1.5" stroke-opacity="0.5"/>
+                            <line x1="130" y1="80" x2="130" y2="20" stroke="#34d399" stroke-width="1.5" stroke-opacity="0.5"/>
+                            <line x1="50" y1="40" x2="130" y2="20" stroke="#34d399" stroke-width="1" stroke-opacity="0.3"/>
+                            <line x1="210" y1="40" x2="130" y2="20" stroke="#34d399" stroke-width="1" stroke-opacity="0.3"/>
+                            <line x1="50" y1="40" x2="30" y2="120" stroke="#34d399" stroke-width="1" stroke-opacity="0.25"/>
+                            <line x1="210" y1="40" x2="230" y2="120" stroke="#34d399" stroke-width="1" stroke-opacity="0.25"/>
+                            <!-- Animated lines -->
+                            <line x1="130" y1="80" x2="50" y2="40" stroke="#34d399" stroke-width="1" class="animated-line"/>
+                            <line x1="130" y1="80" x2="210" y2="40" stroke="#6ee7b7" stroke-width="1" class="animated-line" style="animation-delay:0.3s"/>
+                            <line x1="130" y1="80" x2="30" y2="120" stroke="#34d399" stroke-width="1" class="animated-line" style="animation-delay:0.6s"/>
+                            <!-- Nodes -->
+                            <circle cx="130" cy="80" r="10" fill="#020617" stroke="#34d399" stroke-width="2.5" class="pulse-node"/>
+                            <circle cx="130" cy="80" r="5" fill="#34d399"/>
+                            <circle cx="50" cy="40" r="6" fill="#020617" stroke="#34d399" stroke-width="2"/>
+                            <circle cx="50" cy="40" r="3" fill="#34d399"/>
+                            <circle cx="210" cy="40" r="6" fill="#020617" stroke="#34d399" stroke-width="2"/>
+                            <circle cx="210" cy="40" r="3" fill="#34d399"/>
+                            <circle cx="30" cy="120" r="6" fill="#020617" stroke="#6ee7b7" stroke-width="2"/>
+                            <circle cx="30" cy="120" r="3" fill="#6ee7b7"/>
+                            <circle cx="230" cy="120" r="6" fill="#020617" stroke="#6ee7b7" stroke-width="2"/>
+                            <circle cx="230" cy="120" r="3" fill="#6ee7b7"/>
+                            <circle cx="130" cy="20" r="5" fill="#020617" stroke="#34d399" stroke-width="2"/>
+                            <circle cx="130" cy="20" r="2.5" fill="#34d399"/>
+                            <!-- Freedom text -->
+                            <text x="130" y="148" text-anchor="middle" font-size="9" fill="#6ee7b7" opacity="0.6" letter-spacing="3">NO LIMITS</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <div class="text-center pt-8">
+            <p class="text-slate-500 text-sm mb-6">모든 모드를 지금 바로 경험해보세요</p>
+            <a href="https://play.google.com/store/apps/details?id=com.emstudio.railwaystudio" target="_blank" class="inline-block bg-sky-600 px-12 py-4 rounded-xl font-bold text-white shadow-lg shadow-sky-900/20 hover:bg-sky-500 transition-all">
+                Google Play에서 다운로드
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-16 border-t border-white/5 bg-slate-950">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <div>
+                    <h5 class="text-xl font-bold gradient-text mb-2">RailWayStudio</h5>
+                    <p class="text-slate-500 text-sm">Creative Simulation by Daduki</p>
+                </div>
+                <div class="flex space-x-6 text-xs font-medium text-slate-500">
+                    <a href="/app-ads.txt" class="hover:text-sky-400 transition underline decoration-sky-500/30">app-ads.txt</a>
+                    <a href="mailto:daduki@gmail.com" class="hover:text-sky-400 transition">Contact</a>
+                    <a href="https://github.com/daduki/RailWayStudio" class="hover:text-sky-400 transition">GitHub</a>
+                </div>
+            </div>
+            <div class="mt-12 text-center text-[10px] text-slate-700 uppercase tracking-widest">
+                &copy; 2026 RailWayStudio. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function switchTab(mode) {
+            ['metro','ship','flight'].forEach(m => {
+                document.getElementById('panel-' + m).classList.toggle('active', m === mode);
+                const btn = document.getElementById('tab-' + m);
+                btn.classList.toggle('active', m === mode);
+            });
+        }
+    </script>
+</body>
+</html>
