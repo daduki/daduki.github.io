@@ -3,178 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RailWayStudio | Official DevLog</title>
+    <title>EmStudio | Official Developer Portal — DD LifeLog & RailWayStudio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700;800&display=swap');
         body { font-family: 'Pretendard', sans-serif; background-color: #020617; color: #f8fafc; }
         .gradient-text { background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .glass { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
-        .update-card:hover { border-color: rgba(56, 189, 248, 0.4); transform: translateY(-2px); transition: all 0.3s ease; }
+        .gradient-orange { background: linear-gradient(135deg, #fb923c, #f43f5e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass { background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,0.08); }
+        .card-select:hover { border-color: rgba(56, 189, 248, 0.5); transform: translateY(-4px); shadow: 0 20px 30px rgba(0,0,0,0.5); transition: all 0.35 ease; }
     </style>
 </head>
-<body class="scroll-smooth">
+<body class="scroll-smooth min-h-screen flex flex-col justify-between">
 
+    <!-- Header Navbar -->
     <nav class="fixed w-full z-50 glass border-b border-white/5">
         <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold tracking-tighter gradient-text">RailWayStudio</h1>
-            <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-300">
-                <a href="#hero" class="hover:text-sky-400 transition">Home</a>
-                <a href="about_me.html" class="hover:text-sky-400 transition">About Me</a>
+            <a href="index.html" class="flex items-center space-x-2">
+                <span class="text-2xl font-extrabold tracking-tighter gradient-text">EmStudio</span>
+                <span class="text-xs font-semibold text-slate-400 px-2 py-0.5 rounded bg-white/5 border border-white/10">Official</span>
+            </a>
+            <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-300 items-center">
+                <a href="index.html" class="text-sky-400 font-bold border-b border-sky-400 pb-0.5">Home</a>
+                <a href="dd-lifelog.html" class="hover:text-sky-400 transition">DD LifeLog</a>
+                <a href="railwaystudio.html" class="hover:text-sky-400 transition">RailWayStudio</a>
                 <a href="modes.html" class="hover:text-sky-400 transition">Game Modes</a>
-                <a href="#updates" class="hover:text-sky-400 transition">Release Notes</a>
-                <a href="https://play.google.com/store/apps/details?id=com.emstudio.railwaystudio" target="_blank" class="bg-sky-600/20 text-sky-400 border border-sky-500/50 px-5 py-2 rounded-full hover:bg-sky-500 hover:text-white transition">다운로드</a>
+                <a href="about_me.html" class="hover:text-sky-400 transition">About Me</a>
+                <a href="privacy.html" class="hover:text-sky-400 transition text-sky-400 underline font-bold">개인정보처리방침</a>
             </div>
         </div>
     </nav>
 
-    <section id="hero" class="min-h-[70vh] flex items-center justify-center pt-24 px-6 text-center">
-        <div class="max-w-3xl">
+    <!-- Main Hero & App Selection Portal -->
+    <main class="pt-32 pb-20 px-6 max-w-6xl mx-auto flex-grow">
+        <!-- Main Intro Header -->
+        <div class="text-center max-w-3xl mx-auto mb-16">
             <div class="inline-block px-4 py-1.5 mb-6 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-bold tracking-widest uppercase">
-                Now Available v4.4.93
+                Welcome to EmStudio
             </div>
-            <h2 class="text-4xl md:text-6xl font-extrabold mb-8 leading-tight">가장 정교한 시뮬레이션,<br><span class="gradient-text">현실을 넘어서는 항로</span></h2>
-            <p class="text-slate-400 mb-12 text-lg leading-relaxed">
-                RailWayStudio는 끊임없는 엔진 최적화와 데이터 검증을 통해<br>완벽한 물류 시스템 시뮬레이션을 지향합니다.
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-tight">
+                창의적인 개발과 시뮬레이션,<br>
+                <span class="gradient-text">EmStudio 애플리케이션 포털</span>
+            </h1>
+            <p class="text-slate-400 text-base md:text-lg leading-relaxed">
+                EmStudio는 지능형 다국어 일기 앱 <strong>DD LifeLog</strong>와 정교한 물류 시뮬레이터 <strong>RailWayStudio</strong>를 제공합니다.<br>
+                아래에서 원하시는 애플리케이션을 선택하여 상세 정보 및 서비스를 이용하세요.
             </p>
-            <div class="flex flex-wrap justify-center gap-4">
-                <a href="https://play.google.com/store/apps/details?id=com.emstudio.railwaystudio" class="bg-sky-600 px-10 py-4 rounded-xl font-bold text-white shadow-lg shadow-sky-900/20 hover:bg-sky-500 transition-all">다운로드</a>
-            </div>
         </div>
-    </section>
 
-    <section id="updates" class="py-24 bg-slate-950">
-        <div class="max-w-4xl mx-auto px-6">
-            <div class="flex items-center justify-between mb-16">
-                <h3 class="text-3xl font-bold">Release Notes</h3>
-                <span class="text-slate-500 text-sm">Last updated: 2026.07.27</span>
+        <!-- App Choice Grid (2 Major Apps) -->
+        <div class="grid md:grid-cols-2 gap-8 mb-16">
+
+            <!-- Choice 1: DD LifeLog -->
+            <div class="glass p-8 md:p-10 rounded-3xl card-select border border-sky-500/30 flex flex-col justify-between relative overflow-hidden group">
+                <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-sky-500/10 rounded-full blur-3xl group-hover:bg-sky-500/20 transition-all"></div>
+                <div>
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center space-x-4">
+                            <img src="images/dd_lifelog_icon.png" alt="DD LifeLog Icon" class="w-16 h-16 rounded-2xl shadow-lg border border-sky-500/30 object-cover">
+                            <div>
+                                <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 uppercase tracking-wider">AI Powered</span>
+                                <h2 class="text-2xl font-bold text-white mt-1">DD LifeLog</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-slate-300 text-sm md:text-base mb-6 leading-relaxed">
+                        <strong>디디 라이프로그 (DD LifeLog)</strong>는 한국어, 中文, 日本語, English 및 20여 개 다국어 일기를 한 화면에서 기록하고, 
+                        Google Gemini AI(<code class="text-sky-300">gemini-2.5-flash</code>) 동의어 확장으로 작성한 일기를 통합 검색할 수 있는 스마트 스마트 일상 기록 앱입니다.
+                    </p>
+                    <ul class="space-y-2 text-xs text-slate-400 mb-8 list-disc pl-5">
+                        <li>다국어 Carousel & 언어별 입력 분리</li>
+                        <li>Google Gemini AI 기반 의미/동의어 통합 검색</li>
+                        <li>국기 마커 캘린더 & UTF-8 내보내기/가져오기</li>
+                        <li>Google OAuth & Firebase Cloud 동기화</li>
+                    </ul>
+                </div>
+                
+                <div class="space-y-3 pt-4 border-t border-white/10">
+                    <a href="dd-lifelog.html" class="w-full py-3.5 px-6 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-center block shadow-lg shadow-sky-900/30 transition-all">
+                        DD LifeLog (디디 라이프로그) 소개 & 상세 보기 →
+                    </a>
+                    <div class="flex gap-3">
+                        <a href="https://emstudio-ed70a.web.app" target="_blank" class="flex-1 py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-sky-400 border border-sky-500/30 font-semibold text-xs text-center transition-all">
+                            🌐 웹앱 실행
+                        </a>
+                        <a href="privacy.html" class="flex-1 py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 font-semibold text-xs text-center transition-all">
+                            🔒 개인정보처리방침
+                        </a>
+                    </div>
+                </div>
             </div>
 
-            <div class="space-y-8">
-
-                <!-- v4.4.93 LATEST -->
-                <div class="glass p-8 rounded-3xl update-card">
-                    <div class="flex items-center gap-3 mb-4">
-                        <span class="px-3 py-1 rounded-md bg-sky-500 text-white text-xs font-bold">LATEST</span>
-                        <h4 class="text-2xl font-bold text-white">v4.4.93</h4>
-                        <span class="text-slate-500 text-sm ml-auto">2026-07-27</span>
+            <!-- Choice 2: RailWayStudio -->
+            <div class="glass p-8 md:p-10 rounded-3xl card-select border border-indigo-500/30 flex flex-col justify-between relative overflow-hidden group">
+                <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl group-hover:bg-indigo-500/20 transition-all"></div>
+                <div>
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-16 h-16 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 flex items-center justify-center text-3xl">
+                                🚂
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 uppercase tracking-wider">Simulation Game</span>
+                                <h2 class="text-2xl font-bold text-white mt-1">RailWayStudio</h2>
+                            </div>
+                        </div>
                     </div>
-                    <ul class="space-y-3 text-slate-300 list-disc pl-5">
-                        <li><strong class="text-sky-400">자유 AI 경쟁 모드 대규모 고도화:</strong> AI 플레이어(Claude, Gemini, GPT)의 거점역 선정 로직 고도화 및 공격적인 인수합병(M&A) 전략 도입</li>
-                        <li><strong class="text-sky-400">AI 엔진 밸런스 패치:</strong> 초중반 성장이 정체되는 현상 해결, 후반 경쟁력을 극대화하여 플레이어에게 더욱 긴장감 넘치는 경쟁 환경 제공</li>
-                        <li><strong class="text-sky-400">시뮬레이터 투자 메커니즘 개선:</strong> 역 인수 방어 비용 최적화 및 잉여 자본 우선순위 할당 로직 반영</li>
+                    <p class="text-slate-300 text-sm md:text-base mb-6 leading-relaxed">
+                        <strong>RailWayStudio (레일웨이스튜디오)</strong>는 정교한 노선 시뮬레이션 엔진과 AI 경쟁 모드(Claude, Gemini, GPT)를 지원하며,
+                        현실적인 전국/글로벌 철도 및 물류 시스템 망을 구축하는 고도화 시뮬레이션 게임입니다.
+                    </p>
+                    <ul class="space-y-2 text-xs text-slate-400 mb-8 list-disc pl-5">
+                        <li>AI 경쟁 플레이어 거점 및 인수합병(M&A) 전략 모드</li>
+                        <li>14,000개 항구/도시 다이나믹 인구 데이터 엔진</li>
+                        <li>화면 꺼짐 방지 & Firebase 멀티 저장 슬롯 지원</li>
+                        <li>3D 메탈릭 UI & 실시간 물류 인플레이션 밸런싱</li>
                     </ul>
                 </div>
 
-                <!-- v4.4.41 -->
-                <div class="glass p-8 rounded-3xl update-card">
-                    <div class="flex items-center gap-3 mb-4">
-                        <h4 class="text-2xl font-bold text-white">v4.4.41</h4>
-                        <span class="text-slate-500 text-sm ml-auto">2026-06-21</span>
-                    </div>
-                    <ul class="space-y-3 text-slate-300 list-disc pl-5">
-                        <li><strong class="text-sky-400">화면 꺼짐 방지:</strong> 게임 실행 중 화면이 자동으로 꺼지지 않도록 개선. 백그라운드 전환 시 자동 해제되어 배터리 낭비 없음.</li>
-                    </ul>
+                <div class="space-y-3 pt-4 border-t border-white/10">
+                    <a href="railwaystudio.html" class="w-full py-3.5 px-6 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-center block shadow-lg shadow-indigo-900/30 transition-all">
+                        RailWayStudio 소개 & Release Notes →
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=com.emstudio.railwaystudio" target="_blank" class="w-full py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-400 border border-indigo-500/30 font-semibold text-xs text-center block transition-all">
+                        📱 Google Play에서 다운로드
+                    </a>
                 </div>
-
-                <!-- v4.4.40 -->
-                <div class="glass p-8 rounded-3xl update-card">
-                    <div class="flex items-center gap-3 mb-4">
-                        <span class="px-3 py-1 rounded-md bg-emerald-600 text-white text-xs font-bold">NEW</span>
-                        <h4 class="text-2xl font-bold text-white">v4.4.40</h4>
-                        <span class="text-slate-500 text-sm ml-auto">2026-06-21</span>
-                    </div>
-                    <ul class="space-y-3 text-slate-300 list-disc pl-5">
-                        <li><strong class="text-emerald-400">저장 슬롯 5개로 확장:</strong> Yellow(4번), Cyan(5번) 슬롯 추가. 자동저장 슬롯 + Red 슬롯은 기본 제공.</li>
-                        <li><strong class="text-emerald-400">광고 시청 기반 슬롯 개방:</strong> Green·Blue·Yellow·Cyan 슬롯은 광고 시청 후 해당 Google 계정에 영구 귀속.</li>
-                        <li><strong class="text-emerald-400">Firebase 계정 동기화:</strong> 슬롯 개방 상태를 Firestore에 저장하여 기기를 바꿔도 동일 계정으로 복원.</li>
-                    </ul>
-                </div>
-
-                <!-- v4.4.36~v4.4.39 -->
-                <div class="glass p-8 rounded-3xl update-card border-l-4 border-l-violet-500">
-                    <div class="flex items-center gap-3 mb-6">
-                        <h4 class="text-2xl font-bold text-white">v4.4.36 ~ v4.4.39</h4>
-                        <span class="text-slate-500 text-sm ml-auto">2026-06-21</span>
-                    </div>
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div>
-                            <p class="text-xs font-bold text-violet-400 uppercase mb-2">인플레이션 전면 재조정</p>
-                            <p class="text-sm text-slate-300">활성도시 증가만으로 운임 수익이 기하급수적으로 폭증하던 삼중 지수 복합 버그 해결. 도시·시설·차량·매장·광고·운임 인플레이션 6개 수치를 최적 밸런스로 재설정.</p>
-                        </div>
-                        <div>
-                            <p class="text-xs font-bold text-violet-400 uppercase mb-2">게임 밸런스 개선</p>
-                            <p class="text-sm text-slate-300">도시 인플레이션 0.16 / 차량 0.14 / 매장·광고 0.10으로 조정. 후반부에도 역·도시 확장과 차량 추가에 전략적 부담감이 유지되도록 시뮬레이션 검증 후 적용.</p>
-                        </div>
-                        <div>
-                            <p class="text-xs font-bold text-violet-400 uppercase mb-2">Regression 버그 수정</p>
-                            <p class="text-sm text-slate-300">FLIGHT/SHIP/TRADE 모드 재시작 및 캠페인 스테이지 진입 시 구버전 수치가 하드코딩으로 덮어쓰이던 문제 수정. <code class="text-violet-300">resetAllDevSettings()</code>를 단일 초기화 진실 공급원으로 정리.</p>
-                        </div>
-                        <div>
-                            <p class="text-xs font-bold text-violet-400 uppercase mb-2">운임 이중지수 제거</p>
-                            <p class="text-sm text-slate-300">캠페인 모드 운임 수익의 이중지수(<code class="text-violet-300">(1+N×0.001)^N</code>) 및 spawnInflation 지수 팽창 제거. 단순 지수 함수로 전환하여 예측 가능한 수익 곡선 확보.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- v4.3.33 -->
-                <div class="glass p-8 rounded-3xl update-card">
-                    <div class="flex items-center gap-3 mb-4">
-                        <h4 class="text-2xl font-bold text-white">v4.3.33</h4>
-                        <span class="text-slate-500 text-sm ml-auto">2026-06-02</span>
-                    </div>
-                    <ul class="space-y-2 text-slate-400">
-                        <li>• Gemini Imagen 4.0을 활용하여 38개의 게임 아이콘 리뉴얼 및 다이나믹 배경 크롭 적용</li>
-                        <li>• 맵 스토어 다이나믹 줌 스케일링 및 저비율 줌 충돌 방지 로직 고도화</li>
-                        <li>• 14,000개 항구/도시에 다이나믹 인구 기반 휴리스틱 티어 엔진 적용</li>
-                    </ul>
-                </div>
-
-                <div class="glass p-8 rounded-3xl update-card border-l-4 border-l-indigo-500">
-                    <div class="flex items-center gap-3 mb-4">
-                        <h4 class="text-2xl font-bold text-white">v4.3.18 ~ v4.3.27</h4>
-                    </div>
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div>
-                            <p class="text-xs font-bold text-indigo-400 uppercase mb-2">Routing & Data</p>
-                            <p class="text-sm text-slate-300">지중해/에게해 우회 항로 최적화 고도화 및 기차역 사전 연산 티어 시스템 도입</p>
-                        </div>
-                        <div>
-                            <p class="text-xs font-bold text-indigo-400 uppercase mb-2">UI/UX & Rendering</p>
-                            <p class="text-sm text-slate-300">툴바 3D 메탈릭 디자인 통일, 드래그 아이콘 테두리 색상화, 메트로 모드 렌더링 최적화</p>
-                        </div>
-                    </div>
-                </div>
-
-                <details class="group">
-                    <summary class="flex items-center justify-center p-4 glass rounded-xl cursor-pointer text-slate-500 hover:text-white transition">
-                        <span>이전 업데이트 내역 보기</span>
-                    </summary>
-                    <div class="p-6 mt-4 glass rounded-2xl text-slate-400 text-sm">
-                        <p><strong>v4.3.00~v4.3.09:</strong> 비행 모드 각도 및 떨림 현상 수정 등</p>
-                        <p><strong>v2.9.15:</strong> 남해안 및 제주/일본 구간 항로 최적화, 우회 경로 로직 개선</p>
-                        <p><strong>v2.9.12:</strong> 런던 및 아드리아해 목표 수치 조정, 도시명 화이트 글로우 효과 적용</p>
-                    </div>
-                </details>
             </div>
+
         </div>
-    </section>
 
+        <!-- Privacy & Google OAuth Banner -->
+        <div class="glass p-6 rounded-2xl border border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-4">
+                <span class="text-3xl">🛡️</span>
+                <div>
+                    <h3 class="text-base font-bold text-white">개인정보보호 및 Google OAuth 안내</h3>
+                    <p class="text-xs text-slate-400">EmStudio의 모든 애플리케이션(DD LifeLog 등)은 사용자의 동의 하에 최소한의 로그인 정보만을 사용하며 안전한 개인정보처리방침을 준수합니다.</p>
+                </div>
+            </div>
+            <a href="privacy.html" class="px-5 py-2.5 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/30 font-semibold text-xs hover:bg-sky-500 hover:text-white transition-all whitespace-nowrap">
+                개인정보처리방침 (Privacy Policy) 보기
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
     <footer class="py-16 border-t border-white/5 bg-slate-950">
         <div class="max-w-6xl mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-center gap-8">
                 <div>
-                    <h5 class="text-xl font-bold gradient-text mb-2">RailWayStudio</h5>
-                    <p class="text-slate-500 text-sm">Creative Simulation by Daduki</p>
+                    <h5 class="text-xl font-bold gradient-text mb-1">EmStudio</h5>
+                    <p class="text-slate-500 text-sm">Official Developer Site for DD LifeLog & RailWayStudio</p>
                 </div>
-                <div class="flex space-x-6 text-xs font-medium text-slate-500">
-                    <a href="/app-ads.txt" class="hover:text-sky-400 transition underline decoration-sky-500/30">app-ads.txt</a>
+                <div class="flex flex-wrap justify-center gap-6 text-xs font-medium text-slate-400">
+                    <a href="index.html" class="hover:text-sky-400 transition">Home</a>
+                    <a href="dd-lifelog.html" class="hover:text-sky-400 transition">DD LifeLog</a>
+                    <a href="railwaystudio.html" class="hover:text-sky-400 transition">RailWayStudio</a>
+                    <a href="privacy.html" class="text-sky-400 font-bold underline">개인정보처리방침 (Privacy Policy)</a>
                     <a href="mailto:daduki@gmail.com" class="hover:text-sky-400 transition">Contact</a>
-                    <a href="https://github.com/daduki/RailWayStudio" class="hover:text-sky-400 transition">GitHub</a>
                 </div>
             </div>
             <div class="mt-12 text-center text-[10px] text-slate-700 uppercase tracking-widest">
-                &copy; 2026 RailWayStudio. All Rights Reserved.
+                &copy; 2026 EmStudio. All Rights Reserved.
             </div>
         </div>
     </footer>

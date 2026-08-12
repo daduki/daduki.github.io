@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DD LifeLog — 다국어 AI 일기 & 라이프로그 | EmStudio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700;800&display=swap');
+        body { font-family: 'Pretendard', sans-serif; background-color: #020617; color: #f8fafc; }
+        .gradient-text { background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
+        .card-hover:hover { border-color: rgba(56, 189, 248, 0.4); transform: translateY(-3px); transition: all 0.3s ease; }
+    </style>
+</head>
+<body class="scroll-smooth">
+
+    <!-- Header Navbar -->
+    <nav class="fixed w-full z-50 glass border-b border-white/5">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-2">
+                <span class="text-xs font-bold px-2 py-1 bg-sky-500/20 text-sky-400 rounded-md">EmStudio</span>
+                <h1 class="text-2xl font-bold tracking-tighter gradient-text">DD LifeLog</h1>
+            </a>
+            <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-300 items-center">
+                <a href="index.html" class="hover:text-sky-400 transition">Home</a>
+                <a href="#features" class="hover:text-sky-400 transition">주요 기능</a>
+                <a href="#release-notes" class="hover:text-sky-400 transition">버전 히스토리</a>
+                <a href="privacy.html" class="hover:text-sky-400 transition text-sky-400 underline font-bold">개인정보처리방침</a>
+                <a href="https://emstudio-ed70a.web.app" target="_blank" class="bg-sky-600/20 text-sky-400 border border-sky-500/50 px-5 py-2 rounded-full hover:bg-sky-500 hover:text-white transition">웹앱 실행</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-16 px-6">
+        <div class="max-w-5xl mx-auto text-center">
+            <div class="flex justify-center mb-6">
+                <img src="images/dd_lifelog_icon.png" alt="DD LifeLog Icon" class="w-24 h-24 rounded-2xl shadow-xl shadow-sky-500/10 border border-sky-500/30 object-cover">
+            </div>
+            <div class="inline-block px-4 py-1.5 mb-4 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-bold tracking-widest uppercase">
+                Flutter + Firebase + Gemini AI Powered
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-tight">
+                DD LifeLog (디디 라이프로그)<br>
+                <span class="gradient-text">다국어 AI 일기 & 스마트 일상 기록</span>
+            </h1>
+            <p class="text-slate-300 text-base md:text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
+                한국어, 中文, 日本語, English 등 다양한 언어로 일상을 기록하세요.<br>
+                Google Gemini AI 동의어 확장 검색과 글로벌 캘린더 뷰를 지원합니다.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="https://emstudio-ed70a.web.app" target="_blank" class="bg-sky-600 hover:bg-sky-500 text-white font-bold px-8 py-4 rounded-xl shadow-lg shadow-sky-900/30 transition-all flex items-center gap-2">
+                    <span>🚀 DD LifeLog 웹앱 바로가기</span>
+                </a>
+                <a href="privacy.html" class="glass text-slate-200 font-semibold px-6 py-4 rounded-xl hover:border-sky-500/50 transition-all flex items-center gap-2">
+                    <span>🔒 개인정보처리방침 (Privacy Policy)</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Banner Graphic -->
+    <section class="py-8 px-6 max-w-5xl mx-auto">
+        <div class="glass p-3 rounded-3xl overflow-hidden shadow-2xl">
+            <img src="images/dd_lifelog_banner.png" alt="DD LifeLog Banner" class="w-full h-auto rounded-2xl object-cover">
+        </div>
+    </section>
+
+    <!-- Key Features Section -->
+    <section id="features" class="py-20 px-6 max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-white mb-4">주요 핵심 기능</h2>
+            <p class="text-slate-400 text-sm">DD LifeLog가 제공하는 한 단계 진화한 라이프로그 경험</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- Feature 1 -->
+            <div class="glass p-8 rounded-3xl card-hover">
+                <div class="w-12 h-12 rounded-2xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-2xl mb-6">📖</div>
+                <h3 class="text-xl font-bold text-white mb-3">다국어 일기 작성</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    한국어·中文·日本語·English 섹션을 한 화면에서 PageView 캐러셀 및 독립 입력 필드로 손쉽게 관리할 수 있습니다.
+                </p>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="glass p-8 rounded-3xl card-hover">
+                <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-2xl mb-6">🔍</div>
+                <h3 class="text-xl font-bold text-white mb-3">Gemini AI 검색</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    Google Gemini AI (<code class="text-sky-300">gemini-2.5-flash</code>) 동의어 확장으로 한국어 검색어만으로 중·일·영 작성 일기까지 지능형 탐색이 가능합니다.
+                </p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="glass p-8 rounded-3xl card-hover">
+                <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-2xl mb-6">📅</div>
+                <h3 class="text-xl font-bold text-white mb-3">캘린더 & 국기 마커</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    월별 캘린더 뷰에서 작성된 언어별 국기 이모지 마커가 표시되어 직관적으로 일기 기록을 추적할 수 있습니다.
+                </p>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="glass p-8 rounded-3xl card-hover">
+                <div class="w-12 h-12 rounded-2xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-2xl mb-6">🔐</div>
+                <h3 class="text-xl font-bold text-white mb-3">Google 계정 동기화</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    Firebase Auth 및 Google OAuth 안전 인증을 통해 모바일과 데스크톱 웹 어디서나 데이터를 실시간 동기화합니다.
+                </p>
+            </div>
+
+            <!-- Feature 5 -->
+            <div class="glass p-8 rounded-3xl card-hover">
+                <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-2xl mb-6">📤</div>
+                <h3 class="text-xl font-bold text-white mb-3">백업 및 가져오기/내보내기</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    UTF-8 BOM <code class="text-amber-300">.txt</code> 전체 일기 내보내기 및 <code class="text-amber-300">#YYMMDD</code> 태그 기반 일괄 가져오기를 지원합니다.
+                </p>
+            </div>
+
+            <!-- Feature 6 -->
+            <div class="glass p-8 rounded-3xl card-hover">
+                <div class="w-12 h-12 rounded-2xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-2xl mb-6">✏️</div>
+                <h3 class="text-xl font-bold text-white mb-3">자동 문장 개행 & 가독성</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    문장 끝 기호(<code class="text-pink-300">。.?!</code>) 기준 자동 문장 개행 처리로 깔끔하고 가독성 높은 일기 포맷을 유지합니다.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Stack Section -->
+    <section class="py-16 bg-slate-950 px-6 border-y border-white/5">
+        <div class="max-w-5xl mx-auto">
+            <h3 class="text-2xl font-bold text-white mb-8 text-center">기술 스택 (Tech Stack)</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div class="glass p-6 rounded-2xl">
+                    <p class="text-xs text-slate-500 mb-1">Framework</p>
+                    <p class="font-bold text-sky-400">Flutter 3.41.6</p>
+                </div>
+                <div class="glass p-6 rounded-2xl">
+                    <p class="text-xs text-slate-500 mb-1">Backend</p>
+                    <p class="font-bold text-indigo-400">Firebase Firestore / Auth</p>
+                </div>
+                <div class="glass p-6 rounded-2xl">
+                    <p class="text-xs text-slate-500 mb-1">AI Engine</p>
+                    <p class="font-bold text-emerald-400">Google Gemini 2.5 Flash</p>
+                </div>
+                <div class="glass p-6 rounded-2xl">
+                    <p class="text-xs text-slate-500 mb-1">Hosting</p>
+                    <p class="font-bold text-violet-400">Firebase Hosting</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Release Notes Section -->
+    <section id="release-notes" class="py-20 px-6 max-w-4xl mx-auto">
+        <div class="flex items-center justify-between mb-12">
+            <h3 class="text-3xl font-bold text-white">Release Notes</h3>
+            <span class="text-slate-500 text-sm">DD LifeLog Version History</span>
+        </div>
+
+        <div class="space-y-6">
+            <div class="glass p-6 rounded-2xl border-l-4 border-l-sky-500">
+                <div class="flex items-center justify-between mb-2">
+                    <h4 class="text-xl font-bold text-white">v1.6.3</h4>
+                    <span class="text-xs text-slate-500">2026-06-09</span>
+                </div>
+                <p class="text-sm text-slate-300">Memo List 카드 표시 줄 수를 화면 높이 기반 동적 계산으로 개선 (데스크톱/태블릿 UI 최적화)</p>
+            </div>
+
+            <div class="glass p-6 rounded-2xl border-l-4 border-l-indigo-500">
+                <div class="flex items-center justify-between mb-2">
+                    <h4 class="text-xl font-bold text-white">v1.6.2</h4>
+                    <span class="text-xs text-slate-500">2026-05-26</span>
+                </div>
+                <p class="text-sm text-slate-300">Notes 뷰 반응형 그리드 적용, 연결된 노트 제목 서클 클릭 이동, 길게 누르기 클립보드 복사 기능 추가</p>
+            </div>
+
+            <div class="glass p-6 rounded-2xl border-l-4 border-l-emerald-500">
+                <div class="flex items-center justify-between mb-2">
+                    <h4 class="text-xl font-bold text-white">v1.4.11</h4>
+                    <span class="text-xs text-slate-500">2026-04-20</span>
+                </div>
+                <p class="text-sm text-slate-300">앱 명칭을 <strong>DD LifeLog</strong>로 정식 확정 및 다국어 입력 탭 제스처 UI 고도화 완료</p>
+            </div>
+
+            <div class="glass p-6 rounded-2xl border-l-4 border-l-slate-600">
+                <div class="flex items-center justify-between mb-2">
+                    <h4 class="text-xl font-bold text-white">v1.0.0</h4>
+                    <span class="text-xs text-slate-500">2026-04-03</span>
+                </div>
+                <p class="text-sm text-slate-300">DD LifeLog 최초 정식 릴리즈 (다국어 일기, Firebase Auth, Gemini AI 검색)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 border-t border-white/5 bg-slate-950">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div>
+                <h5 class="text-xl font-bold gradient-text mb-2">DD LifeLog — EmStudio</h5>
+                <p class="text-slate-500 text-sm">Multilingual Lifelog Application by Daduki</p>
+            </div>
+            <div class="flex space-x-6 text-xs font-medium text-slate-400">
+                <a href="index.html" class="hover:text-sky-400 transition">EmStudio Home</a>
+                <a href="railwaystudio.html" class="hover:text-sky-400 transition">RailWayStudio</a>
+                <a href="privacy.html" class="text-sky-400 font-bold underline">개인정보처리방침</a>
+                <a href="mailto:daduki@gmail.com" class="hover:text-sky-400 transition">Contact</a>
+            </div>
+        </div>
+        <div class="mt-8 text-center text-[10px] text-slate-700 uppercase tracking-widest">
+            &copy; 2026 EmStudio. All Rights Reserved.
+        </div>
+    </footer>
+
+</body>
+</html>
