@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="PkQVnc5XrT6IR2iHEEM-aWVXEXO8JDO2VF6aWgn__eE" />
-    <title>RailWayStudio | EmStudio Official DevLog</title>
+    <title>심지어타이쿤 | EmStudio Official DevLog</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;700&display=swap');
@@ -19,8 +19,8 @@
     <nav class="fixed w-full z-50 glass border-b border-white/5">
         <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
             <a href="index.html" class="flex items-center space-x-2">
-                <span class="text-xs font-bold px-2 py-1 bg-sky-500/20 text-sky-400 rounded-md">EmStudio</span>
-                <h1 class="text-2xl font-bold tracking-tighter gradient-text">RailWayStudio</h1>
+                <img src="images/simzieo_tycoon_icon.png" alt="심지어타이쿤 Icon" class="w-8 h-8 rounded-lg border border-sky-500/30 object-cover">
+                <h1 class="text-2xl font-bold tracking-tighter gradient-text">심지어타이쿤</h1>
             </a>
             <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-300 items-center">
                 <a href="index.html" class="hover:text-sky-400 transition">Home</a>
@@ -28,7 +28,6 @@
                 <a href="about_me.html" class="hover:text-sky-400 transition">About Me</a>
                 <a href="modes.html" class="hover:text-sky-400 transition">Game Modes</a>
                 <a href="#updates" class="hover:text-sky-400 transition">Release Notes</a>
-                <a href="privacy.html" class="hover:text-sky-400 transition">개인정보처리방침</a>
                 <a href="https://play.google.com/store/apps/details?id=com.emstudio.railwaystudio" target="_blank" class="bg-sky-600/20 text-sky-400 border border-sky-500/50 px-5 py-2 rounded-full hover:bg-sky-500 hover:text-white transition">다운로드</a>
             </div>
         </div>
@@ -36,12 +35,15 @@
 
     <section id="hero" class="min-h-[70vh] flex items-center justify-center pt-24 px-6 text-center">
         <div class="max-w-3xl">
-            <div class="inline-block px-4 py-1.5 mb-6 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-bold tracking-widest uppercase">
-                Now Available v4.4.93
+            <div class="flex justify-center mb-6">
+                <img src="images/simzieo_tycoon_icon.png" alt="심지어타이쿤 App Icon" class="w-20 h-20 rounded-3xl shadow-2xl shadow-sky-500/20 border-2 border-sky-500/40 object-cover">
             </div>
-            <h2 class="text-4xl md:text-6xl font-extrabold mb-8 leading-tight">가장 정교한 시뮬레이션,<br><span class="gradient-text">현실을 넘어서는 항로</span></h2>
+            <div class="inline-block px-4 py-1.5 mb-6 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-bold tracking-widest uppercase">
+                Now Available v4.5.36
+            </div>
+            <h2 class="text-4xl md:text-6xl font-extrabold mb-8 leading-tight">심지어타이쿤<br><span class="gradient-text">AI와 겨루는 물류 제국</span></h2>
             <p class="text-slate-400 mb-12 text-lg leading-relaxed">
-                RailWayStudio는 끊임없는 엔진 최적화와 데이터 검증을 통해<br>완벽한 물류 시스템 시뮬레이션을 지향합니다.
+                열차·선박·항공, 3개 노선으로 세계를 연결하고<br>Claude·Gemini·GPT AI 플레이어와 실시간 경쟁하며 제국을 확장하세요.
             </p>
             <div class="flex flex-wrap justify-center gap-4">
                 <a href="https://play.google.com/store/apps/details?id=com.emstudio.railwaystudio" class="bg-sky-600 px-10 py-4 rounded-xl font-bold text-white shadow-lg shadow-sky-900/20 hover:bg-sky-500 transition-all">Google Play 다운로드</a>
@@ -54,64 +56,53 @@
         <div class="max-w-4xl mx-auto px-6">
             <div class="flex items-center justify-between mb-16">
                 <h3 class="text-3xl font-bold">Release Notes</h3>
-                <span class="text-slate-500 text-sm">Last updated: 2026.07.27</span>
+                <span class="text-slate-500 text-sm">Last updated: 2026.08.11</span>
             </div>
 
             <div class="space-y-8">
 
-                <!-- v4.4.93 LATEST -->
+                <!-- v4.5.36 LATEST -->
                 <div class="glass p-8 rounded-3xl update-card">
                     <div class="flex items-center gap-3 mb-4">
                         <span class="px-3 py-1 rounded-md bg-sky-500 text-white text-xs font-bold">LATEST</span>
-                        <h4 class="text-2xl font-bold text-white">v4.4.93</h4>
-                        <span class="text-slate-500 text-sm ml-auto">2026-07-27</span>
+                        <h4 class="text-2xl font-bold text-white">v4.5.36</h4>
+                        <span class="text-slate-500 text-sm ml-auto">2026-08-11</span>
                     </div>
                     <ul class="space-y-3 text-slate-300 list-disc pl-5">
-                        <li><strong class="text-sky-400">자유 AI 경쟁 모드 대규모 고도화:</strong> AI 플레이어(Claude, Gemini, GPT)의 거점역 선정 로직 고도화 및 공격적인 인수합병(M&A) 전략 도입</li>
-                        <li><strong class="text-sky-400">AI 엔진 밸런스 패치:</strong> 초중반 성장이 정체되는 현상 해결, 후반 경쟁력을 극대화하여 플레이어에게 더욱 긴장감 넘치는 경쟁 환경 제공</li>
-                        <li><strong class="text-sky-400">시뮬레이터 투자 메커니즘 개선:</strong> 역 인수 방어 비용 최적화 및 잉여 자본 우선순위 할당 로직 반영</li>
+                        <li><strong class="text-sky-400">자유 AI 경쟁 모드 대규모 강화:</strong> Claude·Gemini·GPT 3사 AI 플레이어의 경쟁 밸런스를 지속 고도화하고, 역·노선 인수합병(M&A)을 정교한 최후의 전략 옵션으로 재설계</li>
+                        <li><strong class="text-sky-400">캠페인 모드에도 AI 경쟁 도입:</strong> 자유 모드 전용이던 AI 플레이어 엔진을 캠페인 스테이지까지 확장해 어디서나 AI와 겨룰 수 있도록 개편</li>
+                        <li><strong class="text-sky-400">명예의 전당 "발전점수" 랭킹 추가:</strong> 활성 도시수·평균 레벨·운송 실적을 종합한 발전점수로 자유/AI경쟁 스테이지 Top10을 기록</li>
+                        <li><strong class="text-sky-400">AI 상세 리포트 & 리더보드 고도화:</strong> 상대 AI의 실시간 매장·광고 수익, 클리어 목표 진행도를 그래프로 확인 가능</li>
                     </ul>
                 </div>
 
-                <!-- v4.4.41 -->
-                <div class="glass p-8 rounded-3xl update-card">
-                    <div class="flex items-center gap-3 mb-4">
-                        <h4 class="text-2xl font-bold text-white">v4.4.41</h4>
-                        <span class="text-slate-500 text-sm ml-auto">2026-06-21</span>
-                    </div>
-                    <ul class="space-y-3 text-slate-300 list-disc pl-5">
-                        <li><strong class="text-sky-400">화면 꺼짐 방지:</strong> 게임 실행 중 화면이 자동으로 꺼지지 않도록 개선. 백그라운드 전환 시 자동 해제되어 배터리 낭비 없음.</li>
-                    </ul>
-                </div>
-
-                <!-- v4.4.40 -->
+                <!-- v4.5.35 / v4.5.33 -->
                 <div class="glass p-8 rounded-3xl update-card">
                     <div class="flex items-center gap-3 mb-4">
                         <span class="px-3 py-1 rounded-md bg-emerald-600 text-white text-xs font-bold">NEW</span>
-                        <h4 class="text-2xl font-bold text-white">v4.4.40</h4>
-                        <span class="text-slate-500 text-sm ml-auto">2026-06-21</span>
+                        <h4 class="text-2xl font-bold text-white">v4.5.33 ~ v4.5.35</h4>
+                        <span class="text-slate-500 text-sm ml-auto">2026-08-09 ~ 08-10</span>
                     </div>
                     <ul class="space-y-3 text-slate-300 list-disc pl-5">
-                        <li><strong class="text-emerald-400">저장 슬롯 5개로 확장:</strong> Yellow(4번), Cyan(5번) 슬롯 추가. 자동저장 슬롯 + Red 슬롯은 기본 제공.</li>
-                        <li><strong class="text-emerald-400">광고 시청 기반 슬롯 개방:</strong> Green·Blue·Yellow·Cyan 슬롯은 광고 시청 후 해당 Google 계정에 영구 귀속.</li>
-                        <li><strong class="text-emerald-400">Firebase 계정 동기화:</strong> 슬롯 개방 상태를 Firestore에 저장하여 기기를 바꿔도 동일 계정으로 복원.</li>
+                        <li><strong class="text-emerald-400">캠페인 후반 차량 구매 인플레이션 완화:</strong> 승객용 열차·선박·항공기 구매비용 인플레이션을 절반으로 낮춰 후반 스테이지에서도 신규 차량 구매가 원활하도록 개선</li>
+                        <li><strong class="text-emerald-400">캠페인 스테이지 3·4·16 연결목표 버그 수정</strong> 및 화물 운송수단 표시가격 불일치 수정</li>
                     </ul>
                 </div>
 
-                <!-- v4.4.36~v4.4.39 -->
+                <!-- v4.5.29~v4.5.31 -->
                 <div class="glass p-8 rounded-3xl update-card border-l-4 border-l-violet-500">
                     <div class="flex items-center gap-3 mb-6">
-                        <h4 class="text-2xl font-bold text-white">v4.4.36 ~ v4.4.39</h4>
-                        <span class="text-slate-500 text-sm ml-auto">2026-06-21</span>
+                        <h4 class="text-2xl font-bold text-white">v4.5.29 ~ v4.5.31</h4>
+                        <span class="text-slate-500 text-sm ml-auto">2026-07-30 ~ 08-04</span>
                     </div>
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
-                            <p class="text-xs font-bold text-violet-400 uppercase mb-2">인플레이션 전면 재조정</p>
-                            <p class="text-sm text-slate-300">활성도시 증가만으로 운임 수익이 기하급수적으로 폭증하던 삼중 지수 복합 버그 해결. 도시·시설·차량·매장·광고·운임 인플레이션 6개 수치를 최적 밸런스로 재설정.</p>
+                            <p class="text-xs font-bold text-violet-400 uppercase mb-2">캠페인 AI 플레이어 엔진 신설</p>
+                            <p class="text-sm text-slate-300">자유 모드에서만 가능했던 AI 경쟁을 캠페인 모드로 확장하는 헤드리스 시뮬레이션 엔진을 새로 구축했습니다.</p>
                         </div>
                         <div>
-                            <p class="text-xs font-bold text-violet-400 uppercase mb-2">게임 밸런스 개선</p>
-                            <p class="text-sm text-slate-300">도시 인플레이션 0.16 / 차량 0.14 / 매장·광고 0.10으로 조정. 후반부에도 역·도시 확장과 차량 추가에 전략적 부담감이 유지되도록 시뮬레이션 검증 후 적용.</p>
+                            <p class="text-xs font-bold text-violet-400 uppercase mb-2">클리어 조건 & 발전점수 명예의 전당</p>
+                            <p class="text-sm text-slate-300">목표 없는 자유/AI경쟁 스테이지에도 공통 클리어 조건(활성도시 150개, 최고레벨 20 등)과 발전점수 랭킹을 추가했습니다.</p>
                         </div>
                     </div>
                 </div>
@@ -120,7 +111,10 @@
                     <summary class="flex items-center justify-center p-4 glass rounded-xl cursor-pointer text-slate-500 hover:text-white transition">
                         <span>이전 업데이트 내역 보기</span>
                     </summary>
-                    <div class="p-6 mt-4 glass rounded-2xl text-slate-400 text-sm">
+                    <div class="p-6 mt-4 glass rounded-2xl text-slate-400 text-sm space-y-2">
+                        <p><strong>v4.4.66~v4.4.99:</strong> 자유 AI 경쟁 모드 최초 도입 — Claude/Gemini/GPT 엔진 경쟁력 균형화, 리더보드·역 인수 로직 다수 개선</p>
+                        <p><strong>v4.4.40~v4.4.41:</strong> 저장 슬롯 5개로 확장(광고 시청 기반 개방 + Firebase 동기화), 화면 꺼짐 방지 기능 추가</p>
+                        <p><strong>v4.4.36~v4.4.39:</strong> 도시·시설·차량·매장·광고·운임 인플레이션 6종 전면 재조정으로 후반부 밸런스 개선</p>
                         <p><strong>v4.3.00~v4.3.09:</strong> 비행 모드 각도 및 떨림 현상 수정 등</p>
                         <p><strong>v2.9.15:</strong> 남해안 및 제주/일본 구간 항로 최적화, 우회 경로 로직 개선</p>
                         <p><strong>v2.9.12:</strong> 런던 및 아드리아해 목표 수치 조정, 도시명 화이트 글로우 효과 적용</p>
@@ -134,13 +128,12 @@
         <div class="max-w-6xl mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-center gap-8">
                 <div>
-                    <h5 class="text-xl font-bold gradient-text mb-2">EmStudio — RailWayStudio</h5>
+                    <h5 class="text-xl font-bold gradient-text mb-2">EmStudio — 심지어타이쿤</h5>
                     <p class="text-slate-500 text-sm">Creative Simulation & Mobile Apps by Daduki</p>
                 </div>
                 <div class="flex space-x-6 text-xs font-medium text-slate-400">
                     <a href="index.html" class="hover:text-sky-400 transition">EmStudio Home</a>
                     <a href="dd-lifelog.html" class="hover:text-sky-400 transition">DD LifeLog</a>
-                    <a href="privacy.html" class="hover:text-sky-400 transition font-bold text-sky-400 underline">개인정보처리방침</a>
                     <a href="mailto:daduki@gmail.com" class="hover:text-sky-400 transition">Contact</a>
                 </div>
             </div>
