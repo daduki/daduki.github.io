@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="PkQVnc5XrT6IR2iHEEM-aWVXEXO8JDO2VF6aWgn__eE" />
+    <title>대만 가족 여행 대시보드 — 타이베이 3박 4일 (은찬 7세 & 은채 15개월) | EmStudio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap');
+        body { font-family: 'Pretendard', sans-serif; background-color: #020617; color: #f8fafc; }
+        .gradient-text { background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gradient-amber { background: linear-gradient(135deg, #fbbf24, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gradient-emerald { background: linear-gradient(135deg, #34d399, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,0.08); }
+        .glass-card { background: rgba(30, 41, 59, 0.65); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.08); }
+        .card-hover:hover { border-color: rgba(56, 189, 248, 0.4); transform: translateY(-2px); transition: all 0.25s ease; }
+        .tab-btn.active { background-color: #0284c7; color: #ffffff; border-color: #38bdf8; }
+        .ticket-cutout { position: relative; }
+        .ticket-cutout::before, .ticket-cutout::after {
+            content: ''; position: absolute; width: 20px; height: 20px; background-color: #020617; border-radius: 50%; z-index: 10;
+        }
+        .ticket-cutout::before { top: 50%; left: -10px; transform: translateY(-50%); }
+        .ticket-cutout::after { top: 50%; right: -10px; transform: translateY(-50%); }
+        @media print {
+            .no-print { display: none !important; }
+            body { background: #ffffff !important; color: #000000 !important; }
+            .glass, .glass-card { background: #ffffff !important; border: 1px solid #cbd5e1 !important; color: #000000 !important; }
+            .text-white, .text-slate-100, .text-slate-200, .text-slate-300 { color: #0f172a !important; }
+            .text-slate-400, .text-slate-500 { color: #475569 !important; }
+        }
+    </style>
+</head>
+<body class="scroll-smooth min-h-screen flex flex-col justify-between">
+
+    <!-- Header Navbar -->
+    <nav class="fixed w-full z-50 glass border-b border-white/5 no-print">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-3">
+                <span class="text-2xl">🇹🇼</span>
+                <div>
+                    <span class="text-lg md:text-xl font-extrabold text-white tracking-tight">대만가족여행</span>
+                    <span class="text-[10px] font-semibold text-sky-400 px-2 py-0.5 rounded bg-sky-500/10 border border-sky-500/20 ml-2">타이베이 3박 4일</span>
+                </div>
+            </a>
+            <div class="hidden md:flex space-x-6 text-sm font-medium text-slate-300 items-center">
+                <a href="index.html" class="hover:text-sky-400 transition">Home</a>
+                <a href="#flight" class="hover:text-sky-400 transition">✈️ 항공권 일정</a>
+                <a href="#itinerary" class="hover:text-sky-400 transition">📅 타임라인 스케쥴</a>
+                <a href="#baby-care" class="hover:text-sky-400 transition">👶 15개월 맞춤케어</a>
+                <a href="#checklist" class="hover:text-sky-400 transition">✅ 체크리스트</a>
+                <a href="#phrasebook" class="hover:text-sky-400 transition">🗣️ 소통카드</a>
+                <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-600 transition flex items-center gap-1.5">
+                    <span>🖨️ 인쇄/PDF</span>
+                </button>
+            </div>
+            <!-- Mobile Controls -->
+            <div class="md:hidden flex items-center gap-2">
+                <button onclick="window.print()" class="bg-slate-800 text-slate-200 text-xs px-2.5 py-1.5 rounded-lg border border-slate-700">🖨️</button>
+                <button id="mobileMenuBtn" class="p-2 text-slate-300 hover:text-white focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobileMenu" class="hidden md:hidden px-6 pt-2 pb-4 bg-slate-900 border-b border-slate-800 space-y-2 text-sm">
+            <a href="index.html" class="block py-1.5 text-slate-300 hover:text-sky-400">Home</a>
+            <a href="#flight" class="block py-1.5 text-slate-300 hover:text-sky-400">✈️ 왕복 항공권 일정</a>
+            <a href="#itinerary" class="block py-1.5 text-slate-300 hover:text-sky-400">📅 타임라인 스케쥴 관리</a>
+            <a href="#baby-care" class="block py-1.5 text-slate-300 hover:text-sky-400">👶 15개월 맞춤케어</a>
+            <a href="#checklist" class="block py-1.5 text-slate-300 hover:text-sky-400">✅ 준비 체크리스트</a>
+            <a href="#phrasebook" class="block py-1.5 text-slate-300 hover:text-sky-400">🗣️ 필수 소통카드</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-28 pb-20 px-4 md:px-6 max-w-6xl mx-auto flex-grow w-full">
+
+        <!-- Hero Section & D-Day Countdown -->
+        <section class="mb-10">
+            <div class="glass p-6 md:p-8 rounded-3xl border border-sky-500/30 relative overflow-hidden shadow-2xl">
+                <div class="absolute -right-16 -top-16 w-64 h-64 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -left-16 -bottom-16 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 relative z-10">
+                    <div class="max-w-2xl">
+                        <div class="flex flex-wrap items-center gap-2 mb-3">
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 flex items-center gap-1.5">
+                                <span>🇹🇼</span> 타이베이 3박 4일 가족 여행
+                            </span>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                                4인 가족 맞춤 투어
+                            </span>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
+                                <span>✈️</span> 진에어 왕복 확정
+                            </span>
+                        </div>
+                        <h1 class="text-3xl md:text-5xl font-black text-white tracking-tight leading-tight mb-3">
+                            은찬 & 은채와 함께하는<br>
+                            <span class="gradient-text">대만 가족 여행 대시보드</span>
+                        </h1>
+                        <p class="text-slate-300 text-sm md:text-base leading-relaxed mb-4">
+                            2026.11.21(토) ~ 11.24(화) · 7세 기차 매니아 은찬이와 15개월(2025.08.27생) 걸음마 토들러 은채의 안전하고 편안한 타이베이 힐링 여행!
+                        </p>
+
+                        <!-- Family Member Badges -->
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2">
+                            <div class="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700/60 text-center">
+                                <div class="text-lg mb-0.5">👨‍💼</div>
+                                <div class="text-xs font-bold text-white">아빠</div>
+                                <div class="text-[10px] text-slate-400">네비게이터 & 짐꾼</div>
+                            </div>
+                            <div class="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700/60 text-center">
+                                <div class="text-lg mb-0.5">👩‍💼</div>
+                                <div class="text-xs font-bold text-white">엄마</div>
+                                <div class="text-[10px] text-slate-400">케어 & 식단 총괄</div>
+                            </div>
+                            <div class="bg-slate-800/80 p-2.5 rounded-xl border border-sky-500/40 text-center bg-sky-950/20">
+                                <div class="text-lg mb-0.5">👦</div>
+                                <div class="text-xs font-bold text-sky-300">첫째 은찬 (7세)</div>
+                                <div class="text-[10px] text-sky-400">기차·오르골·게임</div>
+                            </div>
+                            <div class="bg-slate-800/80 p-2.5 rounded-xl border border-amber-500/40 text-center bg-amber-950/20">
+                                <div class="text-lg mb-0.5">👶</div>
+                                <div class="text-xs font-bold text-amber-300">둘째 은채 (15개월)</div>
+                                <div class="text-[10px] text-amber-400">걸음마·유아식·낮잠</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Countdown Card -->
+                    <div class="w-full lg:w-auto flex-shrink-0 bg-slate-900/90 p-5 rounded-2xl border border-sky-500/40 shadow-xl text-center min-w-[280px]">
+                        <div class="flex items-center justify-between gap-2 mb-3 pb-2 border-b border-slate-800">
+                            <span class="text-xs font-bold text-slate-400">🛫 인천공항 출국 D-Day</span>
+                            <span id="ddayBadge" class="text-xs font-extrabold px-2.5 py-0.5 rounded-full bg-sky-500 text-white shadow-sm animate-pulse">D-DAY</span>
+                        </div>
+                        <div class="grid grid-cols-4 gap-2 mb-3">
+                            <div class="bg-slate-800 p-2 rounded-lg border border-slate-700">
+                                <span id="cntDays" class="text-xl md:text-2xl font-black text-sky-400 block font-mono">00</span>
+                                <span class="text-[10px] text-slate-400">일</span>
+                            </div>
+                            <div class="bg-slate-800 p-2 rounded-lg border border-slate-700">
+                                <span id="cntHours" class="text-xl md:text-2xl font-black text-white block font-mono">00</span>
+                                <span class="text-[10px] text-slate-400">시간</span>
+                            </div>
+                            <div class="bg-slate-800 p-2 rounded-lg border border-slate-700">
+                                <span id="cntMinutes" class="text-xl md:text-2xl font-black text-white block font-mono">00</span>
+                                <span class="text-[10px] text-slate-400">분</span>
+                            </div>
+                            <div class="bg-slate-800 p-2 rounded-lg border border-slate-700">
+                                <span id="cntSeconds" class="text-xl md:text-2xl font-black text-amber-400 block font-mono">00</span>
+                                <span class="text-[10px] text-slate-400">초</span>
+                            </div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 flex items-center justify-center gap-1">
+                            <span>✈️</span> <span>2026.11.21(토) 09:35 서울(ICN) 출발 기준</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Summary Bar -->
+                <div class="mt-6 pt-5 border-t border-slate-800 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                    <div class="flex items-center gap-2 text-slate-300">
+                        <span class="text-base">🛫</span>
+                        <div>
+                            <span class="text-slate-500 block text-[10px]">출국편</span>
+                            <span class="font-bold text-sky-400">진에어 LJ0171 (09:35)</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 text-slate-300">
+                        <span class="text-base">🛬</span>
+                        <div>
+                            <span class="text-slate-500 block text-[10px]">귀국편</span>
+                            <span class="font-bold text-amber-400">진에어 LJ0172 (12:40)</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 text-slate-300">
+                        <span class="text-base">🏨</span>
+                        <div>
+                            <span class="text-slate-500 block text-[10px]">호텔 숙소</span>
+                            <span class="font-bold text-slate-200">타이베이 메인역 인근</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 text-slate-300">
+                        <span class="text-base">🎁</span>
+                        <div>
+                            <span class="text-slate-500 block text-[10px]">여행지원금</span>
+                            <span class="font-bold text-emerald-400">럭키랜드 QR (5,000 NTD)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Flight Schedule Details Section (Based on Real Ticket Image) -->
+        <section id="flight" class="mb-12">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <span>✈️</span> 왕복 비행기 상세 일정표 (진에어 JIN AIR)
+                    </h2>
+                    <p class="text-xs md:text-sm text-slate-400 mt-1">
+                        출국(LJ0171) & 귀국(LJ0172) 확정 스케줄 및 위탁수하물·유아 동반 탑승 정보
+                    </p>
+                </div>
+                <span class="self-start sm:self-auto text-xs font-semibold px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30">
+                    직항 왕복 · 일반석 (수하물 15kg 포함)
+                </span>
+            </div>
+
+            <!-- Flight Ticket Cards Grid -->
+            <div class="grid lg:grid-cols-2 gap-6">
+
+                <!-- 1. Outbound Flight Ticket (출국) -->
+                <div class="glass-card rounded-3xl border border-sky-500/40 p-6 relative overflow-hidden shadow-xl flex flex-col justify-between">
+                    <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-sky-400 to-indigo-500"></div>
+
+                    <div>
+                        <!-- Header & Flight Badge -->
+                        <div class="flex items-center justify-between pb-4 border-b border-slate-700/60 mb-5">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-8 h-8 rounded-lg bg-sky-500/20 text-sky-400 font-bold flex items-center justify-center text-sm border border-sky-500/30">🛫</span>
+                                <div>
+                                    <span class="text-xs font-bold text-sky-400 uppercase tracking-wider block">출국 상세일정</span>
+                                    <span class="text-sm font-extrabold text-white">11월 21일 (토)</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 border border-slate-700">
+                                    <span class="text-xs">🦋</span>
+                                    <span class="text-xs font-extrabold text-white">진에어 LJ0171</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Departure & Arrival Route Display -->
+                        <div class="flex items-center justify-between gap-2 my-4">
+                            <!-- Departure -->
+                            <div class="text-left">
+                                <div class="text-2xl sm:text-3xl font-black text-white font-mono">09:35</div>
+                                <div class="text-xs font-bold text-sky-300 mt-0.5">서울 (ICN)</div>
+                                <div class="text-[11px] text-slate-400">인천 국제공항 제2터미널</div>
+                            </div>
+
+                            <!-- Flight Duration Graphic -->
+                            <div class="flex-1 px-3 text-center">
+                                <div class="text-[11px] font-bold text-sky-400 mb-1">총 2시간 55분 비행</div>
+                                <div class="relative flex items-center justify-center">
+                                    <div class="w-full h-0.5 bg-slate-700"></div>
+                                    <div class="absolute bg-slate-900 px-2 text-slate-400 text-xs">✈️</div>
+                                </div>
+                                <div class="text-[10px] text-slate-500 mt-1">직항 (Direct)</div>
+                            </div>
+
+                            <!-- Arrival -->
+                            <div class="text-right">
+                                <div class="text-2xl sm:text-3xl font-black text-white font-mono">11:30</div>
+                                <div class="text-xs font-bold text-sky-300 mt-0.5">타이베이 (TPE)</div>
+                                <div class="text-[11px] text-slate-400">타오위안 국제공항 제1터미널</div>
+                            </div>
+                        </div>
+
+                        <!-- Ticket Specs Detail Table -->
+                        <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 text-xs space-y-2.5 mt-5">
+                            <div class="flex justify-between items-center text-slate-300">
+                                <span class="text-slate-400">좌석 등급 / 수하물</span>
+                                <span class="font-bold text-white">일반석 · 무료 위탁수하물 (15kg) 포함</span>
+                            </div>
+                            <div class="flex justify-between items-center text-slate-300">
+                                <span class="text-slate-400">공항 권장 도착 시간</span>
+                                <span class="font-bold text-amber-300">06:40 (출발 3시간 전)</span>
+                            </div>
+                            <div class="flex justify-between items-center text-slate-300">
+                                <span class="text-slate-400">15개월 은채 혜택</span>
+                                <span class="font-bold text-sky-300">교통약자 패스트트랙 & 유모차 게이트 체크인</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kid Flight Care Tip -->
+                    <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-start gap-2 bg-sky-950/20 p-2.5 rounded-xl border border-sky-900/40">
+                        <span class="text-amber-400 text-xs">💡</span>
+                        <span><strong>이착륙 팁:</strong> 09:35 이륙 및 11:30 착륙 시 은채 귀 통증 방지를 위해 빨대컵 보리차 또는 떡뻥 먹이기!</span>
+                    </div>
+                </div>
+
+                <!-- 2. Inbound Flight Ticket (귀국) -->
+                <div class="glass-card rounded-3xl border border-amber-500/40 p-6 relative overflow-hidden shadow-xl flex flex-col justify-between">
+                    <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-amber-400 to-rose-500"></div>
+
+                    <div>
+                        <!-- Header & Flight Badge -->
+                        <div class="flex items-center justify-between pb-4 border-b border-slate-700/60 mb-5">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 font-bold flex items-center justify-center text-sm border border-amber-500/30">🛬</span>
+                                <div>
+                                    <span class="text-xs font-bold text-amber-400 uppercase tracking-wider block">귀국 상세일정</span>
+                                    <span class="text-sm font-extrabold text-white">11월 24일 (화)</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 border border-slate-700">
+                                    <span class="text-xs">🦋</span>
+                                    <span class="text-xs font-extrabold text-white">진에어 LJ0172</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Departure & Arrival Route Display -->
+                        <div class="flex items-center justify-between gap-2 my-4">
+                            <!-- Departure -->
+                            <div class="text-left">
+                                <div class="text-2xl sm:text-3xl font-black text-white font-mono">12:40</div>
+                                <div class="text-xs font-bold text-amber-300 mt-0.5">타이베이 (TPE)</div>
+                                <div class="text-[11px] text-slate-400">타오위안 국제공항 제1터미널</div>
+                            </div>
+
+                            <!-- Flight Duration Graphic -->
+                            <div class="flex-1 px-3 text-center">
+                                <div class="text-[11px] font-bold text-amber-400 mb-1">총 2시간 20분 비행</div>
+                                <div class="relative flex items-center justify-center">
+                                    <div class="w-full h-0.5 bg-slate-700"></div>
+                                    <div class="absolute bg-slate-900 px-2 text-slate-400 text-xs">✈️</div>
+                                </div>
+                                <div class="text-[10px] text-slate-500 mt-1">직항 (Direct)</div>
+                            </div>
+
+                            <!-- Arrival -->
+                            <div class="text-right">
+                                <div class="text-2xl sm:text-3xl font-black text-white font-mono">16:00</div>
+                                <div class="text-xs font-bold text-amber-300 mt-0.5">서울 (ICN)</div>
+                                <div class="text-[11px] text-slate-400">인천 국제공항 제2터미널</div>
+                            </div>
+                        </div>
+
+                        <!-- Ticket Specs Detail Table -->
+                        <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 text-xs space-y-2.5 mt-5">
+                            <div class="flex justify-between items-center text-slate-300">
+                                <span class="text-slate-400">좌석 등급 / 수하물</span>
+                                <span class="font-bold text-white">일반석 · 무료 위탁수하물 (15kg) 포함</span>
+                            </div>
+                            <div class="flex justify-between items-center text-slate-300">
+                                <span class="text-slate-400">공항 권장 도착 시간</span>
+                                <span class="font-bold text-amber-300">10:00 (체크아웃 후 이동)</span>
+                            </div>
+                            <div class="flex justify-between items-center text-slate-300">
+                                <span class="text-slate-400">공항 대기 활용</span>
+                                <span class="font-bold text-emerald-300">타오위안 에어사이드 키즈존 & 수유실</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Return Flight Tip -->
+                    <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-start gap-2 bg-amber-950/20 p-2.5 rounded-xl border border-amber-900/40">
+                        <span class="text-amber-400 text-xs">💡</span>
+                        <span><strong>귀국 팁:</strong> 펑리수/누가크래커 등 기내 반입 및 위탁수하물 15kg 무게 초과되지 않도록 사전 체크!</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Itinerary Timeline & Live Schedule Editor Section -->
+        <section id="itinerary" class="mb-12">
+            <div class="glass p-6 md:p-8 rounded-3xl border border-sky-500/30">
+
+                <!-- Section Header with Action Buttons -->
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-slate-800">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                                <span>📅</span> 일자별 여행 스케쥴 타임라인
+                            </h2>
+                            <span class="text-xs bg-sky-500/20 text-sky-300 px-2.5 py-0.5 rounded-full border border-sky-500/30 font-semibold">실시간 수정 지원</span>
+                        </div>
+                        <p class="text-xs md:text-sm text-slate-400">
+                            항공 일정 및 15개월 토들러 케어 타임라인을 한눈에 확인하고 직접 수정·추가할 수 있습니다. (브라우저 자동 저장)
+                        </p>
+                    </div>
+
+                    <!-- Manager Controls -->
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button onclick="openAddModal()" class="bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-lg shadow-sky-900/30">
+                            <span>➕ 일정 추가</span>
+                        </button>
+                        <button onclick="resetItineraryToDefault()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-3 py-2 rounded-xl border border-slate-700 transition">
+                            🔄 추천일정 복원
+                        </button>
+                        <button onclick="exportItineraryJSON()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-3 py-2 rounded-xl border border-slate-700 transition">
+                            📤 내보내기
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Day Filter Tabs -->
+                <div class="flex flex-wrap gap-2 my-6">
+                    <button onclick="changeDayTab('all')" class="tab-btn active px-4 py-2 rounded-xl text-xs font-bold transition border border-slate-700" id="tab-all">
+                        전체 일정 (3박 4일)
+                    </button>
+                    <button onclick="changeDayTab('1')" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition border border-slate-800" id="tab-1">
+                        1일차 (11/21 토) · 출국 & 기차박물관
+                    </button>
+                    <button onclick="changeDayTab('2')" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition border border-slate-800" id="tab-2">
+                        2일차 (11/22 일) · 판다동물원 & 곤돌라
+                    </button>
+                    <button onclick="changeDayTab('3')" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition border border-slate-800" id="tab-3">
+                        3일차 (11/23 월) · 스펀천등 & 화산1914
+                    </button>
+                    <button onclick="changeDayTab('4')" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition border border-slate-800" id="tab-4">
+                        4일차 (11/24 화) · 귀국 (진에어 LJ0172)
+                    </button>
+                </div>
+
+                <!-- Timeline Container (Rendered dynamically by JavaScript) -->
+                <div id="timelineContainer" class="space-y-6">
+                    <!-- Dynamic Days and Events will appear here -->
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 15-Month Toddler Care Section -->
+        <section id="baby-care" class="mb-12">
+            <div class="flex items-center justify-between mb-5">
+                <div>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <span>👶</span> 15개월 은채 맞춤 토들러 케어 가이드
+                    </h2>
+                    <p class="text-xs md:text-sm text-slate-400 mt-1">
+                        2025.08.27생 ➔ 11월 여행 시점 <strong class="text-amber-300">딱 15개월(걸음마 시작 토들러)</strong>로 업그레이드된 식사·이동·오감 포인트!
+                    </p>
+                </div>
+                <span class="hidden sm:inline-block text-xs font-semibold px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                    완료기 이유식 & 걸음마
+                </span>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Point 1: Food & Meals -->
+                <div class="glass-card p-6 rounded-2xl border border-amber-500/30 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center text-xl border border-amber-500/30">🍚</span>
+                            <div>
+                                <h3 class="font-bold text-white text-base">식사 (완료기 이유식 & 유아식)</h3>
+                                <span class="text-[11px] text-amber-400">현지 식당 메뉴 쉐어 가능</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                            액상 분유나 시판 파우치에만 의존하지 않고, 대만 식당에서 부드러운 메뉴를 온 가족이 함께 먹을 수 있습니다.
+                        </p>
+                        <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-xs space-y-2">
+                            <div class="font-semibold text-amber-300 text-[11px]">✨ 추천 쉐어 메뉴:</div>
+                            <ul class="space-y-1 text-slate-300 text-[11px] list-disc list-inside">
+                                <li><strong>딤섬집:</strong> 새우 계란볶음밥(간 약하게), 샤오롱바오 속살</li>
+                                <li><strong>키키 레스토랑:</strong> 부드러운 계란 연두부 튀김(속살 최고)</li>
+                                <li><strong>길거리/디저트:</strong> 찐빵(바오즈) 빵, 고구마볼(띠과치우), 바나나</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center gap-1.5">
+                        <span>💡</span> <span>실리콘 턱받이 & 빨대 컵만 챙기면 일반 식당 프리패스!</span>
+                    </div>
+                </div>
+
+                <!-- Point 2: Walking & Sleep -->
+                <div class="glass-card p-6 rounded-2xl border border-sky-500/30 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="w-10 h-10 rounded-xl bg-sky-500/20 flex items-center justify-center text-xl border border-sky-500/30">🚶‍♂️</span>
+                            <div>
+                                <h3 class="font-bold text-white text-base">이동 & 걸음마 프리존</h3>
+                                <span class="text-[11px] text-sky-400">1일 1회 낮잠 맞춤 동선</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                            유모차에 누워만 있지 않고 아장아장 걷고 싶어 하는 시기! 안전한 평지 잔디밭과 실내 광장을 동선에 배치했습니다.
+                        </p>
+                        <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-xs space-y-2">
+                            <div class="font-semibold text-sky-300 text-[11px]">🌳 걸음마 안심 프리존:</div>
+                            <ul class="space-y-1 text-slate-300 text-[11px] list-disc list-inside">
+                                <li><strong>화산 1914 잔디밭:</strong> 차 없는 넓은 잔디광장 (비눗방울 놀이)</li>
+                                <li><strong>철도박물관 & 백화점:</strong> 쾌적한 실내 평지 산책 & 옥상정원</li>
+                                <li><strong>낮잠 패턴:</strong> 점심 후 1~2시간 ➔ 케이블카/유모차 이동 중 꿀잠</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center gap-1.5">
+                        <span>💡</span> <span>기내반입 휴대용 유모차는 부모님 체력의 핵심 무기!</span>
+                    </div>
+                </div>
+
+                <!-- Point 3: Sensory & Sibling Synergy -->
+                <div class="glass-card p-6 rounded-2xl border border-indigo-500/30 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="w-10 h-10 rounded-xl bg-indigo-500/20 flex items-center justify-center text-xl border border-indigo-500/30">👀</span>
+                            <div>
+                                <h3 class="font-bold text-white text-base">오감 반응 & 남매 시너지</h3>
+                                <span class="text-[11px] text-indigo-400">은찬(7세) & 은채(15개월) 케미</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                            동물과 불빛, 소리에 적극 반응하는 시기라 7세 은찬이와 함께 보고 즐기는 맛이 배가됩니다.
+                        </p>
+                        <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-xs space-y-2">
+                            <div class="font-semibold text-indigo-300 text-[11px]">🎈 남매 만족 포인트:</div>
+                            <ul class="space-y-1 text-slate-300 text-[11px] list-disc list-inside">
+                                <li><strong>동물원 판다 & 셔틀열차:</strong> 은채는 "어!" 손가락 반응, 은찬이는 기차 열광</li>
+                                <li><strong>스펀 기찻길 천등:</strong> 떠오르는 대형 풍등 불빛에 남매 동시 환호</li>
+                                <li><strong>야시장 게임 & 간식:</strong> 은찬이 핀볼/풍선 ➔ 은채는 고구마볼 간식</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center gap-1.5">
+                        <span>💡</span> <span>스펀은 4인 가족 단독 대절 택시로 쾌적하게 이동!</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Checklist Section -->
+        <section id="checklist" class="mb-12">
+            <div class="glass p-6 md:p-8 rounded-3xl border border-sky-500/30">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                            <span>✅</span> 여행 준비 상황 & 짐 싸기 체크리스트
+                        </h2>
+                        <p class="text-xs md:text-sm text-slate-400 mt-1">
+                            체크하면 브라우저에 자동 저장됩니다. 실시간 준비 진행률을 확인하세요!
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="text-right">
+                            <span class="text-xs text-slate-400">준비 완료율</span>
+                            <div id="progressText" class="text-lg font-black text-sky-400">0%</div>
+                        </div>
+                        <button onclick="resetChecklist()" class="text-xs text-slate-400 hover:text-rose-400 border border-slate-700 px-3 py-1.5 rounded-lg transition">
+                            초기화
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="w-full bg-slate-900 h-3 rounded-full overflow-hidden border border-slate-800 mb-8">
+                    <div id="progressBar" class="bg-gradient-to-r from-sky-500 to-indigo-500 h-full w-0 transition-all duration-500"></div>
+                </div>
+
+                <!-- Checklist Grid -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                    <!-- Category 1: 15-Month Baby Essentials -->
+                    <div class="bg-slate-900/80 p-5 rounded-2xl border border-amber-500/30">
+                        <div class="flex items-center gap-2 font-bold text-amber-300 text-sm mb-4 pb-2 border-b border-slate-800">
+                            <span>👶</span> 15개월 은채 필수 짐
+                        </div>
+                        <div class="space-y-2.5 text-xs">
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="item_baby_stroller" class="checklist-item rounded bg-slate-800 border-slate-700 text-sky-500 focus:ring-0 w-4 h-4">
+                                <label for="item_baby_stroller" class="text-slate-300 cursor-pointer">휴대용 유모차 (기내반입용 필수)</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="item_baby_bib" class="checklist-item rounded bg-slate-800 border-slate-700 text-sky-500 focus:ring-0 w-4 h-4">
+                                <label for="item_baby_bib" class="text-slate-300 cursor-pointer">실리콘 턱받이 & 아기 스푼/포크</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="item_baby_cup" class="checklist-item rounded bg-slate-800 border-slate-700 text-sky-500 focus:ring-0 w-4 h-4">
+                                <label for="item_baby_cup" class="text-slate-300 cursor-pointer">빨대 컵 & 보온병 (미온수용)</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="item_baby_food" class="checklist-item rounded bg-slate-800 border-slate-700 text-sky-500 focus:ring-0 w-4 h-4">
+                                <label for="item_baby_food" class="text-slate-300 cursor-pointer">비상용 실온 이유식 파우치 & 떡뻥 간식</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="item_baby_diaper" class="checklist-item rounded bg-slate-800 border-slate-700 text-sky-500 focus:ring-0 w-4 h-4">
+                                <label for="item_baby_diaper" class="text-slate-300 cursor-pointer">기저귀 (넉넉히 4일분) & 도톰한 물티슈</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category 2: Medical & Safety -->
+                    <div class="bg-slate-900/80 p-5 rounded-2xl border border-rose-500/30">
+                        <div class="flex items-center gap-2 font-bold text-rose-300 text-sm mb-4 pb-2 border-b border-slate-800">
+                            <span>💊</span> 상비약 & 위생 케어
+                        </div>
+                        <div class="space-y-2.5 text-xs">
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="item_med_fever" class="checklist-item rounded bg-slate-800 border-slate-700 text-sky-500 focus:ring-0 w-4 h-4">
+                                <label for="item_med_fever" class="text-slate-300 cursor-pointer">어린이 해열제 (교차복용 2종: 아세트/이부)</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="item_med_diarrhea" class="checklist-item rounded bg-slate-800 border-slate-700 text-sky-500 focus:ring-0 w-4 h-4">
+                                <label for="item_med_diarrhea" class="text-slate-300 cursor-pointer">지사제 & 유산균 & 정장제</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="item_med_mosquito" class="checklist-item rounded bg-slate-800 border-slate-700 text-sky-500 focus:ring-0 w-4 h-4">
+                                <label for="item_med_mosquito" class="text-slate-300 cursor-pointer">모기 기피제 & 가려움 패치 (대만 필수)</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="item_med_band" class="checklist-item rounded bg-slate-800 border-slate-700 text-sky-500 focus:ring-0 w-4 h-4">
+                                <label for="item_med_band" class="text-slate-300 cursor-pointer">방수 밴드 & 연고 & 체온계</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category 3: Documents & Admin -->
+                    <div class="bg-slate-900/80 p-5 rounded-2xl border border-sky-500/30">
+                        <div class="flex items-center gap-2 font-bold text-sky-300 text-sm mb-4 pb-2 border-b border-slate-800">
+                            <span>📋</span> 서류 & 사전 예약
+                        </div>
+                        <div class="space-y-2.5 text-xs">
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="item_doc_passport" class="checklist-item rounded bg-slate-800 border-slate-700 text-sky-500 focus:ring-0 w-4 h-4">
+                                <label for="item_doc_passport" class="text-slate-300 cursor-pointer">4인 가족 여권 (유효기간 6개월 이상)</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="item_doc_luckyland" class="checklist-item rounded bg-slate-800 border-slate-700 text-sky-500 focus:ring-0 w-4 h-4">
+                                <label for="item_doc_luckyland" class="text-slate-300 cursor-pointer">대만 럭키랜드 지원금 사전 QR 등록 (도착 1~7일 전)</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="item_doc_insurance" class="checklist-item rounded bg-slate-800 border-slate-700 text-sky-500 focus:ring-0 w-4 h-4">
+                                <label for="item_doc_insurance" class="text-slate-300 cursor-pointer">가족 여행자보험 가입</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="item_doc_taxi" class="checklist-item rounded bg-slate-800 border-slate-700 text-sky-500 focus:ring-0 w-4 h-4">
+                                <label for="item_doc_taxi" class="text-slate-300 cursor-pointer">3일차 스펀 프라이빗 단독 택시 대절 예약</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="item_doc_travelcard" class="checklist-item rounded bg-slate-800 border-slate-700 text-sky-500 focus:ring-0 w-4 h-4">
+                                <label for="item_doc_travelcard" class="text-slate-300 cursor-pointer">트래블로그 / 트래블월렛 대만달러 충전</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Chinese Phrasebook Section -->
+        <section id="phrasebook" class="mb-12">
+            <div class="glass p-6 md:p-8 rounded-3xl border border-sky-500/30">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                            <span>🗣️</span> 식당 & 유아 동반 필수 중국어 소통 카드
+                        </h2>
+                        <p class="text-xs md:text-sm text-slate-400 mt-1">
+                            카드를 클릭하면 한자가 복사되며, 식당 직원에게 화면을 보여주시면 즉시 통합니다!
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Phrase 1 -->
+                    <div onclick="copyText('請給我兒童座椅', this)" class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 hover:border-amber-500/50 cursor-pointer transition flex flex-col justify-between group">
+                        <div>
+                            <div class="flex justify-between items-center text-xs text-slate-400 mb-1">
+                                <span>🪑 아기의자 요청</span>
+                                <span class="group-hover:text-amber-300 transition text-[10px]">복사하기 📋</span>
+                            </div>
+                            <div class="text-lg font-bold text-amber-300 mb-1">請給我兒童座椅</div>
+                            <div class="text-xs text-slate-400">칭 게이 워 얼통 쭤이 (아기 의자 주세요)</div>
+                        </div>
+                    </div>
+
+                    <!-- Phrase 2 -->
+                    <div onclick="copyText('請少鹽少油 (給寶寶吃)', this)" class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 hover:border-amber-500/50 cursor-pointer transition flex flex-col justify-between group">
+                        <div>
+                            <div class="flex justify-between items-center text-xs text-slate-400 mb-1">
+                                <span>🧂 싱겁게 (유아식용)</span>
+                                <span class="group-hover:text-amber-300 transition text-[10px]">복사하기 📋</span>
+                            </div>
+                            <div class="text-lg font-bold text-amber-300 mb-1">請少鹽少油 (給寶寶吃)</div>
+                            <div class="text-xs text-slate-400">칭 샤오옌 샤오여우 (소금/기름 적게 해주세요)</div>
+                        </div>
+                    </div>
+
+                    <!-- Phrase 3 -->
+                    <div onclick="copyText('請給我溫水', this)" class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 hover:border-amber-500/50 cursor-pointer transition flex flex-col justify-between group">
+                        <div>
+                            <div class="flex justify-between items-center text-xs text-slate-400 mb-1">
+                                <span>🍼 미온수 요청</span>
+                                <span class="group-hover:text-amber-300 transition text-[10px]">복사하기 📋</span>
+                            </div>
+                            <div class="text-lg font-bold text-amber-300 mb-1">請給我溫水</div>
+                            <div class="text-xs text-slate-400">칭 게이 워 원수이 (따뜻한 물 주세요)</div>
+                        </div>
+                    </div>
+
+                    <!-- Phrase 4 -->
+                    <div onclick="copyText('不要香菜', this)" class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 hover:border-amber-500/50 cursor-pointer transition flex flex-col justify-between group">
+                        <div>
+                            <div class="flex justify-between items-center text-xs text-slate-400 mb-1">
+                                <span>🌿 고수 제외</span>
+                                <span class="group-hover:text-amber-300 transition text-[10px]">복사하기 📋</span>
+                            </div>
+                            <div class="text-lg font-bold text-amber-300 mb-1">不要香菜</div>
+                            <div class="text-xs text-slate-400">부야오 샹차이 (고수 넣지 말아주세요)</div>
+                        </div>
+                    </div>
+
+                    <!-- Phrase 5 -->
+                    <div onclick="copyText('請給我兒童餐具', this)" class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 hover:border-amber-500/50 cursor-pointer transition flex flex-col justify-between group">
+                        <div>
+                            <div class="flex justify-between items-center text-xs text-slate-400 mb-1">
+                                <span>🥄 유아 식기 요청</span>
+                                <span class="group-hover:text-amber-300 transition text-[10px]">복사하기 📋</span>
+                            </div>
+                            <div class="text-lg font-bold text-amber-300 mb-1">請給我兒童餐具</div>
+                            <div class="text-xs text-slate-400">칭 게이 워 얼통 찬쥐 (아기 수저/그릇 주세요)</div>
+                        </div>
+                    </div>
+
+                    <!-- Phrase 6 -->
+                    <div onclick="copyText('請問哺乳室在哪裡？', this)" class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 hover:border-amber-500/50 cursor-pointer transition flex flex-col justify-between group">
+                        <div>
+                            <div class="flex justify-between items-center text-xs text-slate-400 mb-1">
+                                <span>🤱 수유실/기저귀교환대</span>
+                                <span class="group-hover:text-amber-300 transition text-[10px]">복사하기 📋</span>
+                            </div>
+                            <div class="text-lg font-bold text-amber-300 mb-1">請問哺乳室在哪裡？</div>
+                            <div class="text-xs text-slate-400">칭원 푸루스 짜이 나리? (수유실 어디인가요?)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal for Adding / Editing Schedule Items -->
+    <div id="scheduleModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4 no-print">
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                <h3 id="modalTitle" class="text-lg font-bold text-white">일정 추가</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white text-xl">✕</button>
+            </div>
+
+            <form id="scheduleForm" onsubmit="saveScheduleItem(event)" class="space-y-4 text-xs">
+                <input type="hidden" id="editItemId" value="">
+                
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-slate-400 mb-1 font-semibold">여행 일자</label>
+                        <select id="itemDay" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-sky-500">
+                            <option value="1">1일차 (11/21 토)</option>
+                            <option value="2">2일차 (11/22 일)</option>
+                            <option value="3">3일차 (11/23 월)</option>
+                            <option value="4">4일차 (11/24 화)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1 font-semibold">카테고리</label>
+                        <select id="itemCategory" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-sky-500">
+                            <option value="flight">✈️ 비행/항공</option>
+                            <option value="food">🍱 식사/유아식</option>
+                            <option value="spot">🚂 관광/체험</option>
+                            <option value="toddler">👶 걸음마/낮잠</option>
+                            <option value="move">🚕 이동/교통</option>
+                            <option value="hotel">🏨 숙소/쇼핑</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-slate-400 mb-1 font-semibold">시간대 (예: 09:35~11:30)</label>
+                        <input type="text" id="itemTime" required placeholder="09:30~11:30" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-sky-500">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1 font-semibold">주요 장소 / 활동명</label>
+                        <input type="text" id="itemTitle" required placeholder="장소 또는 활동명" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-sky-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-slate-400 mb-1 font-semibold">상세 동선 및 내용</label>
+                    <textarea id="itemDesc" rows="3" required placeholder="동선 및 활동 세부 내용을 입력하세요." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-sky-500"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-amber-300 mb-1 font-semibold">💡 은찬(7세) & 은채(15개월) 키즈 케어 포인트 (선택)</label>
+                    <input type="text" id="itemKidsTip" placeholder="유아식 메뉴, 낮잠, 걸음마 프리존 등 팁" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-amber-200 focus:outline-none focus:border-amber-500">
+                </div>
+
+                <div class="flex justify-end gap-2 pt-3 border-t border-slate-800">
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold">취소</button>
+                    <button type="submit" class="px-5 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold shadow-lg shadow-sky-900/30">저장</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="glass border-t border-white/5 py-8 mt-12 no-print">
+        <div class="max-w-6xl mx-auto px-6 text-center text-xs text-slate-400">
+            <div class="flex flex-wrap justify-center gap-6 mb-4 font-semibold">
+                <a href="index.html" class="hover:text-sky-400 transition">EmStudio Home</a>
+                <a href="#flight" class="hover:text-sky-400 transition">항공권 일정</a>
+                <a href="#itinerary" class="hover:text-sky-400 transition">타임라인 스케쥴</a>
+                <a href="#baby-care" class="hover:text-sky-400 transition">15개월 맞춤케어</a>
+                <a href="dd-lifelog.html" class="hover:text-sky-400 transition">DD LifeLog</a>
+                <a href="railwaystudio.html" class="hover:text-sky-400 transition">심지어타이쿤</a>
+            </div>
+            <p>© 2026 EmStudio. Taiwan Family Trip Dashboard (Taipei 3N4D).</p>
+        </div>
+    </footer>
+
+    <!-- Interactive Scripts -->
+    <script>
+        // Default 4-Day Itinerary Data (Including precise Flight Info)
+        const defaultItinerary = [
+            // Day 1 (11/21 토)
+            {
+                id: 'ev_1_1',
+                day: 1,
+                time: '09:35 ~ 11:30',
+                category: 'flight',
+                categoryLabel: '✈️ 출국 비행 (진에어 LJ0171)',
+                title: '🛫 서울(ICN) 출발 ➔ 타오위안(TPE) 도착',
+                desc: '진에어 LJ0171 (일반석, 위탁수하물 15kg 포함, 총 2시간 55분 비행). 06:40 인천공항 도착 후 교통약자 패스트트랙 및 유모차 게이트 체크인.',
+                kidsTip: '이착륙 시 15개월 은채 귀통증 예방용 빨대컵 물 또는 떡뻥 제공. 은찬이는 기내 스티커북 놀이.'
+            },
+            {
+                id: 'ev_1_2',
+                day: 1,
+                time: '11:30 ~ 12:30',
+                category: 'move',
+                categoryLabel: '🎁 입국 수속 & 이벤트',
+                title: '타오위안 공항 입국 & 대만 럭키랜드 QR 추첨',
+                desc: '입국 심사 통과 후 럭키랜드 지원금 추첨 부스 참여 (5,000 NTD 혜택). 유심 및 교통카드 점검 후 공항철도(MRT 급행 37분) 탑승.',
+                kidsTip: '공항 내 기저귀 교환대 이용 및 유모차 수령 후 여유롭게 이동.'
+            },
+            {
+                id: 'ev_1_3',
+                day: 1,
+                time: '12:30 ~ 13:30',
+                category: 'hotel',
+                categoryLabel: '🏨 호텔 체크인',
+                title: '타이베이 메인역 부근 호텔 이동 & 짐 풀기',
+                desc: '공항철도 직결 메인역 인근 호텔 도착. 체크인 후 가벼운 복장 정비 및 외출 준비.',
+                kidsTip: '침대 가드 요청 및 이동 중 유아 수분 보충.'
+            },
+            {
+                id: 'ev_1_4',
+                day: 1,
+                time: '14:00 ~ 15:00',
+                category: 'food',
+                categoryLabel: '🥟 늦은 점심 (유아식 쉐어)',
+                title: '딘타이펑(Din Tai Fung) 또는 팀호완',
+                desc: '대만 대표 딤섬 레스토랑. 샤오롱바오, 갈비튀김 볶음밥, 찐만두.',
+                kidsTip: '15개월 은채: 새우 계란볶음밥(싱겁게 요청) + 만두 속살 으깨기. 아기의자 및 아기 식기 완비.'
+            },
+            {
+                id: 'ev_1_5',
+                day: 1,
+                time: '15:30 ~ 17:30',
+                category: 'spot',
+                categoryLabel: '🚂 기차 & 걸음마존',
+                title: '국립대만박물관 철도부원구 (Taiwan Railway Dept.)',
+                desc: '역사적인 철도 청사 박물관. 실물 증기기관차, 정교한 기차 디오라마 및 운전 시뮬레이션.',
+                kidsTip: '7세 은찬이는 기차 모형에 열광하고, 15개월 은채는 덥지 않은 실내 평지에서 아장아장 걸음마!'
+            },
+            {
+                id: 'ev_1_6',
+                day: 1,
+                time: '18:00 ~ 19:30',
+                category: 'spot',
+                categoryLabel: '🎯 야시장 산책',
+                title: '닝샤 야시장 (Ningxia Night Market) 초입 평지 코스',
+                desc: '유모차 이동이 수월한 평지 초입 위주로 산책 및 현지 미식 탐방.',
+                kidsTip: '은찬이는 핀볼 게임 & 풍선 터뜨리기, 은채는 갓 튀긴 부드러운 고구마볼(띠과치우) 핑거푸드.'
+            },
+
+            // Day 2 (11/22 일)
+            {
+                id: 'ev_2_1',
+                day: 2,
+                time: '09:30 ~ 13:00',
+                category: 'spot',
+                categoryLabel: '🐼 동물원 & 탈것',
+                title: '타이베이 시립 동물원 (Taipei Zoo)',
+                desc: '아시아 최대 규모 동물원. 자이언트 판다, 펭귄, 기린 관람 및 완만한 경사로 산책.',
+                kidsTip: '동물원 내부 셔틀 기차 탑승 (은찬이 대만족!). 은채는 판다와 동물들을 가리키며 "어!" 반응.'
+            },
+            {
+                id: 'ev_2_2',
+                day: 2,
+                time: '13:00 ~ 14:00',
+                category: 'food',
+                categoryLabel: '🍱 점심 식사',
+                title: '동물원 내 키즈 프렌들리 레스토랑 & 푸드코트',
+                desc: '동물원 내부 쾌적한 식당에서 여유로운 점심 식사.',
+                kidsTip: '챙겨온 퓨레 및 부드러운 밥 식사, 시원한 실내에서 충분한 수분 섭취.'
+            },
+            {
+                id: 'ev_2_3',
+                day: 2,
+                time: '14:30 ~ 16:30',
+                category: 'toddler',
+                categoryLabel: '🚡 케이블카 & 낮잠 골든타임',
+                title: '마오콩 곤돌라 (Maokong Gondola) & 은채 꿀잠',
+                desc: '동물원 상부역에서 바로 탑승. 바닥이 투명한 크리스탈 캐빈으로 타이베이 산과 도심 조망.',
+                kidsTip: '15개월 은채 1일 1회 낮잠 타임! 케이블카 풍경을 보다 유모차에서 1~2시간 꿀맛 낮잠.'
+            },
+            {
+                id: 'ev_2_4',
+                day: 2,
+                time: '17:30 ~ 19:30',
+                category: 'spot',
+                categoryLabel: '🎡 대관람차 & 백화점',
+                title: '미라마 백화점 (Miramar) 옥상 대관람차 & 푸드코트 저녁',
+                desc: '반짝이는 야경 대관람차 탑승 및 백화점 내 최고급 수유실, 기저귀 교환대 이용.',
+                kidsTip: '은찬이는 관람차 야경에 신나고 부모님은 쾌적한 백화점에서 편안하게 저녁 식사.'
+            },
+
+            // Day 3 (11/23 월)
+            {
+                id: 'ev_3_1',
+                day: 3,
+                time: '09:30 ~ 13:00',
+                category: 'move',
+                categoryLabel: '🏮 스펀 천등 (단독 택시 대절)',
+                title: '스펀(Shifen) 기찻길 천등 날리기 (프라이빗 택시 투어)',
+                desc: '4인 가족 단독 대절 차량으로 편안하게 이동. 실제 기차가 다니는 선로 위에서 네 식구의 소원을 적은 대형 풍등 날리기!',
+                kidsTip: '대형 풍등이 하늘로 떠오르는 불빛에 은찬&은채 남매 동시 환호! 인생 가족 사진 촬영.'
+            },
+            {
+                id: 'ev_3_2',
+                day: 3,
+                time: '13:30 ~ 15:00',
+                category: 'food',
+                categoryLabel: '🥢 점심 만찬',
+                title: '키키 레스토랑 (KiKi Restaurant)',
+                desc: '부드러운 계란 연두부 튀김, 파인애플 새우볼, 부추꽃볶음.',
+                kidsTip: '15개월 은채 최애 반찬: 푸딩처럼 부드러운 계란 연두부 튀김 속살!'
+            },
+            {
+                id: 'ev_3_3',
+                day: 3,
+                time: '15:30 ~ 17:30',
+                category: 'toddler',
+                categoryLabel: '🌳 걸음마 프리존 피크닉',
+                title: '화산 1914 창의문화원구 (도심 문화공원)',
+                desc: '넓은 잔디 광장 피크닉. 은찬이는 우더풀라이프 오르골 DIY 샵 및 캐릭터 팝업스토어 구경.',
+                kidsTip: '[걸음마 타임] 차가 다니지 않는 잔디밭에서 은채가 마음껏 아장아장 걷고 비눗방울 놀이.'
+            },
+            {
+                id: 'ev_3_4',
+                day: 3,
+                time: '18:00 ~ 20:00',
+                category: 'hotel',
+                categoryLabel: '🏙️ 마지막 밤 만찬 & 쇼핑',
+                title: '타이베이 101 타워 광장 야경 & 기념품 쇼핑',
+                desc: '랜드마크 101 타워 야경 감상 및 가족 기념품(펑리수, 누가크래커) 쇼핑.',
+                kidsTip: '아이들이 피곤하지 않도록 무리 없는 동선 유지 후 호텔 복귀.'
+            },
+
+            // Day 4 (11/24 화)
+            {
+                id: 'ev_4_1',
+                day: 4,
+                time: '08:30 ~ 09:30',
+                category: 'hotel',
+                categoryLabel: '🍳 조식 & 체크아웃',
+                title: '호텔 조식 & 짐 정리 (수하물 패킹)',
+                desc: '여유로운 아침 식사 및 체크아웃. 위탁수하물(15kg)과 기내 반입 유모차 분리.',
+                kidsTip: '호텔 방에 은채 젖병, 턱받이, 아기 물품 두고 가는 것 없는지 꼼꼼 점검.'
+            },
+            {
+                id: 'ev_4_2',
+                day: 4,
+                time: '09:40 ~ 10:20',
+                category: 'move',
+                categoryLabel: '🚊 공항 이동',
+                title: '공항철도(MRT 급행) 또는 픽업 택시로 타오위안 공항 이동',
+                desc: '타이베이 메인역에서 급행 MRT 탑승(37분 소요) ➔ 타오위안 제1터미널 도착.',
+                kidsTip: '은찬이는 마지막 기차 탑승 만끽, 유모차 탑승 상태로 안전 이동.'
+            },
+            {
+                id: 'ev_4_3',
+                day: 4,
+                time: '10:30 ~ 12:40',
+                category: 'flight',
+                categoryLabel: '🛍️ 공항 수속 & 키즈존',
+                title: '타오위안 공항 카운터 수속 & 면세점 키즈존 휴식',
+                desc: '진에어 LJ0172 탑승 수속 및 수하물 위탁. 출국장 에어사이드 키즈존에서 아이들 체력 발산 및 수유.',
+                kidsTip: '탑승 전 기저귀 교환 및 보온병에 미온수 리필 완료.'
+            },
+            {
+                id: 'ev_4_4',
+                day: 4,
+                time: '12:40 ~ 16:00',
+                category: 'flight',
+                categoryLabel: '✈️ 귀국 비행 (진에어 LJ0172)',
+                title: '🛫 타이베이(TPE) 출발 ➔ 16:00 서울(ICN) 인천공항 도착',
+                desc: '진에어 LJ0172 탑승 (총 2시간 20분 비행). 16:00 인천공항 제2터미널 도착 및 수하물/유모차 수령 후 귀가.',
+                kidsTip: '비행기 이착륙 시 빨대컵 물 제공. 행복하고 안전했던 3박 4일 대만 가족 여행 마무리!'
+            }
+        ];
+
+        // State variables
+        let itineraryData = [];
+        let currentTab = 'all';
+
+        // Load Itinerary from LocalStorage or Default
+        function loadItinerary() {
+            const saved = localStorage.getItem('emstudio_taiwan_itinerary_v2');
+            if (saved) {
+                try {
+                    itineraryData = JSON.parse(saved);
+                } catch (e) {
+                    itineraryData = JSON.parse(JSON.stringify(defaultItinerary));
+                }
+            } else {
+                itineraryData = JSON.parse(JSON.stringify(defaultItinerary));
+            }
+            renderTimeline();
+        }
+
+        // Save Itinerary to LocalStorage
+        function saveItineraryState() {
+            localStorage.setItem('emstudio_taiwan_itinerary_v2', JSON.stringify(itineraryData));
+            renderTimeline();
+        }
+
+        // Filter and Render Timeline
+        function renderTimeline() {
+            const container = document.getElementById('timelineContainer');
+            if (!container) return;
+
+            const daysToShow = currentTab === 'all' ? [1, 2, 3, 4] : [parseInt(currentTab)];
+            
+            const dayMeta = {
+                1: { title: '1일차 — 11월 21일 (토)', sub: '서울(ICN 09:35) 출국 ➔ 타이베이(TPE 11:30) ➔ 철도박물관 ➔ 닝샤 야시장', badge: '진에어 LJ0171 출국' },
+                2: { title: '2일차 — 11월 22일 (일)', sub: '타이베이 시립 동물원 ➔ 마오콩 케이블카(은채 낮잠) ➔ 미라마 대관람차', badge: '동물원 & 뷰 투어' },
+                3: { title: '3일차 — 11월 23일 (월)', sub: '스펀 기찻길 천등(단독택시) ➔ 키키 레스토랑 ➔ 화산 1914 잔디밭 ➔ 타이베이 101', badge: '가족 인생샷 & 피크닉' },
+                4: { title: '4일차 — 11월 24일 (화)', sub: '호텔 조식 ➔ 타오위안 공항(TPE 12:40) ➔ 인천공항(ICN 16:00) 안전 귀국', badge: '진에어 LJ0172 귀국' }
+            };
+
+            let html = '';
+
+            daysToShow.forEach(dayNum => {
+                const meta = dayMeta[dayNum];
+                const dayItems = itineraryData.filter(item => item.day === dayNum);
+
+                html += `
+                    <div class="glass p-5 md:p-6 rounded-2xl border border-slate-700/80 mb-6">
+                        <!-- Day Header -->
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-800">
+                            <div class="flex items-center gap-3">
+                                <span class="w-9 h-9 rounded-xl bg-sky-500 text-white font-black flex items-center justify-center text-sm shadow-md">${dayNum}일</span>
+                                <div>
+                                    <h3 class="text-base md:text-lg font-bold text-white">${meta.title}</h3>
+                                    <p class="text-xs text-slate-400">${meta.sub}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-[11px] font-semibold text-sky-400 px-3 py-1 bg-sky-950/50 rounded-full border border-sky-800">
+                                    ${meta.badge}
+                                </span>
+                                <button onclick="openAddModalForDay(${dayNum})" class="text-xs bg-slate-800 hover:bg-slate-700 text-sky-300 px-2.5 py-1 rounded-lg border border-slate-700 transition">
+                                    + 추가
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Item List -->
+                        <div class="space-y-4 mt-5">
+                `;
+
+                if (dayItems.length === 0) {
+                    html += `
+                        <div class="text-center py-6 text-xs text-slate-500">
+                            등록된 일정이 없습니다. [+ 추가] 버튼으로 새 일정을 등록해보세요.
+                        </div>
+                    `;
+                } else {
+                    dayItems.forEach(item => {
+                        let catBorder = 'border-slate-800';
+                        let timeColor = 'text-slate-400';
+                        if (item.category === 'flight') {
+                            catBorder = 'border-sky-500/40 bg-sky-950/10';
+                            timeColor = 'text-sky-400 font-bold';
+                        } else if (item.category === 'food') {
+                            catBorder = 'border-amber-500/30';
+                            timeColor = 'text-amber-400 font-bold';
+                        } else if (item.category === 'toddler') {
+                            catBorder = 'border-indigo-500/40 bg-indigo-950/10';
+                            timeColor = 'text-indigo-400 font-bold';
+                        }
+
+                        html += `
+                            <div class="flex gap-3 md:gap-4 items-start group">
+                                <div class="w-20 md:w-28 text-xs font-mono ${timeColor} pt-1 flex-shrink-0">
+                                    ${item.time}
+                                </div>
+                                <div class="bg-slate-900/90 p-4 rounded-2xl border ${catBorder} flex-grow transition hover:border-sky-500/50">
+                                    <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-xs font-bold text-white">${item.title}</span>
+                                            ${item.categoryLabel ? `<span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">${item.categoryLabel}</span>` : ''}
+                                        </div>
+                                        <div class="flex items-center gap-1 opacity-80 group-hover:opacity-100 transition no-print">
+                                            <button onclick="editScheduleItem('${item.id}')" class="text-[11px] text-sky-400 hover:text-sky-300 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">✏️ 수정</button>
+                                            <button onclick="deleteScheduleItem('${item.id}')" class="text-[11px] text-rose-400 hover:text-rose-300 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">🗑️</button>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-slate-300 leading-relaxed mb-2">${item.desc}</p>
+                                    ${item.kidsTip ? `
+                                        <div class="bg-slate-950/60 p-2.5 rounded-xl border border-amber-500/20 text-[11px] text-amber-300 flex items-start gap-1.5">
+                                            <span>👶</span>
+                                            <span><strong>키즈 케어 팁:</strong> ${item.kidsTip}</span>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Tab Filter Switching
+        function changeDayTab(tabKey) {
+            currentTab = tabKey;
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.add('text-slate-400');
+            });
+            const activeBtn = document.getElementById('tab-' + tabKey);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+                activeBtn.classList.remove('text-slate-400');
+            }
+            renderTimeline();
+        }
+
+        // Modal Handlers
+        function openAddModal() {
+            document.getElementById('modalTitle').innerText = '새 여행 일정 추가';
+            document.getElementById('editItemId').value = '';
+            document.getElementById('scheduleForm').reset();
+            document.getElementById('itemDay').value = currentTab === 'all' ? '1' : currentTab;
+            document.getElementById('scheduleModal').classList.remove('hidden');
+            document.getElementById('scheduleModal').classList.add('flex');
+        }
+
+        function openAddModalForDay(dayNum) {
+            openAddModal();
+            document.getElementById('itemDay').value = dayNum.toString();
+        }
+
+        function editScheduleItem(itemId) {
+            const item = itineraryData.find(i => i.id === itemId);
+            if (!item) return;
+
+            document.getElementById('modalTitle').innerText = '일정 수정';
+            document.getElementById('editItemId').value = item.id;
+            document.getElementById('itemDay').value = item.day.toString();
+            document.getElementById('itemCategory').value = item.category || 'spot';
+            document.getElementById('itemTime').value = item.time;
+            document.getElementById('itemTitle').value = item.title;
+            document.getElementById('itemDesc').value = item.desc;
+            document.getElementById('itemKidsTip').value = item.kidsTip || '';
+
+            document.getElementById('scheduleModal').classList.remove('hidden');
+            document.getElementById('scheduleModal').classList.add('flex');
+        }
+
+        function closeModal() {
+            document.getElementById('scheduleModal').classList.add('hidden');
+            document.getElementById('scheduleModal').classList.remove('flex');
+        }
+
+        function saveScheduleItem(e) {
+            e.preventDefault();
+            const editId = document.getElementById('editItemId').value;
+            const day = parseInt(document.getElementById('itemDay').value);
+            const category = document.getElementById('itemCategory').value;
+            const time = document.getElementById('itemTime').value;
+            const title = document.getElementById('itemTitle').value;
+            const desc = document.getElementById('itemDesc').value;
+            const kidsTip = document.getElementById('itemKidsTip').value;
+
+            const catLabelMap = {
+                flight: '✈️ 항공/비행',
+                food: '🍱 식사/유아식',
+                spot: '🚂 관광/체험',
+                toddler: '👶 걸음마/낮잠',
+                move: '🚕 이동/교통',
+                hotel: '🏨 숙소/쇼핑'
+            };
+
+            if (editId) {
+                // Update existing
+                const index = itineraryData.findIndex(i => i.id === editId);
+                if (index !== -1) {
+                    itineraryData[index] = {
+                        ...itineraryData[index],
+                        day, category, categoryLabel: catLabelMap[category] || '',
+                        time, title, desc, kidsTip
+                    };
+                }
+            } else {
+                // Add new
+                const newItem = {
+                    id: 'ev_' + Date.now(),
+                    day, category, categoryLabel: catLabelMap[category] || '',
+                    time, title, desc, kidsTip
+                };
+                itineraryData.push(newItem);
+            }
+
+            closeModal();
+            saveItineraryState();
+        }
+
+        function deleteScheduleItem(itemId) {
+            if (confirm('이 일정을 삭제하시겠습니까?')) {
+                itineraryData = itineraryData.filter(i => i.id !== itemId);
+                saveItineraryState();
+            }
+        }
+
+        function resetItineraryToDefault() {
+            if (confirm('추천 기본 3박 4일 일정으로 복원하시겠습니까? (기존 수정본은 초기화됩니다)')) {
+                itineraryData = JSON.parse(JSON.stringify(defaultItinerary));
+                saveItineraryState();
+            }
+        }
+
+        function exportItineraryJSON() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(itineraryData, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "taiwan_family_trip_itinerary.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        // Copy Text Helper
+        function copyText(text, cardEl) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originBg = cardEl.style.borderColor;
+                cardEl.style.borderColor = '#38bdf8';
+                const tip = document.createElement('div');
+                tip.innerText = '✓ 복사되었습니다!';
+                tip.className = 'text-[10px] text-sky-400 font-bold mt-1 animate-pulse';
+                cardEl.appendChild(tip);
+                setTimeout(() => {
+                    tip.remove();
+                    cardEl.style.borderColor = originBg;
+                }, 1500);
+            });
+        }
+
+        // D-Day Countdown Calculation (Departure: 2026-11-21 09:35:00)
+        function updateDDay() {
+            const targetDate = new Date('2026-11-21T09:35:00');
+            const now = new Date();
+            const diff = targetDate - now;
+
+            if (diff <= 0) {
+                document.getElementById('ddayBadge').innerText = '여행 진행 중!';
+                document.getElementById('cntDays').innerText = '00';
+                document.getElementById('cntHours').innerText = '00';
+                document.getElementById('cntMinutes').innerText = '00';
+                document.getElementById('cntSeconds').innerText = '00';
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / 1000 / 60) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('ddayBadge').innerText = `D-${days}`;
+            document.getElementById('cntDays').innerText = String(days).padStart(2, '0');
+            document.getElementById('cntHours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('cntMinutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('cntSeconds').innerText = String(seconds).padStart(2, '0');
+        }
+
+        // Checklist Progress Logic
+        function updateChecklistProgress() {
+            const checkboxes = document.querySelectorAll('.checklist-item');
+            if (checkboxes.length === 0) return;
+
+            let checkedCount = 0;
+            checkboxes.forEach(cb => {
+                if (cb.checked) checkedCount++;
+            });
+
+            const percent = Math.round((checkedCount / checkboxes.length) * 100);
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+
+            if (progressBar) progressBar.style.width = percent + '%';
+            if (progressText) progressText.innerText = percent + '% (' + checkedCount + '/' + checkboxes.length + ')';
+        }
+
+        function initChecklist() {
+            const checkboxes = document.querySelectorAll('.checklist-item');
+            checkboxes.forEach(cb => {
+                const saved = localStorage.getItem('chk_' + cb.id);
+                if (saved === 'true') {
+                    cb.checked = true;
+                }
+                cb.addEventListener('change', () => {
+                    localStorage.setItem('chk_' + cb.id, cb.checked);
+                    updateChecklistProgress();
+                });
+            });
+            updateChecklistProgress();
+        }
+
+        function resetChecklist() {
+            if (confirm('체크리스트를 모두 초기화하시겠습니까?')) {
+                const checkboxes = document.querySelectorAll('.checklist-item');
+                checkboxes.forEach(cb => {
+                    cb.checked = false;
+                    localStorage.removeItem('chk_' + cb.id);
+                });
+                updateChecklistProgress();
+            }
+        }
+
+        // Mobile Menu Toggle
+        document.getElementById('mobileMenuBtn')?.addEventListener('click', () => {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Initialize on DOM Loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            loadItinerary();
+            initChecklist();
+            updateDDay();
+            setInterval(updateDDay, 1000);
+        });
+    </script>
+</body>
+</html>

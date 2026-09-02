@@ -16,6 +16,12 @@ layout: null
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://daduki.github.io/taiwan-trip.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://daduki.github.io/dd-lifelog.html</loc>
     <lastmod>2026-08-12</lastmod>
     <changefreq>weekly</changefreq>
