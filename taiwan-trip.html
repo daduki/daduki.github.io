@@ -50,6 +50,7 @@
                 <a href="index.html" class="hover:text-sky-400 transition">Home</a>
                 <a href="#flight" class="hover:text-sky-400 transition">✈️ 항공권 일정</a>
                 <a href="#itinerary" class="hover:text-sky-400 transition">📅 타임라인 스케쥴</a>
+                <a href="#mrt-route" class="hover:text-sky-400 transition">🚇 MRT 동선</a>
                 <a href="#baby-care" class="hover:text-sky-400 transition">👶 15개월 맞춤케어</a>
                 <a href="#checklist" class="hover:text-sky-400 transition">✅ 체크리스트</a>
                 <a href="#phrasebook" class="hover:text-sky-400 transition">🗣️ 소통카드</a>
@@ -72,6 +73,7 @@
             <a href="index.html" class="block py-1.5 text-slate-300 hover:text-sky-400">Home</a>
             <a href="#flight" class="block py-1.5 text-slate-300 hover:text-sky-400">✈️ 왕복 항공권 일정</a>
             <a href="#itinerary" class="block py-1.5 text-slate-300 hover:text-sky-400">📅 타임라인 스케쥴 관리</a>
+            <a href="#mrt-route" class="block py-1.5 text-slate-300 hover:text-sky-400">🚇 MRT 노선도 & 동선</a>
             <a href="#baby-care" class="block py-1.5 text-slate-300 hover:text-sky-400">👶 15개월 맞춤케어</a>
             <a href="#checklist" class="block py-1.5 text-slate-300 hover:text-sky-400">✅ 준비 체크리스트</a>
             <a href="#phrasebook" class="block py-1.5 text-slate-300 hover:text-sky-400">🗣️ 필수 소통카드</a>
@@ -424,6 +426,133 @@
             </div>
         </section>
 
+        <!-- MRT Route Visualization Section -->
+        <section id="mrt-route" class="mb-12">
+            <div class="glass p-6 md:p-8 rounded-3xl border border-sky-500/30">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <span>🚇</span> MRT 노선도 & 일자별 이용 동선
+                    </h2>
+                    <p class="text-xs md:text-sm text-slate-400 mt-1">
+                        지도 위 배지는 "N일차-몇 번째 방문"을 의미합니다. 배지 색상 = 방문 일자, 지도가 복잡하면 하단 순서 목록을 함께 참고하세요.
+                    </p>
+                </div>
+
+                <!-- Day Color Legend -->
+                <div class="flex flex-wrap gap-2 mb-5">
+                    <span class="text-[11px] font-bold px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/40">● 1일차 (11/21)</span>
+                    <span class="text-[11px] font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">● 2일차 (11/22)</span>
+                    <span class="text-[11px] font-bold px-3 py-1 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/40">● 3일차 (11/23)</span>
+                    <span class="text-[11px] font-bold px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">● 4일차 (11/24)</span>
+                </div>
+
+                <!-- Map with Overlay Badges -->
+                <div class="relative w-full rounded-2xl overflow-hidden border border-slate-700 bg-white" style="position:relative;">
+                    <img src="images/taipei_mrt.webp" alt="타이베이 MRT 노선도" class="w-full h-auto block select-none" style="width:100%;height:auto;display:block;" draggable="false">
+
+                    <!-- 타오위안공항 (Taoyuan Airport, A12/A13): 1일차 탑승, 4일차 도착 -->
+                    <div class="absolute -translate-x-1/2 -translate-y-1/2" style="position:absolute;transform:translate(-50%,-50%);left:2%;top:25%;">
+                        <div class="w-3 h-3 rounded-full bg-white border-2 border-slate-900 shadow-md" style="width:12px;height:12px;border-radius:9999px;background:#fff;border:2px solid #0f172a;"></div>
+                        <div class="absolute top-full left-1/2 -translate-x-1/2 mt-0.5 flex flex-col items-center gap-0.5 whitespace-nowrap" style="position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:2px;display:flex;flex-direction:column;align-items:center;gap:2px;white-space:nowrap;">
+                            <span class="text-[8px] md:text-[9px] font-black px-1 py-px rounded bg-sky-500 text-white shadow" style="font-size:8px;font-weight:900;padding:0 3px;border-radius:4px;color:#fff;background:#0ea5e9;">1-①</span>
+                            <span class="text-[8px] md:text-[9px] font-black px-1 py-px rounded bg-amber-500 text-white shadow" style="font-size:8px;font-weight:900;padding:0 3px;border-radius:4px;color:#fff;background:#f59e0b;">4-②</span>
+                        </div>
+                    </div>
+
+                    <!-- 타이베이역 (Taipei Main Station): 1일차 도착·2박, 3일차 TRA 환승, 4일차 탑승 -->
+                    <div class="absolute -translate-x-1/2 -translate-y-1/2" style="position:absolute;transform:translate(-50%,-50%);left:41%;top:58%;">
+                        <div class="w-3.5 h-3.5 rounded-full bg-white border-2 border-slate-900 shadow-md" style="width:14px;height:14px;border-radius:9999px;background:#fff;border:2px solid #0f172a;"></div>
+                        <div class="absolute top-full left-1/2 -translate-x-1/2 mt-0.5 flex flex-col items-center gap-0.5 whitespace-nowrap" style="position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:2px;display:flex;flex-direction:column;align-items:center;gap:2px;white-space:nowrap;">
+                            <span class="text-[8px] md:text-[9px] font-black px-1 py-px rounded bg-sky-500 text-white shadow" style="font-size:8px;font-weight:900;padding:0 3px;border-radius:4px;color:#fff;background:#0ea5e9;">1-②</span>
+                            <span class="text-[8px] md:text-[9px] font-black px-1 py-px rounded bg-violet-500 text-white shadow" style="font-size:8px;font-weight:900;padding:0 3px;border-radius:4px;color:#fff;background:#8b5cf6;">3-①</span>
+                            <span class="text-[8px] md:text-[9px] font-black px-1 py-px rounded bg-amber-500 text-white shadow" style="font-size:8px;font-weight:900;padding:0 3px;border-radius:4px;color:#fff;background:#f59e0b;">4-①</span>
+                        </div>
+                    </div>
+
+                    <!-- 베이먼 (Beimen, G13): 철도부원구 박물관 -->
+                    <div class="absolute -translate-x-1/2 -translate-y-1/2" style="position:absolute;transform:translate(-50%,-50%);left:30.7%;top:54.7%;">
+                        <div class="w-3 h-3 rounded-full bg-white border-2 border-slate-900 shadow-md" style="width:12px;height:12px;border-radius:9999px;background:#fff;border:2px solid #0f172a;"></div>
+                        <span class="absolute top-full left-1/2 -translate-x-1/2 mt-0.5 text-[8px] md:text-[9px] font-black px-1 py-px rounded bg-sky-500 text-white shadow whitespace-nowrap" style="position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:2px;white-space:nowrap;font-size:8px;font-weight:900;padding:0 3px;border-radius:4px;color:#fff;background:#0ea5e9;">1-③</span>
+                    </div>
+
+                    <!-- 쏸롄 (Shuanglian, R12): 닝샤 야시장 -->
+                    <div class="absolute -translate-x-1/2 -translate-y-1/2" style="position:absolute;transform:translate(-50%,-50%);left:40.1%;top:49%;">
+                        <div class="w-3 h-3 rounded-full bg-white border-2 border-slate-900 shadow-md" style="width:12px;height:12px;border-radius:9999px;background:#fff;border:2px solid #0f172a;"></div>
+                        <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-0.5 text-[8px] md:text-[9px] font-black px-1 py-px rounded bg-sky-500 text-white shadow whitespace-nowrap" style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:2px;white-space:nowrap;font-size:8px;font-weight:900;padding:0 3px;border-radius:4px;color:#fff;background:#0ea5e9;">1-④</span>
+                    </div>
+
+                    <!-- 동물원 (Taipei Zoo, BR01): 동물원 + 마오콩 곤돌라 탑승 -->
+                    <div class="absolute -translate-x-1/2 -translate-y-1/2" style="position:absolute;transform:translate(-50%,-50%);left:86.7%;top:81.3%;">
+                        <div class="w-3 h-3 rounded-full bg-white border-2 border-slate-900 shadow-md" style="width:12px;height:12px;border-radius:9999px;background:#fff;border:2px solid #0f172a;"></div>
+                        <span class="absolute top-full left-1/2 -translate-x-1/2 mt-0.5 text-[8px] md:text-[9px] font-black px-1 py-px rounded bg-emerald-500 text-white shadow whitespace-nowrap" style="position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:2px;white-space:nowrap;font-size:8px;font-weight:900;padding:0 3px;border-radius:4px;color:#fff;background:#10b981;">2-①</span>
+                    </div>
+
+                    <!-- 젠난루 (Jiannan Rd, BR15): 미라마 백화점 -->
+                    <div class="absolute -translate-x-1/2 -translate-y-1/2" style="position:absolute;transform:translate(-50%,-50%);left:61.5%;top:37.9%;">
+                        <div class="w-3 h-3 rounded-full bg-white border-2 border-slate-900 shadow-md" style="width:12px;height:12px;border-radius:9999px;background:#fff;border:2px solid #0f172a;"></div>
+                        <span class="absolute top-full left-1/2 -translate-x-1/2 mt-0.5 text-[8px] md:text-[9px] font-black px-1 py-px rounded bg-emerald-500 text-white shadow whitespace-nowrap" style="position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:2px;white-space:nowrap;font-size:8px;font-weight:900;padding:0 3px;border-radius:4px;color:#fff;background:#10b981;">2-②</span>
+                    </div>
+
+                    <!-- 중샤오신성 (Zhongxiao Xinsheng, BL14/O07): 화산1914 -->
+                    <div class="absolute -translate-x-1/2 -translate-y-1/2" style="position:absolute;transform:translate(-50%,-50%);left:51%;top:59%;">
+                        <div class="w-3 h-3 rounded-full bg-white border-2 border-slate-900 shadow-md" style="width:12px;height:12px;border-radius:9999px;background:#fff;border:2px solid #0f172a;"></div>
+                        <span class="absolute top-full left-1/2 -translate-x-1/2 mt-0.5 text-[8px] md:text-[9px] font-black px-1 py-px rounded bg-violet-500 text-white shadow whitespace-nowrap" style="position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:2px;white-space:nowrap;font-size:8px;font-weight:900;padding:0 3px;border-radius:4px;color:#fff;background:#8b5cf6;">3-②</span>
+                    </div>
+
+                    <!-- 타이베이101/세계무역센터 (R02): 타이베이101 야경 -->
+                    <div class="absolute -translate-x-1/2 -translate-y-1/2" style="position:absolute;transform:translate(-50%,-50%);left:82.6%;top:64.5%;">
+                        <div class="w-3 h-3 rounded-full bg-white border-2 border-slate-900 shadow-md" style="width:12px;height:12px;border-radius:9999px;background:#fff;border:2px solid #0f172a;"></div>
+                        <span class="absolute top-full left-1/2 -translate-x-1/2 mt-0.5 text-[8px] md:text-[9px] font-black px-1 py-px rounded bg-violet-500 text-white shadow whitespace-nowrap" style="position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:2px;white-space:nowrap;font-size:8px;font-weight:900;padding:0 3px;border-radius:4px;color:#fff;background:#8b5cf6;">3-③</span>
+                    </div>
+                </div>
+
+                <!-- Off-map Note: Shifen via TRA + Pingxi Line -->
+                <div class="mt-4 bg-violet-950/20 border border-violet-800/40 rounded-xl p-3 text-[11px] text-violet-200 flex items-start gap-2">
+                    <span>🚂</span>
+                    <span><strong>지도 밖 구간(3일차):</strong> 스펀은 타이베이 MRT 노선이 닿지 않아 위 지도에는 표시되지 않습니다. 타이베이역에서 타이완철도(TRA) 이란선으로 루이팡(瑞芳)역까지 이동 후, 핑시선(平溪線) 소형열차로 환승해야 스펀에 도착합니다.</span>
+                </div>
+
+                <!-- Day-by-Day Station Order Legend -->
+                <div class="grid md:grid-cols-2 gap-4 mt-6">
+                    <div class="bg-slate-900/80 p-4 rounded-2xl border border-sky-500/30">
+                        <div class="font-bold text-sky-300 text-sm mb-2">🔵 1일차 이용역 순서</div>
+                        <ol class="text-xs text-slate-300 space-y-1 list-decimal list-inside">
+                            <li>타오위안공항 (A12/A13) — 공항철도 탑승</li>
+                            <li>타이베이역 (A1) — 하차 · 호텔 체크인</li>
+                            <li>베이먼 (G13) — 철도부원구 박물관</li>
+                            <li>쏸롄 (Shuanglian) — 닝샤 야시장</li>
+                        </ol>
+                    </div>
+                    <div class="bg-slate-900/80 p-4 rounded-2xl border border-emerald-500/30">
+                        <div class="font-bold text-emerald-300 text-sm mb-2">🟢 2일차 이용역 순서</div>
+                        <ol class="text-xs text-slate-300 space-y-1 list-decimal list-inside">
+                            <li>동물원 (BR01) — 타이베이 동물원 · 마오콩 곤돌라 탑승</li>
+                            <li>젠난루 (BR15) — 미라마 백화점 · 대관람차</li>
+                        </ol>
+                    </div>
+                    <div class="bg-slate-900/80 p-4 rounded-2xl border border-violet-500/30">
+                        <div class="font-bold text-violet-300 text-sm mb-2">🟣 3일차 이용역 순서</div>
+                        <ol class="text-xs text-slate-300 space-y-1 list-decimal list-inside">
+                            <li>타이베이역 (A1) — TRA 이란선 환승 탑승 <span class="text-violet-400">(→ 루이팡 → 핑시선 환승 → 스펀, 지도 밖)</span></li>
+                            <li>중샤오신성 (BL14/O07) — 화산 1914 창의문화원구</li>
+                            <li>타이베이101/세계무역센터 (R02) — 101 타워 야경</li>
+                        </ol>
+                    </div>
+                    <div class="bg-slate-900/80 p-4 rounded-2xl border border-amber-500/30">
+                        <div class="font-bold text-amber-300 text-sm mb-2">🟠 4일차 이용역 순서</div>
+                        <ol class="text-xs text-slate-300 space-y-1 list-decimal list-inside">
+                            <li>타이베이역 (A1) — 공항철도(급행) 탑승</li>
+                            <li>타오위안공항 (A12/A13) — 도착 · 출국 수속</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <p class="text-[10px] text-slate-500 mt-4">
+                    ※ MRT 노선도는 사용자가 업로드한 노선 안내도 기준이며, 각 역의 실제 위치는 지도와 정확히 비례하지 않을 수 있습니다.
+                </p>
+            </div>
+        </section>
+
         <!-- 15-Month Toddler Care Section -->
         <section id="baby-care" class="mb-12">
             <div class="flex items-center justify-between mb-5">
@@ -518,7 +647,7 @@
                         </div>
                     </div>
                     <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center gap-1.5">
-                        <span>💡</span> <span>스펀은 4인 가족 단독 대절 택시로 쾌적하게 이동!</span>
+                        <span>💡</span> <span>스펀은 타이베이역→루이팡(TRA 이란선)→핑시선 환승 완행열차로 이동! 기차 마니아 은찬이에게는 이동 자체가 하이라이트</span>
                     </div>
                 </div>
             </div>
@@ -629,7 +758,7 @@
                             </div>
                             <div class="flex items-center gap-2">
                                 <input type="checkbox" id="item_doc_taxi" class="checklist-item rounded bg-slate-800 border-slate-700 text-sky-500 focus:ring-0 w-4 h-4">
-                                <label for="item_doc_taxi" class="text-slate-300 cursor-pointer">3일차 스펀 프라이빗 단독 택시 대절 예약</label>
+                                <label for="item_doc_taxi" class="text-slate-300 cursor-pointer">3일차 스펀 왕복 TRA(이란선)+핑시선 기차표 예매/구매 확인</label>
                             </div>
                             <div class="flex items-center gap-2">
                                 <input type="checkbox" id="item_doc_travelcard" class="checklist-item rounded bg-slate-800 border-slate-700 text-sky-500 focus:ring-0 w-4 h-4">
@@ -804,6 +933,7 @@
                 <a href="index.html" class="hover:text-sky-400 transition">EmStudio Home</a>
                 <a href="#flight" class="hover:text-sky-400 transition">항공권 일정</a>
                 <a href="#itinerary" class="hover:text-sky-400 transition">타임라인 스케쥴</a>
+                <a href="#mrt-route" class="hover:text-sky-400 transition">MRT 동선</a>
                 <a href="#baby-care" class="hover:text-sky-400 transition">15개월 맞춤케어</a>
                 <a href="dd-lifelog.html" class="hover:text-sky-400 transition">DD LifeLog</a>
                 <a href="railwaystudio.html" class="hover:text-sky-400 transition">심지어타이쿤</a>
@@ -926,10 +1056,10 @@
                 day: 3,
                 time: '09:30 ~ 13:00',
                 category: 'move',
-                categoryLabel: '🏮 스펀 천등 (단독 택시 대절)',
-                title: '스펀(Shifen) 기찻길 천등 날리기 (프라이빗 택시 투어)',
-                desc: '4인 가족 단독 대절 차량으로 편안하게 이동. 실제 기차가 다니는 선로 위에서 네 식구의 소원을 적은 대형 풍등 날리기!',
-                kidsTip: '대형 풍등이 하늘로 떠오르는 불빛에 은찬&은채 남매 동시 환호! 인생 가족 사진 촬영.'
+                categoryLabel: '🚂 스펀 천등 (TRA+핑시선 열차)',
+                title: '스펀(Shifen) 기찻길 천등 날리기 (타이베이역→루이팡 TRA→핑시선 환승)',
+                desc: '타이베이역에서 이란선(TRA) 열차로 루이팡(瑞芳)역까지 이동 후, 핑시선(平溪線) 소형 열차로 환승 (환승 포함 약 1시간~1시간 20분 소요). 실제 기차가 다니는 선로 위에서 네 식구의 소원을 적은 대형 풍등 날리기!',
+                kidsTip: '기차 마니아 은찬이에게는 TRA 완행열차+핑시선 소형열차 탑승 자체가 하이라이트! 대형 풍등이 하늘로 떠오르는 불빛에 은찬&은채 남매 동시 환호, 인생 가족 사진 촬영.'
             },
             {
                 id: 'ev_3_2',
@@ -1040,7 +1170,7 @@
             const dayMeta = {
                 1: { title: '1일차 — 11월 21일 (토)', sub: '서울(ICN 09:35) 출국 ➔ 타이베이(TPE 11:30) ➔ 철도박물관 ➔ 닝샤 야시장', badge: '진에어 LJ0171 출국' },
                 2: { title: '2일차 — 11월 22일 (일)', sub: '타이베이 시립 동물원 ➔ 마오콩 케이블카(은채 낮잠) ➔ 미라마 대관람차', badge: '동물원 & 뷰 투어' },
-                3: { title: '3일차 — 11월 23일 (월)', sub: '스펀 기찻길 천등(단독택시) ➔ 키키 레스토랑 ➔ 화산 1914 잔디밭 ➔ 타이베이 101', badge: '가족 인생샷 & 피크닉' },
+                3: { title: '3일차 — 11월 23일 (월)', sub: '스펀 기찻길 천등(타이베이역→루이팡→핑시선 열차) ➔ 키키 레스토랑 ➔ 화산 1914 잔디밭 ➔ 타이베이 101', badge: '가족 인생샷 & 피크닉' },
                 4: { title: '4일차 — 11월 24일 (화)', sub: '호텔 조식 ➔ 타오위안 공항(TPE 12:40) ➔ 인천공항(ICN 16:00) 안전 귀국', badge: '진에어 LJ0172 귀국' }
             };
 
