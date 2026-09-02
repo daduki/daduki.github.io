@@ -1,5 +1,24 @@
 # 릴리즈 노트 (Release Notes)
 
+## [v1.4.0] - 2026-09-02 (Em Studio Discography YouTube 링크 전환 및 2026.09.04 신규 앨범 추가)
+
+### 💿 Em Studio Discography 전면 개편
+- **Bugs 링크 전면 교체**:
+  - `index.html` 및 모든 음반 상세 페이지(`discography/*.html`) 내 "Bugs에서..." 링크를 "YouTube에서..."로 전면 교체
+  - 클릭 시 Bugs 사이트 대신 공식 **YouTube 플레이리스트(`https://youtube.com/playlist?list=PLd5tA5F0A5eF2Cu-k4k_q_TQ2TiD-045u`)**로 즉시 이동하도록 수정
+- **2026년 9월 4일 신규 앨범 추가**:
+  - 아티스트: **조대득밴드**
+  - 앨범명: **신과함께 라면** (2026.09.04 발매 예정)
+  - 앨범 커버: 기존 "신과함께 라면" 이미지 (`images/20250107.jpg`) 동일 적용
+  - 트랙리스트:
+    1. **신과함께 라면** (TITLE)
+    2. **비워둔 자리**
+    3. **오기우있**
+  - 음원 링크 상태: 미출시 트랙에 맞추어 `9월 4일 출시` 뱃지 및 애니메이션 펄스 표시
+  - 전용 상세 페이지(`discography/jodaedeuk-20260904-album.html`) 생성 및 사이트맵 등록
+
+---
+
 ## [v1.3.1] - 2026-09-02 (대만 키즈 카드뉴스 이미지 고도화 & 실제 대만 명소/풍경 사진 전면 교체)
 
 ### 📸 카드뉴스 이미지 정확도 및 시각 경험 향상 (`taiwan-kids-cards.html`)
