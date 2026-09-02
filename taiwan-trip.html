@@ -949,6 +949,7 @@
             // Day 1 (11/21 토)
             {
                 id: 'ev_1_1',
+                images: ['ev_1_1-1.jpg'],
                 day: 1,
                 time: '09:35 ~ 11:30',
                 category: 'flight',
@@ -959,6 +960,7 @@
             },
             {
                 id: 'ev_1_2',
+                images: ['ev_1_2-1.jpg'],
                 day: 1,
                 time: '11:30 ~ 12:30',
                 category: 'move',
@@ -969,6 +971,7 @@
             },
             {
                 id: 'ev_1_3',
+                images: ['ev_1_3-1.jpg'],
                 day: 1,
                 time: '12:30 ~ 13:30',
                 category: 'hotel',
@@ -979,6 +982,7 @@
             },
             {
                 id: 'ev_1_4',
+                images: ['ev_1_4-1.jpg', 'ev_1_4-2.jpg'],
                 day: 1,
                 time: '14:00 ~ 15:00',
                 category: 'food',
@@ -989,6 +993,7 @@
             },
             {
                 id: 'ev_1_5',
+                images: ['ev_1_5-1.jpg', 'ev_1_5-2.jpg'],
                 day: 1,
                 time: '15:30 ~ 17:30',
                 category: 'spot',
@@ -999,6 +1004,7 @@
             },
             {
                 id: 'ev_1_6',
+                images: ['ev_1_6-1.jpg', 'ev_1_6-2.jpg'],
                 day: 1,
                 time: '18:00 ~ 19:30',
                 category: 'spot',
@@ -1011,6 +1017,7 @@
             // Day 2 (11/22 일)
             {
                 id: 'ev_2_1',
+                images: ['ev_2_1-1.jpg', 'ev_2_1-2.jpg'],
                 day: 2,
                 time: '09:30 ~ 13:00',
                 category: 'spot',
@@ -1021,6 +1028,7 @@
             },
             {
                 id: 'ev_2_2',
+                images: ['ev_2_2-1.jpg'],
                 day: 2,
                 time: '13:00 ~ 14:00',
                 category: 'food',
@@ -1031,6 +1039,7 @@
             },
             {
                 id: 'ev_2_3',
+                images: ['ev_2_3-1.jpg', 'ev_2_3-2.jpg'],
                 day: 2,
                 time: '14:30 ~ 16:30',
                 category: 'toddler',
@@ -1041,6 +1050,7 @@
             },
             {
                 id: 'ev_2_4',
+                images: ['ev_2_4-1.jpg', 'ev_2_4-2.jpg'],
                 day: 2,
                 time: '17:30 ~ 19:30',
                 category: 'spot',
@@ -1053,6 +1063,7 @@
             // Day 3 (11/23 월)
             {
                 id: 'ev_3_1',
+                images: ['ev_3_1-1.jpg', 'ev_3_1-2.jpg'],
                 day: 3,
                 time: '09:30 ~ 13:00',
                 category: 'move',
@@ -1063,6 +1074,7 @@
             },
             {
                 id: 'ev_3_2',
+                images: ['ev_3_2-1.jpg', 'ev_3_2-2.jpg'],
                 day: 3,
                 time: '13:30 ~ 15:00',
                 category: 'food',
@@ -1073,6 +1085,7 @@
             },
             {
                 id: 'ev_3_3',
+                images: ['ev_3_3-1.jpg', 'ev_3_3-2.jpg'],
                 day: 3,
                 time: '15:30 ~ 17:30',
                 category: 'toddler',
@@ -1083,6 +1096,7 @@
             },
             {
                 id: 'ev_3_4',
+                images: ['ev_3_4-1.jpg', 'ev_3_4-2.jpg'],
                 day: 3,
                 time: '18:00 ~ 20:00',
                 category: 'hotel',
@@ -1095,6 +1109,7 @@
             // Day 4 (11/24 화)
             {
                 id: 'ev_4_1',
+                images: ['ev_4_1-1.jpg'],
                 day: 4,
                 time: '08:30 ~ 09:30',
                 category: 'hotel',
@@ -1105,6 +1120,7 @@
             },
             {
                 id: 'ev_4_2',
+                images: ['ev_4_2-1.jpg'],
                 day: 4,
                 time: '09:40 ~ 10:20',
                 category: 'move',
@@ -1115,6 +1131,7 @@
             },
             {
                 id: 'ev_4_3',
+                images: ['ev_4_3-1.jpg'],
                 day: 4,
                 time: '10:30 ~ 12:40',
                 category: 'flight',
@@ -1125,6 +1142,7 @@
             },
             {
                 id: 'ev_4_4',
+                images: ['ev_4_4-1.jpg'],
                 day: 4,
                 time: '12:40 ~ 16:00',
                 category: 'flight',
@@ -1138,6 +1156,25 @@
         // State variables
         let itineraryData = [];
         let currentTab = 'all';
+        let expandedItemIds = new Set();
+
+        // Toggle a timeline card's expanded (detail) state
+        function toggleItemDetail(itemId) {
+            if (expandedItemIds.has(itemId)) {
+                expandedItemIds.delete(itemId);
+            } else {
+                expandedItemIds.add(itemId);
+            }
+            renderTimeline();
+        }
+
+        // Replace a broken/missing timeline image with a labeled placeholder
+        function handleImgError(imgEl, filename) {
+            const wrap = imgEl.parentElement;
+            if (!wrap) return;
+            wrap.innerHTML = `<div class="w-full h-full flex flex-col items-center justify-center text-slate-500 text-center px-0.5 leading-tight" style="font-size:7px;">📷<br>${filename}</div>`;
+            wrap.style.borderStyle = 'dashed';
+        }
 
         // Load Itinerary from LocalStorage or Default
         function loadItinerary() {
@@ -1226,29 +1263,63 @@
                             timeColor = 'text-indigo-400 font-bold';
                         }
 
+                        const images = item.images || [];
+                        const isExpanded = expandedItemIds.has(item.id);
+
+                        const thumbStrip = images.length ? `
+                            <div class="flex gap-1.5 mt-2">
+                                ${images.map(fn => `
+                                    <div class="w-14 h-14 rounded-lg overflow-hidden border border-slate-700 flex-shrink-0 bg-slate-800">
+                                        <img src="images/taiwan-trip/${fn}" alt="" class="w-full h-full object-cover" loading="lazy" onerror="handleImgError(this,'${fn}')">
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : '';
+
+                        const bigGallery = images.length ? `
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-3">
+                                ${images.map(fn => `
+                                    <div class="aspect-square rounded-xl overflow-hidden border border-slate-700 bg-slate-800">
+                                        <img src="images/taiwan-trip/${fn}" alt="" class="w-full h-full object-cover" loading="lazy" onerror="handleImgError(this,'${fn}')">
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : '';
+
                         html += `
                             <div class="flex gap-3 md:gap-4 items-start group">
                                 <div class="w-20 md:w-28 text-xs font-mono ${timeColor} pt-1 flex-shrink-0">
                                     ${item.time}
                                 </div>
-                                <div class="bg-slate-900/90 p-4 rounded-2xl border ${catBorder} flex-grow transition hover:border-sky-500/50">
+                                <div class="bg-slate-900/90 p-4 rounded-2xl border ${catBorder} flex-grow transition hover:border-sky-500/50 cursor-pointer" onclick="toggleItemDetail('${item.id}')">
                                     <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
                                         <div class="flex items-center gap-2">
                                             <span class="text-xs font-bold text-white">${item.title}</span>
                                             ${item.categoryLabel ? `<span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">${item.categoryLabel}</span>` : ''}
                                         </div>
                                         <div class="flex items-center gap-1 opacity-80 group-hover:opacity-100 transition no-print">
-                                            <button onclick="editScheduleItem('${item.id}')" class="text-[11px] text-sky-400 hover:text-sky-300 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">✏️ 수정</button>
-                                            <button onclick="deleteScheduleItem('${item.id}')" class="text-[11px] text-rose-400 hover:text-rose-300 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">🗑️</button>
+                                            <button onclick="event.stopPropagation(); editScheduleItem('${item.id}')" class="text-[11px] text-sky-400 hover:text-sky-300 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">✏️ 수정</button>
+                                            <button onclick="event.stopPropagation(); deleteScheduleItem('${item.id}')" class="text-[11px] text-rose-400 hover:text-rose-300 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">🗑️</button>
                                         </div>
                                     </div>
-                                    <p class="text-xs text-slate-300 leading-relaxed mb-2">${item.desc}</p>
-                                    ${item.kidsTip ? `
-                                        <div class="bg-slate-950/60 p-2.5 rounded-xl border border-amber-500/20 text-[11px] text-amber-300 flex items-start gap-1.5">
-                                            <span>👶</span>
-                                            <span><strong>키즈 케어 팁:</strong> ${item.kidsTip}</span>
-                                        </div>
-                                    ` : ''}
+
+                                    ${isExpanded ? `
+                                        <p class="text-xs text-slate-300 leading-relaxed mb-2">${item.desc}</p>
+                                        ${item.kidsTip ? `
+                                            <div class="bg-slate-950/60 p-2.5 rounded-xl border border-amber-500/20 text-[11px] text-amber-300 flex items-start gap-1.5">
+                                                <span>👶</span>
+                                                <span><strong>키즈 케어 팁:</strong> ${item.kidsTip}</span>
+                                            </div>
+                                        ` : ''}
+                                        ${bigGallery}
+                                    ` : `
+                                        <p class="text-xs text-slate-300 leading-relaxed mb-1 line-clamp-2">${item.desc}</p>
+                                        ${thumbStrip}
+                                    `}
+
+                                    <div class="text-[10px] text-slate-500 mt-2 flex items-center gap-1 no-print">
+                                        ${isExpanded ? '🔼 접기' : '🔽 자세히 보기 (사진 · 상세 설명)'}
+                                    </div>
                                 </div>
                             </div>
                         `;
