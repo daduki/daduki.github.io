@@ -1,6 +1,6 @@
 {
   "name": "daduki-github-io",
-  "version": "1.2.1",
+  "version": "1.4.0",
   "type": "module",
   "description": "Official application portal for DD LifeLog, 심지어타이쿤, 대만 가족여행 대시보드, and EmStudio discography.",
   "scripts": {
@@ -9,6 +9,7 @@
     "build": "echo 'Build complete'"
   },
   "dependencies": {
+    "@google/genai": "^2.20.0",
     "express": "^4.21.2"
   }
 }
