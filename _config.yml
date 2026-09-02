@@ -30,3 +30,14 @@ sass:
 plugins:
   - jekyll-sitemap
 
+exclude:
+  - package.json
+  - package-lock.json
+  - bun.lock
+  - server.js
+  - metadata.json
+  - node_modules
+  - .env.example
+  - RELEASE_NOTES.md
+
+

@@ -1,5 +1,18 @@
 # 릴리즈 노트 (Release Notes)
 
+## [v1.2.1] - 2026-09-02 (GitHub Pages 실시간 배포 & 캐시 무효화 & Jekyll 빌드 최적화)
+
+### 🛠️ 수정 및 배포 안정화
+- **Jekyll 빌드 오류 방지 및 제외 목록 추가 (`_config.yml`)**:
+  - `package.json`, `bun.lock`, `server.js`, `metadata.json`, `node_modules` 등 비 Jekyll 파일 빌드 제외 설정 추가
+- **웹 브라우저/CDN 캐시 제어 메타 태그 적용 (`Cache-Control: no-cache, no-store, must-revalidate`)**:
+  - `index.html`, `taiwan-trip.html`, `dd-lifelog.html`, `railwaystudio.html`에 캐시 무효화 헤더 추가로 브라우저 새로고침 시 최신 변경사항 즉시 렌더링
+- **GitHub Actions 자동 배포 워크플로우 연동 (`.github/workflows/pages.yml`)**:
+  - `master` 및 `main` 브랜치 푸시 시 GitHub Pages 자동 빌드 및 배포 보장
+- **`master` 및 `main` 동시 배포**: 저장소 기본 브랜치 설정에 구애받지 않고 항상 최신 상태 유지
+
+---
+
 ## [v1.2.0] - 2026-09-02 (대만 가족 여행 대시보드 & 왕복 항공 스케줄 & 인터랙티브 타임라인 정교화)
 
 ### 🚀 주요 업데이트 내역
