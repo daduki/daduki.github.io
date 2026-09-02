@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>은찬이의 대만 탐험 카드뉴스 & 퀴즈모험 (7세 맞춤) | EmStudio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                        kids: ['"Jua"', 'cursive', 'sans-serif']
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            500: '#10b981',
+                            600: '#059669',
+                            dark: '#0f172a',
+                            card: '#1e293b',
+                            cardBorder: '#334155',
+                            accent: '#f59e0b',
+                            ruby: '#ef4444',
+                            sky: '#0284c7'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .font-kids { font-family: 'Jua', cursive, sans-serif; }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .flip-card {
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+        /* Confetti effect */
+        @keyframes pop {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-pop { animation: pop 0.4s ease-out forwards; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-emerald-500 selection:text-white pb-20">
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="taiwan-trip.html" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition flex items-center gap-1.5 text-xs font-semibold">
+                    <i class="fa-solid fa-arrow-left"></i> 대시보드
+                </a>
+                <div>
+                    <h1 class="font-kids text-lg md:text-xl text-emerald-400 flex items-center gap-2">
+                        <span>🇹🇼 은찬이의 대만 탐험 카드뉴스 & 퀴즈</span>
+                        <span class="text-xs font-sans px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">7세 눈높이</span>
+                    </h1>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="index.html" class="text-xs text-slate-400 hover:text-slate-200 transition px-2 py-1 rounded bg-slate-800">
+                    <i class="fa-solid fa-house mr-1"></i>메인
+                </a>
+                <button id="resetProgressBtn" onclick="resetProgress()" class="text-xs text-rose-400 hover:text-rose-300 transition px-2 py-1 rounded bg-rose-950/40 border border-rose-800/40" title="학습 진척도 초기화">
+                    <i class="fa-solid fa-rotate-left mr-1"></i>초기화
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto px-4 pt-6">
+
+        <!-- Progress Overview Banner -->
+        <section class="glass-card rounded-2xl p-5 mb-8 border border-emerald-500/30 shadow-2xl relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-4 w-full md:w-auto">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-3xl shadow-lg shrink-0">
+                        🎒
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h2 class="font-kids text-xl text-white">은찬이의 대만 탐험 진척도</h2>
+                            <span id="badgeLevel" class="text-xs px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold font-sans">
+                                🌟 초보 탐험가
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-0.5">
+                            총 13가지 이야기 카드를 읽고 퀴즈를 풀면 <span class="text-emerald-400 font-bold">대만 마스터 배지</span>를 획득할 수 있어요!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Progress Stats -->
+                <div class="w-full md:w-72 bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+                    <div class="flex justify-between items-center text-xs font-semibold mb-1.5">
+                        <span class="text-slate-300">탐험 완료</span>
+                        <span id="progressText" class="text-emerald-400 font-kids text-sm">0 / 13 (0%)</span>
+                    </div>
+                    <div class="w-full bg-slate-800 rounded-full h-3 overflow-hidden p-0.5">
+                        <div id="progressBar" class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category Tabs -->
+        <div class="flex flex-wrap items-center gap-2 mb-6 pb-2 overflow-x-auto">
+            <button onclick="filterCards('all')" class="cat-btn active px-4 py-2 rounded-xl text-xs font-semibold bg-emerald-600 text-white transition shadow-md shadow-emerald-900/30 flex items-center gap-1.5" data-cat="all">
+                <i class="fa-solid fa-layer-group"></i> 전체 모험 (13)
+            </button>
+            <button onclick="filterCards('culture')" class="cat-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1.5" data-cat="culture">
+                <i class="fa-solid fa-landmark"></i> 역사 & 문화 (3)
+            </button>
+            <button onclick="filterCards('food')" class="cat-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1.5" data-cat="food">
+                <i class="fa-solid fa-utensils"></i> 맛있는 음식 (2)
+            </button>
+            <button onclick="filterCards('places')" class="cat-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1.5" data-cat="places">
+                <i class="fa-solid fa-map-location-dot"></i> 신나는 명소 (5)
+            </button>
+            <button onclick="filterCards('traffic')" class="cat-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1.5" data-cat="traffic">
+                <i class="fa-solid fa-plane"></i> 비행기 & 지하철 (2)
+            </button>
+            <button onclick="filterCards('chinese')" class="cat-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1.5" data-cat="chinese">
+                <i class="fa-solid fa-comments"></i> 🗣️ 중국어 회화 (1)
+            </button>
+        </div>
+
+        <!-- Cards Grid Container -->
+        <div id="cardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- CARD 1: 대만의 역사 & 국기 이야기 -->
+            <div class="card-item flip-card group" data-id="1" data-cat="culture">
+                <div class="flip-card-inner relative w-full h-[520px] rounded-2xl">
+                    <!-- FRONT: Card News -->
+                    <div class="flip-card-front absolute inset-0 glass-card rounded-2xl border border-slate-700/60 p-5 flex flex-col justify-between overflow-hidden shadow-xl hover:border-emerald-500/50 transition">
+                        <!-- Completed Green Checkmark Overlay -->
+                        <div class="complete-badge hidden absolute inset-0 bg-emerald-950/70 backdrop-blur-xs z-20 flex flex-col items-center justify-center p-4">
+                            <div class="w-16 h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center text-3xl shadow-lg animate-pop mb-2">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="font-kids text-lg text-emerald-300">탐험 완료!</span>
+                            <span class="text-xs text-slate-300">퀴즈를 모두 맞혔어요</span>
+                            <button onclick="flipCard(this)" class="mt-4 px-3 py-1.5 rounded-lg bg-slate-800 text-xs text-slate-200 hover:bg-slate-700 border border-slate-700">
+                                퀴즈 다시 풀기 <i class="fa-solid fa-arrow-rotate-right ml-1"></i>
+                            </button>
+                        </div>
+
+                        <div>
+                            <div class="relative h-44 rounded-xl overflow-hidden mb-3.5 group-hover:scale-[1.02] transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1508247967583-7d982ea01526?auto=format&fit=crop&w=600&q=80" alt="대만 국기 및 타이베이 풍경" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-emerald-600/90 text-white text-[11px] font-bold">
+                                    01. 역사 & 국기
+                                </span>
+                                <span class="absolute bottom-2 left-2.5 text-xs text-slate-200 font-semibold flex items-center gap-1">
+                                    🇹🇼 청천백일만지홍기
+                                </span>
+                            </div>
+
+                            <h3 class="font-kids text-lg text-emerald-400 mb-1.5 flex items-center gap-1.5">
+                                대만과 중국은 무슨 관계일까?
+                            </h3>
+                            <div class="space-y-1.5 text-xs text-slate-300 leading-relaxed">
+                                <p>• <strong>서로 다른 국기</strong>: 대만은 파란 하늘에 하얀 태양이 그려진 <span class="text-amber-300 font-bold">‘청천백일기’</span>를 사용해요.</p>
+                                <p>• <strong>한 뿌리, 다른 역사</strong>: 옛날에 같은 말을 쓰던 사람들이 갈라져 지금은 대만만의 대통령과 법, 화폐(대만 달러)를 쓰고 있어요!</p>
+                                <p>• <strong>자유로운 섬나라</strong>: 대만은 섬으로 둘러싸여 바다가 예쁘고 사람들이 무척 친절하답니다.</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">배운 내용 퀴즈 풀기</span>
+                            <button onclick="flipCard(this)" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-emerald-950">
+                                퀴즈 도전 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- BACK: Quiz Card -->
+                    <div class="flip-card-back absolute inset-0 glass-card rounded-2xl border border-indigo-500/40 p-5 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold text-indigo-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-question"></i> O/X 퀴즈 #01
+                                </span>
+                                <button onclick="flipCard(this)" class="text-slate-400 hover:text-white text-xs">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i>카드 다시보기
+                                </button>
+                            </div>
+                            <h4 class="font-kids text-base text-white mb-3">
+                                Q. 대만은 중국과 다른 독자적인 국기(청천백일만지홍기)와 화폐(대만 달러)를 사용한다?
+                            </h4>
+                            <div class="grid grid-cols-2 gap-3 mt-4">
+                                <button onclick="checkQuiz(1, 'O', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-emerald-600/30 border border-slate-700 hover:border-emerald-500 text-emerald-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>⭕️ 그렇다 (O)</span>
+                                </button>
+                                <button onclick="checkQuiz(1, 'X', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-rose-600/30 border border-slate-700 hover:border-rose-500 text-rose-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>❌ 아니다 (X)</span>
+                                </button>
+                            </div>
+                            <div id="quiz-feedback-1" class="hidden mt-3 p-3 rounded-xl text-xs"></div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 text-center">정답을 맞히면 탐험 완료 배지가 부여됩니다!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 2: 대만 대표 어린이 추천 음식 -->
+            <div class="card-item flip-card group" data-id="2" data-cat="food">
+                <div class="flip-card-inner relative w-full h-[520px] rounded-2xl">
+                    <!-- FRONT: Card News -->
+                    <div class="flip-card-front absolute inset-0 glass-card rounded-2xl border border-slate-700/60 p-5 flex flex-col justify-between overflow-hidden shadow-xl hover:border-emerald-500/50 transition">
+                        <div class="complete-badge hidden absolute inset-0 bg-emerald-950/70 backdrop-blur-xs z-20 flex flex-col items-center justify-center p-4">
+                            <div class="w-16 h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center text-3xl shadow-lg animate-pop mb-2">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="font-kids text-lg text-emerald-300">탐험 완료!</span>
+                            <span class="text-xs text-slate-300">음식 마스터가 되었어요</span>
+                            <button onclick="flipCard(this)" class="mt-4 px-3 py-1.5 rounded-lg bg-slate-800 text-xs text-slate-200 hover:bg-slate-700 border border-slate-700">
+                                퀴즈 다시 풀기 <i class="fa-solid fa-arrow-rotate-right ml-1"></i>
+                            </button>
+                        </div>
+
+                        <div>
+                            <div class="relative h-44 rounded-xl overflow-hidden mb-3.5 group-hover:scale-[1.02] transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=600&q=80" alt="망고 빙수 및 대만 먹거리" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-amber-500/90 text-slate-950 text-[11px] font-bold">
+                                    02. 대만 대표 음식
+                                </span>
+                                <span class="absolute bottom-2 left-2.5 text-xs text-slate-200 font-semibold flex items-center gap-1">
+                                    🥭 달콤한 망고빙수 & 지파이
+                                </span>
+                            </div>
+
+                            <h3 class="font-kids text-lg text-amber-400 mb-1.5 flex items-center gap-1.5">
+                                7세 은찬이가 꼭 맛볼 꿀맛 음식 4가지!
+                            </h3>
+                            <div class="space-y-1.5 text-xs text-slate-300 leading-relaxed">
+                                <p>• <strong>달콤 망고빙수 (망궈빙)</strong>: 우유 눈꽃 얼음 위에 노란 생망고가 산더미처럼 가득!</p>
+                                <p>• <strong>얼굴만 한 대왕 치킨 (지파이)</strong>: 겉은 바삭, 속은 촉촉한 대만 대표 닭튀김!</p>
+                                <p>• <strong>부드러운 우육면 (니우러우몐)</strong>: 진하고 고소한 소고기 국물에 탱글탱글 면발!</p>
+                                <p>• <strong>말랑말랑 버블티 (쩐주나이차)</strong>: 쫄깃한 타피오카 펄이 쏙쏙 올라와요.</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">음식 상식 퀴즈</span>
+                            <button onclick="flipCard(this)" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-amber-950">
+                                퀴즈 도전 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- BACK: Quiz Card -->
+                    <div class="flip-card-back absolute inset-0 glass-card rounded-2xl border border-indigo-500/40 p-5 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold text-indigo-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-question"></i> 4지선다 퀴즈 #02
+                                </span>
+                                <button onclick="flipCard(this)" class="text-slate-400 hover:text-white text-xs">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i>카드 다시보기
+                                </button>
+                            </div>
+                            <h4 class="font-kids text-base text-white mb-2">
+                                Q. 대만 야시장에서 파는 얼굴만큼 크고 바삭바삭한 대왕 닭튀김의 이름은 무엇일까요?
+                            </h4>
+                            <div class="grid grid-cols-1 gap-2 mt-3">
+                                <button onclick="checkQuiz(2, 'A', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">① 탕후루</button>
+                                <button onclick="checkQuiz(2, 'B', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">② 지파이 (Jipai)</button>
+                                <button onclick="checkQuiz(2, 'C', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">③ 타코야키</button>
+                                <button onclick="checkQuiz(2, 'D', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">④ 떡볶이</button>
+                            </div>
+                            <div id="quiz-feedback-2" class="hidden mt-2 p-2.5 rounded-xl text-xs"></div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 text-center">정답을 맞히면 체크 마크가 생겨요!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 3: 대만의 대표 산업 (반도체 TSMC) -->
+            <div class="card-item flip-card group" data-id="3" data-cat="culture">
+                <div class="flip-card-inner relative w-full h-[520px] rounded-2xl">
+                    <!-- FRONT: Card News -->
+                    <div class="flip-card-front absolute inset-0 glass-card rounded-2xl border border-slate-700/60 p-5 flex flex-col justify-between overflow-hidden shadow-xl hover:border-emerald-500/50 transition">
+                        <div class="complete-badge hidden absolute inset-0 bg-emerald-950/70 backdrop-blur-xs z-20 flex flex-col items-center justify-center p-4">
+                            <div class="w-16 h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center text-3xl shadow-lg animate-pop mb-2">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="font-kids text-lg text-emerald-300">탐험 완료!</span>
+                            <span class="text-xs text-slate-300">과학 대장이 되었어요</span>
+                            <button onclick="flipCard(this)" class="mt-4 px-3 py-1.5 rounded-lg bg-slate-800 text-xs text-slate-200 hover:bg-slate-700 border border-slate-700">
+                                퀴즈 다시 풀기 <i class="fa-solid fa-arrow-rotate-right ml-1"></i>
+                            </button>
+                        </div>
+
+                        <div>
+                            <div class="relative h-44 rounded-xl overflow-hidden mb-3.5 group-hover:scale-[1.02] transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80" alt="반도체 칩 및 첨단 기술" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-cyan-600/90 text-white text-[11px] font-bold">
+                                    03. 첨단 산업 & 기술
+                                </span>
+                                <span class="absolute bottom-2 left-2.5 text-xs text-slate-200 font-semibold flex items-center gap-1">
+                                    💾 세계 1등 반도체 섬나라
+                                </span>
+                            </div>
+
+                            <h3 class="font-kids text-lg text-cyan-400 mb-1.5 flex items-center gap-1.5">
+                                전 세계 스마트폰의 두뇌를 만드는 곳!
+                            </h3>
+                            <div class="space-y-1.5 text-xs text-slate-300 leading-relaxed">
+                                <p>• <strong>전자제품의 마법 두뇌 '반도체'</strong>: 우리가 보는 스마트폰, 닌텐도 스위치, 인공지능 로봇 속에는 대만에서 만든 초소형 칩이 들어가요.</p>
+                                <p>• <strong>세계 1등 회사 TSMC</strong>: 대만의 TSMC라는 회사는 전 세계 첨단 반도체의 절반 이상을 만들 만큼 세계에서 가장 유명해요!</p>
+                                <p>• <strong>튼튼한 자전거 자이언트(GIANT)</strong>: 전 세계에서 가장 유명한 명품 자전거도 대만에서 만든답니다.</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">산업 상식 퀴즈</span>
+                            <button onclick="flipCard(this)" class="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-cyan-950">
+                                퀴즈 도전 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- BACK: Quiz Card -->
+                    <div class="flip-card-back absolute inset-0 glass-card rounded-2xl border border-indigo-500/40 p-5 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold text-indigo-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-question"></i> O/X 퀴즈 #03
+                                </span>
+                                <button onclick="flipCard(this)" class="text-slate-400 hover:text-white text-xs">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i>카드 다시보기
+                                </button>
+                            </div>
+                            <h4 class="font-kids text-base text-white mb-3">
+                                Q. 대만의 회사 TSMC는 스마트폰과 컴퓨터의 두뇌 역할을 하는 '반도체'를 만드는 세계 1위 기업이다?
+                            </h4>
+                            <div class="grid grid-cols-2 gap-3 mt-4">
+                                <button onclick="checkQuiz(3, 'O', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-emerald-600/30 border border-slate-700 hover:border-emerald-500 text-emerald-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>⭕️ 맞아요 (O)</span>
+                                </button>
+                                <button onclick="checkQuiz(3, 'X', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-rose-600/30 border border-slate-700 hover:border-rose-500 text-rose-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>❌ 틀려요 (X)</span>
+                                </button>
+                            </div>
+                            <div id="quiz-feedback-3" class="hidden mt-3 p-3 rounded-xl text-xs"></div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 text-center">정답을 맞히면 배지가 활성화됩니다!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 4: 타오위안 국제공항 탐험 -->
+            <div class="card-item flip-card group" data-id="4" data-cat="traffic">
+                <div class="flip-card-inner relative w-full h-[520px] rounded-2xl">
+                    <!-- FRONT: Card News -->
+                    <div class="flip-card-front absolute inset-0 glass-card rounded-2xl border border-slate-700/60 p-5 flex flex-col justify-between overflow-hidden shadow-xl hover:border-emerald-500/50 transition">
+                        <div class="complete-badge hidden absolute inset-0 bg-emerald-950/70 backdrop-blur-xs z-20 flex flex-col items-center justify-center p-4">
+                            <div class="w-16 h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center text-3xl shadow-lg animate-pop mb-2">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="font-kids text-lg text-emerald-300">탐험 완료!</span>
+                            <span class="text-xs text-slate-300">공항 안내원이 되었어요</span>
+                            <button onclick="flipCard(this)" class="mt-4 px-3 py-1.5 rounded-lg bg-slate-800 text-xs text-slate-200 hover:bg-slate-700 border border-slate-700">
+                                퀴즈 다시 풀기 <i class="fa-solid fa-arrow-rotate-right ml-1"></i>
+                            </button>
+                        </div>
+
+                        <div>
+                            <div class="relative h-44 rounded-xl overflow-hidden mb-3.5 group-hover:scale-[1.02] transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1530521954074-e64f6810b32d?auto=format&fit=crop&w=600&q=80" alt="공항 및 비행기" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-blue-600/90 text-white text-[11px] font-bold">
+                                    04. 공항 탐험
+                                </span>
+                                <span class="absolute bottom-2 left-2.5 text-xs text-slate-200 font-semibold flex items-center gap-1">
+                                    🛫 타오위안 국제공항 (TPE)
+                                </span>
+                            </div>
+
+                            <h3 class="font-kids text-lg text-blue-400 mb-1.5 flex items-center gap-1.5">
+                                대만에 도착하면 처음 만나는 관문!
+                            </h3>
+                            <div class="space-y-1.5 text-xs text-slate-300 leading-relaxed">
+                                <p>• <strong>우리가 내리는 곳</strong>: 인천공항에서 진에어 비행기를 타고 2시간 55분 날아가면 <span class="text-amber-300 font-bold">타오위안 공항 제1터미널</span>에 도착해요.</p>
+                                <p>• <strong>초고속 공항철도 (MRT)</strong>: 보라색 급행열차를 타면 타이베이 메인역까지 35분 만에 슝 날아갈 수 있어요!</p>
+                                <p>• <strong>키즈 편의시설</strong>: 공항 안에 귀여운 캐릭터 테마 게이트와 수유실, 유모차 대여소가 잘 갖춰져 있어요.</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">공항 퀴즈 풀기</span>
+                            <button onclick="flipCard(this)" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-blue-950">
+                                퀴즈 도전 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- BACK: Quiz Card -->
+                    <div class="flip-card-back absolute inset-0 glass-card rounded-2xl border border-indigo-500/40 p-5 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold text-indigo-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-question"></i> 4지선다 퀴즈 #04
+                                </span>
+                                <button onclick="flipCard(this)" class="text-slate-400 hover:text-white text-xs">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i>카드 다시보기
+                                </button>
+                            </div>
+                            <h4 class="font-kids text-base text-white mb-2">
+                                Q. 타오위안 공항에서 타이베이 시내(메인역)까지 가장 빠르고 편리하게 이동할 수 있는 보라색 열차는 무엇일까요?
+                            </h4>
+                            <div class="grid grid-cols-1 gap-2 mt-3">
+                                <button onclick="checkQuiz(4, 'A', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">① 공항 MRT 급행열차</button>
+                                <button onclick="checkQuiz(4, 'B', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">② 헬리콥터</button>
+                                <button onclick="checkQuiz(4, 'C', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">③ 자전거</button>
+                                <button onclick="checkQuiz(4, 'D', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">④ 유람선</button>
+                            </div>
+                            <div id="quiz-feedback-4" class="hidden mt-2 p-2.5 rounded-xl text-xs"></div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 text-center">정답을 맞히면 체크 마크가 생겨요!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 5: 타이베이 MRT 지하철 탐험 -->
+            <div class="card-item flip-card group" data-id="5" data-cat="traffic">
+                <div class="flip-card-inner relative w-full h-[520px] rounded-2xl">
+                    <!-- FRONT: Card News -->
+                    <div class="flip-card-front absolute inset-0 glass-card rounded-2xl border border-slate-700/60 p-5 flex flex-col justify-between overflow-hidden shadow-xl hover:border-emerald-500/50 transition">
+                        <div class="complete-badge hidden absolute inset-0 bg-emerald-950/70 backdrop-blur-xs z-20 flex flex-col items-center justify-center p-4">
+                            <div class="w-16 h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center text-3xl shadow-lg animate-pop mb-2">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="font-kids text-lg text-emerald-300">탐험 완료!</span>
+                            <span class="text-xs text-slate-300">철도 탐험가가 되었어요</span>
+                            <button onclick="flipCard(this)" class="mt-4 px-3 py-1.5 rounded-lg bg-slate-800 text-xs text-slate-200 hover:bg-slate-700 border border-slate-700">
+                                퀴즈 다시 풀기 <i class="fa-solid fa-arrow-rotate-right ml-1"></i>
+                            </button>
+                        </div>
+
+                        <div>
+                            <div class="relative h-44 rounded-xl overflow-hidden mb-3.5 group-hover:scale-[1.02] transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1577900232427-18219b9166a0?auto=format&fit=crop&w=600&q=80" alt="타이베이 지하철 MRT" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-emerald-600/90 text-white text-[11px] font-bold">
+                                    05. 지하철 MRT
+                                </span>
+                                <span class="absolute bottom-2 left-2.5 text-xs text-slate-200 font-semibold flex items-center gap-1">
+                                    🚇 무지개색 6대 노선 시스템
+                                </span>
+                            </div>
+
+                            <h3 class="font-kids text-lg text-emerald-400 mb-1.5 flex items-center gap-1.5">
+                                무인으로 달리는 신기한 MRT 비밀!
+                            </h3>
+                            <div class="space-y-1.5 text-xs text-slate-300 leading-relaxed">
+                                <p>• <strong>최초 개통 (1996년)</strong>: 타이베이 MRT는 1996년 3월 갈색선(원후선)이 처음 개통되었어요!</p>
+                                <p>• <strong>현재 6개 주요 노선</strong>: 빨강(단수이), 파랑(반난), 초록(쑹산신뎬), 주황(중허신루), 갈색(원후), 노랑(순환선) 등 색깔로 쉽게 찾아요.</p>
+                                <p>• <strong>★절대 규칙 (음식 금지)</strong>: MRT 역과 기차 안에서는 껌, 사탕, 물도 절대 먹으면 안 돼요(벌금 有)! 덕분에 세계에서 가장 깨끗하답니다.</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">MRT 상식 퀴즈</span>
+                            <button onclick="flipCard(this)" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-emerald-950">
+                                퀴즈 도전 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- BACK: Quiz Card -->
+                    <div class="flip-card-back absolute inset-0 glass-card rounded-2xl border border-indigo-500/40 p-5 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold text-indigo-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-question"></i> O/X 퀴즈 #05
+                                </span>
+                                <button onclick="flipCard(this)" class="text-slate-400 hover:text-white text-xs">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i>카드 다시보기
+                                </button>
+                            </div>
+                            <h4 class="font-kids text-base text-white mb-3">
+                                Q. 대만 타이베이 MRT 지하철 안에서는 깨끗한 환경을 위해 물이나 껌, 과자를 절대 먹으면 안 된다?
+                            </h4>
+                            <div class="grid grid-cols-2 gap-3 mt-4">
+                                <button onclick="checkQuiz(5, 'O', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-emerald-600/30 border border-slate-700 hover:border-emerald-500 text-emerald-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>⭕️ 맞아요! 먹으면 안 돼요</span>
+                                </button>
+                                <button onclick="checkQuiz(5, 'X', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-rose-600/30 border border-slate-700 hover:border-rose-500 text-rose-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>❌ 아니에요! 먹어도 돼요</span>
+                                </button>
+                            </div>
+                            <div id="quiz-feedback-5" class="hidden mt-3 p-3 rounded-xl text-xs"></div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 text-center">정답을 맞히면 배지가 활성화됩니다!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 6: 딤섬의 세계 (샤오롱바오 & 딤섬 삼총사) -->
+            <div class="card-item flip-card group" data-id="6" data-cat="food">
+                <div class="flip-card-inner relative w-full h-[520px] rounded-2xl">
+                    <!-- FRONT: Card News -->
+                    <div class="flip-card-front absolute inset-0 glass-card rounded-2xl border border-slate-700/60 p-5 flex flex-col justify-between overflow-hidden shadow-xl hover:border-emerald-500/50 transition">
+                        <div class="complete-badge hidden absolute inset-0 bg-emerald-950/70 backdrop-blur-xs z-20 flex flex-col items-center justify-center p-4">
+                            <div class="w-16 h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center text-3xl shadow-lg animate-pop mb-2">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="font-kids text-lg text-emerald-300">탐험 완료!</span>
+                            <span class="text-xs text-slate-300">딤섬 박사가 되었어요</span>
+                            <button onclick="flipCard(this)" class="mt-4 px-3 py-1.5 rounded-lg bg-slate-800 text-xs text-slate-200 hover:bg-slate-700 border border-slate-700">
+                                퀴즈 다시 풀기 <i class="fa-solid fa-arrow-rotate-right ml-1"></i>
+                            </button>
+                        </div>
+
+                        <div>
+                            <div class="relative h-44 rounded-xl overflow-hidden mb-3.5 group-hover:scale-[1.02] transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1541696432-82c6da8ce7bf?auto=format&fit=crop&w=600&q=80" alt="샤오롱바오 딤섬" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-rose-500/90 text-white text-[11px] font-bold">
+                                    06. 딤섬의 비밀
+                                </span>
+                                <span class="absolute bottom-2 left-2.5 text-xs text-slate-200 font-semibold flex items-center gap-1">
+                                    🥟 육즙 팡팡 샤오롱바오
+                                </span>
+                            </div>
+
+                            <h3 class="font-kids text-lg text-rose-400 mb-1.5 flex items-center gap-1.5">
+                                만두 속에 따뜻한 국물이 숨어있다고?!
+                            </h3>
+                            <div class="space-y-1.5 text-xs text-slate-300 leading-relaxed">
+                                <p>• <strong>샤오롱바오(小籠包)</strong>: 숟가락에 올려 만두피를 살짝 찢은 뒤 호호 불어 육즙을 먼저 꿀꺽 마셔요!</p>
+                                <p>• <strong>샤오마이(燒賣)</strong>: 위가 활짝 열려있고 새우와 돼지고기가 쏙 올라간 귀여운 만두!</p>
+                                <p>• <strong>하가우(蝦餃)</strong>: 투명하고 쫄깃한 피 속에 탱글탱글한 통새우가 가득 들어있어요.</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">딤섬 퀴즈 풀기</span>
+                            <button onclick="flipCard(this)" class="px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-400 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-rose-950">
+                                퀴즈 도전 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- BACK: Quiz Card -->
+                    <div class="flip-card-back absolute inset-0 glass-card rounded-2xl border border-indigo-500/40 p-5 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold text-indigo-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-question"></i> 4지선다 퀴즈 #06
+                                </span>
+                                <button onclick="flipCard(this)" class="text-slate-400 hover:text-white text-xs">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i>카드 다시보기
+                                </button>
+                            </div>
+                            <h4 class="font-kids text-base text-white mb-2">
+                                Q. 샤오롱바오를 먹을 때 입을 데이지 않고 맛있게 먹는 가장 좋은 방법은 무엇일까요?
+                            </h4>
+                            <div class="grid grid-cols-1 gap-2 mt-3">
+                                <button onclick="checkQuiz(6, 'A', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">① 한입에 크게 통째로 집어넣는다</button>
+                                <button onclick="checkQuiz(6, 'B', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">② 숟가락에 올려 피를 살짝 찢고 육즙을 먼저 맛본다</button>
+                                <button onclick="checkQuiz(6, 'C', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">③ 물에 씻어서 먹는다</button>
+                                <button onclick="checkQuiz(6, 'D', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">④ 그냥 버린다</button>
+                            </div>
+                            <div id="quiz-feedback-6" class="hidden mt-2 p-2.5 rounded-xl text-xs"></div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 text-center">정답을 맞히면 체크 마크가 생겨요!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 7: 타이베이 철도부원구 박물관 -->
+            <div class="card-item flip-card group" data-id="7" data-cat="places">
+                <div class="flip-card-inner relative w-full h-[520px] rounded-2xl">
+                    <!-- FRONT: Card News -->
+                    <div class="flip-card-front absolute inset-0 glass-card rounded-2xl border border-slate-700/60 p-5 flex flex-col justify-between overflow-hidden shadow-xl hover:border-emerald-500/50 transition">
+                        <div class="complete-badge hidden absolute inset-0 bg-emerald-950/70 backdrop-blur-xs z-20 flex flex-col items-center justify-center p-4">
+                            <div class="w-16 h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center text-3xl shadow-lg animate-pop mb-2">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="font-kids text-lg text-emerald-300">탐험 완료!</span>
+                            <span class="text-xs text-slate-300">철도 기관사가 되었어요</span>
+                            <button onclick="flipCard(this)" class="mt-4 px-3 py-1.5 rounded-lg bg-slate-800 text-xs text-slate-200 hover:bg-slate-700 border border-slate-700">
+                                퀴즈 다시 풀기 <i class="fa-solid fa-arrow-rotate-right ml-1"></i>
+                            </button>
+                        </div>
+
+                        <div>
+                            <div class="relative h-44 rounded-xl overflow-hidden mb-3.5 group-hover:scale-[1.02] transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1474487548417-781cb71495f3?auto=format&fit=crop&w=600&q=80" alt="증기기관차 및 기차 박물관" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-amber-600/90 text-white text-[11px] font-bold">
+                                    07. 철도부원구 박물관
+                                </span>
+                                <span class="absolute bottom-2 left-2.5 text-xs text-slate-200 font-semibold flex items-center gap-1">
+                                    🚂 거대한 기차 디오라마 세상
+                                </span>
+                            </div>
+
+                            <h3 class="font-kids text-lg text-amber-300 mb-1.5 flex items-center gap-1.5">
+                                기차 마니아 은찬이를 위한 최고의 명소!
+                            </h3>
+                            <div class="space-y-1.5 text-xs text-slate-300 leading-relaxed">
+                                <p>• <strong>대만 국립철도박물관</strong>: 옛날 타이베이 기차역 사령부 건물이 멋진 박물관으로 변신했어요.</p>
+                                <p>• <strong>움직이는 미니어처 디오라마</strong>: 실제 불빛이 반짝이고 기차가 칙칙폭폭 달리는 거대한 모형 열차 쇼가 펼쳐져요!</p>
+                                <p>• <strong>어린이 기차 체험관</strong>: 직접 기관사가 되어 기차 운전대를 잡아보고 기차표를 끊어볼 수 있어요.</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">철도 박물관 퀴즈</span>
+                            <button onclick="flipCard(this)" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-amber-950">
+                                퀴즈 도전 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- BACK: Quiz Card -->
+                    <div class="flip-card-back absolute inset-0 glass-card rounded-2xl border border-indigo-500/40 p-5 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold text-indigo-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-question"></i> O/X 퀴즈 #07
+                                </span>
+                                <button onclick="flipCard(this)" class="text-slate-400 hover:text-white text-xs">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i>카드 다시보기
+                                </button>
+                            </div>
+                            <h4 class="font-kids text-base text-white mb-3">
+                                Q. 국립철도박물관(철도부원구)에서는 움직이는 거대 기차 디오라마와 어린이 기관사 체험을 즐길 수 있다?
+                            </h4>
+                            <div class="grid grid-cols-2 gap-3 mt-4">
+                                <button onclick="checkQuiz(7, 'O', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-emerald-600/30 border border-slate-700 hover:border-emerald-500 text-emerald-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>⭕️ 맞아요! (O)</span>
+                                </button>
+                                <button onclick="checkQuiz(7, 'X', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-rose-600/30 border border-slate-700 hover:border-rose-500 text-rose-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>❌ 아니에요 (X)</span>
+                                </button>
+                            </div>
+                            <div id="quiz-feedback-7" class="hidden mt-3 p-3 rounded-xl text-xs"></div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 text-center">정답을 맞히면 배지가 활성화됩니다!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 8: 타이베이 닝샤 야시장 -->
+            <div class="card-item flip-card group" data-id="8" data-cat="places">
+                <div class="flip-card-inner relative w-full h-[520px] rounded-2xl">
+                    <!-- FRONT: Card News -->
+                    <div class="flip-card-front absolute inset-0 glass-card rounded-2xl border border-slate-700/60 p-5 flex flex-col justify-between overflow-hidden shadow-xl hover:border-emerald-500/50 transition">
+                        <div class="complete-badge hidden absolute inset-0 bg-emerald-950/70 backdrop-blur-xs z-20 flex flex-col items-center justify-center p-4">
+                            <div class="w-16 h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center text-3xl shadow-lg animate-pop mb-2">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="font-kids text-lg text-emerald-300">탐험 완료!</span>
+                            <span class="text-xs text-slate-300">야시장 탐험대장!</span>
+                            <button onclick="flipCard(this)" class="mt-4 px-3 py-1.5 rounded-lg bg-slate-800 text-xs text-slate-200 hover:bg-slate-700 border border-slate-700">
+                                퀴즈 다시 풀기 <i class="fa-solid fa-arrow-rotate-right ml-1"></i>
+                            </button>
+                        </div>
+
+                        <div>
+                            <div class="relative h-44 rounded-xl overflow-hidden mb-3.5 group-hover:scale-[1.02] transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80" alt="대만 야시장 풍경" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-purple-600/90 text-white text-[11px] font-bold">
+                                    08. 닝샤 야시장
+                                </span>
+                                <span class="absolute bottom-2 left-2.5 text-xs text-slate-200 font-semibold flex items-center gap-1">
+                                    🏮 반짝반짝 밤의 놀이터
+                                </span>
+                            </div>
+
+                            <h3 class="font-kids text-lg text-purple-300 mb-1.5 flex items-center gap-1.5">
+                                맛있는 냄새가 솔솔 풍기는 야시장!
+                            </h3>
+                            <div class="space-y-1.5 text-xs text-slate-300 leading-relaxed">
+                                <p>• <strong>도보 이동 가능한 거리</strong>: 우리가 묵는 팔레드쉰 호텔에서 걸어서 10분이면 닝샤 야시장에 닿아요.</p>
+                                <p>• <strong>길거리 게임 천국</strong>: 풍선 터뜨리기, 구슬 치기 게임을 하고 귀여운 장난감 선물을 받을 수 있어요!</p>
+                                <p>• <strong>바삭한 토란볼(위위안) & 소시지</strong>: 갓 구운 달콤 짭짤한 대만식 소시지와 토란 튀김이 인기 만점이에요.</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">야시장 퀴즈 풀기</span>
+                            <button onclick="flipCard(this)" class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-purple-950">
+                                퀴즈 도전 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- BACK: Quiz Card -->
+                    <div class="flip-card-back absolute inset-0 glass-card rounded-2xl border border-indigo-500/40 p-5 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold text-indigo-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-question"></i> 4지선다 퀴즈 #08
+                                </span>
+                                <button onclick="flipCard(this)" class="text-slate-400 hover:text-white text-xs">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i>카드 다시보기
+                                </button>
+                            </div>
+                            <h4 class="font-kids text-base text-white mb-2">
+                                Q. 닝샤 야시장에서 은찬이가 맛있는 간식과 함께 즐길 수 있는 재미있는 놀이는 무엇일까요?
+                            </h4>
+                            <div class="grid grid-cols-1 gap-2 mt-3">
+                                <button onclick="checkQuiz(8, 'A', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">① 풍선 터뜨리기 & 구슬치기 게임</button>
+                                <button onclick="checkQuiz(8, 'B', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">② 잠자기 시험</button>
+                                <button onclick="checkQuiz(8, 'C', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">③ 스키 타기</button>
+                                <button onclick="checkQuiz(8, 'D', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">④ 빙판 낚시</button>
+                            </div>
+                            <div id="quiz-feedback-8" class="hidden mt-2 p-2.5 rounded-xl text-xs"></div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 text-center">정답을 맞히면 체크 마크가 생겨요!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 9: 귀여운 자이언트 판다 (타이베이 동물원) -->
+            <div class="card-item flip-card group" data-id="9" data-cat="places">
+                <div class="flip-card-inner relative w-full h-[520px] rounded-2xl">
+                    <!-- FRONT: Card News -->
+                    <div class="flip-card-front absolute inset-0 glass-card rounded-2xl border border-slate-700/60 p-5 flex flex-col justify-between overflow-hidden shadow-xl hover:border-emerald-500/50 transition">
+                        <div class="complete-badge hidden absolute inset-0 bg-emerald-950/70 backdrop-blur-xs z-20 flex flex-col items-center justify-center p-4">
+                            <div class="w-16 h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center text-3xl shadow-lg animate-pop mb-2">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="font-kids text-lg text-emerald-300">탐험 완료!</span>
+                            <span class="text-xs text-slate-300">판다 친구가 되었어요</span>
+                            <button onclick="flipCard(this)" class="mt-4 px-3 py-1.5 rounded-lg bg-slate-800 text-xs text-slate-200 hover:bg-slate-700 border border-slate-700">
+                                퀴즈 다시 풀기 <i class="fa-solid fa-arrow-rotate-right ml-1"></i>
+                            </button>
+                        </div>
+
+                        <div>
+                            <div class="relative h-44 rounded-xl overflow-hidden mb-3.5 group-hover:scale-[1.02] transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1527118732049-c88155f2107c?auto=format&fit=crop&w=600&q=80" alt="자이언트 판다" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-emerald-600/90 text-white text-[11px] font-bold">
+                                    09. 동물원 판다 친구
+                                </span>
+                                <span class="absolute bottom-2 left-2.5 text-xs text-slate-200 font-semibold flex items-center gap-1">
+                                    🐼 타이베이 동물원 자이언트 판다
+                                </span>
+                            </div>
+
+                            <h3 class="font-kids text-lg text-emerald-300 mb-1.5 flex items-center gap-1.5">
+                                대나무 먹방 챔피언 판다의 비밀!
+                            </h3>
+                            <div class="space-y-1.5 text-xs text-slate-300 leading-relaxed">
+                                <p>• <strong>판다의 주식은 대나무</strong>: 하루에 무려 10~15시간 동안 아삭아삭 대나무를 씹어 먹어요!</p>
+                                <p>• <strong>타이베이 시립 동물원 판다관</strong>: 대만에서 가장 큰 동물원 실내 판다관에서 시원하게 누워 뒹구는 판다 가족을 직접 만날 수 있어요.</p>
+                                <p>• <strong>둥글둥글 꼬리의 색깔은?</strong>: 많은 사람들이 검은색으로 착각하지만 판다 꼬리는 <span class="text-amber-300 font-bold">새하얀 흰색</span>이랍니다!</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">판다 퀴즈 풀기</span>
+                            <button onclick="flipCard(this)" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-emerald-950">
+                                퀴즈 도전 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- BACK: Quiz Card -->
+                    <div class="flip-card-back absolute inset-0 glass-card rounded-2xl border border-indigo-500/40 p-5 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold text-indigo-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-question"></i> 4지선다 퀴즈 #09
+                                </span>
+                                <button onclick="flipCard(this)" class="text-slate-400 hover:text-white text-xs">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i>카드 다시보기
+                                </button>
+                            </div>
+                            <h4 class="font-kids text-base text-white mb-2">
+                                Q. 자이언트 판다의 꼬리 색깔은 무슨 색일까요?
+                            </h4>
+                            <div class="grid grid-cols-1 gap-2 mt-3">
+                                <button onclick="checkQuiz(9, 'A', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">① 새하얀 흰색 (White)</button>
+                                <button onclick="checkQuiz(9, 'B', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">② 새까만 검은색 (Black)</button>
+                                <button onclick="checkQuiz(9, 'C', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">③ 빨간색 (Red)</button>
+                                <button onclick="checkQuiz(9, 'D', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">④ 파란색 (Blue)</button>
+                            </div>
+                            <div id="quiz-feedback-9" class="hidden mt-2 p-2.5 rounded-xl text-xs"></div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 text-center">정답을 맞히면 체크 마크가 생겨요!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 10: 예스진지 (예류-스펀-진과스-지우펀) -->
+            <div class="card-item flip-card group" data-id="10" data-cat="places">
+                <div class="flip-card-inner relative w-full h-[520px] rounded-2xl">
+                    <!-- FRONT: Card News -->
+                    <div class="flip-card-front absolute inset-0 glass-card rounded-2xl border border-slate-700/60 p-5 flex flex-col justify-between overflow-hidden shadow-xl hover:border-emerald-500/50 transition">
+                        <div class="complete-badge hidden absolute inset-0 bg-emerald-950/70 backdrop-blur-xs z-20 flex flex-col items-center justify-center p-4">
+                            <div class="w-16 h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center text-3xl shadow-lg animate-pop mb-2">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="font-kids text-lg text-emerald-300">탐험 완료!</span>
+                            <span class="text-xs text-slate-300">예스진지 정복 완료!</span>
+                            <button onclick="flipCard(this)" class="mt-4 px-3 py-1.5 rounded-lg bg-slate-800 text-xs text-slate-200 hover:bg-slate-700 border border-slate-700">
+                                퀴즈 다시 풀기 <i class="fa-solid fa-arrow-rotate-right ml-1"></i>
+                            </button>
+                        </div>
+
+                        <div>
+                            <div class="relative h-44 rounded-xl overflow-hidden mb-3.5 group-hover:scale-[1.02] transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=600&q=80" alt="지우펀 홍등거리" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-rose-600/90 text-white text-[11px] font-bold">
+                                    10. 예스진지 버스투어
+                                </span>
+                                <span class="absolute bottom-2 left-2.5 text-xs text-slate-200 font-semibold flex items-center gap-1">
+                                    ✨ 신비한 4대 명소 탐험
+                                </span>
+                            </div>
+
+                            <h3 class="font-kids text-lg text-rose-400 mb-1.5 flex items-center gap-1.5">
+                                바위와 풍등, 황금과 붉은 등불의 마법!
+                            </h3>
+                            <div class="space-y-1.5 text-xs text-slate-300 leading-relaxed">
+                                <p>• <strong>예류</strong>: 바람과 파도가 만든 신비한 버섯바위 & <span class="text-amber-300 font-bold">‘여왕머리바위’</span>!</p>
+                                <p>• <strong>스펀</strong>: 철길 위에서 소원을 적어 하늘 높이 날리는 <span class="text-amber-300 font-bold">‘천등(풍등) 날리기’</span>!</p>
+                                <p>• <strong>진과스</strong>: 옛 금광 마을에서 먹는 꿀맛 <span class="text-amber-300 font-bold">‘광부도시락’</span>과 황금 만지기!</p>
+                                <p>• <strong>지우펀</strong>: 만화 ‘센과 치히로’ 같은 아름다운 홍등 골목길!</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">예스진지 퀴즈</span>
+                            <button onclick="flipCard(this)" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-rose-950">
+                                퀴즈 도전 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- BACK: Quiz Card -->
+                    <div class="flip-card-back absolute inset-0 glass-card rounded-2xl border border-indigo-500/40 p-5 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold text-indigo-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-question"></i> 4지선다 퀴즈 #10
+                                </span>
+                                <button onclick="flipCard(this)" class="text-slate-400 hover:text-white text-xs">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i>카드 다시보기
+                                </button>
+                            </div>
+                            <h4 class="font-kids text-base text-white mb-2">
+                                Q. 기찻길 위에서 은찬이 가족의 소원을 붓글씨로 적어 하늘 높이 날려 보내는 명소는 어디일까요?
+                            </h4>
+                            <div class="grid grid-cols-1 gap-2 mt-3">
+                                <button onclick="checkQuiz(10, 'A', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">① 스펀 (Shifen) 천등 날리기</button>
+                                <button onclick="checkQuiz(10, 'B', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">② 남산타워</button>
+                                <button onclick="checkQuiz(10, 'C', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">③ 워터파크 미끄럼틀</button>
+                                <button onclick="checkQuiz(10, 'D', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">④ 동물원 사자 우리</button>
+                            </div>
+                            <div id="quiz-feedback-10" class="hidden mt-2 p-2.5 rounded-xl text-xs"></div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 text-center">정답을 맞히면 체크 마크가 생겨요!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 11: 타이베이 101 빌딩 & 댐퍼베이비 -->
+            <div class="card-item flip-card group" data-id="11" data-cat="places">
+                <div class="flip-card-inner relative w-full h-[520px] rounded-2xl">
+                    <!-- FRONT: Card News -->
+                    <div class="flip-card-front absolute inset-0 glass-card rounded-2xl border border-slate-700/60 p-5 flex flex-col justify-between overflow-hidden shadow-xl hover:border-emerald-500/50 transition">
+                        <div class="complete-badge hidden absolute inset-0 bg-emerald-950/70 backdrop-blur-xs z-20 flex flex-col items-center justify-center p-4">
+                            <div class="w-16 h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center text-3xl shadow-lg animate-pop mb-2">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="font-kids text-lg text-emerald-300">탐험 완료!</span>
+                            <span class="text-xs text-slate-300">마천루 박사가 되었어요</span>
+                            <button onclick="flipCard(this)" class="mt-4 px-3 py-1.5 rounded-lg bg-slate-800 text-xs text-slate-200 hover:bg-slate-700 border border-slate-700">
+                                퀴즈 다시 풀기 <i class="fa-solid fa-arrow-rotate-right ml-1"></i>
+                            </button>
+                        </div>
+
+                        <div>
+                            <div class="relative h-44 rounded-xl overflow-hidden mb-3.5 group-hover:scale-[1.02] transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1508247967583-7d982ea01526?auto=format&fit=crop&w=600&q=80" alt="타이베이 101 타워" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-amber-500/90 text-slate-950 text-[11px] font-bold">
+                                    11. 타이베이 101
+                                </span>
+                                <span class="absolute bottom-2 left-2.5 text-xs text-slate-200 font-semibold flex items-center gap-1">
+                                    🗼 508m 높이 & 댐퍼베이비
+                                </span>
+                            </div>
+
+                            <h3 class="font-kids text-lg text-amber-400 mb-1.5 flex items-center gap-1.5">
+                                대나무 모양을 닮은 초고층 빌딩!
+                            </h3>
+                            <div class="space-y-1.5 text-xs text-slate-300 leading-relaxed">
+                                <p>• <strong>101층의 웅장한 빌딩</strong>: 하늘 높이 자라는 8마디 대나무 모양과 옛 엽전 모양으로 디자인되었어요.</p>
+                                <p>• <strong>초고속 엘리베이터</strong>: 5층에서 89층 전망대까지 단 37초 만에 슝 올라가요!</p>
+                                <p>• <strong>빌딩을 지키는 노란 공 '댐퍼베이비'</strong>: 87~92층 사이에 매달린 660톤의 거대한 쇠공(진자 댐퍼)이 강풍과 지진에도 건물이 흔들리지 않게 꽉 잡아준답니다.</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">101 빌딩 퀴즈</span>
+                            <button onclick="flipCard(this)" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-amber-950">
+                                퀴즈 도전 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- BACK: Quiz Card -->
+                    <div class="flip-card-back absolute inset-0 glass-card rounded-2xl border border-indigo-500/40 p-5 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold text-indigo-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-question"></i> O/X 퀴즈 #11
+                                </span>
+                                <button onclick="flipCard(this)" class="text-slate-400 hover:text-white text-xs">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i>카드 다시보기
+                                </button>
+                            </div>
+                            <h4 class="font-kids text-base text-white mb-3">
+                                Q. 타이베이 101 빌딩 안에는 바람과 지진으로부터 건물을 안전하게 지켜주는 660톤 거대 쇠공 '댐퍼(Damper)'가 설치되어 있다?
+                            </h4>
+                            <div class="grid grid-cols-2 gap-3 mt-4">
+                                <button onclick="checkQuiz(11, 'O', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-emerald-600/30 border border-slate-700 hover:border-emerald-500 text-emerald-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>⭕️ 맞아요 (O)</span>
+                                </button>
+                                <button onclick="checkQuiz(11, 'X', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-rose-600/30 border border-slate-700 hover:border-rose-500 text-rose-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>❌ 아니에요 (X)</span>
+                                </button>
+                            </div>
+                            <div id="quiz-feedback-11" class="hidden mt-3 p-3 rounded-xl text-xs"></div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 text-center">정답을 맞히면 배지가 활성화됩니다!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 12: 우리가 탈 진에어(JIN AIR) 비행기 -->
+            <div class="card-item flip-card group" data-id="12" data-cat="traffic">
+                <div class="flip-card-inner relative w-full h-[520px] rounded-2xl">
+                    <!-- FRONT: Card News -->
+                    <div class="flip-card-front absolute inset-0 glass-card rounded-2xl border border-slate-700/60 p-5 flex flex-col justify-between overflow-hidden shadow-xl hover:border-emerald-500/50 transition">
+                        <div class="complete-badge hidden absolute inset-0 bg-emerald-950/70 backdrop-blur-xs z-20 flex flex-col items-center justify-center p-4">
+                            <div class="w-16 h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center text-3xl shadow-lg animate-pop mb-2">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="font-kids text-lg text-emerald-300">탐험 완료!</span>
+                            <span class="text-xs text-slate-300">일등 파일럿 탄생!</span>
+                            <button onclick="flipCard(this)" class="mt-4 px-3 py-1.5 rounded-lg bg-slate-800 text-xs text-slate-200 hover:bg-slate-700 border border-slate-700">
+                                퀴즈 다시 풀기 <i class="fa-solid fa-arrow-rotate-right ml-1"></i>
+                            </button>
+                        </div>
+
+                        <div>
+                            <div class="relative h-44 rounded-xl overflow-hidden mb-3.5 group-hover:scale-[1.02] transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80" alt="비행기 활주로" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-lime-600/90 text-slate-950 text-[11px] font-bold">
+                                    12. 진에어 비행기
+                                </span>
+                                <span class="absolute bottom-2 left-2.5 text-xs text-slate-200 font-semibold flex items-center gap-1">
+                                    ✈️ LJ0171 / LJ0172 왕복 여행
+                                </span>
+                            </div>
+
+                            <h3 class="font-kids text-lg text-lime-400 mb-1.5 flex items-center gap-1.5">
+                                연두색 나비 비행기를 타고 구름 위로!
+                            </h3>
+                            <div class="space-y-1.5 text-xs text-slate-300 leading-relaxed">
+                                <p>• <strong>나비 로고 진에어</strong>: 청바지를 입은 승무원 삼촌, 이모들과 상큼한 나비 날개가 반겨줘요.</p>
+                                <p>• <strong>비행 스케줄</strong>: 출국(LJ171, 09:35~11:30) ➔ 귀국(LJ172, 12:40~16:00)!</p>
+                                <p>• <strong>귀 멍멍할 땐?</strong>: 이착륙할 때 침을 꼴깍 삼키거나 맛있는 사탕/젤리를 씹으면 귀가 뻥 뚫려요! (동생 은채는 빨대컵 물 마시기!)</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">비행기 탑승 퀴즈</span>
+                            <button onclick="flipCard(this)" class="px-4 py-2 rounded-xl bg-lime-500 hover:bg-lime-400 text-slate-950 text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-lime-950">
+                                퀴즈 도전 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- BACK: Quiz Card -->
+                    <div class="flip-card-back absolute inset-0 glass-card rounded-2xl border border-indigo-500/40 p-5 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold text-indigo-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-question"></i> 4지선다 퀴즈 #12
+                                </span>
+                                <button onclick="flipCard(this)" class="text-slate-400 hover:text-white text-xs">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i>카드 다시보기
+                                </button>
+                            </div>
+                            <h4 class="font-kids text-base text-white mb-2">
+                                Q. 비행기가 오르내릴 때 기압 때문에 귀가 멍멍해지면 은찬이가 해야 할 가장 좋은 행동은?
+                            </h4>
+                            <div class="grid grid-cols-1 gap-2 mt-3">
+                                <button onclick="checkQuiz(12, 'A', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">① 침을 꼴깍 삼키거나 사탕/젤리를 먹는다</button>
+                                <button onclick="checkQuiz(12, 'B', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">② 크게 소리 지른다</button>
+                                <button onclick="checkQuiz(12, 'C', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">③ 안전벨트를 풀고 뛰어다닌다</button>
+                                <button onclick="checkQuiz(12, 'D', this)" class="quiz-btn p-2.5 rounded-lg bg-slate-800 text-left text-xs text-slate-300 hover:bg-slate-700 transition">④ 눈을 감고 울기만 한다</button>
+                            </div>
+                            <div id="quiz-feedback-12" class="hidden mt-2 p-2.5 rounded-xl text-xs"></div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 text-center">정답을 맞히면 체크 마크가 생겨요!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 13: 대만에서 바로 쓰는 어린이 생생 중국어 회화 -->
+            <div class="card-item flip-card group md:col-span-2 lg:col-span-3" data-id="13" data-cat="chinese">
+                <div class="flip-card-inner relative w-full min-h-[520px] rounded-2xl">
+                    <!-- FRONT: Card News -->
+                    <div class="flip-card-front absolute inset-0 glass-card rounded-2xl border border-teal-500/50 p-6 flex flex-col justify-between overflow-y-auto shadow-2xl">
+                        <div class="complete-badge hidden absolute inset-0 bg-emerald-950/70 backdrop-blur-xs z-20 flex flex-col items-center justify-center p-4">
+                            <div class="w-16 h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center text-3xl shadow-lg animate-pop mb-2">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="font-kids text-xl text-emerald-300">중국어 탐험 완료!</span>
+                            <span class="text-xs text-slate-300">현지인처럼 말할 수 있어요</span>
+                            <button onclick="flipCard(this)" class="mt-4 px-4 py-2 rounded-lg bg-slate-800 text-xs text-slate-200 hover:bg-slate-700 border border-slate-700">
+                                퀴즈 다시 풀기 <i class="fa-solid fa-arrow-rotate-right ml-1"></i>
+                            </button>
+                        </div>
+
+                        <div>
+                            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-800">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-xl bg-teal-500/20 border border-teal-500/40 text-teal-300 flex items-center justify-center text-2xl">
+                                        🗣️
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="px-2 py-0.5 rounded bg-teal-600/80 text-white text-[10px] font-bold">13. 필수 생생 회화</span>
+                                            <h3 class="font-kids text-xl text-teal-300">대만에서 바로 써먹는 8가지 매직 중국어!</h3>
+                                        </div>
+                                        <p class="text-xs text-slate-400 mt-0.5">버튼을 누르면 원어민 발음(TTS)으로 친절하게 읽어줘요. 따라 해보세요!</p>
+                                    </div>
+                                </div>
+                                <button onclick="flipCard(this)" class="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-teal-950 shrink-0">
+                                    중국어 퀴즈 도전 <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+
+                            <!-- Chinese Phrase List Table -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                                <!-- Phrase 1: 안녕하세요 -->
+                                <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 hover:border-teal-500/40 transition flex items-center justify-between gap-3">
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-2xl">👋</span>
+                                        <div>
+                                            <div class="flex items-baseline gap-2">
+                                                <span class="text-base font-bold text-teal-300">你好</span>
+                                                <span class="text-xs font-semibold text-amber-300">[니 하오]</span>
+                                            </div>
+                                            <span class="text-xs text-slate-300">안녕하세요</span>
+                                        </div>
+                                    </div>
+                                    <button onclick="speakChinese('你好', this)" class="p-2.5 rounded-xl bg-slate-800 hover:bg-teal-600 text-teal-300 hover:text-white transition flex items-center gap-1 text-xs" title="발음 듣기">
+                                        <i class="fa-solid fa-volume-high"></i> <span class="hidden sm:inline">듣기</span>
+                                    </button>
+                                </div>
+
+                                <!-- Phrase 2: 감사합니다 -->
+                                <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 hover:border-teal-500/40 transition flex items-center justify-between gap-3">
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-2xl">🙏</span>
+                                        <div>
+                                            <div class="flex items-baseline gap-2">
+                                                <span class="text-base font-bold text-teal-300">謝謝</span>
+                                                <span class="text-xs font-semibold text-amber-300">[씨에씨에]</span>
+                                            </div>
+                                            <span class="text-xs text-slate-300">감사합니다 / 고맙습니다</span>
+                                        </div>
+                                    </div>
+                                    <button onclick="speakChinese('謝謝', this)" class="p-2.5 rounded-xl bg-slate-800 hover:bg-teal-600 text-teal-300 hover:text-white transition flex items-center gap-1 text-xs" title="발음 듣기">
+                                        <i class="fa-solid fa-volume-high"></i> <span class="hidden sm:inline">듣기</span>
+                                    </button>
+                                </div>
+
+                                <!-- Phrase 3: 맛있어요 -->
+                                <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 hover:border-teal-500/40 transition flex items-center justify-between gap-3">
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-2xl">😋</span>
+                                        <div>
+                                            <div class="flex items-baseline gap-2">
+                                                <span class="text-base font-bold text-teal-300">好吃</span>
+                                                <span class="text-xs font-semibold text-amber-300">[하오츠]</span>
+                                            </div>
+                                            <span class="text-xs text-slate-300">맛있어요! 엄지 척!</span>
+                                        </div>
+                                    </div>
+                                    <button onclick="speakChinese('好吃', this)" class="p-2.5 rounded-xl bg-slate-800 hover:bg-teal-600 text-teal-300 hover:text-white transition flex items-center gap-1 text-xs" title="발음 듣기">
+                                        <i class="fa-solid fa-volume-high"></i> <span class="hidden sm:inline">듣기</span>
+                                    </button>
+                                </div>
+
+                                <!-- Phrase 4: 이거 얼마에요? -->
+                                <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 hover:border-teal-500/40 transition flex items-center justify-between gap-3">
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-2xl">💰</span>
+                                        <div>
+                                            <div class="flex items-baseline gap-2">
+                                                <span class="text-base font-bold text-teal-300">這個多少錢？</span>
+                                                <span class="text-xs font-semibold text-amber-300">[쩌거 둬샤오치엔?]</span>
+                                            </div>
+                                            <span class="text-xs text-slate-300">이거 얼마예요?</span>
+                                        </div>
+                                    </div>
+                                    <button onclick="speakChinese('這個多少錢？', this)" class="p-2.5 rounded-xl bg-slate-800 hover:bg-teal-600 text-teal-300 hover:text-white transition flex items-center gap-1 text-xs" title="발음 듣기">
+                                        <i class="fa-solid fa-volume-high"></i> <span class="hidden sm:inline">듣기</span>
+                                    </button>
+                                </div>
+
+                                <!-- Phrase 5: 전 한국에서 왔어요 -->
+                                <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 hover:border-teal-500/40 transition flex items-center justify-between gap-3">
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-2xl">🇰🇷</span>
+                                        <div>
+                                            <div class="flex items-baseline gap-2">
+                                                <span class="text-base font-bold text-teal-300">我來自韓國</span>
+                                                <span class="text-xs font-semibold text-amber-300">[워 라이쯔 한궈]</span>
+                                            </div>
+                                            <span class="text-xs text-slate-300">저는 한국에서 왔어요</span>
+                                        </div>
+                                    </div>
+                                    <button onclick="speakChinese('我來自韓國', this)" class="p-2.5 rounded-xl bg-slate-800 hover:bg-teal-600 text-teal-300 hover:text-white transition flex items-center gap-1 text-xs" title="발음 듣기">
+                                        <i class="fa-solid fa-volume-high"></i> <span class="hidden sm:inline">듣기</span>
+                                    </button>
+                                </div>
+
+                                <!-- Phrase 6: 전 은찬이에요 -->
+                                <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 hover:border-teal-500/40 transition flex items-center justify-between gap-3">
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-2xl">👦🏻</span>
+                                        <div>
+                                            <div class="flex items-baseline gap-2">
+                                                <span class="text-base font-bold text-teal-300">我是恩燦。</span>
+                                                <span class="text-xs font-semibold text-amber-300">[워 스 은찬]</span>
+                                            </div>
+                                            <span class="text-xs text-slate-300">저는 은찬이에요!</span>
+                                        </div>
+                                    </div>
+                                    <button onclick="speakChinese('我是恩燦', this)" class="p-2.5 rounded-xl bg-slate-800 hover:bg-teal-600 text-teal-300 hover:text-white transition flex items-center gap-1 text-xs" title="발음 듣기">
+                                        <i class="fa-solid fa-volume-high"></i> <span class="hidden sm:inline">듣기</span>
+                                    </button>
+                                </div>
+
+                                <!-- Phrase 7: 아이스크림 주세요 -->
+                                <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 hover:border-teal-500/40 transition flex items-center justify-between gap-3">
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-2xl">🍦</span>
+                                        <div>
+                                            <div class="flex items-baseline gap-2">
+                                                <span class="text-base font-bold text-teal-300">請給我冰淇淋</span>
+                                                <span class="text-xs font-semibold text-amber-300">[칭 게이 워 빙치린]</span>
+                                            </div>
+                                            <span class="text-xs text-slate-300">아이스크림 주세요!</span>
+                                        </div>
+                                    </div>
+                                    <button onclick="speakChinese('請給我冰淇淋', this)" class="p-2.5 rounded-xl bg-slate-800 hover:bg-teal-600 text-teal-300 hover:text-white transition flex items-center gap-1 text-xs" title="발음 듣기">
+                                        <i class="fa-solid fa-volume-high"></i> <span class="hidden sm:inline">듣기</span>
+                                    </button>
+                                </div>
+
+                                <!-- Phrase 8: 주스 주세요 -->
+                                <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 hover:border-teal-500/40 transition flex items-center justify-between gap-3">
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-2xl">🧃</span>
+                                        <div>
+                                            <div class="flex items-baseline gap-2">
+                                                <span class="text-base font-bold text-teal-300">請給我果汁</span>
+                                                <span class="text-xs font-semibold text-amber-300">[칭 게이 워 궈즈]</span>
+                                            </div>
+                                            <span class="text-xs text-slate-300">시원한 주스 주세요!</span>
+                                        </div>
+                                    </div>
+                                    <button onclick="speakChinese('請給我果汁', this)" class="p-2.5 rounded-xl bg-slate-800 hover:bg-teal-600 text-teal-300 hover:text-white transition flex items-center gap-1 text-xs" title="발음 듣기">
+                                        <i class="fa-solid fa-volume-high"></i> <span class="hidden sm:inline">듣기</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-xs text-slate-400">자신 있게 말해보세요! 퀴즈를 풀고 마스터 배지를 완성하세요.</span>
+                            <button onclick="flipCard(this)" class="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-teal-950">
+                                회화 퀴즈 풀기 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- BACK: Quiz Card -->
+                    <div class="flip-card-back absolute inset-0 glass-card rounded-2xl border border-indigo-500/40 p-6 flex flex-col justify-between overflow-y-auto shadow-2xl">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-xs font-bold text-indigo-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-question"></i> 4지선다 퀴즈 #13 (중국어 회화)
+                                </span>
+                                <button onclick="flipCard(this)" class="text-slate-400 hover:text-white text-xs">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i>카드 다시보기
+                                </button>
+                            </div>
+                            <h4 class="font-kids text-lg text-white mb-2">
+                                Q. 대만 상점이나 식당에서 맛있는 음식을 먹고 삼촌·이모에게 "감사합니다!"라고 인사할 때 쓰는 중국어는?
+                            </h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+                                <button onclick="checkQuiz(13, 'A', this)" class="quiz-btn p-3.5 rounded-xl bg-slate-800 text-left text-xs text-slate-200 hover:bg-slate-700 transition flex items-center justify-between">
+                                    <span>① 謝謝 (씨에씨에)</span>
+                                    <i class="fa-solid fa-check-circle opacity-30"></i>
+                                </button>
+                                <button onclick="checkQuiz(13, 'B', this)" class="quiz-btn p-3.5 rounded-xl bg-slate-800 text-left text-xs text-slate-200 hover:bg-slate-700 transition flex items-center justify-between">
+                                    <span>② 再見 (짜이찌엔)</span>
+                                    <i class="fa-solid fa-check-circle opacity-30"></i>
+                                </button>
+                                <button onclick="checkQuiz(13, 'C', this)" class="quiz-btn p-3.5 rounded-xl bg-slate-800 text-left text-xs text-slate-200 hover:bg-slate-700 transition flex items-center justify-between">
+                                    <span>③ 對不起 (뚜이부치)</span>
+                                    <i class="fa-solid fa-check-circle opacity-30"></i>
+                                </button>
+                                <button onclick="checkQuiz(13, 'D', this)" class="quiz-btn p-3.5 rounded-xl bg-slate-800 text-left text-xs text-slate-200 hover:bg-slate-700 transition flex items-center justify-between">
+                                    <span>④ 不好 (뿌하오)</span>
+                                    <i class="fa-solid fa-check-circle opacity-30"></i>
+                                </button>
+                            </div>
+                            <div id="quiz-feedback-13" class="hidden mt-4 p-3.5 rounded-xl text-xs"></div>
+                        </div>
+                        <div class="text-xs text-slate-400 text-center pt-3 border-t border-slate-800/80">정답을 맞히면 13개 전체 완료 배지가 수여됩니다! 🎉</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Master Celebration Modal -->
+    <div id="masterModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="glass-card max-w-md w-full rounded-3xl p-6 border-2 border-emerald-400 shadow-2xl text-center relative overflow-hidden animate-pop">
+            <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-tr from-amber-400 to-emerald-400 text-slate-950 flex items-center justify-center text-4xl shadow-xl mb-4">
+                👑
+            </div>
+            <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold border border-emerald-500/40">
+                대만 탐험 수료증 획득!
+            </span>
+            <h3 class="font-kids text-2xl text-white mt-2 mb-1">
+                축하합니다! 은찬이는 이제 <br><span class="text-amber-400">대만 여행 마스터</span>예요!
+            </h3>
+            <p class="text-xs text-slate-300 leading-relaxed my-3">
+                13가지 대만 이야기와 퀴즈를 모두 성공적으로 마쳤어요! 이제 가족들과 함께 신나는 대만 여행을 멋지게 즐겨보세요 🇹🇼✨
+            </p>
+            <div class="flex gap-2 justify-center mt-5">
+                <button onclick="closeMasterModal()" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg shadow-emerald-950 transition">
+                    신나게 여행 떠나기! ✈️
+                </button>
+                <a href="taiwan-trip.html" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs border border-slate-700 transition flex items-center gap-1">
+                    여행 일정표 보기 <i class="fa-solid fa-calendar-days"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Logic -->
+    <script>
+        const STORAGE_KEY = 'emstudio_taiwan_kids_quiz_progress';
+        const TOTAL_CARDS = 13;
+
+        // Correct Answers Map
+        const quizAnswers = {
+            1: 'O',
+            2: 'B',
+            3: 'O',
+            4: 'A',
+            5: 'O',
+            6: 'B',
+            7: 'O',
+            8: 'A',
+            9: 'A',
+            10: 'A',
+            11: 'O',
+            12: 'A',
+            13: 'A'
+        };
+
+        // Explanations Map
+        const quizExplanations = {
+            1: '대만은 자체 국기(청천백일기)와 대만 달러(TWD)를 사용하는 독립된 섬나라예요!',
+            2: '대왕 닭튀김의 이름은 "지파이(雞排)"예요! 겉바속촉 꿀맛이에요.',
+            3: '대만의 TSMC는 전 세계에서 가장 진보된 반도체를 만드는 1등 회사예요!',
+            4: '공항 MRT(보라색 급행열차)를 타면 메인역까지 35분 만에 갈 수 있어요!',
+            5: '대만 지하철은 깨끗한 환경을 위해 음식물 섭취가 엄격히 금지되어 있어요!',
+            6: '샤오롱바오는 뜨거운 육즙이 가득하므로 피를 살짝 찢어 국물부터 맛보는 게 정석이에요.',
+            7: '국립철도박물관(철도부원구)은 옛 본부 건물을 살린 멋진 기차 박물관이에요.',
+            8: '닝샤 야시장에는 풍선 터뜨리기, 구슬치기 등 아이들이 좋아하는 게임이 가득해요!',
+            9: '판다 꼬리는 검은색이 아니라 새하얀 흰색이랍니다!',
+            10: '스펀 기찻길에서 소원을 적어 하늘 높이 풍등을 날리는 체험이 유명해요.',
+            11: '타이베이 101 안에는 660톤짜리 노란 쇠공 댐퍼베이비가 건물을 안전하게 지켜줘요.',
+            12: '비행기에서 귀가 멍멍할 땐 침을 꼴깍 삼키거나 맛있는 사탕을 먹으면 돼요!',
+            13: '고마울 때는 두 손을 모으고 "謝謝 (씨에씨에)!"라고 웃으며 인사해요.'
+        };
+
+        // Load Progress
+        function getProgress() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                return saved ? JSON.parse(saved) : {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveProgress(progress) {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        // Update UI based on progress
+        function updateProgressUI() {
+            const progress = getProgress();
+            const completedCount = Object.keys(progress).filter(id => progress[id] === true).length;
+            const pct = Math.round((completedCount / TOTAL_CARDS) * 100);
+
+            // Progress text & bar
+            document.getElementById('progressText').textContent = `${completedCount} / ${TOTAL_CARDS} (${pct}%)`;
+            document.getElementById('progressBar').style.width = `${pct}%`;
+
+            // Badge Level
+            const badge = document.getElementById('badgeLevel');
+            if (completedCount === 0) {
+                badge.textContent = '🌟 초보 탐험가';
+                badge.className = 'text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700 font-semibold font-sans';
+            } else if (completedCount < 6) {
+                badge.textContent = '🥉 호기심 탐험가';
+                badge.className = 'text-xs px-2.5 py-0.5 rounded-full bg-amber-900/40 text-amber-300 border border-amber-700/50 font-semibold font-sans';
+            } else if (completedCount < 13) {
+                badge.textContent = '🥈 열정의 탐험대장';
+                badge.className = 'text-xs px-2.5 py-0.5 rounded-full bg-sky-900/40 text-sky-300 border border-sky-700/50 font-semibold font-sans';
+            } else {
+                badge.textContent = '👑 대만 여행 마스터!';
+                badge.className = 'text-xs px-2.5 py-0.5 rounded-full bg-emerald-900/40 text-emerald-300 border border-emerald-500/50 font-semibold font-sans animate-pulse';
+            }
+
+            // Update individual cards checkmarks
+            document.querySelectorAll('.card-item').forEach(card => {
+                const id = card.getAttribute('data-id');
+                const badgeOverlay = card.querySelector('.complete-badge');
+                if (progress[id]) {
+                    badgeOverlay.classList.remove('hidden');
+                } else {
+                    badgeOverlay.classList.add('hidden');
+                }
+            });
+
+            // Master modal trigger on full completion
+            if (completedCount === TOTAL_CARDS && !sessionStorage.getItem('master_modal_shown')) {
+                document.getElementById('masterModal').classList.remove('hidden');
+                sessionStorage.setItem('master_modal_shown', 'true');
+            }
+        }
+
+        // Flip Card Handler
+        function flipCard(btn) {
+            const flipCard = btn.closest('.flip-card');
+            flipCard.classList.toggle('flipped');
+        }
+
+        // Check Quiz Answer
+        function checkQuiz(id, answer, btn) {
+            const isCorrect = (quizAnswers[id] === answer);
+            const feedbackEl = document.getElementById(`quiz-feedback-${id}`);
+            const parentCard = btn.closest('.flip-card');
+            const explanation = quizExplanations[id];
+
+            feedbackEl.classList.remove('hidden', 'bg-emerald-950/60', 'border-emerald-500', 'text-emerald-300', 'bg-rose-950/60', 'border-rose-500', 'text-rose-300');
+
+            if (isCorrect) {
+                feedbackEl.classList.add('bg-emerald-950/60', 'border', 'border-emerald-500', 'text-emerald-300');
+                feedbackEl.innerHTML = `
+                    <div class="flex items-start gap-2">
+                        <span class="text-base">🎉</span>
+                        <div>
+                            <strong class="font-bold">딩동댕! 정답이에요!</strong>
+                            <p class="text-[11px] text-slate-300 mt-0.5">${explanation}</p>
+                        </div>
+                    </div>
+                `;
+
+                // Save to local storage
+                const progress = getProgress();
+                progress[id] = true;
+                saveProgress(progress);
+
+                // Auto flip back after 1.8s
+                setTimeout(() => {
+                    parentCard.classList.remove('flipped');
+                    updateProgressUI();
+                }, 1800);
+
+            } else {
+                feedbackEl.classList.add('bg-rose-950/60', 'border', 'border-rose-500', 'text-rose-300');
+                feedbackEl.innerHTML = `
+                    <div class="flex items-start gap-2">
+                        <span class="text-base">💡</span>
+                        <div>
+                            <strong class="font-bold">아쉬워요! 다시 한번 생각해보세요.</strong>
+                            <p class="text-[11px] text-slate-300 mt-0.5">카드의 내용을 다시 읽어보고 도전해보세요!</p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Speech Synthesis for Chinese Pronunciation
+        function speakChinese(text, btn) {
+            if (!('speechSynthesis' in window)) {
+                alert('현재 브라우저에서는 음성 재생(TTS)을 지원하지 않습니다.');
+                return;
+            }
+
+            window.speechSynthesis.cancel(); // Stop current speech
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'zh-TW'; // Traditional Chinese (Taiwan accent)
+            utterance.rate = 0.85; // slightly slower for kids
+
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 재생 중';
+            btn.classList.add('bg-teal-600', 'text-white');
+
+            utterance.onend = () => {
+                btn.innerHTML = originalHtml;
+                btn.classList.remove('bg-teal-600', 'text-white');
+            };
+
+            utterance.onerror = () => {
+                btn.innerHTML = originalHtml;
+                btn.classList.remove('bg-teal-600', 'text-white');
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Category Filter
+        function filterCards(cat) {
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                if (btn.getAttribute('data-cat') === cat) {
+                    btn.classList.add('bg-emerald-600', 'text-white', 'shadow-md', 'shadow-emerald-900/30');
+                    btn.classList.remove('bg-slate-800', 'text-slate-300');
+                } else {
+                    btn.classList.remove('bg-emerald-600', 'text-white', 'shadow-md', 'shadow-emerald-900/30');
+                    btn.classList.add('bg-slate-800', 'text-slate-300');
+                }
+            });
+
+            document.querySelectorAll('.card-item').forEach(card => {
+                const cardCat = card.getAttribute('data-cat');
+                if (cat === 'all' || cardCat === cat) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // Reset Progress
+        function resetProgress() {
+            if (confirm('모든 퀴즈 진척도와 배지를 처음부터 다시 풀도록 초기화할까요?')) {
+                localStorage.removeItem(STORAGE_KEY);
+                sessionStorage.removeItem('master_modal_shown');
+                updateProgressUI();
+            }
+        }
+
+        function closeMasterModal() {
+            document.getElementById('masterModal').classList.add('hidden');
+        }
+
+        // Init on DOM load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateProgressUI();
+        });
+    </script>
+</body>
+</html>

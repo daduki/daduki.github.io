@@ -1,6 +1,6 @@
 {
   "name": "DD LifeLog & EmStudio",
-  "description": "Official application portal for DD LifeLog, 심지어타이쿤, 대만 가족여행 대시보드, and EmStudio discography.",
+  "description": "Official application portal for DD LifeLog, 심지어타이쿤, 대만 가족여행 대시보드 & 7세 어린이 카드뉴스/퀴즈, and EmStudio discography.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
