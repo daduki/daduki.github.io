@@ -1,0 +1,14 @@
+{
+  "name": "daduki-github-io",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Official application homepage and developer portal for DD LifeLog, 심지어타이쿤, and EmStudio discography.",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "build": "echo 'Build complete'"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

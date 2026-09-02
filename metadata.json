@@ -1,0 +1,8 @@
+{
+  "name": "DD LifeLog & EmStudio",
+  "description": "Official application homepage and developer portal for DD LifeLog, 심지어타이쿤, and EmStudio discography.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
