@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="images/dd_lifelog_icon.png">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -32,7 +33,9 @@
             .text-white, .text-slate-100, .text-slate-200, .text-slate-300 { color: #0f172a !important; }
             .text-slate-400, .text-slate-500 { color: #475569 !important; }
         }
-    </style>
+            .nav-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; }
+        .nav-scroll::-webkit-scrollbar { display: none; }
+</style>
 </head>
 <body class="scroll-smooth min-h-screen flex flex-col justify-between">
 
@@ -46,18 +49,18 @@
                     <span class="text-[10px] font-semibold text-sky-400 px-2 py-0.5 rounded bg-sky-500/10 border border-sky-500/20 ml-2">타이베이 3박 4일</span>
                 </div>
             </a>
-            <div class="hidden md:flex space-x-6 text-sm font-medium text-slate-300 items-center">
-                <a href="index.html" class="hover:text-sky-400 transition">Home</a>
-                <a href="taiwan-kids-cards.html" class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30 transition flex items-center gap-1.5 text-xs font-bold shadow-sm">
+            <div class="hidden md:flex nav-scroll items-center gap-x-3 lg:gap-x-5 text-sm font-medium text-slate-300 max-w-[62vw]">
+                <a href="index.html" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">Home</a>
+                <a href="taiwan-kids-cards.html" class="whitespace-nowrap flex-shrink-0 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30 transition flex items-center gap-1.5 text-xs font-bold shadow-sm">
                     <span>🎒 7세 카드뉴스&퀴즈</span>
                 </a>
-                <a href="#flight" class="hover:text-sky-400 transition">✈️ 항공권 일정</a>
-                <a href="#itinerary" class="hover:text-sky-400 transition">📅 타임라인 스케쥴</a>
-                <a href="#mrt-route" class="hover:text-sky-400 transition">🚇 MRT 동선</a>
-                <a href="#baby-care" class="hover:text-sky-400 transition">👶 15개월 맞춤케어</a>
-                <a href="#checklist" class="hover:text-sky-400 transition">✅ 체크리스트</a>
-                <a href="#phrasebook" class="hover:text-sky-400 transition">🗣️ 소통카드</a>
-                <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-600 transition flex items-center gap-1.5">
+                <a href="#flight" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">✈️ 항공권 일정</a>
+                <a href="#itinerary" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">📅 타임라인 스케쥴</a>
+                <a href="#mrt-route" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">🚇 MRT 동선</a>
+                <a href="#baby-care" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">👶 15개월 맞춤케어</a>
+                <a href="#checklist" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">✅ 체크리스트</a>
+                <a href="#phrasebook" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">🗣️ 소통카드</a>
+                <button onclick="window.print()" class="whitespace-nowrap flex-shrink-0 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-600 transition flex items-center gap-1.5">
                     <span>🖨️ 인쇄/PDF</span>
                 </button>
             </div>
@@ -961,14 +964,14 @@
     <!-- Footer -->
     <footer class="glass border-t border-white/5 py-8 mt-12 no-print">
         <div class="max-w-6xl mx-auto px-6 text-center text-xs text-slate-400">
-            <div class="flex flex-wrap justify-center gap-6 mb-4 font-semibold">
-                <a href="index.html" class="hover:text-sky-400 transition">EmStudio Home</a>
-                <a href="#flight" class="hover:text-sky-400 transition">항공권 일정</a>
-                <a href="#itinerary" class="hover:text-sky-400 transition">타임라인 스케쥴</a>
-                <a href="#mrt-route" class="hover:text-sky-400 transition">MRT 동선</a>
-                <a href="#baby-care" class="hover:text-sky-400 transition">15개월 맞춤케어</a>
-                <a href="dd-lifelog.html" class="hover:text-sky-400 transition">DD LifeLog</a>
-                <a href="railwaystudio.html" class="hover:text-sky-400 transition">심지어타이쿤</a>
+            <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-4 font-semibold">
+                <a href="index.html" class="whitespace-nowrap hover:text-sky-400 transition">EmStudio Home</a>
+                <a href="#flight" class="whitespace-nowrap hover:text-sky-400 transition">항공권 일정</a>
+                <a href="#itinerary" class="whitespace-nowrap hover:text-sky-400 transition">타임라인 스케쥴</a>
+                <a href="#mrt-route" class="whitespace-nowrap hover:text-sky-400 transition">MRT 동선</a>
+                <a href="#baby-care" class="whitespace-nowrap hover:text-sky-400 transition">15개월 맞춤케어</a>
+                <a href="dd-lifelog.html" class="whitespace-nowrap hover:text-sky-400 transition">DD LifeLog</a>
+                <a href="railwaystudio.html" class="whitespace-nowrap hover:text-sky-400 transition">심지어타이쿤</a>
             </div>
             <p>© 2026 EmStudio. Taiwan Family Trip Dashboard (Taipei 3N4D).</p>
         </div>

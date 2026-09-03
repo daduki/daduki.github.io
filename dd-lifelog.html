@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="images/dd_lifelog_icon.png">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -15,7 +16,9 @@
         .gradient-text { background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .glass { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
         .card-hover:hover { border-color: rgba(56, 189, 248, 0.4); transform: translateY(-3px); transition: all 0.3s ease; }
-    </style>
+            .nav-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; }
+        .nav-scroll::-webkit-scrollbar { display: none; }
+</style>
 </head>
 <body class="scroll-smooth">
 
@@ -26,12 +29,12 @@
                 <span class="text-xs font-bold px-2 py-1 bg-sky-500/20 text-sky-400 rounded-md">EmStudio</span>
                 <h1 class="text-2xl font-bold tracking-tighter gradient-text">DD LifeLog</h1>
             </a>
-            <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-300 items-center">
-                <a href="index.html" class="hover:text-sky-400 transition">Home</a>
-                <a href="taiwan-trip.html" class="text-amber-300 hover:text-amber-200 transition font-semibold">🇹🇼 대만가족여행</a>
-                <a href="#features" class="hover:text-sky-400 transition">주요 기능</a>
-                <a href="#release-notes" class="hover:text-sky-400 transition">버전 히스토리</a>
-                <a href="https://emstudio-ed70a.web.app" target="_blank" class="bg-sky-600/20 text-sky-400 border border-sky-500/50 px-5 py-2 rounded-full hover:bg-sky-500 hover:text-white transition">웹앱 실행</a>
+            <div class="hidden md:flex nav-scroll items-center gap-x-4 lg:gap-x-8 text-sm font-medium text-slate-300 max-w-[60vw]">
+                <a href="index.html" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">Home</a>
+                <a href="taiwan-trip.html" class="whitespace-nowrap flex-shrink-0 text-amber-300 hover:text-amber-200 transition font-semibold">🇹🇼 대만가족여행</a>
+                <a href="#features" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">주요 기능</a>
+                <a href="#release-notes" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">버전 히스토리</a>
+                <a href="https://emstudio-ed70a.web.app" target="_blank" class="whitespace-nowrap flex-shrink-0 bg-sky-600/20 text-sky-400 border border-sky-500/50 px-5 py-2 rounded-full hover:bg-sky-500 hover:text-white transition">웹앱 실행</a>
             </div>
         </div>
     </nav>
@@ -242,11 +245,11 @@
                 <h5 class="text-xl font-bold gradient-text mb-2">DD LifeLog — EmStudio</h5>
                 <p class="text-slate-500 text-sm">Multilingual Lifelog Application by Daduki</p>
             </div>
-            <div class="flex space-x-6 text-xs font-medium text-slate-400">
-                <a href="index.html" class="hover:text-sky-400 transition">EmStudio Home</a>
-                <a href="taiwan-trip.html" class="text-amber-300 font-bold hover:text-amber-200 transition">대만가족여행</a>
-                <a href="railwaystudio.html" class="hover:text-sky-400 transition">심지어타이쿤</a>
-                <a href="mailto:daduki@gmail.com" class="hover:text-sky-400 transition">Contact</a>
+            <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs font-medium text-slate-400">
+                <a href="index.html" class="whitespace-nowrap hover:text-sky-400 transition">EmStudio Home</a>
+                <a href="taiwan-trip.html" class="whitespace-nowrap text-amber-300 font-bold hover:text-amber-200 transition">대만가족여행</a>
+                <a href="railwaystudio.html" class="whitespace-nowrap hover:text-sky-400 transition">심지어타이쿤</a>
+                <a href="mailto:daduki@gmail.com" class="whitespace-nowrap hover:text-sky-400 transition">Contact</a>
             </div>
         </div>
         <div class="mt-8 text-center text-[10px] text-slate-700 uppercase tracking-widest">

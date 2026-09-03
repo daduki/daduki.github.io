@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="images/dd_lifelog_icon.png">
     <meta name="google-site-verification" content="PkQVnc5XrT6IR2iHEEM-aWVXEXO8JDO2VF6aWgn__eE" />
     <title>개인정보처리방침 (Privacy Policy) | DD LifeLog - EmStudio</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -11,7 +12,9 @@
         body { font-family: 'Pretendard', sans-serif; background-color: #020617; color: #f8fafc; }
         .gradient-text { background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
-    </style>
+            .nav-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; }
+        .nav-scroll::-webkit-scrollbar { display: none; }
+</style>
 </head>
 <body class="scroll-smooth min-h-screen flex flex-col justify-between">
 
@@ -22,12 +25,12 @@
                 <span class="text-xs font-bold px-2 py-1 bg-sky-500/20 text-sky-400 rounded-md">EmStudio</span>
                 <span class="text-xl font-bold tracking-tighter gradient-text">DD LifeLog</span>
             </a>
-            <div class="flex space-x-6 text-sm font-medium text-slate-300 items-center">
-                <a href="index.html" class="hover:text-sky-400 transition">Home</a>
-                <a href="dd-lifelog.html" class="hover:text-sky-400 transition">DD LifeLog</a>
-                <a href="railwaystudio.html" class="hover:text-sky-400 transition">심지어타이쿤</a>
-                <a href="privacy.html" class="text-sky-400 font-bold border-b border-sky-400 pb-0.5">개인정보처리방침</a>
-                <a href="service_term.html" class="hover:text-sky-400 transition">서비스약관</a>
+            <div class="flex nav-scroll items-center gap-x-4 sm:gap-x-6 text-sm font-medium text-slate-300 max-w-[65vw] sm:max-w-none">
+                <a href="index.html" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">Home</a>
+                <a href="dd-lifelog.html" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">DD LifeLog</a>
+                <a href="railwaystudio.html" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">심지어타이쿤</a>
+                <a href="privacy.html" class="whitespace-nowrap flex-shrink-0 text-sky-400 font-bold border-b border-sky-400 pb-0.5">개인정보처리방침</a>
+                <a href="service_term.html" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">서비스약관</a>
             </div>
         </div>
     </nav>
@@ -117,12 +120,12 @@
                 <span class="text-lg font-bold gradient-text">DD LifeLog — EmStudio</span>
                 <p class="text-xs text-slate-500 mt-1">© 2026 EmStudio. All Rights Reserved.</p>
             </div>
-            <div class="flex space-x-6 text-xs text-slate-400">
-                <a href="index.html" class="hover:text-sky-400 transition">Home</a>
-                <a href="dd-lifelog.html" class="hover:text-sky-400 transition">DD LifeLog</a>
-                <a href="privacy.html" class="text-sky-400 underline">개인정보처리방침</a>
-                <a href="service_term.html" class="hover:text-sky-400 transition">서비스약관</a>
-                <a href="mailto:daduki@gmail.com" class="hover:text-sky-400 transition">Contact</a>
+            <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-slate-400">
+                <a href="index.html" class="whitespace-nowrap hover:text-sky-400 transition">Home</a>
+                <a href="dd-lifelog.html" class="whitespace-nowrap hover:text-sky-400 transition">DD LifeLog</a>
+                <a href="privacy.html" class="whitespace-nowrap text-sky-400 underline">개인정보처리방침</a>
+                <a href="service_term.html" class="whitespace-nowrap hover:text-sky-400 transition">서비스약관</a>
+                <a href="mailto:daduki@gmail.com" class="whitespace-nowrap hover:text-sky-400 transition">Contact</a>
             </div>
         </div>
     </footer>

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../images/dd_lifelog_icon.png">
     <title>장난감정리 — 방바닥밴드 | EmStudio Discography</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -10,20 +11,22 @@
         body { font-family: 'Pretendard', sans-serif; background-color: #020617; color: #f8fafc; }
         .gradient-text { background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .glass { background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,0.08); }
-    </style>
+            .nav-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; }
+        .nav-scroll::-webkit-scrollbar { display: none; }
+</style>
 </head>
 <body class="scroll-smooth min-h-screen flex flex-col justify-between">
 
     <nav class="fixed w-full z-50 glass border-b border-white/5">
         <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="../index.html" class="flex items-center space-x-3">
-                <img src="../images/dd_lifelog_icon.png" alt="EmStudio" class="w-9 h-9 rounded-xl border border-sky-500/30 object-cover shadow-md">
-                <div class="flex items-center space-x-2">
-                    <span class="text-xl font-extrabold text-white tracking-tight">EmStudio</span>
-                    <span class="text-xs font-semibold text-sky-400 px-2 py-0.5 rounded bg-sky-500/10 border border-sky-500/20">Discography</span>
+            <a href="../index.html" class="flex items-center space-x-3 flex-shrink-0 min-w-0">
+                <img src="../images/dd_lifelog_icon.png" alt="EmStudio" class="w-9 h-9 rounded-xl border border-sky-500/30 object-cover shadow-md flex-shrink-0">
+                <div class="flex items-center space-x-2 min-w-0">
+                    <span class="text-xl font-extrabold text-white tracking-tight whitespace-nowrap">EmStudio</span>
+                    <span class="text-xs font-semibold text-sky-400 px-2 py-0.5 rounded bg-sky-500/10 border border-sky-500/20 whitespace-nowrap hidden sm:inline-block">Discography</span>
                 </div>
             </a>
-            <a href="../index.html#discography" class="text-sm font-semibold text-slate-300 hover:text-sky-400 transition">← Discography로 돌아가기</a>
+            <a href="../index.html#discography" class="text-xs sm:text-sm font-semibold text-slate-300 hover:text-sky-400 transition whitespace-nowrap flex-shrink-0">← Discography로 돌아가기</a>
         </div>
     </nav>
 

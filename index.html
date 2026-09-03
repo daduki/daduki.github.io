@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="images/dd_lifelog_icon.png">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -16,7 +17,13 @@
         .gradient-orange { background: linear-gradient(135deg, #fb923c, #f43f5e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .glass { background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,0.08); }
         .card-select:hover { border-color: rgba(56, 189, 248, 0.5); transform: translateY(-4px); box-shadow: 0 20px 30px rgba(0,0,0,0.5); transition: all 0.35s ease; }
-    </style>
+            .nav-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; }
+        .nav-scroll::-webkit-scrollbar { display: none; }
+        .h-scroll { -webkit-overflow-scrolling: touch; scrollbar-width: thin; scrollbar-color: rgba(56,189,248,0.4) transparent; }
+        .h-scroll::-webkit-scrollbar { height: 6px; }
+        .h-scroll::-webkit-scrollbar-track { background: transparent; }
+        .h-scroll::-webkit-scrollbar-thumb { background: rgba(56,189,248,0.4); border-radius: 999px; }
+</style>
 </head>
 <body class="scroll-smooth min-h-screen flex flex-col justify-between">
 
@@ -30,17 +37,17 @@
                     <span class="text-xs font-semibold text-sky-400 px-2 py-0.5 rounded bg-sky-500/10 border border-sky-500/20">by EmStudio</span>
                 </div>
             </a>
-            <div class="hidden md:flex space-x-6 text-sm font-medium text-slate-300 items-center">
-                <a href="index.html" class="text-sky-400 font-bold border-b border-sky-400 pb-0.5">Home</a>
-                <a href="taiwan-trip.html" class="text-amber-300 hover:text-amber-200 transition font-semibold flex items-center gap-1">
+            <div class="hidden md:flex nav-scroll items-center gap-x-3 lg:gap-x-6 text-sm font-medium text-slate-300 max-w-[60vw]">
+                <a href="index.html" class="whitespace-nowrap flex-shrink-0 text-sky-400 font-bold border-b border-sky-400 pb-0.5">Home</a>
+                <a href="taiwan-trip.html" class="whitespace-nowrap flex-shrink-0 text-amber-300 hover:text-amber-200 transition font-semibold flex items-center gap-1">
                     <span>🇹🇼</span> 대만가족여행
                 </a>
-                <a href="taiwan-kids-cards.html" class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30 transition flex items-center gap-1 text-xs font-bold">
+                <a href="taiwan-kids-cards.html" class="whitespace-nowrap flex-shrink-0 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30 transition flex items-center gap-1 text-xs font-bold">
                     <span>🎒 7세 퀴즈&카드뉴스</span>
                 </a>
-                <a href="dd-lifelog.html" class="hover:text-sky-400 transition">DD LifeLog</a>
-                <a href="railwaystudio.html" class="hover:text-sky-400 transition">심지어타이쿤</a>
-                <a href="https://emstudio-ed70a.web.app" target="_blank" class="bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold px-4 py-2 rounded-full transition shadow-lg shadow-sky-900/30">
+                <a href="dd-lifelog.html" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">DD LifeLog</a>
+                <a href="railwaystudio.html" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">심지어타이쿤</a>
+                <a href="https://emstudio-ed70a.web.app" target="_blank" class="whitespace-nowrap flex-shrink-0 bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold px-4 py-2 rounded-full transition shadow-lg shadow-sky-900/30">
                     웹앱 실행 🚀
                 </a>
             </div>
@@ -190,75 +197,61 @@
                 <div>
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-lg font-bold text-slate-100">조대득밴드</h3>
-                        <a href="https://youtube.com/playlist?list=PLd5tA5F0A5eF2Cu-k4k_q_TQ2TiD-045u" target="_blank" class="text-xs font-semibold text-sky-400 hover:text-sky-300 transition flex items-center gap-1">
-                            <svg viewBox="0 0 24 24" width="14" height="14" class="w-3.5 h-3.5 text-red-500" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4L15.8 12Z"/></svg>
+                        <a href="https://youtube.com/playlist?list=PLd5tA5F0A5eF2Cu-k4k_q_TQ2TiD-045u" target="_blank" class="text-xs font-semibold text-sky-400 hover:text-sky-300 transition flex items-center gap-1 whitespace-nowrap flex-shrink-0">
+                            <svg viewBox="0 0 24 24" width="14" height="14" class="w-3.5 h-3.5 text-red-500 flex-shrink-0" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4L15.8 12Z"/></svg>
                             YouTube에서 전체 앨범 보기 →
                         </a>
                     </div>
-                    <div class="space-y-3" data-artist="조대득밴드">
-                        <!-- 2026.09.04 발매 예정 앨범 -->
-                        <a href="discography/jodaedeuk-20260904-album.html" class="glass p-4 rounded-2xl border border-sky-500/40 flex items-center gap-4 hover:border-sky-400 transition card-select relative overflow-hidden group">
-                            <div class="relative flex-shrink-0">
-                                <img src="images/20250107.jpg" alt="신과함께 라면 (2026.09.04 발매 예정) 앨범 커버" class="w-16 h-16 rounded-xl object-cover border border-sky-400/30 shadow-md">
-                                <span class="absolute -top-1.5 -right-1.5 px-1.5 py-0.5 rounded-full bg-emerald-500 text-[9px] font-extrabold text-white shadow">NEW</span>
-                            </div>
-                            <div class="min-w-0 flex-1">
-                                <div class="flex items-center gap-2">
-                                    <p class="text-slate-100 font-bold truncate group-hover:text-sky-300 transition">신과함께 라면</p>
-                                    <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 whitespace-nowrap">9월 4일 출시</span>
+                    <div class="relative discog-row-wrap">
+                        <div class="flex gap-3 sm:gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2 h-scroll" data-artist="조대득밴드">
+                            <!-- 2026.09.04 발매 예정 앨범 -->
+                            <a href="discography/jodaedeuk-20260904-album.html" class="snap-start flex-shrink-0 w-32 sm:w-36 md:w-40 glass p-3 rounded-2xl border border-sky-500/40 hover:border-sky-400 transition card-select relative overflow-hidden group">
+                                <div class="relative">
+                                    <img src="images/20250107.jpg" alt="신과함께 라면 (2026.09.04 발매 예정) 앨범 커버" class="w-full aspect-square rounded-xl object-cover border border-sky-400/30 shadow-md">
+                                    <span class="absolute -top-1.5 -right-1.5 px-1.5 py-0.5 rounded-full bg-emerald-500 text-[9px] font-extrabold text-white shadow whitespace-nowrap">NEW</span>
                                 </div>
-                                <p class="text-slate-400 text-xs mt-1">2026.09.04 발매 예정 <span class="text-slate-600">· 3트랙 EP</span></p>
-                            </div>
-                        </a>
-                        <a href="discography/jodaedeuk-singwahamkke-ramen.html" class="glass p-4 rounded-2xl border border-white/10 flex items-center gap-4 hover:border-sky-500/40 transition card-select">
-                            <img src="images/20250107.jpg" alt="신과함께 라면 앨범 커버" class="w-16 h-16 rounded-xl object-cover border border-white/10 shadow-md flex-shrink-0">
-                            <div class="min-w-0">
-                                <p class="text-slate-100 font-semibold truncate">신과함께 라면</p>
-                                <p class="text-slate-400 text-xs mt-1">2025.01.07 <span class="text-slate-600">· DD밴드 프로젝트</span></p>
-                            </div>
-                        </a>
-                        <a href="discography/jodaedeuk-ddband-04-honeybitterchip.html" class="glass p-4 rounded-2xl border border-white/10 flex items-center gap-4 hover:border-sky-500/40 transition card-select">
-                            <img src="images/20191121.jpg" alt="#4 HONEY BITTER CHIP 앨범 커버" class="w-16 h-16 rounded-xl object-cover border border-white/10 shadow-md flex-shrink-0">
-                            <div class="min-w-0">
-                                <p class="text-slate-100 font-semibold truncate">#4 HONEY BITTER CHIP</p>
-                                <p class="text-slate-400 text-xs mt-1">2019.11.21 <span class="text-slate-600">· DD밴드 프로젝트</span></p>
-                            </div>
-                        </a>
-                        <a href="discography/jodaedeuk-ddband-03-rewined.html" class="glass p-4 rounded-2xl border border-white/10 flex items-center gap-4 hover:border-sky-500/40 transition card-select">
-                            <img src="images/20180423.jpg" alt="#3 RE-WINED 앨범 커버" class="w-16 h-16 rounded-xl object-cover border border-white/10 shadow-md flex-shrink-0">
-                            <div class="min-w-0">
-                                <p class="text-slate-100 font-semibold truncate">#3 RE-WINED</p>
-                                <p class="text-slate-400 text-xs mt-1">2018.04.23 <span class="text-slate-600">· DD밴드 프로젝트</span></p>
-                            </div>
-                        </a>
-                        <a href="discography/jodaedeuk-ddband-02-lullaby.html" class="glass p-4 rounded-2xl border border-white/10 flex items-center gap-4 hover:border-sky-500/40 transition card-select">
-                            <img src="images/20180305.jpg" alt="#2 LULLABY 앨범 커버" class="w-16 h-16 rounded-xl object-cover border border-white/10 shadow-md flex-shrink-0">
-                            <div class="min-w-0">
-                                <p class="text-slate-100 font-semibold truncate">#2 LULLABY</p>
-                                <p class="text-slate-400 text-xs mt-1">2018.03.05 <span class="text-slate-600">· DD밴드 프로젝트</span></p>
-                            </div>
-                        </a>
-                        <a href="discography/jodaedeuk-ddband-01-oreorae.html" class="glass p-4 rounded-2xl border border-white/10 flex items-center gap-4 hover:border-sky-500/40 transition card-select">
-                            <img src="images/20180131.jpg" alt="#1 OREO RAE 앨범 커버" class="w-16 h-16 rounded-xl object-cover border border-white/10 shadow-md flex-shrink-0">
-                            <div class="min-w-0">
-                                <p class="text-slate-100 font-semibold truncate">#1 OREO RAE</p>
-                                <p class="text-slate-400 text-xs mt-1">2018.01.31 <span class="text-slate-600">· DD밴드 프로젝트</span></p>
-                            </div>
-                        </a>
-                        <a href="discography/jodaedeuk-yeogikkaji.html" class="glass p-4 rounded-2xl border border-white/10 flex items-center gap-4 hover:border-sky-500/40 transition card-select">
-                            <img src="images/20131218.jpg" alt="여기까지 앨범 커버" class="w-16 h-16 rounded-xl object-cover border border-white/10 shadow-md flex-shrink-0">
-                            <div class="min-w-0">
-                                <p class="text-slate-100 font-semibold truncate">여기까지</p>
-                                <p class="text-slate-400 text-xs mt-1">2013.12.18</p>
-                            </div>
-                        </a>
-                        <a href="discography/jodaedeuk-imsi-hyueop.html" class="glass p-4 rounded-2xl border border-white/10 flex items-center gap-4 hover:border-sky-500/40 transition card-select">
-                            <img src="images/20110527.jpg" alt="임시휴업 앨범 커버" class="w-16 h-16 rounded-xl object-cover border border-white/10 shadow-md flex-shrink-0">
-                            <div class="min-w-0">
-                                <p class="text-slate-100 font-semibold truncate">임시휴업</p>
-                                <p class="text-slate-400 text-xs mt-1">2011.05.27</p>
-                            </div>
-                        </a>
+                                <p class="text-slate-100 font-bold text-xs sm:text-sm mt-2.5 truncate group-hover:text-sky-300 transition">신과함께 라면</p>
+                                <span class="inline-block mt-1 text-[9px] font-extrabold px-1.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 whitespace-nowrap">9월 4일 출시</span>
+                                <p class="text-slate-400 text-[10px] sm:text-[11px] mt-1 truncate">2026.09.04 발매 예정</p>
+                            </a>
+                            <a href="discography/jodaedeuk-singwahamkke-ramen.html" class="snap-start flex-shrink-0 w-32 sm:w-36 md:w-40 glass p-3 rounded-2xl border border-white/10 hover:border-sky-500/40 transition card-select">
+                                <img src="images/20250107.jpg" alt="신과함께 라면 앨범 커버" class="w-full aspect-square rounded-xl object-cover border border-white/10 shadow-md">
+                                <p class="text-slate-100 font-semibold text-xs sm:text-sm mt-2.5 truncate">신과함께 라면</p>
+                                <p class="text-slate-400 text-[10px] sm:text-[11px] mt-1 truncate">2025.01.07 · DD밴드</p>
+                            </a>
+                            <a href="discography/jodaedeuk-ddband-04-honeybitterchip.html" class="snap-start flex-shrink-0 w-32 sm:w-36 md:w-40 glass p-3 rounded-2xl border border-white/10 hover:border-sky-500/40 transition card-select">
+                                <img src="images/20191121.jpg" alt="#4 HONEY BITTER CHIP 앨범 커버" class="w-full aspect-square rounded-xl object-cover border border-white/10 shadow-md">
+                                <p class="text-slate-100 font-semibold text-xs sm:text-sm mt-2.5 truncate">#4 HONEY BITTER CHIP</p>
+                                <p class="text-slate-400 text-[10px] sm:text-[11px] mt-1 truncate">2019.11.21 · DD밴드</p>
+                            </a>
+                            <a href="discography/jodaedeuk-ddband-03-rewined.html" class="snap-start flex-shrink-0 w-32 sm:w-36 md:w-40 glass p-3 rounded-2xl border border-white/10 hover:border-sky-500/40 transition card-select">
+                                <img src="images/20180423.jpg" alt="#3 RE-WINED 앨범 커버" class="w-full aspect-square rounded-xl object-cover border border-white/10 shadow-md">
+                                <p class="text-slate-100 font-semibold text-xs sm:text-sm mt-2.5 truncate">#3 RE-WINED</p>
+                                <p class="text-slate-400 text-[10px] sm:text-[11px] mt-1 truncate">2018.04.23 · DD밴드</p>
+                            </a>
+                            <a href="discography/jodaedeuk-ddband-02-lullaby.html" class="snap-start flex-shrink-0 w-32 sm:w-36 md:w-40 glass p-3 rounded-2xl border border-white/10 hover:border-sky-500/40 transition card-select">
+                                <img src="images/20180305.jpg" alt="#2 LULLABY 앨범 커버" class="w-full aspect-square rounded-xl object-cover border border-white/10 shadow-md">
+                                <p class="text-slate-100 font-semibold text-xs sm:text-sm mt-2.5 truncate">#2 LULLABY</p>
+                                <p class="text-slate-400 text-[10px] sm:text-[11px] mt-1 truncate">2018.03.05 · DD밴드</p>
+                            </a>
+                            <a href="discography/jodaedeuk-ddband-01-oreorae.html" class="snap-start flex-shrink-0 w-32 sm:w-36 md:w-40 glass p-3 rounded-2xl border border-white/10 hover:border-sky-500/40 transition card-select">
+                                <img src="images/20180131.jpg" alt="#1 OREO RAE 앨범 커버" class="w-full aspect-square rounded-xl object-cover border border-white/10 shadow-md">
+                                <p class="text-slate-100 font-semibold text-xs sm:text-sm mt-2.5 truncate">#1 OREO RAE</p>
+                                <p class="text-slate-400 text-[10px] sm:text-[11px] mt-1 truncate">2018.01.31 · DD밴드</p>
+                            </a>
+                            <a href="discography/jodaedeuk-yeogikkaji.html" class="snap-start flex-shrink-0 w-32 sm:w-36 md:w-40 glass p-3 rounded-2xl border border-white/10 hover:border-sky-500/40 transition card-select">
+                                <img src="images/20131218.jpg" alt="여기까지 앨범 커버" class="w-full aspect-square rounded-xl object-cover border border-white/10 shadow-md">
+                                <p class="text-slate-100 font-semibold text-xs sm:text-sm mt-2.5 truncate">여기까지</p>
+                                <p class="text-slate-400 text-[10px] sm:text-[11px] mt-1 truncate">2013.12.18</p>
+                            </a>
+                            <a href="discography/jodaedeuk-imsi-hyueop.html" class="snap-start flex-shrink-0 w-32 sm:w-36 md:w-40 glass p-3 rounded-2xl border border-white/10 hover:border-sky-500/40 transition card-select">
+                                <img src="images/20110527.jpg" alt="임시휴업 앨범 커버" class="w-full aspect-square rounded-xl object-cover border border-white/10 shadow-md">
+                                <p class="text-slate-100 font-semibold text-xs sm:text-sm mt-2.5 truncate">임시휴업</p>
+                                <p class="text-slate-400 text-[10px] sm:text-[11px] mt-1 truncate">2011.05.27</p>
+                            </a>
+                        </div>
+                        <button type="button" onclick="scrollDiscogRow(this,-1)" aria-label="이전 앨범" class="hidden sm:flex absolute -left-3 top-[calc(50%-14px)] -translate-y-1/2 w-8 h-8 rounded-full bg-slate-900/95 border border-slate-700 items-center justify-center text-slate-300 hover:text-white hover:border-sky-500 transition shadow-lg z-10">‹</button>
+                        <button type="button" onclick="scrollDiscogRow(this,1)" aria-label="다음 앨범" class="hidden sm:flex absolute -right-3 top-[calc(50%-14px)] -translate-y-1/2 w-8 h-8 rounded-full bg-slate-900/95 border border-slate-700 items-center justify-center text-slate-300 hover:text-white hover:border-sky-500 transition shadow-lg z-10">›</button>
                     </div>
                 </div>
 
@@ -266,26 +259,26 @@
                 <div>
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-lg font-bold text-slate-100">방바닥밴드</h3>
-                        <a href="https://youtube.com/playlist?list=PLd5tA5F0A5eF2Cu-k4k_q_TQ2TiD-045u" target="_blank" class="text-xs font-semibold text-sky-400 hover:text-sky-300 transition flex items-center gap-1">
-                            <svg viewBox="0 0 24 24" width="14" height="14" class="w-3.5 h-3.5 text-red-500" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4L15.8 12Z"/></svg>
+                        <a href="https://youtube.com/playlist?list=PLd5tA5F0A5eF2Cu-k4k_q_TQ2TiD-045u" target="_blank" class="text-xs font-semibold text-sky-400 hover:text-sky-300 transition flex items-center gap-1 whitespace-nowrap flex-shrink-0">
+                            <svg viewBox="0 0 24 24" width="14" height="14" class="w-3.5 h-3.5 text-red-500 flex-shrink-0" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4L15.8 12Z"/></svg>
                             YouTube에서 전체 앨범 보기 →
                         </a>
                     </div>
-                    <div class="space-y-3" data-artist="방바닥밴드">
-                        <a href="discography/bangbadak-dalbame-keopi.html" class="glass p-4 rounded-2xl border border-white/10 flex items-center gap-4 hover:border-sky-500/40 transition card-select">
-                            <img src="images/20190222.jpg" alt="달밤에 커피 앨범 커버" class="w-16 h-16 rounded-xl object-cover border border-white/10 shadow-md flex-shrink-0">
-                            <div class="min-w-0">
-                                <p class="text-slate-100 font-semibold truncate">달밤에 커피</p>
-                                <p class="text-slate-400 text-xs mt-1">2019.02.22 <span class="text-slate-600">· 2집</span></p>
-                            </div>
-                        </a>
-                        <a href="discography/bangbadak-jangnangamjeongli-1.html" class="glass p-4 rounded-2xl border border-white/10 flex items-center gap-4 hover:border-sky-500/40 transition card-select">
-                            <img src="images/20140502.jpg" alt="장난감정리 앨범 커버" class="w-16 h-16 rounded-xl object-cover border border-white/10 shadow-md flex-shrink-0">
-                            <div class="min-w-0">
-                                <p class="text-slate-100 font-semibold truncate">장난감정리</p>
-                                <p class="text-slate-400 text-xs mt-1">2014.05.02 <span class="text-slate-600">· 1집</span></p>
-                            </div>
-                        </a>
+                    <div class="relative discog-row-wrap">
+                        <div class="flex gap-3 sm:gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2 h-scroll" data-artist="방바닥밴드">
+                            <a href="discography/bangbadak-dalbame-keopi.html" class="snap-start flex-shrink-0 w-32 sm:w-36 md:w-40 glass p-3 rounded-2xl border border-white/10 hover:border-sky-500/40 transition card-select">
+                                <img src="images/20190222.jpg" alt="달밤에 커피 앨범 커버" class="w-full aspect-square rounded-xl object-cover border border-white/10 shadow-md">
+                                <p class="text-slate-100 font-semibold text-xs sm:text-sm mt-2.5 truncate">달밤에 커피</p>
+                                <p class="text-slate-400 text-[10px] sm:text-[11px] mt-1 truncate">2019.02.22 · 2집</p>
+                            </a>
+                            <a href="discography/bangbadak-jangnangamjeongli-1.html" class="snap-start flex-shrink-0 w-32 sm:w-36 md:w-40 glass p-3 rounded-2xl border border-white/10 hover:border-sky-500/40 transition card-select">
+                                <img src="images/20140502.jpg" alt="장난감정리 앨범 커버" class="w-full aspect-square rounded-xl object-cover border border-white/10 shadow-md">
+                                <p class="text-slate-100 font-semibold text-xs sm:text-sm mt-2.5 truncate">장난감정리</p>
+                                <p class="text-slate-400 text-[10px] sm:text-[11px] mt-1 truncate">2014.05.02 · 1집</p>
+                            </a>
+                        </div>
+                        <button type="button" onclick="scrollDiscogRow(this,-1)" aria-label="이전 앨범" class="hidden sm:flex absolute -left-3 top-[calc(50%-14px)] -translate-y-1/2 w-8 h-8 rounded-full bg-slate-900/95 border border-slate-700 items-center justify-center text-slate-300 hover:text-white hover:border-sky-500 transition shadow-lg z-10">‹</button>
+                        <button type="button" onclick="scrollDiscogRow(this,1)" aria-label="다음 앨범" class="hidden sm:flex absolute -right-3 top-[calc(50%-14px)] -translate-y-1/2 w-8 h-8 rounded-full bg-slate-900/95 border border-slate-700 items-center justify-center text-slate-300 hover:text-white hover:border-sky-500 transition shadow-lg z-10">›</button>
                     </div>
                 </div>
 
@@ -293,20 +286,20 @@
                 <div>
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-lg font-bold text-slate-100">나들목교회</h3>
-                        <a href="https://youtube.com/playlist?list=PLd5tA5F0A5eF2Cu-k4k_q_TQ2TiD-045u" target="_blank" class="text-xs font-semibold text-sky-400 hover:text-sky-300 transition flex items-center gap-1">
-                            <svg viewBox="0 0 24 24" width="14" height="14" class="w-3.5 h-3.5 text-red-500" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4L15.8 12Z"/></svg>
+                        <a href="https://youtube.com/playlist?list=PLd5tA5F0A5eF2Cu-k4k_q_TQ2TiD-045u" target="_blank" class="text-xs font-semibold text-sky-400 hover:text-sky-300 transition flex items-center gap-1 whitespace-nowrap flex-shrink-0">
+                            <svg viewBox="0 0 24 24" width="14" height="14" class="w-3.5 h-3.5 text-red-500 flex-shrink-0" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4L15.8 12Z"/></svg>
                             YouTube에서 전체 앨범 보기 →
                         </a>
                     </div>
                     <!-- 5번(김밥의 원래 계획), 13번(조슈아 행진곡) 트랙은 작사·작곡 참여곡으로 상세 페이지에서 볼드체 처리됨 -->
-                    <div class="space-y-3" data-artist="나들목교회">
-                        <a href="discography/nadeulmok-ugauda.html" class="glass p-4 rounded-2xl border border-white/10 flex items-center gap-4 hover:border-sky-500/40 transition card-select">
-                            <img src="images/20181218.jpg" alt="Next NADULMOK 우가우다 앨범 커버" class="w-16 h-16 rounded-xl object-cover border border-white/10 shadow-md flex-shrink-0">
-                            <div class="min-w-0">
-                                <p class="text-slate-100 font-semibold truncate">Next NADULMOK 우가우다</p>
-                                <p class="text-slate-400 text-xs mt-1">2018.12.18</p>
-                            </div>
-                        </a>
+                    <div class="relative discog-row-wrap">
+                        <div class="flex gap-3 sm:gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2 h-scroll" data-artist="나들목교회">
+                            <a href="discography/nadeulmok-ugauda.html" class="snap-start flex-shrink-0 w-32 sm:w-36 md:w-40 glass p-3 rounded-2xl border border-white/10 hover:border-sky-500/40 transition card-select">
+                                <img src="images/20181218.jpg" alt="Next NADULMOK 우가우다 앨범 커버" class="w-full aspect-square rounded-xl object-cover border border-white/10 shadow-md">
+                                <p class="text-slate-100 font-semibold text-xs sm:text-sm mt-2.5 truncate">Next NADULMOK 우가우다</p>
+                                <p class="text-slate-400 text-[10px] sm:text-[11px] mt-1 truncate">2018.12.18</p>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
@@ -326,15 +319,15 @@
                     </h5>
                     <p class="text-slate-500 text-xs">Official Application Homepage & Privacy Portal for DD LifeLog</p>
                 </div>
-                <div class="flex flex-wrap justify-center gap-6 text-xs font-medium text-slate-400">
-                    <a href="index.html" class="hover:text-sky-400 transition">Home</a>
-                    <a href="taiwan-trip.html" class="text-amber-300 font-bold hover:text-amber-200 transition">대만가족여행</a>
-                    <a href="taiwan-kids-cards.html" class="text-emerald-300 font-bold hover:text-emerald-200 transition">7세 카드뉴스&퀴즈</a>
-                    <a href="dd-lifelog.html" class="hover:text-sky-400 transition">DD LifeLog</a>
-                    <a href="railwaystudio.html" class="hover:text-sky-400 transition">심지어타이쿤</a>
-                    <a href="privacy.html" class="hover:text-sky-400 transition text-sky-400 font-bold">개인정보처리방침</a>
-                    <a href="service_term.html" class="hover:text-sky-400 transition">서비스약관</a>
-                    <a href="mailto:daduki@gmail.com" class="hover:text-sky-400 transition">Contact</a>
+                <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs font-medium text-slate-400">
+                    <a href="index.html" class="whitespace-nowrap hover:text-sky-400 transition">Home</a>
+                    <a href="taiwan-trip.html" class="whitespace-nowrap text-amber-300 font-bold hover:text-amber-200 transition">대만가족여행</a>
+                    <a href="taiwan-kids-cards.html" class="whitespace-nowrap text-emerald-300 font-bold hover:text-emerald-200 transition">7세 카드뉴스&퀴즈</a>
+                    <a href="dd-lifelog.html" class="whitespace-nowrap hover:text-sky-400 transition">DD LifeLog</a>
+                    <a href="railwaystudio.html" class="whitespace-nowrap hover:text-sky-400 transition">심지어타이쿤</a>
+                    <a href="privacy.html" class="whitespace-nowrap hover:text-sky-400 transition text-sky-400 font-bold">개인정보처리방침</a>
+                    <a href="service_term.html" class="whitespace-nowrap hover:text-sky-400 transition">서비스약관</a>
+                    <a href="mailto:daduki@gmail.com" class="whitespace-nowrap hover:text-sky-400 transition">Contact</a>
                 </div>
             </div>
             <div class="mt-8 text-center text-[10px] text-slate-700 uppercase tracking-widest">
@@ -342,6 +335,16 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Scroll a Discography artist row horizontally by ~2 card-widths.
+        function scrollDiscogRow(btn, dir) {
+            const wrap = btn.closest('.discog-row-wrap');
+            const row = wrap && wrap.querySelector('.h-scroll');
+            if (!row) return;
+            row.scrollBy({ left: dir * row.clientWidth * 0.8, behavior: 'smooth' });
+        }
+    </script>
 
 </body>
 </html>
