@@ -7,6 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <meta name="google-site-verification" content="PkQVnc5XrT6IR2iHEEM-aWVXEXO8JDO2VF6aWgn__eE" />
+    <link rel="icon" type="image/png" href="images/dd_lifelog_icon.png">
     <title>대만 가족 여행 대시보드 — 타이베이 3박 4일 (은찬 7세 & 은채 15개월) | EmStudio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -32,6 +33,8 @@
             .text-white, .text-slate-100, .text-slate-200, .text-slate-300 { color: #0f172a !important; }
             .text-slate-400, .text-slate-500 { color: #475569 !important; }
         }
+        .nav-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; }
+        .nav-scroll::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body class="scroll-smooth min-h-screen flex flex-col justify-between">
@@ -46,17 +49,18 @@
                     <span class="text-[10px] font-semibold text-sky-400 px-2 py-0.5 rounded bg-sky-500/10 border border-sky-500/20 ml-2">타이베이 3박 4일</span>
                 </div>
             </a>
-            <div class="hidden md:flex space-x-6 text-sm font-medium text-slate-300 items-center">
-                <a href="index.html" class="hover:text-sky-400 transition">Home</a>
-                <a href="taiwan-kids-cards.html" class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30 transition flex items-center gap-1.5 text-xs font-bold shadow-sm">
+            <div class="hidden md:flex nav-scroll items-center gap-x-3 lg:gap-x-5 text-sm font-medium text-slate-300 max-w-[62vw]">
+                <a href="index.html" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">Home</a>
+                <a href="taiwan-kids-cards.html" class="whitespace-nowrap flex-shrink-0 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30 transition flex items-center gap-1.5 text-xs font-bold shadow-sm">
                     <span>🎒 7세 카드뉴스&퀴즈</span>
                 </a>
-                <a href="#flight" class="hover:text-sky-400 transition">✈️ 항공권 일정</a>
-                <a href="#itinerary" class="hover:text-sky-400 transition">📅 타임라인 스케쥴</a>
-                <a href="#baby-care" class="hover:text-sky-400 transition">👶 15개월 맞춤케어</a>
-                <a href="#checklist" class="hover:text-sky-400 transition">✅ 체크리스트</a>
-                <a href="#phrasebook" class="hover:text-sky-400 transition">🗣️ 소통카드</a>
-                <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-600 transition flex items-center gap-1.5">
+                <a href="#flight" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">✈️ 항공권 일정</a>
+                <a href="#itinerary" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">📅 타임라인 스케쥴</a>
+                <a href="#mrt-route" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">🚇 MRT 동선</a>
+                <a href="#baby-care" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">👶 15개월 맞춤케어</a>
+                <a href="#checklist" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">✅ 체크리스트</a>
+                <a href="#phrasebook" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">🗣️ 소통카드</a>
+                <button onclick="window.print()" class="whitespace-nowrap flex-shrink-0 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-600 transition flex items-center gap-1.5">
                     <span>🖨️ 인쇄/PDF</span>
                 </button>
             </div>
@@ -76,6 +80,7 @@
             <a href="taiwan-kids-cards.html" class="block py-1.5 text-emerald-300 font-bold hover:text-emerald-200">🎒 7세 은찬이의 카드뉴스 & 퀴즈 모험</a>
             <a href="#flight" class="block py-1.5 text-slate-300 hover:text-sky-400">✈️ 왕복 항공권 일정</a>
             <a href="#itinerary" class="block py-1.5 text-slate-300 hover:text-sky-400">📅 타임라인 스케쥴 관리</a>
+            <a href="#mrt-route" class="block py-1.5 text-slate-300 hover:text-sky-400">🚇 MRT 노선도 & 동선</a>
             <a href="#baby-care" class="block py-1.5 text-slate-300 hover:text-sky-400">👶 15개월 맞춤케어</a>
             <a href="#checklist" class="block py-1.5 text-slate-300 hover:text-sky-400">✅ 준비 체크리스트</a>
             <a href="#phrasebook" class="block py-1.5 text-slate-300 hover:text-sky-400">🗣️ 필수 소통카드</a>
@@ -83,7 +88,7 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="pt-28 pb-20 px-4 md:px-6 max-w-6xl mx-auto flex-grow w-full">
+    <main class="pt-28 pb-20 px-4 md:px-6 max-w-6xl mx-auto flex-grow w-full min-w-0">
 
         <!-- Hero Section & D-Day Countdown -->
         <section class="mb-10">
@@ -455,6 +460,134 @@
 
             </div>
         </section>
+
+        <!-- MRT Route Visualization Section -->
+        <section id="mrt-route" class="mb-12">
+            <div class="glass p-6 md:p-8 rounded-3xl border border-sky-500/30">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <span>🚇</span> MRT 노선도 & 일자별 이용 동선
+                    </h2>
+                    <p class="text-xs md:text-sm text-slate-400 mt-1">
+                        지도 위 배지는 "N일차-몇 번째 방문"을 의미합니다. 배지 색상 = 방문 일자, 지도가 복잡하면 하단 순서 목록을 함께 참고하세요.
+                    </p>
+                </div>
+
+                <!-- Day Color Legend -->
+                <div class="flex flex-wrap gap-2 mb-5">
+                    <span class="text-[11px] font-bold px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/40">● 1일차 (11/21)</span>
+                    <span class="text-[11px] font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">● 2일차 (11/22)</span>
+                    <span class="text-[11px] font-bold px-3 py-1 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/40">● 3일차 (11/23)</span>
+                    <span class="text-[11px] font-bold px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">● 4일차 (11/24)</span>
+                </div>
+
+                <!-- Map with Overlay Badges -->
+                <div class="relative w-full rounded-2xl overflow-hidden border border-slate-700 bg-white" style="position:relative;">
+                    <img src="images/taipei_mrt.webp" alt="타이베이 MRT 노선도" class="w-full h-auto block select-none" style="width:100%;height:auto;display:block;" draggable="false">
+
+                    <!-- 타오위안공항 (Taoyuan Airport, A12/A13): 1일차 탑승, 4일차 도착 -->
+                    <div class="absolute -translate-x-1/2 -translate-y-1/2" style="position:absolute;transform:translate(-50%,-50%);left:2%;top:25%;">
+                        <div class="w-3 h-3 rounded-full bg-white border-2 border-slate-900 shadow-md" style="width:12px;height:12px;border-radius:9999px;background:#fff;border:2px solid #0f172a;"></div>
+                        <div class="absolute top-full left-1/2 -translate-x-1/2 mt-0.5 flex flex-col items-center gap-0.5 whitespace-nowrap" style="position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:2px;display:flex;flex-direction:column;align-items:center;gap:2px;white-space:nowrap;">
+                            <span class="text-[8px] md:text-[9px] font-black px-1 py-px rounded bg-sky-500 text-white shadow" style="font-size:8px;font-weight:900;padding:0 3px;border-radius:4px;color:#fff;background:#0ea5e9;">1-①</span>
+                            <span class="text-[8px] md:text-[9px] font-black px-1 py-px rounded bg-amber-500 text-white shadow" style="font-size:8px;font-weight:900;padding:0 3px;border-radius:4px;color:#fff;background:#f59e0b;">4-②</span>
+                        </div>
+                    </div>
+
+                    <!-- 타이베이역 (Taipei Main Station): 1일차 도착·2박, 3일차 TRA 환승, 4일차 탑승 -->
+                    <div class="absolute -translate-x-1/2 -translate-y-1/2" style="position:absolute;transform:translate(-50%,-50%);left:41%;top:58%;">
+                        <div class="w-3.5 h-3.5 rounded-full bg-white border-2 border-slate-900 shadow-md" style="width:14px;height:14px;border-radius:9999px;background:#fff;border:2px solid #0f172a;"></div>
+                        <div class="absolute top-full left-1/2 -translate-x-1/2 mt-0.5 flex flex-col items-center gap-0.5 whitespace-nowrap" style="position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:2px;display:flex;flex-direction:column;align-items:center;gap:2px;white-space:nowrap;">
+                            <span class="text-[8px] md:text-[9px] font-black px-1 py-px rounded bg-sky-500 text-white shadow" style="font-size:8px;font-weight:900;padding:0 3px;border-radius:4px;color:#fff;background:#0ea5e9;">1-②</span>
+                            <span class="text-[8px] md:text-[9px] font-black px-1 py-px rounded bg-violet-500 text-white shadow" style="font-size:8px;font-weight:900;padding:0 3px;border-radius:4px;color:#fff;background:#8b5cf6;">3-①</span>
+                            <span class="text-[8px] md:text-[9px] font-black px-1 py-px rounded bg-amber-500 text-white shadow" style="font-size:8px;font-weight:900;padding:0 3px;border-radius:4px;color:#fff;background:#f59e0b;">4-①</span>
+                        </div>
+                    </div>
+
+                    <!-- 베이먼 (Beimen, G13): 철도부원구 박물관 -->
+                    <div class="absolute -translate-x-1/2 -translate-y-1/2" style="position:absolute;transform:translate(-50%,-50%);left:30.7%;top:54.7%;">
+                        <div class="w-3 h-3 rounded-full bg-white border-2 border-slate-900 shadow-md" style="width:12px;height:12px;border-radius:9999px;background:#fff;border:2px solid #0f172a;"></div>
+                        <span class="absolute top-full left-1/2 -translate-x-1/2 mt-0.5 text-[8px] md:text-[9px] font-black px-1 py-px rounded bg-sky-500 text-white shadow whitespace-nowrap" style="position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:2px;white-space:nowrap;font-size:8px;font-weight:900;padding:0 3px;border-radius:4px;color:#fff;background:#0ea5e9;">1-③</span>
+                    </div>
+
+                    <!-- 쏸롄 (Shuanglian, R12): 닝샤 야시장 -->
+                    <div class="absolute -translate-x-1/2 -translate-y-1/2" style="position:absolute;transform:translate(-50%,-50%);left:40.1%;top:49%;">
+                        <div class="w-3 h-3 rounded-full bg-white border-2 border-slate-900 shadow-md" style="width:12px;height:12px;border-radius:9999px;background:#fff;border:2px solid #0f172a;"></div>
+                        <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-0.5 text-[8px] md:text-[9px] font-black px-1 py-px rounded bg-sky-500 text-white shadow whitespace-nowrap" style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:2px;white-space:nowrap;font-size:8px;font-weight:900;padding:0 3px;border-radius:4px;color:#fff;background:#0ea5e9;">1-④</span>
+                    </div>
+
+                    <!-- 동물원 (Taipei Zoo, BR01): 동물원 + 마오콩 곤돌라 탑승 -->
+                    <div class="absolute -translate-x-1/2 -translate-y-1/2" style="position:absolute;transform:translate(-50%,-50%);left:86.7%;top:81.3%;">
+                        <div class="w-3 h-3 rounded-full bg-white border-2 border-slate-900 shadow-md" style="width:12px;height:12px;border-radius:9999px;background:#fff;border:2px solid #0f172a;"></div>
+                        <span class="absolute top-full left-1/2 -translate-x-1/2 mt-0.5 text-[8px] md:text-[9px] font-black px-1 py-px rounded bg-emerald-500 text-white shadow whitespace-nowrap" style="position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:2px;white-space:nowrap;font-size:8px;font-weight:900;padding:0 3px;border-radius:4px;color:#fff;background:#10b981;">2-①</span>
+                    </div>
+
+                    <!-- 젠난루 (Jiannan Rd, BR15): 미라마 백화점 -->
+                    <div class="absolute -translate-x-1/2 -translate-y-1/2" style="position:absolute;transform:translate(-50%,-50%);left:61.5%;top:37.9%;">
+                        <div class="w-3 h-3 rounded-full bg-white border-2 border-slate-900 shadow-md" style="width:12px;height:12px;border-radius:9999px;background:#fff;border:2px solid #0f172a;"></div>
+                        <span class="absolute top-full left-1/2 -translate-x-1/2 mt-0.5 text-[8px] md:text-[9px] font-black px-1 py-px rounded bg-emerald-500 text-white shadow whitespace-nowrap" style="position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:2px;white-space:nowrap;font-size:8px;font-weight:900;padding:0 3px;border-radius:4px;color:#fff;background:#10b981;">2-②</span>
+                    </div>
+
+                    <!-- 중샤오신성 (Zhongxiao Xinsheng, BL14/O07): 화산1914 -->
+                    <div class="absolute -translate-x-1/2 -translate-y-1/2" style="position:absolute;transform:translate(-50%,-50%);left:51%;top:59%;">
+                        <div class="w-3 h-3 rounded-full bg-white border-2 border-slate-900 shadow-md" style="width:12px;height:12px;border-radius:9999px;background:#fff;border:2px solid #0f172a;"></div>
+                        <span class="absolute top-full left-1/2 -translate-x-1/2 mt-0.5 text-[8px] md:text-[9px] font-black px-1 py-px rounded bg-violet-500 text-white shadow whitespace-nowrap" style="position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:2px;white-space:nowrap;font-size:8px;font-weight:900;padding:0 3px;border-radius:4px;color:#fff;background:#8b5cf6;">3-②</span>
+                    </div>
+
+                    <!-- 타이베이101/세계무역센터 (R02): 타이베이101 야경 -->
+                    <div class="absolute -translate-x-1/2 -translate-y-1/2" style="position:absolute;transform:translate(-50%,-50%);left:82.6%;top:64.5%;">
+                        <div class="w-3 h-3 rounded-full bg-white border-2 border-slate-900 shadow-md" style="width:12px;height:12px;border-radius:9999px;background:#fff;border:2px solid #0f172a;"></div>
+                        <span class="absolute top-full left-1/2 -translate-x-1/2 mt-0.5 text-[8px] md:text-[9px] font-black px-1 py-px rounded bg-violet-500 text-white shadow whitespace-nowrap" style="position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:2px;white-space:nowrap;font-size:8px;font-weight:900;padding:0 3px;border-radius:4px;color:#fff;background:#8b5cf6;">3-③</span>
+                    </div>
+                </div>
+
+                <!-- Off-map Note: Shifen via TRA + Pingxi Line -->
+                <div class="mt-4 bg-violet-950/20 border border-violet-800/40 rounded-xl p-3 text-[11px] text-violet-200 flex items-start gap-2">
+                    <span>🚂</span>
+                    <span><strong>지도 밖 구간(3일차):</strong> 스펀은 타이베이 MRT 노선이 닿지 않아 위 지도에는 표시되지 않습니다. 타이베이역에서 타이완철도(TRA) 이란선으로 루이팡(瑞芳)역까지 이동 후, 핑시선(平溪線) 소형열차로 환승해야 스펀에 도착합니다.</span>
+                </div>
+
+                <!-- Day-by-Day Station Order Legend -->
+                <div class="grid md:grid-cols-2 gap-4 mt-6">
+                    <div class="bg-slate-900/80 p-4 rounded-2xl border border-sky-500/30">
+                        <div class="font-bold text-sky-300 text-sm mb-2">🔵 1일차 이용역 순서</div>
+                        <ol class="text-xs text-slate-300 space-y-1 list-decimal list-inside">
+                            <li>타오위안공항 (A12/A13) — 공항철도 탑승</li>
+                            <li>타이베이역 (A1) — 하차 · 호텔 체크인</li>
+                            <li>베이먼 (G13) — 철도부원구 박물관</li>
+                            <li>쏸롄 (Shuanglian) — 닝샤 야시장</li>
+                        </ol>
+                    </div>
+                    <div class="bg-slate-900/80 p-4 rounded-2xl border border-emerald-500/30">
+                        <div class="font-bold text-emerald-300 text-sm mb-2">🟢 2일차 이용역 순서</div>
+                        <ol class="text-xs text-slate-300 space-y-1 list-decimal list-inside">
+                            <li>동물원 (BR01) — 타이베이 동물원 · 마오콩 곤돌라 탑승</li>
+                            <li>젠난루 (BR15) — 미라마 백화점 · 대관람차</li>
+                        </ol>
+                    </div>
+                    <div class="bg-slate-900/80 p-4 rounded-2xl border border-violet-500/30">
+                        <div class="font-bold text-violet-300 text-sm mb-2">🟣 3일차 이용역 순서</div>
+                        <ol class="text-xs text-slate-300 space-y-1 list-decimal list-inside">
+                            <li>타이베이역 (A1) — TRA 이란선 환승 탑승 <span class="text-violet-400">(→ 루이팡 → 핑시선 환승 → 스펀, 지도 밖)</span></li>
+                            <li>중샤오신성 (BL14/O07) — 화산 1914 창의문화원구</li>
+                            <li>타이베이101/세계무역센터 (R02) — 101 타워 야경</li>
+                        </ol>
+                    </div>
+                    <div class="bg-slate-900/80 p-4 rounded-2xl border border-amber-500/30">
+                        <div class="font-bold text-amber-300 text-sm mb-2">🟠 4일차 이용역 순서</div>
+                        <ol class="text-xs text-slate-300 space-y-1 list-decimal list-inside">
+                            <li>타이베이역 (A1) — 공항철도(급행) 탑승</li>
+                            <li>타오위안공항 (A12/A13) — 도착 · 출국 수속</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <p class="text-[10px] text-slate-500 mt-4">
+                    ※ MRT 노선도는 사용자가 업로드한 노선 안내도 기준이며, 각 역의 실제 위치는 지도와 정확히 비례하지 않을 수 있습니다.
+                </p>
+            </div>
+        </section>
+
 
         <!-- 15-Month Toddler Care Section -->
         <section id="baby-care" class="mb-12">
@@ -832,13 +965,14 @@
     <!-- Footer -->
     <footer class="glass border-t border-white/5 py-8 mt-12 no-print">
         <div class="max-w-6xl mx-auto px-6 text-center text-xs text-slate-400">
-            <div class="flex flex-wrap justify-center gap-6 mb-4 font-semibold">
-                <a href="index.html" class="hover:text-sky-400 transition">EmStudio Home</a>
-                <a href="#flight" class="hover:text-sky-400 transition">항공권 일정</a>
-                <a href="#itinerary" class="hover:text-sky-400 transition">타임라인 스케쥴</a>
-                <a href="#baby-care" class="hover:text-sky-400 transition">15개월 맞춤케어</a>
-                <a href="dd-lifelog.html" class="hover:text-sky-400 transition">DD LifeLog</a>
-                <a href="railwaystudio.html" class="hover:text-sky-400 transition">심지어타이쿤</a>
+            <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-4 font-semibold">
+                <a href="index.html" class="whitespace-nowrap hover:text-sky-400 transition">EmStudio Home</a>
+                <a href="#flight" class="whitespace-nowrap hover:text-sky-400 transition">항공권 일정</a>
+                <a href="#itinerary" class="whitespace-nowrap hover:text-sky-400 transition">타임라인 스케쥴</a>
+                <a href="#mrt-route" class="whitespace-nowrap hover:text-sky-400 transition">MRT 동선</a>
+                <a href="#baby-care" class="whitespace-nowrap hover:text-sky-400 transition">15개월 맞춤케어</a>
+                <a href="dd-lifelog.html" class="whitespace-nowrap hover:text-sky-400 transition">DD LifeLog</a>
+                <a href="railwaystudio.html" class="whitespace-nowrap hover:text-sky-400 transition">심지어타이쿤</a>
             </div>
             <p>© 2026 EmStudio. Taiwan Family Trip Dashboard (Taipei 3N4D).</p>
         </div>
@@ -857,7 +991,8 @@
                 categoryLabel: '✈️ 출국 비행 (진에어 LJ0171)',
                 title: '🛫 서울(ICN) 출발 ➔ 타오위안(TPE) 도착',
                 desc: '진에어 LJ0171 (일반석, 위탁수하물 15kg 포함, 총 2시간 55분 비행). 06:40 인천공항 도착 후 교통약자 패스트트랙 및 유모차 게이트 체크인.',
-                kidsTip: '이착륙 시 15개월 은채 귀통증 예방용 빨대컵 물 또는 떡뻥 제공. 은찬이는 기내 스티커북 놀이.'
+                kidsTip: '이착륙 시 15개월 은채 귀통증 예방용 빨대컵 물 또는 떡뻥 제공. 은찬이는 기내 스티커북 놀이.',
+                images: ['ev_1_1-1']
             },
             {
                 id: 'ev_1_2',
@@ -867,7 +1002,8 @@
                 categoryLabel: '🎁 입국 수속 & 이벤트',
                 title: '타오위안 공항 입국 & 대만 럭키랜드 QR 추첨',
                 desc: '입국 심사 통과 후 럭키랜드 지원금 추첨 부스 참여 (5,000 NTD 혜택). 유심 및 교통카드 점검 후 공항철도(MRT 급행 37분) 탑승.',
-                kidsTip: '공항 내 기저귀 교환대 이용 및 유모차 수령 후 여유롭게 이동.'
+                kidsTip: '공항 내 기저귀 교환대 이용 및 유모차 수령 후 여유롭게 이동.',
+                images: ['ev_1_2-1']
             },
             {
                 id: 'ev_1_3',
@@ -877,7 +1013,8 @@
                 categoryLabel: '🏨 호텔 체크인',
                 title: '타이베이 메인역 부근 호텔 이동 & 짐 풀기',
                 desc: '공항철도 직결 메인역 인근 호텔 도착. 체크인 후 가벼운 복장 정비 및 외출 준비.',
-                kidsTip: '침대 가드 요청 및 이동 중 유아 수분 보충.'
+                kidsTip: '침대 가드 요청 및 이동 중 유아 수분 보충.',
+                images: ['ev_1_3-1', 'ev_1_3-2']
             },
             {
                 id: 'ev_1_4',
@@ -887,7 +1024,8 @@
                 categoryLabel: '🥟 늦은 점심 (유아식 쉐어)',
                 title: '딘타이펑(Din Tai Fung) 또는 팀호완',
                 desc: '대만 대표 딤섬 레스토랑. 샤오롱바오, 갈비튀김 볶음밥, 찐만두.',
-                kidsTip: '15개월 은채: 새우 계란볶음밥(싱겁게 요청) + 만두 속살 으깨기. 아기의자 및 아기 식기 완비.'
+                kidsTip: '15개월 은채: 새우 계란볶음밥(싱겁게 요청) + 만두 속살 으깨기. 아기의자 및 아기 식기 완비.',
+                images: ['ev_1_4-1', 'ev_1_4-2']
             },
             {
                 id: 'ev_1_5',
@@ -897,7 +1035,8 @@
                 categoryLabel: '🚂 기차 & 걸음마존',
                 title: '국립대만박물관 철도부원구 (Taiwan Railway Dept.)',
                 desc: '역사적인 철도 청사 박물관. 실물 증기기관차, 정교한 기차 디오라마 및 운전 시뮬레이션.',
-                kidsTip: '7세 은찬이는 기차 모형에 열광하고, 15개월 은채는 덥지 않은 실내 평지에서 아장아장 걸음마!'
+                kidsTip: '7세 은찬이는 기차 모형에 열광하고, 15개월 은채는 덥지 않은 실내 평지에서 아장아장 걸음마!',
+                images: ['ev_1_5-1', 'ev_1_5-2']
             },
             {
                 id: 'ev_1_6',
@@ -907,7 +1046,8 @@
                 categoryLabel: '🎯 야시장 산책',
                 title: '닝샤 야시장 (Ningxia Night Market) 초입 평지 코스',
                 desc: '유모차 이동이 수월한 평지 초입 위주로 산책 및 현지 미식 탐방.',
-                kidsTip: '은찬이는 핀볼 게임 & 풍선 터뜨리기, 은채는 갓 튀긴 부드러운 고구마볼(띠과치우) 핑거푸드.'
+                kidsTip: '은찬이는 핀볼 게임 & 풍선 터뜨리기, 은채는 갓 튀긴 부드러운 고구마볼(띠과치우) 핑거푸드.',
+                images: ['ev_1_6-1', 'ev_1_6-2']
             },
 
             // Day 2 (11/22 일)
@@ -919,7 +1059,8 @@
                 categoryLabel: '🐼 동물원 & 탈것',
                 title: '타이베이 시립 동물원 (Taipei Zoo)',
                 desc: '아시아 최대 규모 동물원. 자이언트 판다, 펭귄, 기린 관람 및 완만한 경사로 산책.',
-                kidsTip: '동물원 내부 셔틀 기차 탑승 (은찬이 대만족!). 은채는 판다와 동물들을 가리키며 "어!" 반응.'
+                kidsTip: '동물원 내부 셔틀 기차 탑승 (은찬이 대만족!). 은채는 판다와 동물들을 가리키며 "어!" 반응.',
+                images: ['ev_2_1-1', 'ev_2_1-2']
             },
             {
                 id: 'ev_2_2',
@@ -929,7 +1070,8 @@
                 categoryLabel: '🍱 점심 식사',
                 title: '동물원 내 키즈 프렌들리 레스토랑 & 푸드코트',
                 desc: '동물원 내부 쾌적한 식당에서 여유로운 점심 식사.',
-                kidsTip: '챙겨온 퓨레 및 부드러운 밥 식사, 시원한 실내에서 충분한 수분 섭취.'
+                kidsTip: '챙겨온 퓨레 및 부드러운 밥 식사, 시원한 실내에서 충분한 수분 섭취.',
+                images: ['ev_2_2-1']
             },
             {
                 id: 'ev_2_3',
@@ -939,7 +1081,8 @@
                 categoryLabel: '🚡 케이블카 & 낮잠 골든타임',
                 title: '마오콩 곤돌라 (Maokong Gondola) & 은채 꿀잠',
                 desc: '동물원 상부역에서 바로 탑승. 바닥이 투명한 크리스탈 캐빈으로 타이베이 산과 도심 조망.',
-                kidsTip: '15개월 은채 1일 1회 낮잠 타임! 케이블카 풍경을 보다 유모차에서 1~2시간 꿀맛 낮잠.'
+                kidsTip: '15개월 은채 1일 1회 낮잠 타임! 케이블카 풍경을 보다 유모차에서 1~2시간 꿀맛 낮잠.',
+                images: ['ev_2_3-1', 'ev_2_3-2']
             },
             {
                 id: 'ev_2_4',
@@ -949,7 +1092,8 @@
                 categoryLabel: '🎡 대관람차 & 백화점',
                 title: '미라마 백화점 (Miramar) 옥상 대관람차 & 푸드코트 저녁',
                 desc: '반짝이는 야경 대관람차 탑승 및 백화점 내 최고급 수유실, 기저귀 교환대 이용.',
-                kidsTip: '은찬이는 관람차 야경에 신나고 부모님은 쾌적한 백화점에서 편안하게 저녁 식사.'
+                kidsTip: '은찬이는 관람차 야경에 신나고 부모님은 쾌적한 백화점에서 편안하게 저녁 식사.',
+                images: ['ev_2_4-1', 'ev_2_4-2']
             },
 
             // Day 3 (11/23 월)
@@ -961,7 +1105,8 @@
                 categoryLabel: '🏮 스펀 천등 (단독 택시 대절)',
                 title: '스펀(Shifen) 기찻길 천등 날리기 (프라이빗 택시 투어)',
                 desc: '4인 가족 단독 대절 차량으로 편안하게 이동. 실제 기차가 다니는 선로 위에서 네 식구의 소원을 적은 대형 풍등 날리기!',
-                kidsTip: '대형 풍등이 하늘로 떠오르는 불빛에 은찬&은채 남매 동시 환호! 인생 가족 사진 촬영.'
+                kidsTip: '대형 풍등이 하늘로 떠오르는 불빛에 은찬&은채 남매 동시 환호! 인생 가족 사진 촬영.',
+                images: ['ev_3_1-1', 'ev_3_1-2']
             },
             {
                 id: 'ev_3_2',
@@ -971,7 +1116,8 @@
                 categoryLabel: '🥢 점심 만찬',
                 title: '키키 레스토랑 (KiKi Restaurant)',
                 desc: '부드러운 계란 연두부 튀김, 파인애플 새우볼, 부추꽃볶음.',
-                kidsTip: '15개월 은채 최애 반찬: 푸딩처럼 부드러운 계란 연두부 튀김 속살!'
+                kidsTip: '15개월 은채 최애 반찬: 푸딩처럼 부드러운 계란 연두부 튀김 속살!',
+                images: ['ev_3_2-1', 'ev_3_2-2']
             },
             {
                 id: 'ev_3_3',
@@ -981,7 +1127,8 @@
                 categoryLabel: '🌳 걸음마 프리존 피크닉',
                 title: '화산 1914 창의문화원구 (도심 문화공원)',
                 desc: '넓은 잔디 광장 피크닉. 은찬이는 우더풀라이프 오르골 DIY 샵 및 캐릭터 팝업스토어 구경.',
-                kidsTip: '[걸음마 타임] 차가 다니지 않는 잔디밭에서 은채가 마음껏 아장아장 걷고 비눗방울 놀이.'
+                kidsTip: '[걸음마 타임] 차가 다니지 않는 잔디밭에서 은채가 마음껏 아장아장 걷고 비눗방울 놀이.',
+                images: ['ev_3_3-1', 'ev_3_3-2']
             },
             {
                 id: 'ev_3_4',
@@ -991,7 +1138,8 @@
                 categoryLabel: '🏙️ 마지막 밤 만찬 & 쇼핑',
                 title: '타이베이 101 타워 광장 야경 & 기념품 쇼핑',
                 desc: '랜드마크 101 타워 야경 감상 및 가족 기념품(펑리수, 누가크래커) 쇼핑.',
-                kidsTip: '아이들이 피곤하지 않도록 무리 없는 동선 유지 후 호텔 복귀.'
+                kidsTip: '아이들이 피곤하지 않도록 무리 없는 동선 유지 후 호텔 복귀.',
+                images: ['ev_3_4-1', 'ev_3_4-2']
             },
 
             // Day 4 (11/24 화)
@@ -1003,7 +1151,8 @@
                 categoryLabel: '🍳 조식 & 체크아웃',
                 title: '호텔 조식 & 짐 정리 (수하물 패킹)',
                 desc: '여유로운 아침 식사 및 체크아웃. 위탁수하물(15kg)과 기내 반입 유모차 분리.',
-                kidsTip: '호텔 방에 은채 젖병, 턱받이, 아기 물품 두고 가는 것 없는지 꼼꼼 점검.'
+                kidsTip: '호텔 방에 은채 젖병, 턱받이, 아기 물품 두고 가는 것 없는지 꼼꼼 점검.',
+                images: ['ev_4_1-1']
             },
             {
                 id: 'ev_4_2',
@@ -1013,7 +1162,8 @@
                 categoryLabel: '🚊 공항 이동',
                 title: '공항철도(MRT 급행) 또는 픽업 택시로 타오위안 공항 이동',
                 desc: '타이베이 메인역에서 급행 MRT 탑승(37분 소요) ➔ 타오위안 제1터미널 도착.',
-                kidsTip: '은찬이는 마지막 기차 탑승 만끽, 유모차 탑승 상태로 안전 이동.'
+                kidsTip: '은찬이는 마지막 기차 탑승 만끽, 유모차 탑승 상태로 안전 이동.',
+                images: ['ev_4_2-1']
             },
             {
                 id: 'ev_4_3',
@@ -1023,7 +1173,8 @@
                 categoryLabel: '🛍️ 공항 수속 & 키즈존',
                 title: '타오위안 공항 카운터 수속 & 면세점 키즈존 휴식',
                 desc: '진에어 LJ0172 탑승 수속 및 수하물 위탁. 출국장 에어사이드 키즈존에서 아이들 체력 발산 및 수유.',
-                kidsTip: '탑승 전 기저귀 교환 및 보온병에 미온수 리필 완료.'
+                kidsTip: '탑승 전 기저귀 교환 및 보온병에 미온수 리필 완료.',
+                images: ['ev_4_3-1']
             },
             {
                 id: 'ev_4_4',
@@ -1033,13 +1184,45 @@
                 categoryLabel: '✈️ 귀국 비행 (진에어 LJ0172)',
                 title: '🛫 타이베이(TPE) 출발 ➔ 16:00 서울(ICN) 인천공항 도착',
                 desc: '진에어 LJ0172 탑승 (총 2시간 20분 비행). 16:00 인천공항 제2터미널 도착 및 수하물/유모차 수령 후 귀가.',
-                kidsTip: '비행기 이착륙 시 빨대컵 물 제공. 행복하고 안전했던 3박 4일 대만 가족 여행 마무리!'
+                kidsTip: '비행기 이착륙 시 빨대컵 물 제공. 행복하고 안전했던 3박 4일 대만 가족 여행 마무리!',
+                images: ['ev_4_4-1']
             }
         ];
 
         // State variables
         let itineraryData = [];
         let currentTab = 'all';
+        let expandedItemIds = new Set();
+
+        // Toggle a timeline card's expanded (detail) state
+        function toggleItemDetail(itemId) {
+            if (expandedItemIds.has(itemId)) {
+                expandedItemIds.delete(itemId);
+            } else {
+                expandedItemIds.add(itemId);
+            }
+            renderTimeline();
+        }
+
+        // Timeline images are referenced by base filename only (no fixed extension);
+        // try these in order until one actually exists on disk.
+        const IMG_EXT_CANDIDATES = ['jpg', 'jpeg', 'png', 'webp'];
+
+        // Try the next candidate extension for a missing image; fall back to a
+        // labeled placeholder once every extension has failed.
+        function handleImgError(imgEl) {
+            const base = imgEl.dataset.base;
+            const nextIdx = parseInt(imgEl.dataset.extIdx || '0', 10) + 1;
+            if (nextIdx < IMG_EXT_CANDIDATES.length) {
+                imgEl.dataset.extIdx = String(nextIdx);
+                imgEl.src = `images/taiwan-trip/${base}.${IMG_EXT_CANDIDATES[nextIdx]}`;
+                return;
+            }
+            const wrap = imgEl.parentElement;
+            if (!wrap) return;
+            wrap.innerHTML = `<div class="w-full h-full flex flex-col items-center justify-center text-slate-500 text-center px-0.5 leading-tight" style="font-size:7px;">📷<br>${base}</div>`;
+            wrap.style.borderStyle = 'dashed';
+        }
 
         // Load Itinerary from LocalStorage or Default
         function loadItinerary() {
@@ -1128,29 +1311,63 @@
                             timeColor = 'text-indigo-400 font-bold';
                         }
 
+                        const images = item.images || [];
+                        const isExpanded = expandedItemIds.has(item.id);
+
+                        const thumbStrip = images.length ? `
+                            <div class="flex gap-1.5 mt-2">
+                                ${images.map(base => `
+                                    <div class="w-14 h-14 rounded-lg overflow-hidden border border-slate-700 flex-shrink-0 bg-slate-800">
+                                        <img src="images/taiwan-trip/${base}.${IMG_EXT_CANDIDATES[0]}" data-base="${base}" data-ext-idx="0" alt="" class="w-full h-full object-cover" loading="lazy" onerror="handleImgError(this)">
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : '';
+
+                        const bigGallery = images.length ? `
+                            <div class="grid grid-cols-2 gap-2 mb-3">
+                                ${images.map(base => `
+                                    <div class="rounded-xl overflow-hidden border border-slate-700 bg-slate-800 h-28 sm:h-32">
+                                        <img src="images/taiwan-trip/${base}.${IMG_EXT_CANDIDATES[0]}" data-base="${base}" data-ext-idx="0" alt="" class="w-full h-full object-cover" loading="lazy" onerror="handleImgError(this)">
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : '';
+
                         html += `
                             <div class="flex gap-3 md:gap-4 items-start group">
                                 <div class="w-20 md:w-28 text-xs font-mono ${timeColor} pt-1 flex-shrink-0">
                                     ${item.time}
                                 </div>
-                                <div class="bg-slate-900/90 p-4 rounded-2xl border ${catBorder} flex-grow transition hover:border-sky-500/50">
+                                <div class="bg-slate-900/90 p-4 rounded-2xl border ${catBorder} flex-grow transition hover:border-sky-500/50 cursor-pointer" onclick="toggleItemDetail('${item.id}')">
                                     <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
                                         <div class="flex items-center gap-2">
                                             <span class="text-xs font-bold text-white">${item.title}</span>
                                             ${item.categoryLabel ? `<span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">${item.categoryLabel}</span>` : ''}
                                         </div>
                                         <div class="flex items-center gap-1 opacity-80 group-hover:opacity-100 transition no-print">
-                                            <button onclick="editScheduleItem('${item.id}')" class="text-[11px] text-sky-400 hover:text-sky-300 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">✏️ 수정</button>
-                                            <button onclick="deleteScheduleItem('${item.id}')" class="text-[11px] text-rose-400 hover:text-rose-300 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">🗑️</button>
+                                            <button onclick="event.stopPropagation(); editScheduleItem('${item.id}')" class="text-[11px] text-sky-400 hover:text-sky-300 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">✏️ 수정</button>
+                                            <button onclick="event.stopPropagation(); deleteScheduleItem('${item.id}')" class="text-[11px] text-rose-400 hover:text-rose-300 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">🗑️</button>
                                         </div>
                                     </div>
-                                    <p class="text-xs text-slate-300 leading-relaxed mb-2">${item.desc}</p>
-                                    ${item.kidsTip ? `
-                                        <div class="bg-slate-950/60 p-2.5 rounded-xl border border-amber-500/20 text-[11px] text-amber-300 flex items-start gap-1.5">
-                                            <span>👶</span>
-                                            <span><strong>키즈 케어 팁:</strong> ${item.kidsTip}</span>
-                                        </div>
-                                    ` : ''}
+
+                                    ${isExpanded ? `
+                                        ${bigGallery}
+                                        <p class="text-xs text-slate-300 leading-relaxed mb-2">${item.desc}</p>
+                                        ${item.kidsTip ? `
+                                            <div class="bg-slate-950/60 p-2.5 rounded-xl border border-amber-500/20 text-[11px] text-amber-300 flex items-start gap-1.5">
+                                                <span>👶</span>
+                                                <span><strong>키즈 케어 팁:</strong> ${item.kidsTip}</span>
+                                            </div>
+                                        ` : ''}
+                                    ` : `
+                                        <p class="text-xs text-slate-300 leading-relaxed mb-1 line-clamp-2">${item.desc}</p>
+                                        ${thumbStrip}
+                                    `}
+
+                                    <div class="text-[10px] text-slate-500 mt-2 flex items-center gap-1 no-print">
+                                        ${isExpanded ? '🔼 접기' : '🔽 자세히 보기 (사진 · 상세 설명)'}
+                                    </div>
                                 </div>
                             </div>
                         `;
