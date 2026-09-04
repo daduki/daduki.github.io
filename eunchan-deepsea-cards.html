@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>깊은 바다의 신비한 친구들 | 은찬이의 공부방 🐙</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script src="js/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                        kids: ['"Jua"', 'cursive', 'sans-serif']
+                    },
+                    colors: {
+                        ocean: {
+                            abyss: '#020617',
+                            deep: '#0c4a6e',
+                            teal: '#0891b2',
+                            glow: '#22d3ee',
+                            coral: '#fb7185'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .font-kids { font-family: 'Jua', cursive, sans-serif; }
+        .glass-card {
+            background: rgba(6, 15, 28, 0.9);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+        }
+        .slide-fade {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .img-reveal { opacity: 0; transform: scale(1.08); animation: imgReveal 0.6s ease forwards; }
+        @keyframes imgReveal { to { opacity: 1; transform: scale(1); } }
+        .ken-burns { animation: kenBurns 12s ease-in-out infinite alternate; }
+        @keyframes kenBurns { from { transform: scale(1) translate(0,0); } to { transform: scale(1.12) translate(-1.5%, -1%); } }
+        .sticker-pop { animation: stickerPop 0.5s cubic-bezier(.34,1.56,.64,1) both; }
+        @keyframes stickerPop { 0% { transform: scale(0) rotate(-15deg); opacity:0; } 100% { transform: scale(1) rotate(-8deg); opacity:1; } }
+    </style>
+</head>
+<body class="bg-[#020617] text-slate-100 min-h-screen font-sans flex flex-col justify-between selection:bg-cyan-500 selection:text-white">
+
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-cyan-900/30">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="eunchan-study.html" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition flex items-center gap-1.5 text-xs font-semibold">
+                    <i class="fa-solid fa-arrow-left"></i> 공부방 홈
+                </a>
+                <div>
+                    <h1 class="font-kids text-base md:text-lg text-cyan-400 flex items-center gap-2">
+                        <span>🐙 깊은 바다의 신비한 친구들</span>
+                        <span class="text-[11px] font-sans px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">7~10세 초등 맞춤</span>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Slide progress & Sound/Read toggles -->
+            <div class="flex items-center gap-2 md:gap-3">
+                <div class="flex items-center gap-1 bg-slate-800/80 px-2.5 py-1 rounded-full border border-slate-700 text-xs">
+                    <i class="fa-solid fa-layer-group text-cyan-400"></i>
+                    <span id="slideIndicator" class="font-kids text-cyan-300 text-sm font-bold">1</span>
+                    <span class="text-slate-400 font-kids text-xs">/ 24</span>
+                </div>
+                <button id="ttsBtn" onclick="toggleReadOutLoud()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 hover:text-amber-300 transition text-xs font-semibold" title="친절한 목소리로 읽어주기">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+                <button onclick="toggleIndexDrawer()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-xs font-semibold" title="전체 목차">
+                    <i class="fa-solid fa-list-ol"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Top Progress Bar -->
+        <div class="w-full bg-slate-800 h-1.5 overflow-hidden">
+            <div id="topProgressBar" class="bg-gradient-to-r from-ocean-teal via-ocean-glow to-ocean-coral h-full transition-all duration-300" style="width: 4.16%"></div>
+        </div>
+    </header>
+
+    <!-- Main Slide Stage -->
+    <main class="flex-grow flex items-center justify-center px-3 md:px-6 py-6 max-w-5xl mx-auto w-full">
+        <div id="slideCard" class="w-full glass-card rounded-3xl p-5 md:p-8 border border-white/10 shadow-2xl relative overflow-hidden min-h-[580px] flex flex-col justify-between">
+            <!-- Slide Content Injected Dynamically -->
+            <div id="slideBody" class="slide-fade flex-grow flex flex-col justify-center"></div>
+
+            <!-- Slide Bottom Controls -->
+            <div class="pt-6 border-t border-white/10 flex items-center justify-between mt-4">
+                <button id="prevBtn" onclick="prevSlide()" class="px-5 py-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:pointer-events-none text-slate-200 font-kids text-sm flex items-center gap-2 transition">
+                    <i class="fa-solid fa-arrow-left"></i> 이전장
+                </button>
+
+                <div class="flex items-center gap-1.5 overflow-x-auto max-w-[200px] md:max-w-[420px] py-1" id="dotsContainer">
+                    <!-- Dots generated in JS -->
+                </div>
+
+                <button id="nextBtn" onclick="nextSlide()" class="px-6 py-2.5 rounded-2xl bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white font-kids text-sm flex items-center gap-2 shadow-lg shadow-cyan-950 transition">
+                    다음장 <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Slide Index Modal / Drawer -->
+    <div id="indexDrawer" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex justify-end">
+        <div class="bg-slate-900 border-l border-slate-700 w-full max-w-md h-full p-6 overflow-y-auto flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-4">
+                    <h3 class="font-kids text-lg text-cyan-400">🐙 심해 탐험 24개 슬라이드 목차</h3>
+                    <button onclick="toggleIndexDrawer()" class="text-slate-400 hover:text-white text-xl">✕</button>
+                </div>
+                <div class="space-y-1.5" id="drawerList"></div>
+            </div>
+            <button onclick="toggleIndexDrawer()" class="w-full py-3 mt-4 bg-slate-800 text-slate-300 rounded-xl font-kids text-sm">닫기</button>
+        </div>
+    </div>
+
+    <!-- Audio FX Synthesizer -->
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, now);
+                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1);
+                osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                osc.start(now);
+                osc.stop(now + 0.5);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.exponentialRampToValueAtTime(130, now + 0.25);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'pop') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(320, now);
+                osc.frequency.exponentialRampToValueAtTime(580, now + 0.08);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                osc.start(now);
+                osc.stop(now + 0.1);
+            } else if (type === 'dive') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(500, now);
+                osc.frequency.exponentialRampToValueAtTime(90, now + 0.6);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.65);
+                osc.start(now);
+                osc.stop(now + 0.65);
+            } else if (type === 'fanfare') {
+                [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+                    const o = audioCtx.createOscillator();
+                    const g = audioCtx.createGain();
+                    o.connect(g);
+                    g.connect(audioCtx.destination);
+                    o.type = 'triangle';
+                    o.frequency.setValueAtTime(freq, now + i * 0.12);
+                    g.gain.setValueAtTime(0.2, now + i * 0.12);
+                    g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.12 + 0.4);
+                    o.start(now + i * 0.12);
+                    o.stop(now + i * 0.12 + 0.4);
+                });
+            }
+        }
+    </script>
+
+    <!-- Image fallback helper (Wikimedia Commons hotlinks may occasionally fail to load) -->
+    <script>
+        function imgFallbackEmoji(imgEl, emoji) {
+            imgEl.onerror = null;
+            const wrap = imgEl.parentElement;
+            imgEl.remove();
+            wrap.insertAdjacentHTML('afterbegin', `<div class="w-full h-full flex items-center justify-center text-6xl bg-ocean-abyss">${emoji}</div>`);
+        }
+    </script>
+
+    <!-- Slide Engine -->
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 24;
+        let touchStartedOnInteractive = false;
+
+        // Ocean depth zones (simplified, kid-friendly)
+        const ZONES = [
+            { name: "햇빛층 (Sunlight Zone)", depth: "0 ~ 200m", light: "밝고 따뜻해요 ☀️", color: "#38bdf8", bg: "bg-sky-900/40", border: "border-sky-500/30", desc: "우리가 아는 물고기, 거북이, 돌고래 등 대부분의 바다 생물이 사는 밝은 층이에요." },
+            { name: "황혼층 (Twilight Zone)", depth: "200 ~ 1,000m", light: "희미한 파란빛만 겨우 ✨", color: "#0891b2", bg: "bg-cyan-950/40", border: "border-cyan-500/30", desc: "햇빛이 아주 희미하게만 스며들어요. 스스로 빛을 내는 신비한 생물들이 나타나기 시작해요." },
+            { name: "밤바다층 (Midnight Zone, 무광층)", depth: "1,000 ~ 4,000m", light: "빛이 전혀 없어요 🌑", color: "#0c4a6e", bg: "bg-slate-900/80", border: "border-slate-700", desc: "빛이 완전히 사라진 캄캄한 어둠뿐이에요! 가장 많은 신비한 심해 생물이 여기 살아요." },
+            { name: "심해 바닥층 (Abyssal Zone)", depth: "4,000m ~", light: "얼음처럼 차갑고 고요해요 🧊", color: "#020617", bg: "bg-black/60", border: "border-ocean-teal/30", desc: "물은 거의 얼음처럼 차갑고 압력은 상상할 수 없이 강해요. 그래도 꿋꿋하게 살아가는 생물이 있답니다." }
+        ];
+
+        // 7 mysterious deep-sea friends (6 creatures with a photo+facts slide pair, plus ALVIN)
+        const CREATURES = [
+            {
+                id: "anglerfish",
+                num: "01",
+                name: "아귀 (Anglerfish)",
+                fallback: "🐟",
+                img: "https://commons.wikimedia.org/wiki/Special:FilePath/Anglerfish.jpg?width=900",
+                alt: "머리 위에 발광 미끼가 달린 아귀(anglerfish)의 모습",
+                badge: "bg-amber-500/90 text-slate-950",
+                zone: "황혼층 ~ 밤바다층",
+                depthRange: "약 200 ~ 2,000m",
+                sticker: "🔦 발광 미끼!",
+                intro: "칠흑같이 어두운 바닷속에서 작은 등불을 흔드는 낚시꾼이 있어요. 바로 신비한 심해 물고기, 아귀예요!",
+                facts: [
+                    { icon: "🔦", title: "낚싯대처럼 빛나는 미끼", text: "머리 위에 낚싯대처럼 튀어나온 부분(esca, 에스카) 끝에서 빛이 나요. 이 빛을 살랑살랑 흔들어서 궁금해하는 먹이를 가까이 유인한답니다!" },
+                    { icon: "🦠", title: "몸속의 작은 발광 박테리아", text: "이 신비한 빛은 아귀 몸속에 사는 아주 작은 발광 박테리아 친구들이 만들어내는 빛이에요. 서로 도우며 살아가는 거예요." },
+                    { icon: "🦷", title: "유리처럼 투명한 이빨", text: "아귀의 뾰족한 이빨은 유리처럼 투명해서 어두운 물속에서 먹이가 눈치채기 더 어렵답니다." }
+                ]
+            },
+            {
+                id: "squid",
+                num: "02",
+                name: "대왕오징어 (Giant Squid)",
+                fallback: "🦑",
+                img: "https://commons.wikimedia.org/wiki/Special:FilePath/Giant%20Squid%20(20495944085).jpg?width=900",
+                alt: "실제로 발견된 대왕오징어(Giant Squid) 표본 사진",
+                badge: "bg-sky-600/90 text-white",
+                zone: "황혼층",
+                depthRange: "약 300 ~ 1,000m",
+                sticker: "👀 농구공만한 눈!",
+                intro: "옛날 뱃사람들이 '바다 괴물'이라 부르던 전설의 주인공, 바로 거대한 대왕오징어예요!",
+                facts: [
+                    { icon: "📏", title: "스쿨버스만큼 긴 몸길이", text: "다 자라면 몸길이가 최대 13m까지 자라요. 우리가 타는 스쿨버스만큼 길답니다!" },
+                    { icon: "👀", title: "동물 중 가장 큰 눈", text: "눈의 지름이 약 27cm로 농구공만 해요. 지구에 사는 모든 동물 중에서 가장 큰 눈을 가졌어요." },
+                    { icon: "✨", title: "희미한 빛도 놓치지 않아요", text: "이렇게 커다란 눈 덕분에 캄캄한 물속의 아주 희미한 빛까지 잡아내서 먹이나 위험을 미리 알아챌 수 있어요." }
+                ]
+            },
+            {
+                id: "isopod",
+                num: "03",
+                name: "대왕쥐며느리 (Giant Isopod)",
+                fallback: "🐛",
+                img: "https://commons.wikimedia.org/wiki/Special:FilePath/Bathynomus%20giganteus%20hi-res.jpg?width=900",
+                alt: "심해 바닥을 기어다니는 대왕쥐며느리(Giant Isopod)",
+                badge: "bg-slate-400/90 text-slate-950",
+                zone: "황혼층 ~ 밤바다층",
+                depthRange: "약 200 ~ 2,500m",
+                sticker: "🧹 심해의 청소부!",
+                intro: "정원에서 만나는 동그란 공벌레(쥐며느리)를 심해 버전으로 크게 만들면? 바로 대왕쥐며느리예요!",
+                facts: [
+                    { icon: "🐜", title: "공벌레의 거대한 심해 사촌", text: "우리가 흔히 보는 공벌레(쥐며느리)와 같은 무리이지만, 심해에서는 최대 50cm까지 커진답니다!" },
+                    { icon: "🧹", title: "바다 밑바닥의 청소부", text: "죽은 물고기나 고래 같은 동물의 사체를 먹어 치우며 바다를 깨끗하게 만드는 '심해의 청소부' 역할을 해요." },
+                    { icon: "⏳", title: "몇 년을 안 먹고 버텨요", text: "먹이가 아주 귀한 심해에서 살아남기 위해, 한 번 배부르게 먹으면 몇 년 동안 아무것도 안 먹고도 버틸 수 있어요." }
+                ]
+            },
+            {
+                id: "dumbo",
+                num: "04",
+                name: "덤보문어 (Dumbo Octopus)",
+                fallback: "🐙",
+                img: "https://commons.wikimedia.org/wiki/Special:FilePath/Dumbo%20Octopus%20(49203817176).jpg?width=900",
+                alt: "귀 모양 지느러미를 활짝 편 덤보문어(Dumbo Octopus)",
+                badge: "bg-pink-500/90 text-white",
+                zone: "밤바다층 ~ 심해 바닥층",
+                depthRange: "약 1,000 ~ 7,000m",
+                sticker: "👂 덤보 귀!",
+                intro: "머리 옆에 귀처럼 생긴 지느러미를 팔랑거리며 헤엄치는 사랑스러운 심해 문어를 만나볼까요?",
+                facts: [
+                    { icon: "🐘", title: "디즈니 코끼리 '덤보'를 닮았어요", text: "머리 양옆에 달린 커다란 귀 모양 지느러미가 디즈니 만화 속 아기 코끼리 덤보를 꼭 닮아서 이런 이름이 붙었어요." },
+                    { icon: "🪽", title: "날개처럼 펄럭이며 헤엄쳐요", text: "이 지느러미를 새의 날개처럼 펄럭이며 물속을 훨훨 날아다니듯 우아하게 헤엄쳐요." },
+                    { icon: "🌊", title: "문어 중 가장 깊은 곳에 살아요", text: "모든 문어 종류 중에서 가장 깊은 곳(최대 약 7,000m)까지 내려가 살 수 있는 놀라운 친구예요." }
+                ]
+            },
+            {
+                id: "vampire",
+                num: "05",
+                name: "흡혈오징어 (Vampire Squid)",
+                fallback: "🦑",
+                img: "https://commons.wikimedia.org/wiki/Special:FilePath/Pu%20-%20Vampyroteuthis%20infernalis%20-%202.jpg?width=900",
+                alt: "붉은 망토를 두른 듯한 흡혈오징어(Vampire Squid)",
+                badge: "bg-purple-600/90 text-white",
+                zone: "황혼층 ~ 밤바다층 (산소가 적은 층)",
+                depthRange: "약 600 ~ 900m",
+                sticker: "🍥 바다 눈을 먹어요!",
+                intro: "이름은 무섭게 들리지만 사실은 아주 온순한 친구, 흡혈오징어를 소개할게요!",
+                facts: [
+                    { icon: "🚫🩸", title: "사실 피는 마시지 않아요", text: "이름과 다르게 다른 동물을 사냥해서 피를 빨아먹지 않아요. 대신 물속에 둥둥 떠다니는 '바다 눈(마린 스노, 작은 부스러기)'을 조용히 먹는답니다." },
+                    { icon: "🧬", title: "오징어도 문어도 아니에요", text: "사실 진짜 오징어도, 문어도 아니에요! 둘 사이의 특징을 함께 가진 자기만의 특별한 무리에 속해요." },
+                    { icon: "🙃", title: "몸을 뒤집어 적을 놀라게 해요", text: "위험을 느끼면 몸을 뒤집어서 안쪽의 뾰족뾰족한 팔을 보여주며 적을 깜짝 놀라게 만들어요." }
+                ]
+            },
+            {
+                id: "vent",
+                num: "06",
+                name: "열수구 & 관벌레 (Hydrothermal Vent Fauna)",
+                fallback: "🪱",
+                img: "https://commons.wikimedia.org/wiki/Special:FilePath/Fauna%20on%20hydrothermal%20vents.jpg?width=900",
+                alt: "심해 열수구 주변에 모여 사는 거대 관벌레 무리",
+                badge: "bg-rose-600/90 text-white",
+                zone: "밤바다층 ~ 심해 바닥층",
+                depthRange: "약 2,000 ~ 4,000m",
+                sticker: "🌋 화산 에너지로 살아요!",
+                intro: "바다 밑에도 화산이 있다는 사실, 알고 있었나요? 그 주변엔 놀라운 생명체 마을이 있어요!",
+                facts: [
+                    { icon: "🌋", title: "바다 밑 화산, 열수구", text: "바다 밑바닥의 화산 틈에서 뜨거운 물과 가스가 힘차게 뿜어져 나오는 곳을 '열수구'라고 불러요." },
+                    { icon: "🪱", title: "거대한 관벌레 마을", text: "빛이 하나도 없는데도 최대 2m나 되는 거대한 관벌레들이 열수구 주변에 무리지어 살아요!" },
+                    { icon: "☀️➡️🌋", title: "햇빛 대신 화산 가스로 에너지를 얻어요", text: "관벌레는 몸속에 사는 특별한 박테리아 덕분에 살아가요. 이 박테리아는 햇빛이 아니라 열수구에서 나오는 화학물질(화산 가스)을 이용해 에너지를 만들어내요. 이걸 '화학합성'이라고 해요." }
+                ]
+            }
+        ];
+
+        const ALVIN = {
+            name: "ALVIN 잠수정 (Deep-Sea Submersible)",
+            fallback: "🤖",
+            img: "https://commons.wikimedia.org/wiki/Special:FilePath/ALVIN%20submersible.jpg?width=900",
+            alt: "심해 탐사에 사용되는 실제 유인 잠수정 ALVIN",
+            sticker: "🔬 타이타닉을 찾았어요!",
+            depthRange: "최대 약 4,500m"
+        };
+
+        const QUIZ_QUESTIONS = [
+            {
+                q: "아귀(Anglerfish)의 머리 위에 달린 빛나는 미끼는 무엇을 하기 위한 것일까요?",
+                options: ["헤엄치기 위해서", "먹이를 유인하기 위해서", "숨을 쉬기 위해서", "친구를 부르기 위해서"],
+                ans: 1,
+                hint: "낚싯대처럼 빛나는 미끼를 살랑살랑 흔들어서 궁금해하는 먹이를 가까이 유인해요!"
+            },
+            {
+                q: "대왕오징어(Giant Squid)의 눈은 대략 무엇과 크기가 비슷할까요?",
+                options: ["쌀알", "탁구공", "농구공", "축구 경기장"],
+                ans: 2,
+                hint: "지름이 약 27cm나 되어서 농구공만 해요. 동물 중 가장 큰 눈이랍니다!"
+            },
+            {
+                q: "덤보문어(Dumbo Octopus)라는 이름은 어떤 특징에서 나왔을까요?",
+                options: ["몸 색깔이 회색이라서", "귀 모양 지느러미가 코끼리를 닮아서", "덩치가 아주 커서", "덤보라는 과학자가 발견해서"],
+                ans: 1,
+                hint: "머리 양옆의 귀 모양 지느러미가 디즈니 만화 속 아기 코끼리 덤보를 꼭 닮았어요!"
+            },
+            {
+                q: "열수구 근처에 사는 거대 관벌레는 어떻게 에너지를 얻을까요?",
+                options: ["햇빛으로 광합성을 해서", "화산 가스를 이용하는 박테리아 덕분에", "다른 물고기를 사냥해서", "물만 마셔도 충분해서"],
+                ans: 1,
+                hint: "햇빛이 전혀 없는 곳이라 특별한 박테리아가 화산 가스로 만든 에너지를 나눠 받아요. 이걸 '화학합성'이라고 해요!"
+            },
+            {
+                q: "1985년, 심해 잠수정 ALVIN이 찾아낸 유명한 침몰선은 무엇일까요?",
+                options: ["타이타닉호", "노아의 방주", "해적선", "콜럼버스의 배"],
+                ans: 0,
+                hint: "ALVIN은 대서양 깊은 곳에 가라앉아 있던 진짜 타이타닉호를 찾는 데 큰 도움을 줬어요!"
+            }
+        ];
+        let quizAnswers = {};
+
+        const SLIDE_TITLES = [
+            "01. 🐙 인트로: 바다는 얼마나 깊을까?",
+            "02. 🌗 빛이 사라지는 4개의 바다 층",
+            "03. 🏔️ 에베레스트도 잠기는 깊이 비교",
+            "04. 🔦 아귀: 빛나는 낚싯대를 든 사냥꾼",
+            "05. 🦷 아귀의 비밀: 투명 이빨과 발광 박테리아",
+            "06. 🦑 대왕오징어: 전설의 바다 괴물",
+            "07. 👀 대왕오징어의 비밀: 농구공만한 눈",
+            "08. 🐛 대왕쥐며느리: 거대해진 공벌레 사촌",
+            "09. 🧹 대왕쥐며느리의 비밀: 심해의 청소부",
+            "10. 🐙 덤보문어: 귀 달린 아기 코끼리 문어",
+            "11. 🪽 덤보문어의 비밀: 날개처럼 헤엄쳐요",
+            "12. 🧛 흡혈오징어: 무서운 이름, 온순한 친구",
+            "13. 🍥 흡혈오징어의 비밀: 바다 눈을 먹어요",
+            "14. 🌋 열수구: 바다 밑 화산 마을",
+            "15. 🪱 관벌레의 비밀: 화산 가스로 사는 힘",
+            "16. 🤖 ALVIN 잠수정: 타이타닉을 찾은 탐험가",
+            "17. 🎚️ [인터랙티브] 깊이 슬라이더 탐험",
+            "18. 🗂️ 심해 친구들 총정리 갤러리",
+            "19. 🎯 심해 실전 퀴즈 1 (아귀의 미끼)",
+            "20. 🎯 심해 실전 퀴즈 2 (대왕오징어의 눈)",
+            "21. 🎯 심해 실전 퀴즈 3 (덤보문어의 이름)",
+            "22. 🎯 심해 실전 퀴즈 4 (관벌레의 에너지)",
+            "23. 🎯 심해 실전 퀴즈 5 (ALVIN과 타이타닉)",
+            "24. 🏆 [수료증] 심해 탐험가 인증 배지"
+        ];
+
+        function updateProgress() {
+            document.getElementById('slideIndicator').textContent = currentSlide;
+            const pct = (currentSlide / totalSlides) * 100;
+            document.getElementById('topProgressBar').style.width = pct + '%';
+            document.getElementById('prevBtn').disabled = (currentSlide === 1);
+            document.getElementById('nextBtn').disabled = (currentSlide === totalSlides);
+
+            const dotsCont = document.getElementById('dotsContainer');
+            dotsCont.innerHTML = '';
+            for (let i = 1; i <= totalSlides; i++) {
+                const dot = document.createElement('button');
+                dot.className = `w-2 h-2 rounded-full transition-all flex-shrink-0 ${i === currentSlide ? 'w-5 bg-cyan-400' : 'bg-slate-700 hover:bg-slate-500'}`;
+                dot.onclick = () => goToSlide(i);
+                dotsCont.appendChild(dot);
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                playSound('pop');
+                currentSlide++;
+                renderSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                playSound('pop');
+                currentSlide--;
+                renderSlide();
+            }
+        }
+
+        function goToSlide(n) {
+            playSound('pop');
+            currentSlide = n;
+            renderSlide();
+            const drawer = document.getElementById('indexDrawer');
+            if (!drawer.classList.contains('hidden')) drawer.classList.add('hidden');
+        }
+
+        function toggleIndexDrawer() {
+            const drawer = document.getElementById('indexDrawer');
+            drawer.classList.toggle('hidden');
+            if (!drawer.classList.contains('hidden')) {
+                const list = document.getElementById('drawerList');
+                list.innerHTML = '';
+                SLIDE_TITLES.forEach((t, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = `w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between transition ${idx + 1 === currentSlide ? 'bg-cyan-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}`;
+                    btn.textContent = t;
+                    btn.onclick = () => goToSlide(idx + 1);
+                    list.appendChild(btn);
+                });
+            }
+        }
+
+        // Build a photo card (taiwan-kids-cards.html style frame)
+        function photoCardHTML(imgSrc, alt, fallbackEmoji, badgeClass, badgeText, captionText, stickerText, heightClass) {
+            return `
+                <div class="relative ${heightClass || 'h-52'} rounded-2xl overflow-hidden border border-slate-700">
+                    <!-- Photo: ${alt}, Wikimedia Commons, see file page for license -->
+                    <img src="${imgSrc}" loading="lazy" decoding="async" alt="${alt}" class="w-full h-full object-cover img-reveal" onerror="imgFallbackEmoji(this,'${fallbackEmoji}')">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent"></div>
+                    <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md ${badgeClass} text-[11px] font-bold">${badgeText}</span>
+                    ${stickerText ? `<span class="sticker-pop absolute top-2.5 right-2.5 px-2.5 py-1 rounded-xl bg-ocean-abyss/90 border border-white/20 text-[11px] font-bold text-white">${stickerText}</span>` : ''}
+                    <span class="absolute bottom-2.5 left-2.5 text-sm text-white font-kids drop-shadow">${captionText}</span>
+                </div>
+            `;
+        }
+
+        function renderSlide() {
+            updateProgress();
+            const body = document.getElementById('slideBody');
+
+            if (currentSlide === 1) {
+                body.innerHTML = `
+                    <div class="text-center py-4">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-xs font-kids mb-4">
+                            <span>🐙 은찬이의 자연 탐험</span> · <span>7~10세 초등 맞춤</span>
+                        </div>
+                        <div class="relative h-56 md:h-64 rounded-3xl overflow-hidden border border-slate-700 mb-5 max-w-2xl mx-auto">
+                            <!-- Photo: Anglerfish, Wikimedia Commons, see file page for license -->
+                            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Anglerfish.jpg?width=900" loading="lazy" decoding="async" alt="캄캄한 심해에서 발광 미끼를 밝히는 아귀" class="w-full h-full object-cover ken-burns" onerror="imgFallbackEmoji(this,'🐟')">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/10 to-transparent"></div>
+                        </div>
+                        <h2 class="font-kids text-3xl md:text-5xl text-white mb-4 leading-tight">
+                            빛이 없는 깊은 바다 속엔<br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-sky-300">어떤 신기한 동물이 살까?</span> 🌊
+                        </h2>
+                        <p class="text-slate-300 text-sm md:text-base max-w-2xl mx-auto leading-relaxed mb-6 font-sans">
+                            바다는 우리 생각보다 훨씬 깊어요! 햇빛이 닿는 곳을 지나 더 깊이, 더 깊이 내려가면 캄캄한 어둠 속에서 살아가는 <strong>신비하고 놀라운 친구들</strong>을 만날 수 있어요.<br>
+                            빛나는 미끼를 든 아귀부터 농구공만한 눈을 가진 대왕오징어까지, 지금 바로 잠수를 시작해볼까요?
+                        </p>
+                        <div class="flex flex-wrap items-center justify-center gap-3">
+                            <button onclick="playSound('dive'); nextSlide();" class="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-400 hover:to-teal-400 text-slate-950 font-kids text-base shadow-xl shadow-cyan-950 transition active:scale-95 flex items-center gap-2 font-bold">
+                                <span>🤿 풍덩! 심해 탐험 출발!</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 2) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🌗</span>
+                            <div>
+                                <span class="text-xs font-bold text-cyan-400 font-kids">깊이 들어갈수록 빛이 사라져요</span>
+                                <h3 class="font-kids text-2xl text-white">바다를 나누는 4개의 신비한 층</h3>
+                            </div>
+                        </div>
+                        <div class="grid sm:grid-cols-2 gap-3 font-sans text-xs text-slate-300">
+                            ${ZONES.map(z => `
+                                <div class="p-4 ${z.bg} rounded-2xl border ${z.border}">
+                                    <span class="text-xs font-kids block mb-1" style="color:${z.color === '#020617' ? '#67e8f9' : z.color}">${z.name}</span>
+                                    <div class="text-[11px] text-slate-400 font-kids mb-2">깊이 ${z.depth} · ${z.light}</div>
+                                    <p>${z.desc}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 3) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🏔️</span>
+                            <div>
+                                <span class="text-xs font-bold text-cyan-400 font-kids">상상하기 힘든 깊이</span>
+                                <h3 class="font-kids text-2xl text-white">에베레스트산을 거꾸로 넣어도 남는 깊이!</h3>
+                            </div>
+                        </div>
+                        <div class="p-5 rounded-3xl bg-slate-900/90 border border-slate-700">
+                            <div class="flex items-end justify-center gap-8 h-52 mb-4">
+                                <div class="flex flex-col items-center justify-end h-full">
+                                    <span class="text-[11px] font-kids text-amber-300 mb-1">에베레스트산</span>
+                                    <div class="w-14 rounded-t-lg bg-gradient-to-t from-amber-700 to-amber-300" style="height:72%"></div>
+                                    <span class="text-[10px] text-slate-400 font-kids mt-1">약 8,849m</span>
+                                </div>
+                                <div class="flex flex-col items-center justify-end h-full">
+                                    <span class="text-[11px] font-kids text-cyan-300 mb-1">마리아나 해구</span>
+                                    <div class="w-14 rounded-b-lg self-start bg-gradient-to-b from-cyan-600 to-ocean-abyss" style="height:100%"></div>
+                                    <span class="text-[10px] text-slate-400 font-kids mt-1">약 11,000m</span>
+                                </div>
+                            </div>
+                            <p class="text-xs md:text-sm text-slate-300 font-sans leading-relaxed text-center">
+                                지구에서 가장 깊은 바다인 <strong>마리아나 해구</strong>는 깊이가 약 11,000m나 돼요!<br>
+                                세상에서 가장 높은 산 <strong>에베레스트산(약 8,849m)</strong>을 통째로 거꾸로 풍덩 빠뜨려도, 산꼭대기가 물속에 잠기고도 2,000m 넘게 남을 만큼 깊답니다. 정말 상상하기 힘든 깊이죠?
+                            </p>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide >= 4 && currentSlide <= 15) {
+                // Creature slides: pairs of (photo intro) + (facts deep-dive)
+                const offset = currentSlide - 4;
+                const cIdx = Math.floor(offset / 2);
+                const isFactSlide = offset % 2 === 1;
+                const c = CREATURES[cIdx];
+
+                if (!isFactSlide) {
+                    body.innerHTML = `
+                        <div>
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="text-3xl">${c.fallback}</span>
+                                <div>
+                                    <span class="text-xs font-bold text-cyan-400 font-kids">${c.zone} · 깊이 ${c.depthRange}</span>
+                                    <h3 class="font-kids text-2xl text-white">${c.name}</h3>
+                                </div>
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-5 items-center">
+                                ${photoCardHTML(c.img, c.alt, c.fallback, c.badge, c.num + '. ' + c.name.split(' (')[0], c.name.split(' (')[0], c.sticker, 'h-56 md:h-64')}
+                                <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300">
+                                    <p class="leading-relaxed">${c.intro}</p>
+                                    <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                        <strong class="text-cyan-300 font-kids text-sm block mb-1">🗺️ 어디에 살아요?</strong>
+                                        ${c.zone}의 깊이 ${c.depthRange} 사이에서 살아가요.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    body.innerHTML = `
+                        <div>
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="text-3xl">${c.fallback}</span>
+                                <div>
+                                    <span class="text-xs font-bold text-cyan-400 font-kids">${c.name}의 비밀</span>
+                                    <h3 class="font-kids text-2xl text-white">놀라운 사실 3가지</h3>
+                                </div>
+                            </div>
+                            <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300">
+                                ${c.facts.map(f => `
+                                    <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                        <strong class="text-cyan-300 font-kids text-sm block mb-1">${f.icon} ${f.title}</strong>
+                                        ${f.text}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+            } else if (currentSlide === 16) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🤖</span>
+                            <div>
+                                <span class="text-xs font-bold text-cyan-400 font-kids">사람이 만든 심해 탐험가</span>
+                                <h3 class="font-kids text-2xl text-white">${ALVIN.name}</h3>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-5 items-center">
+                            ${photoCardHTML(ALVIN.img, ALVIN.alt, ALVIN.fallback, 'bg-slate-600/90 text-white', 'ALVIN', 'ALVIN 잠수정', ALVIN.sticker, 'h-56 md:h-64')}
+                            <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300">
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-cyan-300 font-kids text-sm block mb-1">🚢 타이타닉호를 찾았어요</strong>
+                                    1985년, 바닷속에 가라앉아 있던 진짜 타이타닉호를 찾는 데 큰 도움을 준 실제 심해 탐사정이에요.
+                                </div>
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-cyan-300 font-kids text-sm block mb-1">📏 최대 약 4,500m까지 잠수</strong>
+                                    깊이 ${ALVIN.depthRange}까지 내려가 과학자들이 직접 눈으로 심해 생물을 관찰할 수 있게 해줘요.
+                                </div>
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-cyan-300 font-kids text-sm block mb-1">🛡️ 튼튼한 티타늄 캡슐</strong>
+                                    강한 수압을 견디는 튼튼한 티타늄 캡슐 안에 조종사와 과학자가 함께 타고 안전하게 탐험한답니다.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 17) {
+                // Interactive Depth Slider Simulator
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold text-cyan-400 font-kids">슬라이더를 움직여서</span>
+                                <h3 class="font-kids text-2xl text-white">바닷속 깊이 탐험 시뮬레이터</h3>
+                            </div>
+                            <span class="text-[11px] text-slate-400 font-kids">더 깊이 내려가볼까요? 👇</span>
+                        </div>
+                        <div class="p-4 bg-slate-900 rounded-3xl border border-slate-800 flex flex-col items-center">
+                            <canvas id="depthCanvas" width="580" height="260" class="w-full max-w-[580px] h-[260px] rounded-2xl border border-slate-700"></canvas>
+                            <input type="range" id="depthSlider" min="0" max="4000" step="25" value="0" oninput="updateDepthSim(this.value)" class="w-full max-w-[580px] mt-3 accent-cyan-400">
+                            <div class="w-full max-w-[580px] flex items-center justify-between text-[10px] text-slate-500 font-kids mt-0.5">
+                                <span>0m (바다 표면)</span>
+                                <span>4,000m (심해 바닥층)</span>
+                            </div>
+                            <div class="grid sm:grid-cols-2 gap-2 w-full max-w-[580px] mt-3">
+                                <div id="depthZoneLabel" class="p-3 bg-slate-800/80 rounded-xl border border-slate-700 text-xs font-kids text-cyan-300 text-center"></div>
+                                <div id="depthCreatureLabel" class="p-3 bg-slate-800/80 rounded-xl border border-slate-700 text-xs font-kids text-amber-300 text-center"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                setTimeout(() => updateDepthSim(0), 50);
+            } else if (currentSlide === 18) {
+                const allFriends = [...CREATURES, { name: "ALVIN 잠수정", img: ALVIN.img, alt: ALVIN.alt, fallback: ALVIN.fallback, badge: "bg-slate-600/90 text-white", zone: "탐험가", num: "07" }];
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🗂️</span>
+                            <div>
+                                <span class="text-xs font-bold text-cyan-400 font-kids">지금까지 만난 심해 친구들</span>
+                                <h3 class="font-kids text-2xl text-white">신비한 친구들 총정리 갤러리</h3>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            ${allFriends.map(c => `
+                                <div class="relative h-24 rounded-xl overflow-hidden border border-slate-700">
+                                    <!-- Photo: ${c.alt}, Wikimedia Commons, see file page for license -->
+                                    <img src="${c.img}" loading="lazy" decoding="async" alt="${c.alt}" class="w-full h-full object-cover img-reveal" onerror="imgFallbackEmoji(this,'${c.fallback}')">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent"></div>
+                                    <span class="absolute bottom-1.5 left-1.5 right-1.5 text-[10px] text-white font-kids leading-tight drop-shadow">${c.name.split(' (')[0]}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <p class="text-[11px] text-slate-400 font-kids text-center mt-3">
+                            🔦 아귀 · 🦑 대왕오징어 · 🐛 대왕쥐며느리 · 🐙 덤보문어 · 🧛 흡혈오징어 · 🌋 관벌레 · 🤖 ALVIN
+                        </p>
+                    </div>
+                `;
+            } else if (currentSlide >= 19 && currentSlide <= 23) {
+                // Quiz
+                const qIdx = currentSlide - 19;
+                const q = QUIZ_QUESTIONS[qIdx];
+                const selected = quizAnswers[qIdx];
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs font-bold text-cyan-400 font-kids">🎯 심해 탐험 퀴즈 (${qIdx + 1} / 5)</span>
+                            <span class="text-xs px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-kids">점수: ${Object.values(quizAnswers).filter((a, i) => a === QUIZ_QUESTIONS[i].ans).length * 20}점</span>
+                        </div>
+                        <h3 class="font-kids text-xl md:text-2xl text-white mb-4 leading-snug">
+                            Q${qIdx + 1}. ${q.q}
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                            ${q.options.map((opt, optIdx) => {
+                                let style = "bg-slate-800/90 border-slate-700 hover:bg-slate-700 text-slate-200";
+                                if (selected !== undefined) {
+                                    if (optIdx === q.ans) style = "bg-cyan-600/90 border-cyan-400 text-white font-bold ring-2 ring-cyan-400";
+                                    else if (optIdx === selected) style = "bg-rose-600/90 border-rose-400 text-white font-bold";
+                                }
+                                return `
+                                    <button onclick="handleQuizAnswer(${qIdx}, ${optIdx})" class="p-4 rounded-2xl border text-left font-kids text-sm transition ${style}">
+                                        ${optIdx + 1}. ${opt}
+                                    </button>
+                                `;
+                            }).join('')}
+                        </div>
+                        <div class="p-3 bg-slate-900 rounded-2xl border border-slate-800 text-xs text-slate-400 font-kids">
+                            💡 힌트: ${q.hint}
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 24) {
+                // Master Badge
+                const correctCount = Object.values(quizAnswers).filter((a, i) => a === QUIZ_QUESTIONS[i].ans).length;
+                const score = correctCount * 20;
+                playSound('fanfare');
+                if (typeof confetti === 'function') {
+                    confetti({ particleCount: 90, spread: 70, origin: { y: 0.6 } });
+                }
+                body.innerHTML = `
+                    <div class="text-center py-4">
+                        <div class="relative h-40 rounded-3xl overflow-hidden border border-slate-700 mb-4 max-w-md mx-auto">
+                            <!-- Photo: ALVIN submersible, Wikimedia Commons, see file page for license -->
+                            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/ALVIN%20submersible.jpg?width=900" loading="lazy" decoding="async" alt="심해 탐사를 마친 ALVIN 잠수정" class="w-full h-full object-cover ken-burns" onerror="imgFallbackEmoji(this,'🤖')">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent"></div>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="w-20 h-20 rounded-3xl bg-gradient-to-tr from-cyan-500 to-teal-500 shadow-[0_0_35px_rgba(34,211,238,0.5)] flex items-center justify-center text-4xl">
+                                    🏆
+                                </div>
+                            </div>
+                        </div>
+                        <span class="text-xs font-bold text-cyan-400 font-kids tracking-widest uppercase">Deep-Sea Explorer Certificate</span>
+                        <h3 class="font-kids text-3xl md:text-4xl text-white mt-1 mb-2">
+                            은찬이의 심해 탐험 수료를 축하합니다! 🎉
+                        </h3>
+                        <p class="text-slate-300 text-xs md:text-sm mb-4 font-sans">
+                            햇빛층부터 심해 바닥층까지, 아귀와 대왕오징어부터 열수구 관벌레와 ALVIN 잠수정까지 훌륭하게 탐구했어요!
+                        </p>
+                        <div class="inline-flex items-center gap-4 p-4 rounded-2xl bg-cyan-950/40 border border-cyan-500/30 text-center mb-6">
+                            <div>
+                                <span class="text-[11px] text-slate-400 font-kids block">퀴즈 성적</span>
+                                <span class="font-kids text-2xl text-cyan-300">${score}점</span>
+                            </div>
+                            <div class="w-px h-8 bg-cyan-500/30"></div>
+                            <div>
+                                <span class="text-[11px] text-slate-400 font-kids block">수여 칭호</span>
+                                <span class="font-kids text-lg text-amber-300">심해 탐험가 🐙</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap items-center justify-center gap-3 font-kids text-xs">
+                            <a href="eunchan-study.html" class="px-6 py-3 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white transition shadow-lg shadow-cyan-950">
+                                🎒 은찬이의 공부방 홈으로 이동
+                            </a>
+                            <button onclick="goToSlide(1)" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+                                🔄 처음부터 다시 탐험하기
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function handleQuizAnswer(qIdx, optIdx) {
+            if (quizAnswers[qIdx] !== undefined) return;
+            quizAnswers[qIdx] = optIdx;
+            if (optIdx === QUIZ_QUESTIONS[qIdx].ans) {
+                playSound('correct');
+            } else {
+                playSound('wrong');
+            }
+            renderSlide();
+        }
+
+        // Depth Slider Simulator (mirrors the size-comparison canvas technique from eunchan-dinosaur-cards.html)
+        const SIM_MAX_DEPTH = 4000;
+        const SIM_CREATURES = [
+            { depth: 1000, emoji: "🔦", name: "아귀" },
+            { depth: 600, emoji: "🦑", name: "대왕오징어" },
+            { depth: 1350, emoji: "🐛", name: "대왕쥐며느리" },
+            { depth: 3500, emoji: "🐙", name: "덤보문어" },
+            { depth: 750, emoji: "🧛", name: "흡혈오징어" },
+            { depth: 3000, emoji: "🌋", name: "관벌레(열수구)" }
+        ];
+
+        function zoneForDepth(depth) {
+            if (depth < 200) return ZONES[0];
+            if (depth < 1000) return ZONES[1];
+            if (depth < 4000) return ZONES[2];
+            return ZONES[3];
+        }
+
+        function updateDepthSim(value) {
+            const depth = parseInt(value, 10);
+            const canvas = document.getElementById('depthCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+
+            // Background gradient: bright blue (surface) -> dark navy -> black (abyss)
+            const grad = ctx.createLinearGradient(0, 0, 0, h);
+            grad.addColorStop(0, '#7dd3fc');
+            grad.addColorStop(0.05, '#38bdf8');
+            grad.addColorStop(0.25, '#0891b2');
+            grad.addColorStop(0.25, '#0c4a6e');
+            grad.addColorStop(0.6, '#082f49');
+            grad.addColorStop(1, '#020617');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, w, h);
+
+            // Zone boundary lines
+            const boundaries = [
+                { d: 200, label: "황혼층 시작 (200m)" },
+                { d: 1000, label: "밤바다층 시작 (1,000m)" },
+                { d: 4000, label: "심해 바닥층 (4,000m~)" }
+            ];
+            boundaries.forEach(b => {
+                const y = (b.d / SIM_MAX_DEPTH) * h;
+                ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+                ctx.setLineDash([4, 4]);
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(w, y);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.font = '10px sans-serif';
+                ctx.fillStyle = 'rgba(255,255,255,0.65)';
+                ctx.textAlign = 'right';
+                ctx.fillText(b.label, w - 6, Math.max(12, y - 4));
+            });
+
+            // Current depth marker
+            const markerY = Math.min(h - 6, Math.max(6, (depth / SIM_MAX_DEPTH) * h));
+            ctx.beginPath();
+            ctx.arc(45, markerY, 8, 0, Math.PI * 2);
+            ctx.fillStyle = '#fbbf24';
+            ctx.fill();
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            ctx.font = 'bold 12px sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'left';
+            ctx.fillText(`깊이 ${depth.toLocaleString()}m`, 62, markerY + 4);
+
+            // Update labels
+            const zone = zoneForDepth(depth);
+            const zoneLabelEl = document.getElementById('depthZoneLabel');
+            if (zoneLabelEl) zoneLabelEl.innerHTML = `📍 <strong>${zone.name}</strong><br><span class="text-slate-400 text-[10px]">${zone.light}</span>`;
+
+            let nearest = SIM_CREATURES[0];
+            let bestDist = Math.abs(depth - nearest.depth);
+            SIM_CREATURES.forEach(c => {
+                const dist = Math.abs(depth - c.depth);
+                if (dist < bestDist) { bestDist = dist; nearest = c; }
+            });
+            const creatureLabelEl = document.getElementById('depthCreatureLabel');
+            if (creatureLabelEl) {
+                if (bestDist <= 700) {
+                    creatureLabelEl.innerHTML = `${nearest.emoji} 이 근처엔<br><strong>${nearest.name}</strong>가 살아요!`;
+                } else {
+                    creatureLabelEl.innerHTML = `🌊 이 깊이엔 아직<br>발견 못한 친구가 있을지도!`;
+                }
+            }
+        }
+
+        // TTS Read Aloud
+        let isSpeaking = false;
+        function toggleReadOutLoud() {
+            if (!('speechSynthesis' in window)) {
+                alert("이 브라우저는 음성 읽어주기를 지원하지 않습니다.");
+                return;
+            }
+
+            if (isSpeaking) {
+                window.speechSynthesis.cancel();
+                isSpeaking = false;
+                document.getElementById('ttsBtn').classList.remove('text-cyan-400', 'animate-pulse');
+                document.getElementById('ttsBtn').classList.add('text-amber-400');
+                return;
+            }
+
+            const slide = document.getElementById('slideBody');
+            if (!slide) return;
+            // Strip emoji (broad unicode ranges) and quiz "Q1." style labels before reading aloud
+            const textToRead = slide.innerText
+                .replace(/[\p{Extended_Pictographic}‍️]/gu, ' ')
+                .replace(/Q\d+\./g, ' ');
+
+            const utterance = new SpeechSynthesisUtterance(textToRead);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.95;
+            utterance.pitch = 1.05;
+
+            utterance.onstart = () => {
+                isSpeaking = true;
+                document.getElementById('ttsBtn').classList.remove('text-amber-400');
+                document.getElementById('ttsBtn').classList.add('text-cyan-400', 'animate-pulse');
+            };
+
+            utterance.onend = () => {
+                isSpeaking = false;
+                document.getElementById('ttsBtn').classList.remove('text-cyan-400', 'animate-pulse');
+                document.getElementById('ttsBtn').classList.add('text-amber-400');
+            };
+
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Keyboard
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'PageDown') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+        });
+
+        // Touch Swipe
+        let touchStartX = 0;
+        let touchEndX = 0;
+        document.addEventListener('touchstart', e => {
+            if (e.target.closest('canvas, button, a, input, select, textarea')) {
+                touchStartedOnInteractive = true;
+                return;
+            }
+            touchStartedOnInteractive = false;
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.addEventListener('touchend', e => {
+            if (touchStartedOnInteractive) {
+                touchStartedOnInteractive = false;
+                return;
+            }
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 75) nextSlide();
+            if (touchEndX - touchStartX > 75) prevSlide();
+        }, { passive: true });
+
+        // Init
+        renderSlide();
+    </script>
+</body>
+</html>
