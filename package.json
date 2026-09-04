@@ -1,6 +1,6 @@
 {
   "name": "daduki-github-io",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "type": "module",
   "description": "Official application portal for DD LifeLog, 심지어타이쿤, 대만 가족여행 대시보드, and EmStudio discography.",
   "scripts": {
