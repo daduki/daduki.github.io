@@ -46,6 +46,15 @@
         @keyframes imgReveal { to { opacity: 1; transform: scale(1); } }
         .ken-burns { animation: kenBurns 12s ease-in-out infinite alternate; }
         @keyframes kenBurns { from { transform: scale(1) translate(0,0); } to { transform: scale(1.12) translate(-1.5%, -1%); } }
+        /* .img-reveal and .ken-burns both set the `animation` shorthand, so combining them on one
+           element lets the later rule silently win and drops the fade-in (image stays opacity:0
+           forever). This rule gives that combo its own animation that does both. */
+        .img-reveal.ken-burns { animation: imgRevealKenBurns 12s ease-in-out infinite alternate; }
+        @keyframes imgRevealKenBurns {
+            0% { opacity: 0; transform: scale(1.08); }
+            5% { opacity: 1; }
+            100% { opacity: 1; transform: scale(1.12) translate(-1.5%, -1%); }
+        }
         .sticker-pop { animation: stickerPop 0.5s cubic-bezier(.34,1.56,.64,1) both; }
         @keyframes stickerPop { 0% { transform: scale(0) rotate(-15deg); opacity:0; } 100% { transform: scale(1) rotate(-8deg); opacity:1; } }
     </style>

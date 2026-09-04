@@ -56,6 +56,15 @@
         @keyframes imgReveal { to { opacity: 1; transform: scale(1); } }
         .ken-burns { animation: kenBurns 12s ease-in-out infinite alternate; }
         @keyframes kenBurns { from { transform: scale(1) translate(0,0); } to { transform: scale(1.12) translate(-1.5%, -1%); } }
+        /* .img-reveal and .ken-burns both set the `animation` shorthand, so combining them on one
+           element lets the later rule silently win and drops the fade-in (image stays opacity:0
+           forever). This rule gives that combo its own animation that does both. */
+        .img-reveal.ken-burns { animation: imgRevealKenBurns 12s ease-in-out infinite alternate; }
+        @keyframes imgRevealKenBurns {
+            0% { opacity: 0; transform: scale(1.08); }
+            5% { opacity: 1; }
+            100% { opacity: 1; transform: scale(1.12) translate(-1.5%, -1%); }
+        }
         .sticker-pop { animation: stickerPop 0.5s cubic-bezier(.34,1.56,.64,1) both; }
         @keyframes stickerPop { 0% { transform: scale(0) rotate(-15deg); opacity:0; } 100% { transform: scale(1) rotate(-8deg); opacity:1; } }
     </style>
@@ -378,7 +387,7 @@
                             <!-- Photo: ${w.nameEn}, Wikimedia Commons, see file page for license -->
                             <img src="${w.photo}" alt="${w.alt}, 세계 7대 불가사의 탐험의 시작"
                                  loading="lazy" decoding="async"
-                                 class="w-full h-full object-cover img-reveal ken-burns"
+                                 class="w-full h-full object-cover ken-burns"
                                  onerror="imgFallbackEmoji(this,'${w.emoji}')">
                             <div class="absolute inset-0 bg-gradient-to-t from-wonder-night via-wonder-night/20 to-transparent"></div>
                             <div class="absolute top-3 right-3 text-3xl sticker-pop" style="animation-delay:0.4s">⏳</div>
@@ -819,7 +828,7 @@
                         <div class="relative w-full max-w-md mx-auto h-32 rounded-2xl overflow-hidden mb-4 border border-white/10">
                             <!-- Photo: ${w.nameEn}, Wikimedia Commons, see file page for license -->
                             <img src="${w.photo}" alt="세계 랜드마크 탐험 완주를 축하하는 배경 사진, 이집트 대피라미드" loading="lazy" decoding="async"
-                                 class="w-full h-full object-cover img-reveal ken-burns" onerror="imgFallbackEmoji(this,'${w.emoji}')">
+                                 class="w-full h-full object-cover ken-burns" onerror="imgFallbackEmoji(this,'${w.emoji}')">
                             <div class="absolute inset-0 bg-gradient-to-t from-wonder-night via-wonder-night/50 to-wonder-night/10"></div>
                         </div>
                         <div class="w-20 h-20 mx-auto -mt-16 relative rounded-3xl bg-gradient-to-tr from-amber-500 to-yellow-400 shadow-[0_0_35px_rgba(234,179,8,0.5)] flex items-center justify-center text-4xl mb-3 border-2 border-white/20">
