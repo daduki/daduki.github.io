@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공룡과 지구의 역사 | 은찬이의 공부방 🦕</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script src="js/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                        kids: ['"Jua"', 'cursive', 'sans-serif']
+                    },
+                    colors: {
+                        dino: {
+                            dark: '#08120c',
+                            jungle: '#064e3b',
+                            leaf: '#10b981',
+                            amber: '#f59e0b',
+                            volcano: '#ef4444',
+                            bone: '#f8fafc'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .font-kids { font-family: 'Jua', cursive, sans-serif; }
+        .glass-card {
+            background: rgba(10, 25, 18, 0.9);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        .slide-fade {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-[#060e0a] text-slate-100 min-h-screen font-sans flex flex-col justify-between selection:bg-emerald-500 selection:text-white">
+
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-emerald-900/30">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="eunchan-study.html" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition flex items-center gap-1.5 text-xs font-semibold">
+                    <i class="fa-solid fa-arrow-left"></i> 공부방 홈
+                </a>
+                <div>
+                    <h1 class="font-kids text-base md:text-lg text-emerald-400 flex items-center gap-2">
+                        <span>🦕 공룡과 지구의 역사</span>
+                        <span class="text-[11px] font-sans px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">7~10세 초등 맞춤</span>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Slide progress & Sound/Read toggles -->
+            <div class="flex items-center gap-2 md:gap-3">
+                <div class="flex items-center gap-1 bg-slate-800/80 px-2.5 py-1 rounded-full border border-slate-700 text-xs">
+                    <i class="fa-solid fa-layer-group text-emerald-400"></i>
+                    <span id="slideIndicator" class="font-kids text-emerald-300 text-sm font-bold">1</span>
+                    <span class="text-slate-400 font-kids text-xs">/ 24</span>
+                </div>
+                <button id="ttsBtn" onclick="toggleReadOutLoud()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 hover:text-amber-300 transition text-xs font-semibold" title="친절한 목소리로 읽어주기">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+                <button onclick="toggleIndexDrawer()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-xs font-semibold" title="전체 목차">
+                    <i class="fa-solid fa-list-ol"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Top Progress Bar -->
+        <div class="w-full bg-slate-800 h-1.5 overflow-hidden">
+            <div id="topProgressBar" class="bg-gradient-to-r from-emerald-500 via-teal-400 to-amber-400 h-full transition-all duration-300" style="width: 4.16%"></div>
+        </div>
+    </header>
+
+    <!-- Main Slide Stage -->
+    <main class="flex-grow flex items-center justify-center px-3 md:px-6 py-6 max-w-5xl mx-auto w-full">
+        <div id="slideCard" class="w-full glass-card rounded-3xl p-5 md:p-8 border border-white/10 shadow-2xl relative overflow-hidden min-h-[580px] flex flex-col justify-between">
+            <!-- Slide Content Injected Dynamically -->
+            <div id="slideBody" class="slide-fade flex-grow flex flex-col justify-center"></div>
+
+            <!-- Slide Bottom Controls -->
+            <div class="pt-6 border-t border-white/10 flex items-center justify-between mt-4">
+                <button id="prevBtn" onclick="prevSlide()" class="px-5 py-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:pointer-events-none text-slate-200 font-kids text-sm flex items-center gap-2 transition">
+                    <i class="fa-solid fa-arrow-left"></i> 이전장
+                </button>
+                
+                <div class="flex items-center gap-1.5 overflow-x-auto max-w-[200px] md:max-w-[420px] py-1" id="dotsContainer">
+                    <!-- Dots generated in JS -->
+                </div>
+
+                <button id="nextBtn" onclick="nextSlide()" class="px-6 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-kids text-sm flex items-center gap-2 shadow-lg shadow-emerald-950 transition">
+                    다음장 <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Slide Index Modal / Drawer -->
+    <div id="indexDrawer" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex justify-end">
+        <div class="bg-slate-900 border-l border-slate-700 w-full max-w-md h-full p-6 overflow-y-auto flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-4">
+                    <h3 class="font-kids text-lg text-emerald-400">🦕 공룡 탐험 24개 슬라이드 목차</h3>
+                    <button onclick="toggleIndexDrawer()" class="text-slate-400 hover:text-white text-xl">✕</button>
+                </div>
+                <div class="space-y-1.5" id="drawerList"></div>
+            </div>
+            <button onclick="toggleIndexDrawer()" class="w-full py-3 mt-4 bg-slate-800 text-slate-300 rounded-xl font-kids text-sm">닫기</button>
+        </div>
+    </div>
+
+    <!-- Audio FX Synthesizer -->
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, now);
+                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1);
+                osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                osc.start(now);
+                osc.stop(now + 0.5);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.exponentialRampToValueAtTime(130, now + 0.25);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'pop') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(320, now);
+                osc.frequency.exponentialRampToValueAtTime(580, now + 0.08);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                osc.start(now);
+                osc.stop(now + 0.1);
+            } else if (type === 'roar') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(130, now);
+                osc.frequency.linearRampToValueAtTime(75, now + 0.5);
+                gain.gain.setValueAtTime(0.25, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
+                osc.start(now);
+                osc.stop(now + 0.6);
+            } else if (type === 'fanfare') {
+                [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+                    const o = audioCtx.createOscillator();
+                    const g = audioCtx.createGain();
+                    o.connect(g);
+                    g.connect(audioCtx.destination);
+                    o.type = 'triangle';
+                    o.frequency.setValueAtTime(freq, now + i * 0.12);
+                    g.gain.setValueAtTime(0.2, now + i * 0.12);
+                    g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.12 + 0.4);
+                    o.start(now + i * 0.12);
+                    o.stop(now + i * 0.12 + 0.4);
+                });
+            }
+        }
+    </script>
+
+    <!-- Slide Engine -->
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 24;
+        let touchStartedOnInteractive = false;
+
+        const DINOS = [
+            { name: "티라노사우루스 (T-Rex)", period: "백악기 후기", length: 12, height: 4, weight: "8~9톤", diet: "육식", color: "#ef4444", feature: "30cm 바나나 크기 톱니 이빨과 5톤 치악력! 강력한 턱을 가진 백악기의 제왕" },
+            { name: "트리케라톱스", period: "백악기 후기", length: 9, height: 3, weight: "6~12톤", diet: "초식", color: "#f59e0b", feature: "얼굴에 솟은 3개의 날카로운 뿔과 목 뒤의 단단한 프릴로 티라노에 맞선 천하장사" },
+            { name: "브라키오사우루스", period: "쥐라기 후기", length: 25, height: 13, weight: "40톤", diet: "초식", color: "#10b981", feature: "기린처럼 앞다리가 뒷다리보다 길어서 아파트 4층 높이 나뭇잎을 뜯어먹은 거인" },
+            { name: "안킬로사우루스", period: "백악기 후기", length: 8, height: 1.7, weight: "6톤", diet: "초식", color: "#06b6d4", feature: "온몸이 단단한 골편 갑옷으로 덮여 있고 꼬리 끝에 뼈 곤봉 철퇴를 달고 다닌 살아있는 탱크" },
+            { name: "벨로키랍토르", period: "백악기 후기", length: 2, height: 0.5, weight: "15kg", diet: "육식", color: "#8b5cf6", feature: "영화보다 훨씬 작고 칠면조 크기에 깃털이 덮였던 민첩하고 지능 높은 사냥꾼" }
+        ];
+
+        const QUIZ_QUESTIONS = [
+            {
+                q: "백악기 최강의 육식공룡 티라노사우루스의 이빨 크기는 대략 무엇과 비슷할까요?",
+                options: ["쌀알 크기 (5mm)", "사탕 크기 (3cm)", "바나나 크기 (30cm)", "수박 크기 (1m)"],
+                ans: 2,
+                hint: "길이가 약 30cm로 뿌리까지 아주 깊고 톱니가 달린 바나나 크기예요!"
+            },
+            {
+                q: "앞다리가 뒷다리보다 길어서 기린처럼 높은 곳의 나뭇잎을 먹었던 쥐라기 거대 공룡은?",
+                options: ["티라노사우루스", "브라키오사우루스", "트리케라톱스", "벨로키랍토르"],
+                ans: 1,
+                hint: "이름 뜻이 '팔 도마뱀'이라는 뜻을 가진 거대한 초식 공룡이에요!"
+            },
+            {
+                q: "하늘을 날아다니던 '프테라노돈'과 바다를 누비던 '모사사우루스'에 대한 올바른 설명은?",
+                options: ["둘 다 진짜 공룡이다", "공룡이 아니라 비행·해양 파충류다", "물고기 종류이다", "포유류 동물이다"],
+                ans: 1,
+                hint: "공룡은 땅 위에서 다리가 몸 아래로 곧게 뻗은 육상 파충류만 뜻해요!"
+            },
+            {
+                q: "약 6,600만 년 전 공룡들이 멸종하게 된 결정적인 우주 사건은 무엇일까요?",
+                options: ["거대 운석 충돌", "외계인 침공", "홍수 대폭풍", "지구 자전 멈춤"],
+                ans: 0,
+                hint: "멕시코 유카탄 반도에 떨어진 지름 10km의 거대한 소행성 충돌이었어요!"
+            },
+            {
+                q: "오늘날 우리 주변에서 매일 볼 수 있는 '살아있는 진짜 공룡의 직계 후예'는 누구일까요?",
+                options: ["도마뱀과 악어", "새 (참새, 닭, 비둘기)", "개구리와 두꺼비", "호랑이와 고양이"],
+                ans: 1,
+                hint: "깃털을 달고 하늘을 나는 조류는 깃털 공룡(수각류)에서 직접 진화했어요!"
+            }
+        ];
+        let quizAnswers = {};
+
+        const SLIDE_TITLES = [
+            "01. 🦕 인트로: 1억 6천만 년 전 공룡 왕국 출발",
+            "02. ⏳ 지구 역사 타임머신 (고생대-중생대-신생대)",
+            "03. 🌿 중생대 3총사 (트라이아스기·쥐라기·백악기)",
+            "04. 👑 백악기의 제왕: 티라노사우루스 렉스",
+            "05. 🍌 바나나 이빨 & 5톤 치악력의 무서움",
+            "06. 🛡️ 뿔 세 개 천하장사: 트리케라톱스",
+            "07. 🦕 쥐라기의 걸어다니는 산: 브라키오사우루스",
+            "08. 🔨 꼬리 철퇴를 단 탱크: 안킬로사우루스",
+            "09. 🏃‍♂️ 깃털 달린 날쌘돌이: 벨로키랍토르",
+            "10. 🛡️ 등에 솟은 오각형 골판: 스테고사우루스",
+            "11. 📏 [인터랙티브] 은찬이 vs 공룡 실물 크기 비교",
+            "12. 🦴 돌이 된 뼈: 신비한 화석의 탄생",
+            "13. 🦇 반전 1: 익룡(프테라노돈)은 공룡이 아니다?!",
+            "14. 🐋 반전 2: 바다 모사사우루스도 공룡이 아니다?!",
+            "15. 🌿 초식 공룡의 돌 삼키기(위석) 비밀",
+            "16. ☄️ 6600만 년 전 운석 충돌과 대멸종",
+            "17. 🐦 대반전: 참새와 닭은 살아있는 공룡 후예!",
+            "18. 🇰🇷 한반도의 공룡 발자국 (해남 & 고성)",
+            "19. 🎯 공룡 실전 퀴즈 1 (티라노 이빨 크기)",
+            "20. 🎯 공룡 실전 퀴즈 2 (기린 닮은 쥐라기 거인)",
+            "21. 🎯 공룡 실전 퀴즈 3 (익룡과 어룡의 비밀)",
+            "22. 🎯 공룡 실전 퀴즈 4 (운석 충돌 대멸종)",
+            "23. 🎯 공룡 실전 퀴즈 5 (공룡의 후예 새)",
+            "24. 🏆 [수료증] 선사시대 공룡 박사 인증 배지"
+        ];
+
+        function updateProgress() {
+            document.getElementById('slideIndicator').textContent = currentSlide;
+            const pct = (currentSlide / totalSlides) * 100;
+            document.getElementById('topProgressBar').style.width = pct + '%';
+            document.getElementById('prevBtn').disabled = (currentSlide === 1);
+            document.getElementById('nextBtn').disabled = (currentSlide === totalSlides);
+
+            const dotsCont = document.getElementById('dotsContainer');
+            dotsCont.innerHTML = '';
+            for (let i = 1; i <= totalSlides; i++) {
+                const dot = document.createElement('button');
+                dot.className = `w-2 h-2 rounded-full transition-all flex-shrink-0 ${i === currentSlide ? 'w-5 bg-emerald-400' : 'bg-slate-700 hover:bg-slate-500'}`;
+                dot.onclick = () => goToSlide(i);
+                dotsCont.appendChild(dot);
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                playSound('pop');
+                currentSlide++;
+                renderSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                playSound('pop');
+                currentSlide--;
+                renderSlide();
+            }
+        }
+
+        function goToSlide(n) {
+            playSound('pop');
+            currentSlide = n;
+            renderSlide();
+            const drawer = document.getElementById('indexDrawer');
+            if (!drawer.classList.contains('hidden')) drawer.classList.add('hidden');
+        }
+
+        function toggleIndexDrawer() {
+            const drawer = document.getElementById('indexDrawer');
+            drawer.classList.toggle('hidden');
+            if (!drawer.classList.contains('hidden')) {
+                const list = document.getElementById('drawerList');
+                list.innerHTML = '';
+                SLIDE_TITLES.forEach((t, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = `w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between transition ${idx + 1 === currentSlide ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}`;
+                    btn.textContent = t;
+                    btn.onclick = () => goToSlide(idx + 1);
+                    list.appendChild(btn);
+                });
+            }
+        }
+
+        function renderSlide() {
+            updateProgress();
+            const body = document.getElementById('slideBody');
+
+            if (currentSlide === 1) {
+                body.innerHTML = `
+                    <div class="text-center py-6">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-kids mb-4">
+                            <span>🦕 은찬이의 자연 탐험 1호</span> · <span>7~10세 초등 맞춤</span>
+                        </div>
+                        <h2 class="font-kids text-3xl md:text-5xl text-white mb-4 leading-tight">
+                            거대한 거인들이 살았던 지구!<br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-amber-300">공룡과 지구의 역사 대탐구</span> 🌿
+                        </h2>
+                        <p class="text-slate-300 text-sm md:text-base max-w-2xl mx-auto leading-relaxed mb-6 font-sans">
+                            인간이 태어나기 훨씬 전, 1억 6천만 년 동안 지구를 지배했던 진짜 공룡들을 만나러 가요!<br>
+                            <strong>티라노사우루스</strong>의 바나나 이빨부터 <strong>트리케라톱스</strong>, 운석 충돌과 <strong>살아있는 공룡의 후예</strong>까지 신기한 비밀을 밝혀냅니다.
+                        </p>
+                        <div class="flex flex-wrap items-center justify-center gap-3">
+                            <button onclick="playSound('roar'); nextSlide();" class="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-kids text-base shadow-xl shadow-emerald-950 transition active:scale-95 flex items-center gap-2 font-bold">
+                                <span>🦕 크아앙! 타임머신 출발!</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 2) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">⏳</span>
+                            <div>
+                                <span class="text-xs font-bold text-emerald-400 font-kids">지구 46억 년의 역사</span>
+                                <h3 class="font-kids text-2xl text-white">생명의 시대 타임머신</h3>
+                            </div>
+                        </div>
+                        <div class="grid sm:grid-cols-3 gap-3 font-sans text-xs text-slate-300">
+                            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-700">
+                                <span class="text-xs font-kids text-amber-400 block mb-1">1단계: 고생대 (바다 생명의 시대)</span>
+                                <div class="text-2xl mb-2">🐚</div>
+                                <p>삼엽충, 암모나이트 같은 바다 생물과 거대한 양서류, 거대 곤충들이 살았어요.</p>
+                            </div>
+                            <div class="p-4 bg-emerald-950/40 rounded-2xl border border-emerald-500/40 ring-2 ring-emerald-500/20">
+                                <span class="text-xs font-kids text-emerald-300 block mb-1">2단계: 중생대 (공룡의 황금기!)</span>
+                                <div class="text-2xl mb-2">🦖</div>
+                                <p class="font-semibold text-white">따뜻한 기후 속에 거대한 공룡들이 1억 6천만 년 동안 지구의 땅을 지배했어요!</p>
+                            </div>
+                            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-700">
+                                <span class="text-xs font-kids text-sky-400 block mb-1">3단계: 신생대 (포유류와 인류)</span>
+                                <div class="text-2xl mb-2">🦣</div>
+                                <p>털복숭이 매머드와 호랑이, 고래 등 젖을 먹이는 포유류와 우리 인류가 등장했어요.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 3) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🌿</span>
+                            <div>
+                                <span class="text-xs font-bold text-emerald-400 font-kids">공룡이 살았던 시대 삼총사</span>
+                                <h3 class="font-kids text-2xl text-white">트라이아스기 · 쥐라기 · 백악기</h3>
+                            </div>
+                        </div>
+                        <div class="grid sm:grid-cols-3 gap-3 font-sans text-xs text-slate-300">
+                            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-700">
+                                <h4 class="font-kids text-sm text-amber-300 mb-1">1. 트라이아스기</h4>
+                                <span class="text-[10px] text-slate-400 block mb-2 font-kids">약 2억 5천만 년 전</span>
+                                <p>아직은 작고 민첩했던 최초의 공룡들이 막 등장하던 시기예요 (코엘로피시스 등).</p>
+                            </div>
+                            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-700">
+                                <h4 class="font-kids text-sm text-emerald-300 mb-1">2. 쥐라기</h4>
+                                <span class="text-[10px] text-slate-400 block mb-2 font-kids">약 2억 년 전</span>
+                                <p>목이 긴 거대한 브라키오사우루스와 골판을 지닌 스테고사우루스의 시대예요!</p>
+                            </div>
+                            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-700">
+                                <h4 class="font-kids text-sm text-rose-300 mb-1">3. 백악기</h4>
+                                <span class="text-[10px] text-slate-400 block mb-2 font-kids">약 1억 4천만 년 전</span>
+                                <p>티라노사우루스, 트리케라톱스 등 가장 유명하고 강력한 공룡들이 번성했어요!</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide >= 4 && currentSlide <= 10) {
+                // Dinosaurs individual slides
+                const dIdx = currentSlide === 10 ? 1 : (currentSlide >= 7 ? currentSlide - 5 : currentSlide - 4);
+                const d = DINOS[dIdx % DINOS.length];
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🦖</span>
+                            <div>
+                                <span class="text-xs font-bold text-emerald-400 font-kids">${d.period}</span>
+                                <h3 class="font-kids text-2xl text-white">${d.name}</h3>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6 items-center">
+                            <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 text-center">
+                                <div class="text-7xl mb-4 py-4 filter drop-shadow-[0_10px_20px_rgba(16,185,129,0.3)]">
+                                    ${currentSlide === 4 ? '🦖' : (currentSlide === 6 ? '🦏' : (currentSlide === 7 ? '🦕' : '🦎'))}
+                                </div>
+                                <span class="text-xs font-kids px-3 py-1 rounded-full bg-slate-800 text-emerald-300 border border-slate-700">
+                                    식성: ${d.diet} 공룡
+                                </span>
+                            </div>
+                            <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300">
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-emerald-300 font-kids text-sm block mb-1">🌟 핵심 특징</strong>
+                                    ${d.feature}
+                                </div>
+                                <div class="grid grid-cols-3 gap-2 text-[11px] font-kids text-center">
+                                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+                                        <span class="text-slate-400 block">몸길이</span>
+                                        <span class="text-white text-xs">${d.length}m</span>
+                                    </div>
+                                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+                                        <span class="text-slate-400 block">키(높이)</span>
+                                        <span class="text-amber-300 text-xs">${d.height}m</span>
+                                    </div>
+                                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+                                        <span class="text-slate-400 block">몸무게</span>
+                                        <span class="text-sky-300 text-xs">${d.weight}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 11) {
+                // Interactive Dinosaur Real Size Comparison Canvas
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div>
+                                <span class="text-xs font-bold text-emerald-400 font-kids">은찬이(120cm)와 비교해보는</span>
+                                <h3 class="font-kids text-2xl text-white">공룡 실물 크기 비교 시뮬레이터</h3>
+                            </div>
+                            <span class="text-[11px] text-slate-400 font-kids">공룡 버튼을 눌러보세요 👇</span>
+                        </div>
+                        <div class="p-4 bg-slate-900 rounded-3xl border border-slate-800 flex flex-col items-center">
+                            <canvas id="dinoSizeCanvas" width="580" height="230" class="w-full max-w-[580px] h-[230px] rounded-2xl bg-[#06100a] border border-slate-700"></canvas>
+                            <div class="flex flex-wrap items-center justify-center gap-2 mt-3 text-xs font-kids">
+                                <button onclick="drawDinoSize(0)" class="px-3 py-1.5 rounded-xl bg-red-600 text-white hover:bg-red-500 transition">티라노사우루스 (12m)</button>
+                                <button onclick="drawDinoSize(2)" class="px-3 py-1.5 rounded-xl bg-emerald-600 text-white hover:bg-emerald-500 transition">브라키오 (25m)</button>
+                                <button onclick="drawDinoSize(1)" class="px-3 py-1.5 rounded-xl bg-amber-600 text-white hover:bg-amber-500 transition">트리케라톱스 (9m)</button>
+                                <button onclick="drawDinoSize(4)" class="px-3 py-1.5 rounded-xl bg-purple-600 text-white hover:bg-purple-500 transition">벨로키랍토르 (2m)</button>
+                            </div>
+                        </div>
+                        <p class="text-[11px] text-slate-400 font-kids text-center mt-2">
+                            키 120cm의 은찬이는 티라노사우루스의 발목~무릎 정도 높이에 닿아요!
+                        </p>
+                    </div>
+                `;
+                setTimeout(() => drawDinoSize(0), 50);
+            } else if (currentSlide === 12) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🦴</span>
+                            <div>
+                                <span class="text-xs font-bold text-amber-400 font-kids">지구가 품은 타임캡슐</span>
+                                <h3 class="font-kids text-2xl text-white">뼈가 돌이 된 신비한 '화석'의 비밀</h3>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-4 text-xs font-sans text-slate-300">
+                            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-700 space-y-2">
+                                <strong class="text-amber-300 font-kids text-sm block">1. 흙과 모래에 묻혀요</strong>
+                                <p>공룡이 죽은 뒤 강이나 호수의 진흙 속에 빠르게 묻히면 살은 썩어 없어지고 뼈만 남아요.</p>
+                            </div>
+                            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-700 space-y-2">
+                                <strong class="text-emerald-300 font-kids text-sm block">2. 지하수의 미네랄이 스며들어요</strong>
+                                <p>수백만 년 동안 뼈의 미세한 구멍 속으로 지하수 속 광물질이 채워져 진짜 단단한 돌로 변한답니다!</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 13) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🦇</span>
+                            <div>
+                                <span class="text-xs font-bold text-rose-400 font-kids">놀라운 공룡 반전 1탄!</span>
+                                <h3 class="font-kids text-2xl text-white">하늘을 나는 프테라노돈은 공룡이 아니다?!</h3>
+                            </div>
+                        </div>
+                        <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
+                            <p>
+                                많은 친구들이 하늘을 나는 '프테라노돈'을 날아다니는 공룡이라고 생각하지만, 생물학적으로 공룡이 아니라 <strong>'익룡(하늘을 나는 파충류)'</strong>이에요!
+                            </p>
+                            <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                <strong class="text-rose-300 font-kids text-sm block mb-1">📏 진짜 공룡의 과학적 정의!</strong>
+                                공룡은 도마뱀처럼 다리가 양옆으로 벌어진 것이 아니라, 사람이나 코끼리처럼 <strong>몸통 바로 아래로 다리가 수직으로 곧게 뻗은 육상 파충류</strong>만 공룡이라고 불러요!
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 14) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🐋</span>
+                            <div>
+                                <span class="text-xs font-bold text-sky-400 font-kids">놀라운 공룡 반전 2탄!</span>
+                                <h3 class="font-kids text-2xl text-white">바다의 모사사우루스도 공룡이 아니에요!</h3>
+                            </div>
+                        </div>
+                        <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
+                            <p>
+                                영화에서 상어를 한입에 삼키던 바다 괴물 모사사우루스와 목이 긴 플레시오사우루스도 공룡이 아니라 <strong>'어룡 & 수장룡(바다에 살던 파충류)'</strong>이에요.
+                            </p>
+                            <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                <strong class="text-sky-300 font-kids text-sm block mb-1">🌊 물속에 살던 거대 도마뱀 친척!</strong>
+                                모사사우루스는 오늘날의 왕도마뱀, 뱀과 훨씬 가까운 친척이며 지느러미로 헤엄쳤기 때문에 땅 위를 걷는 공룡 무리에 속하지 않는답니다!
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 15) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🌿</span>
+                            <div>
+                                <span class="text-xs font-bold text-emerald-400 font-kids">초식 공룡의 냠냠 비밀</span>
+                                <h3 class="font-kids text-2xl text-white">돌멩이를 꿀꺽 삼킨 거인들 (위석)</h3>
+                            </div>
+                        </div>
+                        <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
+                            <p>
+                                브라키오사우루스 같은 목 긴 초식공룡들은 거친 솔잎과 나뭇가지를 이빨로 꼭꼭 씹지 않고 통째로 삼켰어요!
+                            </p>
+                            <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                <strong class="text-emerald-300 font-kids text-sm block mb-1">🪨 뱃속의 믹서기 '위석(Gastrolith)'</strong>
+                                공룡들은 둥근 자갈돌을 삼켜서 위장 속에 넣어두었어요. 뱃속에서 돌멩이들이 서로 부딪히며 거친 나뭇잎을 맷돌처럼 곱게 갈아주었답니다! 오늘날의 닭과 비둘기도 모래주머니에 모래알을 넣어 똑같이 소화해요.
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 16) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">☄️</span>
+                            <div>
+                                <span class="text-xs font-bold text-rose-400 font-kids">6,600만 년 전의 대사건</span>
+                                <h3 class="font-kids text-2xl text-white">거대 운석 충돌과 공룡들의 작별</h3>
+                            </div>
+                        </div>
+                        <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
+                            <div class="p-3.5 bg-rose-950/40 rounded-2xl border border-rose-500/30">
+                                <strong class="text-rose-300 font-kids text-sm block mb-1">💥 멕시코 유카탄 반도의 쾅!</strong>
+                                지름 10km의 거대한 소행성이 시속 수만 km로 지구에 충돌했어요. 원자폭탄 수억 개에 맞먹는 폭발로 거대한 먼지구름이 하늘을 뒤덮었어요.
+                            </div>
+                            <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                <strong class="text-amber-300 font-kids text-sm block mb-1">❄️ 햇빛이 사라진 길고 추운 겨울</strong>
+                                햇빛이 수년간 차단되어 식물들이 말라 죽고, 먹이가 사라지자 몸집이 거대했던 공룡들은 결국 살아남지 못했답니다.
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 17) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🐦</span>
+                            <div>
+                                <span class="text-xs font-bold text-amber-400 font-kids">세상에서 가장 신기한 과학적 사실</span>
+                                <h3 class="font-kids text-2xl text-white">공룡은 멸종하지 않았다?! 참새와 닭!</h3>
+                            </div>
+                        </div>
+                        <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
+                            <p>
+                                우리가 매일 창밖에서 보는 귀여운 <strong>참새, 비둘기, 그리고 맛있는 닭</strong>은 놀랍게도 <strong>살아남은 소형 육식공룡(수각류)의 직계 후손</strong>이에요!
+                            </p>
+                            <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                <strong class="text-emerald-300 font-kids text-sm block mb-1">🪶 깃털 달린 공룡들의 변신</strong>
+                                운석 충돌 당시 따뜻한 깃털을 지니고 몸집이 작아 적은 먹이로도 견딜 수 있었던 날아다니는 깃털 공룡들이 살아남아 오늘날 1만 종이 넘는 '새(조류)'가 되었답니다!
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 18) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🇰🇷</span>
+                            <div>
+                                <span class="text-xs font-bold text-sky-400 font-kids">한반도의 신비</span>
+                                <h3 class="font-kids text-2xl text-white">우리나라에도 공룡이 살았을까요?</h3>
+                            </div>
+                        </div>
+                        <div class="grid sm:grid-cols-2 gap-4 text-xs font-sans text-slate-300">
+                            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-700 space-y-2">
+                                <strong class="text-sky-300 font-kids text-sm block">🌊 경남 고성 공룡 발자국</strong>
+                                <p>세계 3대 공룡 발자국 화석지 중 하나로, 거대한 초식공룡과 익룡들이 해안가를 쿵쿵 걸어간 수천 개의 발자국이 선명하게 남아 있어요!</p>
+                            </div>
+                            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-700 space-y-2">
+                                <strong class="text-emerald-300 font-kids text-sm block">🥚 전남 해남 우항리 화석지</strong>
+                                <p>공룡 발자국과 함께 익룡 발자국, 새 발자국이 한 갯벌 층에서 세계 최초로 동시에 발견된 세계적인 유적지랍니다!</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide >= 19 && currentSlide <= 23) {
+                // Quiz
+                const qIdx = currentSlide - 19;
+                const q = QUIZ_QUESTIONS[qIdx];
+                const selected = quizAnswers[qIdx];
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs font-bold text-emerald-400 font-kids">🎯 공룡 탐험 퀴즈 (${qIdx + 1} / 5)</span>
+                            <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-kids">점수: ${Object.values(quizAnswers).filter((a, i) => a === QUIZ_QUESTIONS[i].ans).length * 20}점</span>
+                        </div>
+                        <h3 class="font-kids text-xl md:text-2xl text-white mb-4 leading-snug">
+                            Q${qIdx + 1}. ${q.q}
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                            ${q.options.map((opt, optIdx) => {
+                                let style = "bg-slate-800/90 border-slate-700 hover:bg-slate-700 text-slate-200";
+                                if (selected !== undefined) {
+                                    if (optIdx === q.ans) style = "bg-emerald-600/90 border-emerald-400 text-white font-bold ring-2 ring-emerald-400";
+                                    else if (optIdx === selected) style = "bg-rose-600/90 border-rose-400 text-white font-bold";
+                                }
+                                return `
+                                    <button onclick="handleQuizAnswer(${qIdx}, ${optIdx})" class="p-4 rounded-2xl border text-left font-kids text-sm transition ${style}">
+                                        ${optIdx + 1}. ${opt}
+                                    </button>
+                                `;
+                            }).join('')}
+                        </div>
+                        <div class="p-3 bg-slate-900 rounded-2xl border border-slate-800 text-xs text-slate-400 font-kids">
+                            💡 힌트: ${q.hint}
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 24) {
+                // Master Badge
+                const correctCount = Object.values(quizAnswers).filter((a, i) => a === QUIZ_QUESTIONS[i].ans).length;
+                const score = correctCount * 20;
+                playSound('fanfare');
+                if (typeof confetti === 'function') {
+                    confetti({ particleCount: 90, spread: 70, origin: { y: 0.6 } });
+                }
+                body.innerHTML = `
+                    <div class="text-center py-4">
+                        <div class="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-500 shadow-[0_0_35px_rgba(16,185,129,0.5)] flex items-center justify-center text-4xl mb-3">
+                            🏆
+                        </div>
+                        <span class="text-xs font-bold text-emerald-400 font-kids tracking-widest uppercase">Paleontology Master Certificate</span>
+                        <h3 class="font-kids text-3xl md:text-4xl text-white mt-1 mb-2">
+                            은찬이의 공룡 탐험 수료를 축하합니다! 🎉
+                        </h3>
+                        <p class="text-slate-300 text-xs md:text-sm mb-4 font-sans">
+                            중생대 트라이아스기부터 티라노사우루스, 그리고 조류의 진화까지 훌륭하게 탐구했어요!
+                        </p>
+                        <div class="inline-flex items-center gap-4 p-4 rounded-2xl bg-emerald-950/40 border border-emerald-500/30 text-center mb-6">
+                            <div>
+                                <span class="text-[11px] text-slate-400 font-kids block">퀴즈 성적</span>
+                                <span class="font-kids text-2xl text-emerald-300">${score}점</span>
+                            </div>
+                            <div class="w-px h-8 bg-emerald-500/30"></div>
+                            <div>
+                                <span class="text-[11px] text-slate-400 font-kids block">수여 칭호</span>
+                                <span class="font-kids text-lg text-amber-300">선사시대 공룡 명예 박사 🦕</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap items-center justify-center gap-3 font-kids text-xs">
+                            <a href="eunchan-study.html" class="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white transition shadow-lg shadow-emerald-950">
+                                🎒 은찬이의 공부방 홈으로 이동
+                            </a>
+                            <button onclick="goToSlide(1)" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+                                🔄 처음부터 다시 탐험하기
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function handleQuizAnswer(qIdx, optIdx) {
+            if (quizAnswers[qIdx] !== undefined) return;
+            quizAnswers[qIdx] = optIdx;
+            if (optIdx === QUIZ_QUESTIONS[qIdx].ans) {
+                playSound('correct');
+            } else {
+                playSound('wrong');
+            }
+            renderSlide();
+        }
+
+        // Dinosaur Real Size Comparison Canvas
+        function drawDinoSize(dIdx) {
+            const canvas = document.getElementById('dinoSizeCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            ctx.clearRect(0, 0, w, h);
+
+            const groundY = h - 35;
+
+            // Ground line
+            ctx.beginPath();
+            ctx.moveTo(0, groundY);
+            ctx.lineTo(w, groundY);
+            ctx.strokeStyle = '#10b981';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Draw Eunchan (7-year-old child: height ~1.2m)
+            const scale = 12; // 1 meter = 12 pixels
+            const eunchanHeight = 1.2 * scale; // ~14.4px
+            const ex = 50;
+
+            // Kid Figure
+            ctx.fillStyle = '#38bdf8';
+            ctx.beginPath();
+            ctx.arc(ex, groundY - eunchanHeight - 5, 4, 0, Math.PI * 2); // head
+            ctx.fill();
+            ctx.fillRect(ex - 2.5, groundY - eunchanHeight, 5, eunchanHeight); // body
+
+            ctx.font = 'bold 11px sans-serif';
+            ctx.fillStyle = '#38bdf8';
+            ctx.textAlign = 'center';
+            ctx.fillText('은찬이 (1.2m)', ex, groundY + 20);
+
+            // Draw Target Dinosaur
+            const target = DINOS[dIdx];
+            const dinoLen = target.length * scale;
+            const dinoH = target.height * scale;
+            const dx = 130;
+
+            ctx.fillStyle = target.color;
+            ctx.beginPath();
+            // stylized shape
+            ctx.roundRect(dx, groundY - dinoH, Math.min(w - dx - 20, dinoLen), dinoH, 8);
+            ctx.fill();
+
+            // Label
+            ctx.font = 'bold 13px sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'left';
+            ctx.fillText(`${target.name} (길이 ${target.length}m / 키 ${target.height}m)`, dx + 10, groundY - dinoH - 10);
+
+            ctx.font = '11px sans-serif';
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText(`은찬이보다 키가 약 ${(target.height / 1.2).toFixed(1)}배 커요!`, dx + 10, groundY - dinoH + 20);
+        }
+
+        // TTS Read Aloud
+        let isSpeaking = false;
+        function toggleReadOutLoud() {
+            if (!('speechSynthesis' in window)) {
+                alert("이 브라우저는 음성 읽어주기를 지원하지 않습니다.");
+                return;
+            }
+
+            if (isSpeaking) {
+                window.speechSynthesis.cancel();
+                isSpeaking = false;
+                document.getElementById('ttsBtn').classList.remove('text-emerald-400', 'animate-pulse');
+                document.getElementById('ttsBtn').classList.add('text-amber-400');
+                return;
+            }
+
+            const slide = document.getElementById('slideBody');
+            if (!slide) return;
+            const textToRead = slide.innerText.replace(/[🦕🦖🌿⏳🐚🦣🍌🛡️🔨🏃‍♂️🦴🦇🐋☄️🐦🇰🇷🎯🏆💡Q\d\.]/g, ' ');
+
+            const utterance = new SpeechSynthesisUtterance(textToRead);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.95;
+            utterance.pitch = 1.05;
+
+            utterance.onstart = () => {
+                isSpeaking = true;
+                document.getElementById('ttsBtn').classList.remove('text-amber-400');
+                document.getElementById('ttsBtn').classList.add('text-emerald-400', 'animate-pulse');
+            };
+
+            utterance.onend = () => {
+                isSpeaking = false;
+                document.getElementById('ttsBtn').classList.remove('text-emerald-400', 'animate-pulse');
+                document.getElementById('ttsBtn').classList.add('text-amber-400');
+            };
+
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Keyboard
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'PageDown') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+        });
+
+        // Touch Swipe
+        let touchStartX = 0;
+        let touchEndX = 0;
+        document.addEventListener('touchstart', e => {
+            if (e.target.closest('canvas, button, a, input, select, textarea')) {
+                touchStartedOnInteractive = true;
+                return;
+            }
+            touchStartedOnInteractive = false;
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.addEventListener('touchend', e => {
+            if (touchStartedOnInteractive) {
+                touchStartedOnInteractive = false;
+                return;
+            }
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 75) nextSlide();
+            if (touchEndX - touchStartX > 75) prevSlide();
+        }, { passive: true });
+
+        // Init
+        renderSlide();
+    </script>
+</body>
+</html>

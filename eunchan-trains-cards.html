@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>세계의 신기한 초고속 기차 | 은찬이의 공부방 🚅</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script src="js/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                        kids: ['"Jua"', 'cursive', 'sans-serif']
+                    },
+                    colors: {
+                        train: {
+                            dark: '#030712',
+                            ktx: '#0284c7',
+                            shinkansen: '#06b6d4',
+                            tgv: '#e11d48',
+                            ice: '#f59e0b',
+                            maglev: '#8b5cf6'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .font-kids { font-family: 'Jua', cursive, sans-serif; }
+        .glass-card {
+            background: rgba(8, 18, 38, 0.9);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+        }
+        .slide-fade {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-[#030712] text-slate-100 min-h-screen font-sans flex flex-col justify-between selection:bg-sky-500 selection:text-white">
+
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-sky-900/30">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="eunchan-study.html" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition flex items-center gap-1.5 text-xs font-semibold">
+                    <i class="fa-solid fa-arrow-left"></i> 공부방 홈
+                </a>
+                <div>
+                    <h1 class="font-kids text-base md:text-lg text-sky-400 flex items-center gap-2">
+                        <span>🚅 세계의 신기한 초고속 기차</span>
+                        <span class="text-[11px] font-sans px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30">은찬이 맞춤 특급</span>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Slide progress & Sound/Read toggles -->
+            <div class="flex items-center gap-2 md:gap-3">
+                <div class="flex items-center gap-1 bg-slate-800/80 px-2.5 py-1 rounded-full border border-slate-700 text-xs">
+                    <i class="fa-solid fa-layer-group text-sky-400"></i>
+                    <span id="slideIndicator" class="font-kids text-sky-300 text-sm font-bold">1</span>
+                    <span class="text-slate-400 font-kids text-xs">/ 24</span>
+                </div>
+                <button id="ttsBtn" onclick="toggleReadOutLoud()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 hover:text-amber-300 transition text-xs font-semibold" title="친절한 목소리로 읽어주기">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+                <button onclick="toggleIndexDrawer()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-xs font-semibold" title="전체 목차">
+                    <i class="fa-solid fa-list-ol"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Top Progress Bar -->
+        <div class="w-full bg-slate-800 h-1.5 overflow-hidden">
+            <div id="topProgressBar" class="bg-gradient-to-r from-sky-500 via-teal-400 to-indigo-500 h-full transition-all duration-300" style="width: 4.16%"></div>
+        </div>
+    </header>
+
+    <!-- Main Slide Stage -->
+    <main class="flex-grow flex items-center justify-center px-3 md:px-6 py-6 max-w-5xl mx-auto w-full">
+        <div id="slideCard" class="w-full glass-card rounded-3xl p-5 md:p-8 border border-white/10 shadow-2xl relative overflow-hidden min-h-[580px] flex flex-col justify-between">
+            <!-- Slide Content Injected Dynamically -->
+            <div id="slideBody" class="slide-fade flex-grow flex flex-col justify-center"></div>
+
+            <!-- Slide Bottom Controls -->
+            <div class="pt-6 border-t border-white/10 flex items-center justify-between mt-4">
+                <button id="prevBtn" onclick="prevSlide()" class="px-5 py-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:pointer-events-none text-slate-200 font-kids text-sm flex items-center gap-2 transition">
+                    <i class="fa-solid fa-arrow-left"></i> 이전장
+                </button>
+                
+                <div class="flex items-center gap-1.5 overflow-x-auto max-w-[200px] md:max-w-[420px] py-1" id="dotsContainer">
+                    <!-- Dots generated in JS -->
+                </div>
+
+                <button id="nextBtn" onclick="nextSlide()" class="px-6 py-2.5 rounded-2xl bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white font-kids text-sm flex items-center gap-2 shadow-lg shadow-sky-950 transition">
+                    다음장 <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Slide Index Modal / Drawer -->
+    <div id="indexDrawer" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex justify-end">
+        <div class="bg-slate-900 border-l border-slate-700 w-full max-w-md h-full p-6 overflow-y-auto flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-4">
+                    <h3 class="font-kids text-lg text-sky-400">🚅 기차 탐험 24개 슬라이드 목차</h3>
+                    <button onclick="toggleIndexDrawer()" class="text-slate-400 hover:text-white text-xl">✕</button>
+                </div>
+                <div class="space-y-1.5" id="drawerList"></div>
+            </div>
+            <button onclick="toggleIndexDrawer()" class="w-full py-3 mt-4 bg-slate-800 text-slate-300 rounded-xl font-kids text-sm">닫기</button>
+        </div>
+    </div>
+
+    <!-- Audio FX Synthesizer -->
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, now);
+                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1);
+                osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                osc.start(now);
+                osc.stop(now + 0.5);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.exponentialRampToValueAtTime(130, now + 0.25);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'pop') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(320, now);
+                osc.frequency.exponentialRampToValueAtTime(580, now + 0.08);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                osc.start(now);
+                osc.stop(now + 0.1);
+            } else if (type === 'horn') {
+                // Dual chord train horn
+                [349.23, 440].forEach((f, i) => {
+                    const o = audioCtx.createOscillator();
+                    const g = audioCtx.createGain();
+                    o.connect(g);
+                    g.connect(audioCtx.destination);
+                    o.type = 'sawtooth';
+                    o.frequency.setValueAtTime(f, now);
+                    g.gain.setValueAtTime(0.15, now);
+                    g.gain.exponentialRampToValueAtTime(0.01, now + 0.7);
+                    o.start(now);
+                    o.stop(now + 0.7);
+                });
+            } else if (type === 'fanfare') {
+                [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+                    const o = audioCtx.createOscillator();
+                    const g = audioCtx.createGain();
+                    o.connect(g);
+                    g.connect(audioCtx.destination);
+                    o.type = 'triangle';
+                    o.frequency.setValueAtTime(freq, now + i * 0.12);
+                    g.gain.setValueAtTime(0.2, now + i * 0.12);
+                    g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.12 + 0.4);
+                    o.start(now + i * 0.12);
+                    o.stop(now + i * 0.12 + 0.4);
+                });
+            }
+        }
+    </script>
+
+    <!-- Slide Engine -->
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 24;
+        let raceAnimId = null;
+
+        const TRAINS = [
+            { name: "KTX-청룡 (EMU-320)", country: "대한민국 🇰🇷", speed: 320, record: 352, power: "동력분산식", color: "#0284c7", feature: "2024년 첫 운행! 서울-부산을 2시간 10분대에 주파하는 국산 최신예 탄환열차" },
+            { name: "신칸센 E5계 하야부사", country: "일본 🇯🇵", speed: 320, record: 360, power: "동력분산식", color: "#06b6d4", feature: "15미터 길이의 초록색 오리너구리 코로 터널 소음을 없앤 도호쿠 고속열차" },
+            { name: "TGV (테제베) POS", country: "프랑스 🇫🇷", speed: 320, record: 574.8, power: "동력집중식", color: "#e11d48", feature: "철제 레일 달리기 세계 신기록 시속 574.8km를 세운 유럽 고속철도의 원조" },
+            { name: "ICE 3 (이체에)", country: "독일 🇩🇪", speed: 300, record: 368, power: "동력분산식", color: "#f59e0b", feature: "순백색 차체에 붉은 스트라이프가 트레이드마크인 독일 아우토반의 라이벌" },
+            { name: "상하이 자기부상열차 (Maglev)", country: "중국 🇨🇳", speed: 431, record: 501, power: "상전도 자기부상", color: "#8b5cf6", feature: "푸둥공항에서 시내까지 30km를 7분 20초 만에 날아가는 바퀴 없는 열차" },
+            { name: "L0계 초전도 리니어", country: "일본 🇯🇵", speed: 500, record: 603, power: "초전도 자기부상", color: "#3b82f6", feature: "인간이 탑승한 철도 최고속도 시속 603km 기네스 신기록을 세운 꿈의 열차" }
+        ];
+
+        const QUIZ_QUESTIONS = [
+            {
+                q: "2024년 운행을 시작한 대한민국의 가장 최신형 고속열차의 이름은?",
+                options: ["KTX-비둘기", "KTX-청룡", "KTX-무궁화", "새마을호"],
+                ans: 1,
+                hint: "청룡의 해에 태어난 시속 320km의 최신예 동력분산식 열차예요!"
+            },
+            {
+                q: "일본 신칸센의 앞코가 15미터나 길쭉하게 '오리너구리 주둥이'처럼 생긴 진짜 이유는?",
+                options: ["물고기를 잡으려고", "터널에 들어갈 때 '펑!' 소음(터널 붐)을 줄이려고", "앞좌석을 넓히려고", "그냥 멋있어 보이려고"],
+                ans: 1,
+                hint: "기차가 좁은 터널로 돌진할 때 공기가 쾅 부딪히는 소음을 공기역학으로 뚫어줘요!"
+            },
+            {
+                q: "바퀴 없이 레일 위에 둥둥 떠서 달리는 '자기부상열차(Maglev)'는 어떤 힘으로 뜰까요?",
+                options: ["선풍기 바람의 힘", "자석의 밀어내고 끌어당기는 힘", "로켓 불꽃 추진력", "용수철 반동"],
+                ans: 1,
+                hint: "자석의 같은 극(N-N, S-S)끼리 서로 밀어내는 척력을 이용해요!"
+            },
+            {
+                q: "철제 레일 위를 바퀴로 달려서 '시속 574.8km' 세계 최고 신기록을 세운 나라는?",
+                options: ["미국", "프랑스 (TGV)", "호주", "브라질"],
+                ans: 1,
+                hint: "우리나라 KTX-1의 기술 원조가 된 프랑스의 전설적인 고속열차예요!"
+            },
+            {
+                q: "전철과 고속기차가 지붕 위에 달린 접이식 장치로 전기를 받아먹는 부품의 이름은?",
+                options: ["팬터그래프 (집전장치)", "안테나", "와이파이 라우터", "프로펠러"],
+                ans: 0,
+                hint: "지붕 위 전선(가공전차선)에 닿아 2만 5천 볼트 전기를 모터로 보내줘요!"
+            }
+        ];
+        let quizAnswers = {};
+
+        const SLIDE_TITLES = [
+            "01. 🚅 인트로: 은찬이의 세계 초고속 기차 탐험",
+            "02. ⏱️ 철도의 역사 (증기기관차부터 자기부상열차까지)",
+            "03. 🇰🇷 한국의 자랑 1: 시속 320km 최신형 'KTX-청룡'",
+            "04. 🚆 한국 고속철도 변천사 (KTX-1 ➔ 산천 ➔ 청룡)",
+            "05. 🇯🇵 일본의 신칸센: 1964년 세계 최초 개통과 하야부사",
+            "06. 🦆 앞코가 오리너구리처럼 길쭉한 공기역학 비밀",
+            "07. 🇫🇷 프랑스의 TGV: 철제 레일 시속 574.8km 대기록",
+            "08. 🇩🇪 독일의 ICE: 순백의 유럽 횡단 쾌속 특급",
+            "09. 🇹🇼 대만 고속철도 THSR: 은찬이가 만난 700T 기차",
+            "10. 🧲 [인터랙티브] 공중에 뜨는 자기부상열차 원리",
+            "11. 🏁 [인터랙티브] 세계 스피드 챔피언 레이싱 경기",
+            "12. 🇨🇳 상하이 마그레브: 시속 431km로 나는 기차",
+            "13. 🚀 일본 L0계 리니어: 세계 신기록 시속 603km!",
+            "14. ⚡ 기차의 밥그릇: 지붕 위 팬터그래프와 25,000V",
+            "15. 🛡️ 시속 300km 브레이크: 전기를 되살리는 회생제동",
+            "16. 💺 기차 비밀공간: 기관사석과 노란 기차 '닥터 옐로우'",
+            "17. 🌟 미래의 기차: 시속 1200km 진공 튜브 하이퍼루프",
+            "18. 🗺️ 세계 지도에서 보는 고속철도 네트워크",
+            "19. 🎯 기차 실전 퀴즈 1 (KTX-청룡 속도)",
+            "20. 🎯 기차 실전 퀴즈 2 (오리너구리 코 비밀)",
+            "21. 🎯 기차 실전 퀴즈 3 (자기부상열차 띄우는 힘)",
+            "22. 🎯 기차 실전 퀴즈 4 (철제레일 최고기록 TGV)",
+            "23. 🎯 기차 실전 퀴즈 5 (팬터그래프 집전장치)",
+            "24. 🏆 [수료증] 세계 고속철도 명예 수석 기관사 인증 배지"
+        ];
+
+        function updateProgress() {
+            document.getElementById('slideIndicator').textContent = currentSlide;
+            const pct = (currentSlide / totalSlides) * 100;
+            document.getElementById('topProgressBar').style.width = pct + '%';
+            document.getElementById('prevBtn').disabled = (currentSlide === 1);
+            document.getElementById('nextBtn').disabled = (currentSlide === totalSlides);
+
+            const dotsCont = document.getElementById('dotsContainer');
+            dotsCont.innerHTML = '';
+            for (let i = 1; i <= totalSlides; i++) {
+                const dot = document.createElement('button');
+                dot.className = `w-2 h-2 rounded-full transition-all flex-shrink-0 ${i === currentSlide ? 'w-5 bg-sky-400' : 'bg-slate-700 hover:bg-slate-500'}`;
+                dot.onclick = () => goToSlide(i);
+                dotsCont.appendChild(dot);
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                playSound('pop');
+                currentSlide++;
+                renderSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                playSound('pop');
+                currentSlide--;
+                renderSlide();
+            }
+        }
+
+        function goToSlide(n) {
+            playSound('pop');
+            currentSlide = n;
+            renderSlide();
+            const drawer = document.getElementById('indexDrawer');
+            if (!drawer.classList.contains('hidden')) drawer.classList.add('hidden');
+        }
+
+        function toggleIndexDrawer() {
+            const drawer = document.getElementById('indexDrawer');
+            drawer.classList.toggle('hidden');
+            if (!drawer.classList.contains('hidden')) {
+                const list = document.getElementById('drawerList');
+                list.innerHTML = '';
+                SLIDE_TITLES.forEach((t, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = `w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between transition ${idx + 1 === currentSlide ? 'bg-sky-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}`;
+                    btn.textContent = t;
+                    btn.onclick = () => goToSlide(idx + 1);
+                    list.appendChild(btn);
+                });
+            }
+        }
+
+        function renderSlide() {
+            if (raceAnimId) {
+                cancelAnimationFrame(raceAnimId);
+                raceAnimId = null;
+            }
+            updateProgress();
+            const body = document.getElementById('slideBody');
+
+            if (currentSlide === 1) {
+                body.innerHTML = `
+                    <div class="text-center py-6">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 text-xs font-kids mb-4">
+                            <span>🚅 은찬이의 과학 탐험 2호</span> · <span>철도 매니아 맞춤</span>
+                        </div>
+                        <h2 class="font-kids text-3xl md:text-5xl text-white mb-4 leading-tight">
+                            바람을 가르고 레일을 질주한다!<br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-teal-300 to-indigo-400">세계의 신기한 초고속 기차</span> ⚡
+                        </h2>
+                        <p class="text-slate-300 text-sm md:text-base max-w-2xl mx-auto leading-relaxed mb-6 font-sans">
+                            기차를 사랑하는 은찬이를 위한 특급 철도 모험!<br>
+                            대한민국의 최신형 <strong>KTX-청룡</strong>부터 일본 <strong>신칸센</strong>의 오리너구리 코 비밀, 프랑스 <strong>TGV</strong>와 공중에 붕 뜨는 <strong>자기부상열차</strong>까지 신나게 달려볼까요?
+                        </p>
+                        <div class="flex flex-wrap items-center justify-center gap-3">
+                            <button onclick="playSound('horn'); nextSlide();" class="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-kids text-base shadow-xl shadow-sky-950 transition active:scale-95 flex items-center gap-2">
+                                <span>🚅 뿌우우웅! 열차 출발 진행!</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 2) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">⏱️</span>
+                            <div>
+                                <span class="text-xs font-bold text-sky-400 font-kids">200년 철도의 발전사</span>
+                                <h3 class="font-kids text-2xl text-white">칙칙폭폭 증기기관차에서 시속 600km까지!</h3>
+                            </div>
+                        </div>
+                        <div class="grid sm:grid-cols-3 gap-3 font-sans text-xs text-slate-300">
+                            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-700">
+                                <span class="text-xs font-kids text-amber-400 block mb-1">1. 증기기관차 (시속 30~80km)</span>
+                                <div class="text-2xl mb-2">🚂</div>
+                                <p>석탄을 태워 물을 끓인 수증기 힘으로 바퀴를 굴렸어요. 영국 스티븐슨의 '로켓호'가 시작이었죠!</p>
+                            </div>
+                            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-700">
+                                <span class="text-xs font-kids text-sky-400 block mb-1">2. 고속철도 (시속 300km)</span>
+                                <div class="text-2xl mb-2">🚅</div>
+                                <p>강력한 전기를 받아 모터를 돌려요. KTX, 신칸센, TGV처럼 비행기만큼 빨라졌어요!</p>
+                            </div>
+                            <div class="p-4 bg-purple-950/40 rounded-2xl border border-purple-500/30">
+                                <span class="text-xs font-kids text-purple-300 block mb-1">3. 자기부상열차 (시속 600km)</span>
+                                <div class="text-2xl mb-2">🧲</div>
+                                <p>바퀴와 레일 마찰 없이 자석으로 공중에 뜬 채 날아가듯 레일을 질주해요!</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 3) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🇰🇷</span>
+                            <div>
+                                <span class="text-xs font-bold text-sky-400 font-kids">2024년 대한민국 최신예 탄환열차</span>
+                                <h3 class="font-kids text-2xl text-white">시속 320km로 달리는 'KTX-청룡'!</h3>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6 items-center">
+                            <div class="p-6 rounded-3xl bg-slate-900/90 border border-sky-500/30 text-center">
+                                <div class="w-36 h-24 mx-auto bg-gradient-to-r from-sky-600 via-teal-400 to-blue-700 rounded-2xl shadow-xl flex items-center justify-center text-4xl mb-3 text-white">
+                                    🚅
+                                </div>
+                                <h4 class="font-kids text-xl text-sky-300">KTX-청룡 (EMU-320)</h4>
+                                <span class="text-xs text-slate-400 font-kids">서울에서 부산까지 2시간 17분!</span>
+                            </div>
+                            <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300">
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-sky-300 font-kids text-sm block mb-1">⚡ 동력분산식의 마법!</strong>
+                                    옛날 KTX는 맨 앞과 맨 뒤에만 모터가 있었지만, KTX-청룡은 모든 객차 밑바닥에 모터가 분산되어 있어 가속과 감속이 엄청 빨라요!
+                                </div>
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-emerald-300 font-kids text-sm block mb-1">💺 훨씬 넓어진 객실 공간!</strong>
+                                    기관차에 쓰이던 공간을 없애서 좌석이 더 넓어지고 충전 콘센트도 자리마다 생겼답니다!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 4) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🚆</span>
+                            <div>
+                                <span class="text-xs font-bold text-sky-400 font-kids">대한민국 철도의 눈부신 발전</span>
+                                <h3 class="font-kids text-2xl text-white">한국 고속철도 4단계 변천사</h3>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-sans text-xs text-slate-300">
+                            <div class="p-3 rounded-2xl bg-slate-900 border border-slate-800 text-center">
+                                <span class="text-[10px] text-slate-400 font-kids block">2004년 최초 개통</span>
+                                <h4 class="font-kids text-sm text-sky-300 mt-1">KTX-1</h4>
+                                <p class="text-[11px] mt-1 text-slate-400">프랑스 TGV 기술을 도입해 서울-부산 2시간대 시대를 열었어요.</p>
+                            </div>
+                            <div class="p-3 rounded-2xl bg-slate-900 border border-slate-800 text-center">
+                                <span class="text-[10px] text-slate-400 font-kids block">2010년 순수 국산화</span>
+                                <h4 class="font-kids text-sm text-amber-300 mt-1">KTX-산천</h4>
+                                <p class="text-[11px] mt-1 text-slate-400">산천어 모양을 닮은 우리나라 기술로 직접 만든 첫 고속열차!</p>
+                            </div>
+                            <div class="p-3 rounded-2xl bg-slate-900 border border-slate-800 text-center">
+                                <span class="text-[10px] text-slate-400 font-kids block">2021년 동력분산식</span>
+                                <h4 class="font-kids text-sm text-emerald-300 mt-1">KTX-이음</h4>
+                                <p class="text-[11px] mt-1 text-slate-400">중앙선·강릉선 등 전국 방방곡곡을 잇는 친환경 저탄소 열차!</p>
+                            </div>
+                            <div class="p-3 rounded-2xl bg-sky-950/40 border border-sky-500/40 text-center">
+                                <span class="text-[10px] text-sky-300 font-kids block">2024년 최고속형</span>
+                                <h4 class="font-kids text-sm text-white mt-1">KTX-청룡</h4>
+                                <p class="text-[11px] mt-1 text-slate-300 font-semibold">시속 320km 최고 속도로 대한민국을 질주하는 최강 기차!</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 5) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🇯🇵</span>
+                            <div>
+                                <span class="text-xs font-bold text-cyan-400 font-kids">고속철도의 살아있는 전설</span>
+                                <h3 class="font-kids text-2xl text-white">일본 신칸센 & E5계 하야부사</h3>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6 items-center">
+                            <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 text-center">
+                                <div class="text-6xl mb-3 py-2">🚅</div>
+                                <h4 class="font-kids text-lg text-cyan-300">신칸센 E5계 하야부사</h4>
+                                <span class="text-xs text-slate-400 font-kids">도쿄 ⇄ 신아오모리 시속 320km</span>
+                            </div>
+                            <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-cyan-300 font-kids text-sm block mb-1">🥇 1964년 세계 최초의 고속철도!</strong>
+                                    도쿄 올림픽에 맞춰 개통된 도카이도 신칸센은 세계 최초로 시속 210km를 넘기며 전 세계에 고속철도 시대를 열었어요.
+                                </div>
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-amber-300 font-kids text-sm block mb-1">⏱️ 1초 단위의 칼같은 정시성!</strong>
+                                    신칸센의 1년 평균 지연 시간은 고작 30초 내외일 만큼 시간 약속을 철저히 지키기로 유명해요!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 6) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🦆</span>
+                            <div>
+                                <span class="text-xs font-bold text-emerald-400 font-kids">자연에서 배운 놀라운 과학 (생체모방)</span>
+                                <h3 class="font-kids text-2xl text-white">신칸센 앞코가 오리너구리처럼 긴 이유!</h3>
+                            </div>
+                        </div>
+                        <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
+                            <div class="p-3.5 bg-rose-950/40 rounded-2xl border border-rose-500/30">
+                                <strong class="text-rose-300 font-kids text-sm block mb-1">💥 쾅! 터널을 흔드는 충격파 (터널 붐)</strong>
+                                기차가 시속 300km로 좁은 터널에 들어가면 공기가 꽉 압축되었다가 터널 반대쪽 출구에서 대포 소리처럼 '펑!' 하는 엄청난 굉음이 나요.
+                            </div>
+                            <div class="p-3.5 bg-emerald-950/40 rounded-2xl border border-emerald-500/30">
+                                <strong class="text-emerald-300 font-kids text-sm block mb-1">🦆 물총새와 오리너구리의 부리!</strong>
+                                일본 엔지니어들은 물총새가 물방울 하나 안 튀기고 물속으로 다이빙하는 부리 모양을 본떠 기차 앞코를 15미터나 길쭉하게 만들었어요! 소음도 사라지고 공기 저항도 대폭 줄어들었답니다.
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 7) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🇫🇷</span>
+                            <div>
+                                <span class="text-xs font-bold text-rose-400 font-kids">철제 레일 세계 신기록 보유자</span>
+                                <h3 class="font-kids text-2xl text-white">프랑스 TGV: 시속 574.8km의 전설!</h3>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6 items-center">
+                            <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 text-center">
+                                <div class="text-5xl mb-2 text-rose-500 font-kids font-bold">574.8 km/h</div>
+                                <span class="text-xs text-slate-400 font-kids">2007년 4월 3일 기네스 세계 신기록!</span>
+                                <p class="text-[11px] text-slate-400 mt-2">비행기가 이륙하는 속도(약 260km/h)의 2배가 넘어요!</p>
+                            </div>
+                            <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-rose-300 font-kids text-sm block mb-1">🚅 TGV (Train à Grande Vitesse)</strong>
+                                    프랑스어로 '초고속 열차'라는 뜻이에요. 파리에서 런던을 잇는 유로스타(Eurostar) 해저 터널 열차도 TGV 기반이에요.
+                                </div>
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-amber-300 font-kids text-sm block mb-1">관절형 대차(Jacobs Bogie)</strong>
+                                    두 객차 사이에 바퀴 축(대차) 하나를 공유해서 탈선 위험이 매우 적고 안전한 것이 큰 특징이에요!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 8) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🇩🇪</span>
+                            <div>
+                                <span class="text-xs font-bold text-amber-400 font-kids">독일 철도의 자부심</span>
+                                <h3 class="font-kids text-2xl text-white">ICE (Intercity-Express)</h3>
+                            </div>
+                        </div>
+                        <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
+                            <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                <strong class="text-amber-300 font-kids text-sm block mb-1">🏎️ 아우토반보다 빠른 열차!</strong>
+                                속도 제한이 없는 독일 고속도로 '아우토반'을 달리는 포르쉐나 BMW보다 훨씬 빠른 시속 300km로 독일 전역과 스위스, 오스트리아, 네덜란드까지 국경을 넘어 달려요.
+                            </div>
+                            <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                <strong class="text-sky-300 font-kids text-sm block mb-1">기관사 뷰 라운지(Lounge)!</strong>
+                                ICE 3 열차의 맨 앞칸 승객들은 유리창 너머로 기관사가 기차를 운전하는 앞선로 풍경을 직접 바라보며 여행할 수 있어요!
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 9) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🇹🇼</span>
+                            <div>
+                                <span class="text-xs font-bold text-amber-400 font-kids">대만 여행에서 만난 반가운 친구!</span>
+                                <h3 class="font-kids text-2xl text-white">대만 고속철도 (THSR 700T)</h3>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6 items-center">
+                            <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 text-center">
+                                <div class="text-5xl mb-2">🇹🇼🚅</div>
+                                <h4 class="font-kids text-lg text-amber-300">THSR 700T 열차</h4>
+                                <span class="text-xs text-slate-400 font-kids">오렌지색 스트라이프 탄환열차</span>
+                            </div>
+                            <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-amber-300 font-kids text-sm block mb-1">⏱️ 대만 종단 1시간 30분!</strong>
+                                    타이베이에서 남쪽 끝 가오슝(줘잉)까지 자동차로 4~5시간 걸리는 거리를 단 1시간 34분 만에 쏜살같이 이어줘요.
+                                </div>
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-emerald-300 font-kids text-sm block mb-1">🇯🇵 신칸센의 첫 해외 수출!</strong>
+                                    일본 신칸센 700계를 대만의 따뜻하고 비가 많은 기후에 맞게 특수 개조한 열차랍니다!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 10) {
+                // Interactive Maglev Levitation Canvas
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div>
+                                <span class="text-xs font-bold text-purple-400 font-kids">자석의 신비한 힘!</span>
+                                <h3 class="font-kids text-2xl text-white">자기부상열차(Maglev) 부상 원리</h3>
+                            </div>
+                            <span class="text-[11px] text-slate-400 font-kids">자석 극을 바꿔보세요 👇</span>
+                        </div>
+                        <div class="p-4 bg-slate-900 rounded-3xl border border-slate-800 flex flex-col items-center">
+                            <canvas id="maglevCanvas" width="580" height="230" class="w-full max-w-[580px] h-[230px] rounded-2xl bg-[#080816] border border-slate-700"></canvas>
+                            <div class="flex items-center gap-2 mt-3 text-xs font-kids">
+                                <button onclick="setMaglevLevitate(true)" class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white transition">🧲 자기부상 ON (공중에 붕 뜨기!)</button>
+                                <button onclick="setMaglevLevitate(false)" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition">🛑 착지 (바닥에 닿기)</button>
+                            </div>
+                        </div>
+                        <p class="text-[11px] text-slate-400 font-kids text-center mt-2">
+                            같은 자석 극(N-N, S-S)끼리는 서로 강하게 밀어내어(척력) 기차를 1~10cm 공중에 띄워요!
+                        </p>
+                    </div>
+                `;
+                setTimeout(() => drawMaglev(true), 50);
+            } else if (currentSlide === 11) {
+                // Interactive Speed Race Canvas
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <span class="text-xs font-bold text-amber-400 font-kids">누가누가 가장 빠를까?</span>
+                                <h3 class="font-kids text-2xl text-white">세계 스피드 그랑프리 동시 레이싱!</h3>
+                            </div>
+                            <button onclick="startSpeedRace()" class="px-4 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-red-500 hover:from-amber-400 hover:to-red-400 text-slate-950 font-kids text-xs font-bold transition active:scale-95">
+                                🏁 레이스 출발!
+                            </button>
+                        </div>
+                        <div class="p-3 bg-slate-900 rounded-3xl border border-slate-800 flex flex-col items-center">
+                            <canvas id="raceCanvas" width="580" height="250" class="w-full max-w-[580px] h-[250px] rounded-2xl bg-[#050914] border border-slate-700"></canvas>
+                        </div>
+                    </div>
+                `;
+                setTimeout(initSpeedRace, 50);
+            } else if (currentSlide === 12) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🇨🇳</span>
+                            <div>
+                                <span class="text-xs font-bold text-purple-400 font-kids">실제로 매일 승객을 태우는 최고속</span>
+                                <h3 class="font-kids text-2xl text-white">상하이 자기부상열차 (시속 431km)</h3>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6 items-center">
+                            <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 text-center">
+                                <div class="text-5xl font-kids text-purple-400 mb-2 font-bold">431 km/h</div>
+                                <span class="text-xs text-slate-400 font-kids">30km 거리를 단 7분 20초 만에!</span>
+                                <p class="text-[11px] text-slate-400 mt-2">창밖 풍경이 눈 깜짝할 사이에 휙휙 지나가요!</p>
+                            </div>
+                            <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-purple-300 font-kids text-sm block mb-1">독일 트랜스래피드(Transrapid) 기술</strong>
+                                    상하이 푸둥 국제공항에서 지하철 2호선 룽양루역까지 30km를 쏜살같이 연결하는 세계 유일의 초고속 상업 자기부상선이에요.
+                                </div>
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-amber-300 font-kids text-sm block mb-1">레일과 접촉이 없어요!</strong>
+                                    바퀴 소음이나 마찰 저항이 없어 시속 400km가 넘어도 조용하고 매끄럽게 활주한답니다!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 13) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🚀</span>
+                            <div>
+                                <span class="text-xs font-bold text-blue-400 font-kids">인류 철도 사상 최고의 스피드!</span>
+                                <h3 class="font-kids text-2xl text-white">일본 L0계 초전도 리니어: 시속 603km!</h3>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6 items-center">
+                            <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 text-center">
+                                <div class="text-5xl font-kids text-blue-400 mb-2 font-bold">603 km/h</div>
+                                <span class="text-xs text-slate-400 font-kids">기네스북 공식 유인 철도 최고속도 신기록!</span>
+                            </div>
+                            <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-blue-300 font-kids text-sm block mb-1">영하 269도의 초전도 자석!</strong>
+                                    액체 헬륨으로 금속을 극저온으로 얼리면 전기 저항이 0이 되는 '초전도 현상'을 이용해 엄청나게 강력한 자석 힘을 만들어요!
+                                </div>
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-emerald-300 font-kids text-sm block mb-1">도쿄에서 나고야까지 40분!</strong>
+                                    미래에 주오 신칸센이 완공되면 현재 1시간 30분 걸리는 거리를 절반 이하인 40분 만에 주파할 예정이에요.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 14) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">⚡</span>
+                            <div>
+                                <span class="text-xs font-bold text-amber-400 font-kids">기차는 밥을 어떻게 먹을까요?</span>
+                                <h3 class="font-kids text-2xl text-white">지붕 위 팬터그래프와 2만 5천 볼트 전기의 힘!</h3>
+                            </div>
+                        </div>
+                        <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
+                            <div class="p-3.5 bg-amber-950/40 rounded-2xl border border-amber-500/30">
+                                <strong class="text-amber-300 font-kids text-sm block mb-1">⚡ 가정용 전기의 110배가 넘는 초고압 전기!</strong>
+                                철로 위 공중에 떠 있는 전선(가공전차선)에는 25,000V(볼트)의 무시무시한 고압 전기가 흘러요.
+                            </div>
+                            <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                <strong class="text-sky-300 font-kids text-sm block mb-1">마름모 모양의 접이식 손 '팬터그래프(Pantograph)'</strong>
+                                기차 지붕 위에 붙은 다이아몬드 또는 싱글 암 형태의 장치가 시속 300km로 달리는 도중에도 전선에서 떨어지지 않고 부드럽게 전기를 흡수해 모터로 공급해요!
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 15) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🛡️</span>
+                            <div>
+                                <span class="text-xs font-bold text-emerald-400 font-kids">시속 300km로 달리다 어떻게 멈출까?</span>
+                                <h3 class="font-kids text-2xl text-white">전기를 되살리는 마법의 '회생제동' 브레이크!</h3>
+                            </div>
+                        </div>
+                        <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
+                            <p>
+                                엄청난 속도로 달리는 무거운 쇠기차를 브레이크 패드로만 잡으면 마찰열 때문에 불이 나고 바퀴가 녹아버릴 거예요!
+                            </p>
+                            <div class="p-3.5 bg-emerald-950/40 rounded-2xl border border-emerald-500/30">
+                                <strong class="text-emerald-300 font-kids text-sm block mb-1">🔄 모터를 발전기로 변신시키기!</strong>
+                                브레이크를 밟으면 바퀴를 돌리던 모터가 거꾸로 '발전기'로 변신해요! 기차 속도를 늦추는 저항력(제동력)을 만들면서 동시에 깨끗한 전기를 생산해 전선으로 되돌려 보낸답니다!
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 16) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">💺</span>
+                            <div>
+                                <span class="text-xs font-bold text-amber-400 font-kids">철도의 숨겨진 비밀 영웅</span>
+                                <h3 class="font-kids text-2xl text-white">기관사 운전석 & 노란 기차 '닥터 옐로우'</h3>
+                            </div>
+                        </div>
+                        <div class="grid sm:grid-cols-2 gap-4 text-xs font-sans text-slate-300">
+                            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-700 space-y-2">
+                                <strong class="text-sky-300 font-kids text-sm block">🕹️ 자동차 핸들이 없어요!</strong>
+                                기차는 선로를 따라가기 때문에 핸들이 없어요. 대신 속도를 올리고 내리는 '마스콘 레버'와 안전 페달(데드맨 스위치)로 조종한답니다!
+                            </div>
+                            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-700 space-y-2">
+                                <strong class="text-amber-300 font-kids text-sm block">💛 레일을 진찰하는 의사 기차!</strong>
+                                일본의 '닥터 옐로우'처럼 노란색 검측 기차들이 밤사이에 레일의 미세한 틈새와 전선을 초음파와 레이저로 점검해 사고를 막아줘요!
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 17) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🌟</span>
+                            <div>
+                                <span class="text-xs font-bold text-sky-400 font-kids">미래의 초특급 꿈</span>
+                                <h3 class="font-kids text-2xl text-white">진공 튜브를 날아가는 '하이퍼루프 (시속 1,200km)'</h3>
+                            </div>
+                        </div>
+                        <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
+                            <div class="p-3.5 bg-sky-950/40 rounded-2xl border border-sky-500/30">
+                                <strong class="text-sky-300 font-kids text-sm block mb-1">🚀 공기 저항이 0인 진공 파이프!</strong>
+                                공기를 싹 빼낸 진공 파이프 튜브 속에서 캡슐 열차가 자기부상으로 공중에 뜬 채 날아가요.
+                            </div>
+                            <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                <strong class="text-emerald-300 font-kids text-sm block mb-1">⏱️ 서울에서 부산까지 20분?!</strong>
+                                음속(시속 1,224km)에 맞먹는 비행기보다 빠른 속도로 서울에서 부산까지 단 20분 만에 주파하는 미래의 꿈이 지금 연구되고 있답니다!
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 18) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🗺️</span>
+                            <div>
+                                <span class="text-xs font-bold text-sky-400 font-kids">한눈에 비교하는</span>
+                                <h3 class="font-kids text-2xl text-white">세계 6대 초고속 열차 요약표</h3>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs text-slate-300 font-kids border-collapse">
+                                <thead>
+                                    <tr class="border-b border-slate-700 text-sky-400">
+                                        <th class="py-2.5 px-3">열차명</th>
+                                        <th class="py-2.5 px-3">국가</th>
+                                        <th class="py-2.5 px-3">영업 속도</th>
+                                        <th class="py-2.5 px-3">최고 기록</th>
+                                        <th class="py-2.5 px-3">특징</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-800">
+                                    ${TRAINS.map(t => `
+                                        <tr class="hover:bg-slate-800/50 transition">
+                                            <td class="py-2.5 px-3 font-bold text-white">${t.name}</td>
+                                            <td class="py-2.5 px-3">${t.country}</td>
+                                            <td class="py-2.5 px-3 text-sky-300">${t.speed} km/h</td>
+                                            <td class="py-2.5 px-3 text-amber-300 font-bold">${t.record} km/h</td>
+                                            <td class="py-2.5 px-3 text-[11px] text-slate-400 font-sans">${t.power}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide >= 19 && currentSlide <= 23) {
+                // Quiz
+                const qIdx = currentSlide - 19;
+                const q = QUIZ_QUESTIONS[qIdx];
+                const selected = quizAnswers[qIdx];
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs font-bold text-sky-400 font-kids">🎯 기차 탐험 퀴즈 (${qIdx + 1} / 5)</span>
+                            <span class="text-xs px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 font-kids">점수: ${Object.values(quizAnswers).filter((a, i) => a === QUIZ_QUESTIONS[i].ans).length * 20}점</span>
+                        </div>
+                        <h3 class="font-kids text-xl md:text-2xl text-white mb-4 leading-snug">
+                            Q${qIdx + 1}. ${q.q}
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                            ${q.options.map((opt, optIdx) => {
+                                let style = "bg-slate-800/90 border-slate-700 hover:bg-slate-700 text-slate-200";
+                                if (selected !== undefined) {
+                                    if (optIdx === q.ans) style = "bg-emerald-600/90 border-emerald-400 text-white font-bold ring-2 ring-emerald-400";
+                                    else if (optIdx === selected) style = "bg-rose-600/90 border-rose-400 text-white font-bold";
+                                }
+                                return `
+                                    <button onclick="handleQuizAnswer(${qIdx}, ${optIdx})" class="p-4 rounded-2xl border text-left font-kids text-sm transition ${style}">
+                                        ${optIdx + 1}. ${opt}
+                                    </button>
+                                `;
+                            }).join('')}
+                        </div>
+                        <div class="p-3 bg-slate-900 rounded-2xl border border-slate-800 text-xs text-slate-400 font-kids">
+                            💡 힌트: ${q.hint}
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 24) {
+                // Master Badge
+                const correctCount = Object.values(quizAnswers).filter((a, i) => a === QUIZ_QUESTIONS[i].ans).length;
+                const score = correctCount * 20;
+                playSound('fanfare');
+                if (typeof confetti === 'function') {
+                    confetti({ particleCount: 90, spread: 70, origin: { y: 0.6 } });
+                }
+                body.innerHTML = `
+                    <div class="text-center py-4">
+                        <div class="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-sky-500 to-blue-600 shadow-[0_0_35px_rgba(2,132,199,0.5)] flex items-center justify-center text-4xl mb-3">
+                            🏆
+                        </div>
+                        <span class="text-xs font-bold text-sky-400 font-kids tracking-widest uppercase">Railway Master Certificate</span>
+                        <h3 class="font-kids text-3xl md:text-4xl text-white mt-1 mb-2">
+                            은찬이의 고속기차 탐험 수료를 축하합니다! 🎉
+                        </h3>
+                        <p class="text-slate-300 text-xs md:text-sm mb-4 font-sans">
+                            KTX-청룡부터 신칸센, TGV, 그리고 자기부상열차의 비밀까지 완벽하게 정복했어요!
+                        </p>
+                        <div class="inline-flex items-center gap-4 p-4 rounded-2xl bg-sky-950/40 border border-sky-500/30 text-center mb-6">
+                            <div>
+                                <span class="text-[11px] text-slate-400 font-kids block">퀴즈 성적</span>
+                                <span class="font-kids text-2xl text-sky-300">${score}점</span>
+                            </div>
+                            <div class="w-px h-8 bg-sky-500/30"></div>
+                            <div>
+                                <span class="text-[11px] text-slate-400 font-kids block">수여 칭호</span>
+                                <span class="font-kids text-lg text-amber-300">세계 초고속 열차 명예 수석 기관사 🚅</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap items-center justify-center gap-3 font-kids text-xs">
+                            <a href="eunchan-study.html" class="px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white transition shadow-lg shadow-sky-950">
+                                🎒 은찬이의 공부방 홈으로 이동
+                            </a>
+                            <button onclick="goToSlide(1)" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+                                🔄 처음부터 다시 탐험하기
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function handleQuizAnswer(qIdx, optIdx) {
+            if (quizAnswers[qIdx] !== undefined) return;
+            quizAnswers[qIdx] = optIdx;
+            if (optIdx === QUIZ_QUESTIONS[qIdx].ans) {
+                playSound('correct');
+            } else {
+                playSound('wrong');
+            }
+            renderSlide();
+        }
+
+        // Maglev Levitation Canvas
+        let isMaglevFloating = true;
+        function setMaglevLevitate(val) {
+            isMaglevFloating = val;
+            drawMaglev(val);
+        }
+
+        function drawMaglev(floating) {
+            const canvas = document.getElementById('maglevCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            ctx.clearRect(0, 0, w, h);
+
+            const railY = h - 50;
+
+            // Track / Rail
+            ctx.fillStyle = '#334155';
+            ctx.fillRect(40, railY, w - 80, 20);
+
+            // Track Magnets (S pole on top)
+            for (let x = 60; x < w - 80; x += 55) {
+                ctx.fillStyle = '#3b82f6'; // Blue S
+                ctx.fillRect(x, railY - 12, 40, 12);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 9px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('S극', x + 20, railY - 3);
+            }
+
+            // Train position
+            const floatGap = floating ? 28 : 2;
+            const trainY = railY - 12 - floatGap - 45;
+
+            // Train body
+            ctx.fillStyle = '#8b5cf6';
+            ctx.beginPath();
+            ctx.roundRect(80, trainY, w - 160, 45, 12);
+            ctx.fill();
+
+            // Train windows
+            ctx.fillStyle = '#38bdf8';
+            for (let wx = 120; wx < w - 160; wx += 50) {
+                ctx.fillRect(wx, trainY + 10, 30, 16);
+            }
+
+            // Train Magnets on bottom (S pole facing down -> Repulsion!)
+            for (let x = 100; x < w - 160; x += 55) {
+                ctx.fillStyle = '#60a5fa'; // S pole
+                ctx.fillRect(x, trainY + 45, 40, 12);
+                ctx.fillStyle = '#0f172a';
+                ctx.font = 'bold 9px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('S극', x + 20, trainY + 54);
+            }
+
+            // Levitation arrows / glow
+            if (floating) {
+                ctx.fillStyle = '#f59e0b';
+                ctx.font = 'bold 12px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('↑ 자기력 척력(밀어내는 힘)으로 붕 뜸! ↑', w / 2, railY - 18);
+            } else {
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = '11px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('레일에 닿음', w / 2, railY - 6);
+            }
+        }
+
+        // Speed Race Simulator
+        const RACERS = [
+            { name: "사람 전력질주", speed: 30, color: "#94a3b8", icon: "🏃" },
+            { name: "고속도로 자동차", speed: 100, color: "#38bdf8", icon: "🚗" },
+            { name: "KTX-청룡", speed: 320, color: "#0284c7", icon: "🚅" },
+            { name: "상하이 자기부상", speed: 431, color: "#8b5cf6", icon: "🧲" },
+            { name: "TGV 최고기록", speed: 574, color: "#e11d48", icon: "⚡" },
+            { name: "L0계 리니어", speed: 603, color: "#10b981", icon: "🚀" }
+        ];
+        let racerPositions = [0, 0, 0, 0, 0, 0];
+        let isRacing = false;
+
+        function initSpeedRace() {
+            racerPositions = [0, 0, 0, 0, 0, 0];
+            drawRaceFrame();
+        }
+
+        function startSpeedRace() {
+            if (isRacing) return;
+            isRacing = true;
+            racerPositions = [0, 0, 0, 0, 0, 0];
+            playSound('horn');
+
+            function step() {
+                let finished = false;
+                const canvas = document.getElementById('raceCanvas');
+                if (!canvas) {
+                    isRacing = false;
+                    return;
+                }
+                const maxDist = canvas.width - 130;
+
+                for (let i = 0; i < RACERS.length; i++) {
+                    const stepInc = (RACERS[i].speed / 603) * 4.5;
+                    racerPositions[i] += stepInc;
+                    if (racerPositions[i] >= maxDist) {
+                        racerPositions[i] = maxDist;
+                        finished = true;
+                    }
+                }
+                drawRaceFrame();
+
+                if (!finished) {
+                    raceAnimId = requestAnimationFrame(step);
+                } else {
+                    isRacing = false;
+                    playSound('fanfare');
+                }
+            }
+            step();
+        }
+
+        function drawRaceFrame() {
+            const canvas = document.getElementById('raceCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            ctx.clearRect(0, 0, w, h);
+
+            const rowH = h / 6;
+            const startX = 100;
+            const finishX = w - 30;
+
+            // Finish line
+            ctx.beginPath();
+            ctx.moveTo(finishX, 0);
+            ctx.lineTo(finishX, h);
+            ctx.strokeStyle = '#ef4444';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([5, 5]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            RACERS.forEach((r, i) => {
+                const y = i * rowH + rowH / 2;
+
+                // Track lane
+                ctx.beginPath();
+                ctx.moveTo(startX, y + 10);
+                ctx.lineTo(finishX, y + 10);
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+
+                // Name label
+                ctx.font = 'bold 10px sans-serif';
+                ctx.fillStyle = r.color;
+                ctx.textAlign = 'left';
+                ctx.fillText(r.name, 10, y + 4);
+
+                // Speed
+                ctx.font = '9px sans-serif';
+                ctx.fillStyle = '#64748b';
+                ctx.fillText(`${r.speed}km/h`, 10, y + 15);
+
+                // Vehicle figure
+                const posX = startX + racerPositions[i];
+                ctx.font = '16px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(r.icon, posX, y + 5);
+            });
+        }
+
+        // TTS Read Aloud
+        let isSpeaking = false;
+        function toggleReadOutLoud() {
+            if (!('speechSynthesis' in window)) {
+                alert("이 브라우저는 음성 읽어주기를 지원하지 않습니다.");
+                return;
+            }
+
+            if (isSpeaking) {
+                window.speechSynthesis.cancel();
+                isSpeaking = false;
+                document.getElementById('ttsBtn').classList.remove('text-sky-400', 'animate-pulse');
+                document.getElementById('ttsBtn').classList.add('text-amber-400');
+                return;
+            }
+
+            const slide = document.getElementById('slideBody');
+            if (!slide) return;
+            const textToRead = slide.innerText.replace(/[🚅⏱️🇰🇷🚆🇯🇵🦆🇫🇷🇩🇪🇹🇼🧲🏁🇨🇳🚀⚡🛡️💺🌟🗺️🎯🏆💡Q\d\.]/g, ' ');
+
+            const utterance = new SpeechSynthesisUtterance(textToRead);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.95;
+            utterance.pitch = 1.05;
+
+            utterance.onstart = () => {
+                isSpeaking = true;
+                document.getElementById('ttsBtn').classList.remove('text-amber-400');
+                document.getElementById('ttsBtn').classList.add('text-sky-400', 'animate-pulse');
+            };
+
+            utterance.onend = () => {
+                isSpeaking = false;
+                document.getElementById('ttsBtn').classList.remove('text-sky-400', 'animate-pulse');
+                document.getElementById('ttsBtn').classList.add('text-amber-400');
+            };
+
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Keyboard
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'PageDown') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+        });
+
+        // Touch Swipe
+        let touchStartX = 0;
+        let touchEndX = 0;
+        document.addEventListener('touchstart', e => {
+            if (e.target.closest('canvas, button, a, input, select, textarea')) {
+                touchStartedOnInteractive = true;
+                return;
+            }
+            touchStartedOnInteractive = false;
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.addEventListener('touchend', e => {
+            if (touchStartedOnInteractive) {
+                touchStartedOnInteractive = false;
+                return;
+            }
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 75) nextSlide();
+            if (touchEndX - touchStartX > 75) prevSlide();
+        }, { passive: true });
+
+        // Init
+        renderSlide();
+    </script>
+</body>
+</html>
