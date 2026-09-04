@@ -194,14 +194,118 @@
     <!-- Slide Content & Interactive Logic -->
     <script>
         const PLANETS = [
-            { name: '수성 (Mercury)', color: '#94a3b8', dist: '0.39 AU', period: '88일', dia: '4,879 km', earthRatio: 0.38, temp: '-180℃ ~ 430℃', desc: '태양과 제일 가깝고 밤낮 온도 차가 무려 600도나 나는 돌멩이 행성!' },
-            { name: '금성 (Venus)', color: '#f97316', dist: '0.72 AU', period: '225일', dia: '12,104 km', earthRatio: 0.95, temp: '약 465℃', desc: '두꺼운 이산화탄소 구름 때문에 태양계에서 가장 뜨거운 불지옥 행성!' },
-            { name: '지구 (Earth)', color: '#38bdf8', dist: '1.00 AU', period: '365일', dia: '12,742 km', earthRatio: 1.0, temp: '평균 15℃', desc: '우리가 살고 있는 물과 산소, 생명이 가득한 우주 유일의 푸른 오아시스!' },
-            { name: '화성 (Mars)', color: '#ef4444', dist: '1.52 AU', period: '687일', dia: '6,779 km', earthRatio: 0.53, temp: '-140℃ ~ 20℃', desc: '붉은 녹슨 흙으로 덮인 사막 행성! 탐사 로봇들이 생명체 흔적을 찾고 있어요.' },
-            { name: '목성 (Jupiter)', color: '#d97706', dist: '5.20 AU', period: '12년', dia: '139,820 km', earthRatio: 11.0, temp: '영하 110℃', desc: '태양계 행성들의 맏형! 지구 1,300개가 쏙 들어가는 거대한 가스 행성이에요.' },
-            { name: '토성 (Saturn)', color: '#eab308', dist: '9.58 AU', period: '29년', dia: '116,460 km', earthRatio: 9.1, temp: '영하 140℃', desc: '수십억 개의 얼음과 암석 조각으로 만든 눈부시게 아름다운 고리를 둘렀어요.' },
-            { name: '천왕성 (Uranus)', color: '#06b6d4', dist: '19.2 AU', period: '84년', dia: '50,724 km', earthRatio: 4.0, temp: '영하 195℃', desc: '자전축이 98도나 기울어져 데굴데굴 옆으로 누워서 도는 신기한 얼음 행성!' },
-            { name: '해왕성 (Neptune)', color: '#3b82f6', dist: '30.1 AU', period: '165년', dia: '49,244 km', earthRatio: 3.9, temp: '영하 200℃', desc: '시속 2,000km가 넘는 태양계 최강의 초특급 태풍이 부는 신비로운 푸른 별!' }
+            { 
+                id: 'mercury',
+                num: 1,
+                name: '수성 (Mercury)', 
+                color: '#94a3b8', 
+                dist: '0.39 AU', 
+                period: '88일', 
+                dia: '4,879 km', 
+                earthRatio: 0.38, 
+                temp: '-180℃ ~ 430℃', 
+                desc: '태양과 제일 가깝고 밤낮 온도 차가 무려 600도나 나는 돌멩이 행성!',
+                img: 'images/planets/mercury.jpg',
+                nasaCredit: 'NASA / MESSENGER'
+            },
+            { 
+                id: 'venus',
+                num: 2,
+                name: '금성 (Venus)', 
+                color: '#f97316', 
+                dist: '0.72 AU', 
+                period: '225일', 
+                dia: '12,104 km', 
+                earthRatio: 0.95, 
+                temp: '약 465℃', 
+                desc: '두꺼운 이산화탄소 구름 때문에 태양계에서 가장 뜨거운 불지옥 행성!',
+                img: 'images/planets/venus.jpg',
+                nasaCredit: 'NASA / Mariner 10'
+            },
+            { 
+                id: 'earth',
+                num: 3,
+                name: '지구 (Earth)', 
+                color: '#38bdf8', 
+                dist: '1.00 AU', 
+                period: '365일', 
+                dia: '12,742 km', 
+                earthRatio: 1.0, 
+                temp: '평균 15℃', 
+                desc: '우리가 살고 있는 물과 산소, 생명이 가득한 우주 유일의 푸른 오아시스!',
+                img: 'images/planets/earth.jpg',
+                nasaCredit: 'NASA / Apollo 17 (The Blue Marble)'
+            },
+            { 
+                id: 'mars',
+                num: 4,
+                name: '화성 (Mars)', 
+                color: '#ef4444', 
+                dist: '1.52 AU', 
+                period: '687일', 
+                dia: '6,779 km', 
+                earthRatio: 0.53, 
+                temp: '-140℃ ~ 20℃', 
+                desc: '붉은 녹슨 흙으로 덮인 사막 행성! 탐사 로봇들이 생명체 흔적을 찾고 있어요.',
+                img: 'images/planets/mars.jpg',
+                nasaCredit: 'NASA / ESA / OSIRIS'
+            },
+            { 
+                id: 'jupiter',
+                num: 5,
+                name: '목성 (Jupiter)', 
+                color: '#d97706', 
+                dist: '5.20 AU', 
+                period: '12년', 
+                dia: '139,820 km', 
+                earthRatio: 11.0, 
+                temp: '영하 110℃', 
+                desc: '태양계 행성들의 맏형! 지구 1,300개가 쏙 들어가는 거대한 가스 행성이에요.',
+                img: 'images/planets/jupiter.png',
+                nasaCredit: 'NASA / ESA / Hubble (OPAL)'
+            },
+            { 
+                id: 'saturn',
+                num: 6,
+                name: '토성 (Saturn)', 
+                color: '#eab308', 
+                dist: '9.58 AU', 
+                period: '29년', 
+                dia: '116,460 km', 
+                earthRatio: 9.1, 
+                temp: '영하 140℃', 
+                desc: '수십억 개의 얼음과 암석 조각으로 만든 눈부시게 아름다운 고리를 둘렀어요.',
+                img: 'images/planets/saturn.png',
+                nasaCredit: 'NASA / Cassini'
+            },
+            { 
+                id: 'uranus',
+                num: 7,
+                name: '천왕성 (Uranus)', 
+                color: '#06b6d4', 
+                dist: '19.2 AU', 
+                period: '84년', 
+                dia: '50,724 km', 
+                earthRatio: 4.0, 
+                temp: '영하 195℃', 
+                desc: '자전축이 98도나 기울어져 데굴데굴 옆으로 누워서 도는 신기한 얼음 행성!',
+                img: 'images/planets/uranus.png',
+                nasaCredit: 'NASA / Voyager 2'
+            },
+            { 
+                id: 'neptune',
+                num: 8,
+                name: '해왕성 (Neptune)', 
+                color: '#3b82f6', 
+                dist: '30.1 AU', 
+                period: '165년', 
+                dia: '49,244 km', 
+                earthRatio: 3.9, 
+                temp: '영하 200℃', 
+                desc: '시속 2,000km가 넘는 태양계 최강의 초특급 태풍이 부는 신비로운 푸른 별!',
+                img: 'images/planets/neptune.png',
+                nasaCredit: 'NASA / Voyager 2'
+            }
         ];
 
         let currentSlide = 1;
@@ -329,6 +433,75 @@
             }
         }
 
+        // Helper to match planet for individual slide
+        function getPlanetBySlide(num) {
+            if (num === 4) return PLANETS[0]; // 수성
+            if (num === 5) return PLANETS[1]; // 금성
+            if (num === 6) return PLANETS[2]; // 지구
+            if (num === 8) return PLANETS[3]; // 화성
+            if (num === 9) return PLANETS[4]; // 목성
+            if (num === 10) return PLANETS[5]; // 토성
+            if (num === 11) return PLANETS[6]; // 천왕성
+            if (num === 12) return PLANETS[7]; // 해왕성
+            return null;
+        }
+
+        // Render individual planet slide with real NASA imagery
+        function renderPlanetSlide(p) {
+            return `
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-xl font-kids font-bold text-slate-950 shadow-md" style="background:${p.color}">
+                            ${p.num}
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold text-purple-400 font-kids">태양계 행성 NASA 실사 탐험</span>
+                            <h3 class="font-kids text-2xl text-white">${p.name}</h3>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6 items-center">
+                        <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 text-center flex flex-col items-center justify-center">
+                            <div class="relative mb-3 group">
+                                <div class="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden flex items-center justify-center bg-black/40 border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.8)]">
+                                    <img src="${p.img}" alt="${p.name} NASA 실사 사진" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <span class="absolute -bottom-2 right-0 px-2.5 py-0.5 rounded-full bg-slate-950/90 text-[10px] text-purple-300 font-kids border border-purple-500/40 shadow-lg">
+                                    📷 ${p.nasaCredit}
+                                </span>
+                            </div>
+                            <span class="text-xs font-kids px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
+                                지구 크기 대비 약 ${p.earthRatio}배
+                            </span>
+                        </div>
+                        <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300">
+                            <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                <strong class="text-purple-300 font-kids text-sm block mb-1">🌟 핵심 특징</strong>
+                                ${p.desc}
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 text-[11px] font-kids">
+                                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+                                    <span class="text-slate-400 block">지름</span>
+                                    <span class="text-white text-xs">${p.dia}</span>
+                                </div>
+                                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+                                    <span class="text-slate-400 block">표면 온도</span>
+                                    <span class="text-amber-300 text-xs">${p.temp}</span>
+                                </div>
+                                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+                                    <span class="text-slate-400 block">태양과의 거리</span>
+                                    <span class="text-sky-300 text-xs">${p.dist}</span>
+                                </div>
+                                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+                                    <span class="text-slate-400 block">공전 주기</span>
+                                    <span class="text-emerald-300 text-xs">${p.period}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
         // Render Slide Engine
         function renderSlide() {
             if (orbitAnimId) {
@@ -370,13 +543,16 @@
                             </div>
                         </div>
                         <div class="grid md:grid-cols-2 gap-6 items-center">
-                            <div class="bg-gradient-to-br from-amber-950/40 to-slate-900 p-6 rounded-3xl border border-amber-500/30">
-                                <div class="text-center py-4">
-                                    <div class="w-32 h-32 mx-auto rounded-full bg-gradient-to-tr from-amber-600 via-orange-500 to-yellow-300 shadow-[0_0_50px_rgba(245,158,11,0.6)] flex items-center justify-center text-4xl animate-pulse">
-                                        ☀️
+                            <div class="bg-gradient-to-br from-amber-950/40 to-slate-900 p-6 rounded-3xl border border-amber-500/30 text-center flex flex-col items-center justify-center">
+                                <div class="relative mb-3 group">
+                                    <div class="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-2 border-amber-400/60 shadow-[0_0_60px_rgba(245,158,11,0.6)] bg-black">
+                                        <img src="images/planets/sun.jpg" alt="태양 NASA SDO 실사 사진" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                     </div>
-                                    <p class="mt-4 text-xs font-kids text-amber-300">표면 온도 약 6,000℃ / 중심부 약 1,500만℃</p>
+                                    <span class="absolute -bottom-2 right-0 px-2.5 py-0.5 rounded-full bg-slate-950/90 text-[10px] text-amber-300 font-kids border border-amber-500/40 shadow-lg">
+                                        📷 NASA / SDO 실사
+                                    </span>
                                 </div>
+                                <p class="mt-2 text-xs font-kids text-amber-300">표면 온도 약 6,000℃ / 중심부 약 1,500만℃</p>
                             </div>
                             <div class="space-y-3 text-slate-300 text-xs md:text-sm leading-relaxed font-sans">
                                 <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700">
@@ -396,13 +572,16 @@
                     <div>
                         <div class="text-center mb-5">
                             <span class="text-xs font-bold text-purple-400 font-kids">절대 잊어버리지 않는 마법의 주문!</span>
-                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-1">태양계 8형제 행성 가족사진</h3>
-                            <p class="text-xs text-slate-300 mt-1">태양과 가까운 순서대로 앞 글자를 따서 외워보세요: <strong>수-금-지-화-목-토-천-해!</strong></p>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-1">태양계 8형제 행성 가족사진 (NASA 실사)</h3>
+                            <p class="text-xs text-slate-300 mt-1">태양과 가까운 순서대로 앞 글자를 따서 외워보세요: <strong>수-금-지-화-목-토-천-해!</strong> (카드를 누르면 이동해요)</p>
                         </div>
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                             ${PLANETS.map((p, i) => `
-                                <div class="p-3 rounded-2xl bg-slate-900/80 border border-slate-700/80 text-center hover:border-purple-400 transition">
-                                    <span class="inline-block w-7 h-7 rounded-full text-xs font-kids leading-7 text-slate-950 font-bold mb-1" style="background:${p.color}">${i+1}</span>
+                                <div class="p-3 rounded-2xl bg-slate-900/80 border border-slate-700/80 text-center hover:border-purple-400 transition flex flex-col items-center group cursor-pointer" onclick="goToSlide(${i < 3 ? i + 4 : i + 5})" title="${p.name} 자세히 보기">
+                                    <div class="w-14 h-14 rounded-full overflow-hidden mb-1.5 shadow-md border border-white/10 flex items-center justify-center bg-black/60">
+                                        <img src="${p.img}" alt="${p.name} NASA 실사" class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
+                                    </div>
+                                    <span class="text-[10px] text-purple-300 font-kids font-bold">${i+1}번 행성</span>
                                     <h4 class="font-kids text-sm text-white">${p.name.split(' ')[0]}</h4>
                                     <p class="text-[10px] text-slate-400 font-kids">${p.dia}</p>
                                 </div>
@@ -413,87 +592,10 @@
                         </div>
                     </div>
                 `;
-            } else if (currentSlide >= 4 && currentSlide <= 11) {
-                const p = PLANETS[currentSlide - 4];
-                body.innerHTML = `
-                    <div>
-                        <div class="flex items-center gap-3 mb-4">
-                            <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-xl font-kids font-bold text-slate-950 shadow-md" style="background:${p.color}">
-                                ${currentSlide - 3}
-                            </div>
-                            <div>
-                                <span class="text-xs font-bold text-purple-400 font-kids">태양계 행성 탐험</span>
-                                <h3 class="font-kids text-2xl text-white">${p.name}</h3>
-                            </div>
-                        </div>
-                        <div class="grid md:grid-cols-2 gap-6 items-center">
-                            <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 text-center">
-                                <div class="w-36 h-36 mx-auto rounded-full shadow-2xl flex items-center justify-center mb-4 transition-transform hover:scale-105" style="background: radial-gradient(circle at 30% 30%, ${p.color}, #090d16)">
-                                    ${currentSlide === 10 ? '<div class="w-48 h-6 border-4 border-yellow-300/60 rounded-full rotate-[-20deg] absolute"></div>' : ''}
-                                </div>
-                                <span class="text-xs font-kids px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
-                                    지구 크기 대비 약 ${p.earthRatio}배
-                                </span>
-                            </div>
-                            <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300">
-                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
-                                    <strong class="text-purple-300 font-kids text-sm block mb-1">🌟 핵심 특징</strong>
-                                    ${p.desc}
-                                </div>
-                                <div class="grid grid-cols-2 gap-2 text-[11px] font-kids">
-                                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
-                                        <span class="text-slate-400 block">지름</span>
-                                        <span class="text-white text-xs">${p.dia}</span>
-                                    </div>
-                                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
-                                        <span class="text-slate-400 block">표면 온도</span>
-                                        <span class="text-amber-300 text-xs">${p.temp}</span>
-                                    </div>
-                                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
-                                        <span class="text-slate-400 block">태양과의 거리</span>
-                                        <span class="text-sky-300 text-xs">${p.dist}</span>
-                                    </div>
-                                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
-                                        <span class="text-slate-400 block">공전 주기</span>
-                                        <span class="text-emerald-300 text-xs">${p.period}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            } else if (currentSlide === 12) {
-                body.innerHTML = `
-                    <div>
-                        <div class="flex items-center gap-3 mb-4">
-                            <span class="text-3xl">💔</span>
-                            <div>
-                                <span class="text-xs font-bold text-rose-400 font-kids">슬픈 꼬마 행성의 이야기</span>
-                                <h3 class="font-kids text-2xl text-white">명왕성은 왜 행성에서 쫓겨났을까요?</h3>
-                            </div>
-                        </div>
-                        <div class="grid md:grid-cols-2 gap-6 items-center">
-                            <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 text-center">
-                                <div class="w-24 h-24 mx-auto rounded-full bg-slate-600 shadow-inner flex items-center justify-center text-3xl mb-3">
-                                    🪨
-                                </div>
-                                <h4 class="font-kids text-lg text-rose-300">명왕성 (Pluto)</h4>
-                                <span class="text-xs text-slate-400 font-kids">새로운 이름: 왜소행성 134340</span>
-                            </div>
-                            <div class="space-y-3 text-xs md:text-sm text-slate-300 font-sans leading-relaxed">
-                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
-                                    <strong class="text-rose-300 font-kids text-sm block mb-1">😭 달보다도 작은 얼음 꼬마!</strong>
-                                    2006년 전까지는 '수금지화목토천해명'으로 9번째 행성이었어요. 하지만 크기가 우리 달(3,474km)보다도 훨씬 작아요(2,376km).
-                                </div>
-                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
-                                    <strong class="text-amber-300 font-kids text-sm block mb-1">🛑 행성의 진짜 자격 조건!</strong>
-                                    행성이 되려면 자기 주변 궤도에 있는 돌멩이들을 싹 청소할 만큼 힘(중력)이 세야 하는데, 명왕성은 너무 작아서 '왜소행성'으로 다시 분류되었답니다!
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            } else if (currentSlide === 13) {
+            } else if (getPlanetBySlide(currentSlide)) {
+                const p = getPlanetBySlide(currentSlide);
+                body.innerHTML = renderPlanetSlide(p);
+            } else if (currentSlide === 7) {
                 body.innerHTML = `
                     <div>
                         <div class="flex items-center gap-3 mb-4">
@@ -514,11 +616,52 @@
                                     2022년 우리나라가 쏘아 올린 다누리호가 지금도 달 상공 100km를 뱅글뱅글 돌며 고화질 사진을 지구로 보내주고 있어요!
                                 </div>
                             </div>
-                            <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 text-center">
-                                <div class="w-32 h-32 mx-auto rounded-full bg-gradient-to-br from-slate-200 to-slate-500 shadow-xl flex items-center justify-center text-4xl mb-2">
-                                    🌑
+                            <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 text-center flex flex-col items-center justify-center">
+                                <div class="relative mb-3 group">
+                                    <div class="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border border-white/20 shadow-[0_0_40px_rgba(255,255,255,0.25)] bg-black">
+                                        <img src="images/planets/moon.jpg" alt="달 NASA LRO 실사 사진" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                    </div>
+                                    <span class="absolute -bottom-2 right-0 px-2.5 py-0.5 rounded-full bg-slate-950/90 text-[10px] text-sky-300 font-kids border border-sky-500/40 shadow-lg">
+                                        📷 NASA / LRO 실사
+                                    </span>
                                 </div>
                                 <span class="text-xs text-sky-300 font-kids">지구에서 달까지 거리: 약 384,400km (비행기로 17일!)</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 13) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">💔</span>
+                            <div>
+                                <span class="text-xs font-bold text-rose-400 font-kids">슬픈 꼬마 행성의 이야기</span>
+                                <h3 class="font-kids text-2xl text-white">명왕성은 왜 행성에서 쫓겨났을까요?</h3>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6 items-center">
+                            <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 text-center flex flex-col items-center justify-center">
+                                <div class="relative mb-3 group">
+                                    <div class="w-48 h-48 md:w-56 md:h-56 rounded-2xl overflow-hidden border border-rose-500/30 shadow-[0_0_40px_rgba(0,0,0,0.8)] bg-black/60 flex items-center justify-center">
+                                        <img src="images/planets/pluto.png" alt="명왕성 NASA New Horizons 실사 사진" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500">
+                                    </div>
+                                    <span class="absolute -bottom-2 right-0 px-2.5 py-0.5 rounded-full bg-slate-950/90 text-[10px] text-rose-300 font-kids border border-rose-500/40 shadow-lg">
+                                        📷 NASA / New Horizons 실사
+                                    </span>
+                                </div>
+                                <h4 class="font-kids text-lg text-rose-300">명왕성 (Pluto)</h4>
+                                <span class="text-xs text-slate-400 font-kids">새로운 이름: 왜소행성 134340</span>
+                            </div>
+                            <div class="space-y-3 text-xs md:text-sm text-slate-300 font-sans leading-relaxed">
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-rose-300 font-kids text-sm block mb-1">😭 달보다도 작은 얼음 꼬마!</strong>
+                                    2006년 전까지는 '수금지화목토천해명'으로 9번째 행성이었어요. 하지만 크기가 우리 달(3,474km)보다도 훨씬 작아요(2,376km).
+                                </div>
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-amber-300 font-kids text-sm block mb-1">🛑 행성의 진짜 자격 조건!</strong>
+                                    행성이 되려면 자기 주변 궤도에 있는 돌멩이들을 싹 청소할 만큼 힘(중력)이 세야 하는데, 명왕성은 너무 작아서 '왜소행성'으로 다시 분류되었답니다!
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -579,11 +722,16 @@
                             </div>
                         </div>
                         <div class="grid md:grid-cols-2 gap-6 items-center">
-                            <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 text-center relative overflow-hidden">
-                                <div class="w-32 h-32 mx-auto rounded-full bg-black border-4 border-amber-500/80 shadow-[0_0_60px_rgba(245,158,11,0.5)] flex items-center justify-center text-4xl">
-                                    🌀
+                            <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 text-center relative overflow-hidden flex flex-col items-center justify-center">
+                                <div class="relative mb-3 group">
+                                    <div class="w-48 h-48 md:w-56 md:h-56 rounded-2xl overflow-hidden border-2 border-amber-500/60 shadow-[0_0_50px_rgba(245,158,11,0.5)] bg-black">
+                                        <img src="images/planets/blackhole.jpg" alt="M87 블랙홀 실사 사진" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                    </div>
+                                    <span class="absolute -bottom-2 right-0 px-2.5 py-0.5 rounded-full bg-slate-950/90 text-[10px] text-amber-300 font-kids border border-amber-500/40 shadow-lg">
+                                        📷 EHT / NASA (M87* 실사)
+                                    </span>
                                 </div>
-                                <p class="mt-3 text-xs font-kids text-amber-300">사건의 지평선 (Event Horizon)</p>
+                                <p class="mt-2 text-xs font-kids text-amber-300">인류 최초 직접 촬영된 실제 블랙홀 그림자!</p>
                             </div>
                             <div class="space-y-3 text-xs md:text-sm text-slate-300 font-sans leading-relaxed">
                                 <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
@@ -636,21 +784,28 @@
                                 <h3 class="font-kids text-2xl text-white">둥둥 떠다니는 우주비행사의 하루!</h3>
                             </div>
                         </div>
-                        <div class="grid sm:grid-cols-3 gap-3 text-xs font-sans text-slate-300">
-                            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-700 text-center">
-                                <div class="text-3xl mb-2">💧</div>
+                        <div class="grid sm:grid-cols-4 gap-3 text-xs font-sans text-slate-300">
+                            <div class="p-3 bg-slate-900/90 rounded-2xl border border-slate-700 text-center flex flex-col items-center justify-center">
+                                <div class="w-full h-24 rounded-xl overflow-hidden mb-2 relative border border-white/10 shadow bg-black/50">
+                                    <img src="images/planets/iss.jpg" alt="국제우주정거장 ISS NASA 실사" class="w-full h-full object-cover">
+                                    <span class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-black/80 text-[9px] text-sky-300 font-kids">📷 NASA 실사</span>
+                                </div>
+                                <h4 class="font-kids text-xs text-sky-300">우주정거장 (ISS)</h4>
+                            </div>
+                            <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-700 text-center flex flex-col justify-center">
+                                <div class="text-2xl mb-1.5">💧</div>
                                 <h4 class="font-kids text-sm text-sky-300 mb-1">동글동글 물방울</h4>
-                                <p>중력이 없어서 컵에 물을 따를 수 없어요! 물방울이 공중에 동동 떠다녀서 빨대로 쏙 마셔야 해요.</p>
+                                <p>중력이 없어 물방울이 공중에 둥둥 떠다녀서 빨대로 쏙 마셔요.</p>
                             </div>
-                            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-700 text-center">
-                                <div class="text-3xl mb-2">🛌</div>
-                                <h4 class="font-kids text-sm text-purple-300 mb-1">벽에 붙어서 잠자기</h4>
-                                <p>자다가 둥둥 떠내려가지 않도록 침낭을 벽에 단단히 고정하고 자야 해요!</p>
+                            <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-700 text-center flex flex-col justify-center">
+                                <div class="text-2xl mb-1.5">🛌</div>
+                                <h4 class="font-kids text-sm text-purple-300 mb-1">벽에 붙어 잠자기</h4>
+                                <p>자다가 둥둥 떠내려가지 않도록 침낭을 벽에 단단히 고정해요!</p>
                             </div>
-                            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-700 text-center">
-                                <div class="text-3xl mb-2">🏃‍♂️</div>
-                                <h4 class="font-kids text-sm text-emerald-300 mb-1">매일 2시간 운동 필수</h4>
-                                <p>무중력에서는 뼈와 근육이 약해지기 때문에 러닝머신에 몸을 줄로 묶고 열심히 운동해야 해요.</p>
+                            <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-700 text-center flex flex-col justify-center">
+                                <div class="text-2xl mb-1.5">🏃‍♂️</div>
+                                <h4 class="font-kids text-sm text-emerald-300 mb-1">매일 2시간 운동</h4>
+                                <p>무중력에서 근육을 지키기 위해 러닝머신에 몸을 묶고 운동해요.</p>
                             </div>
                         </div>
                     </div>
