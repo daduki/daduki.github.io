@@ -189,11 +189,12 @@
         let touchStartedOnInteractive = false;
 
         const DINOS = [
-            { name: "티라노사우루스 (T-Rex)", period: "백악기 후기", length: 12, height: 4, weight: "8~9톤", diet: "육식", color: "#ef4444", feature: "30cm 바나나 크기 톱니 이빨과 5톤 치악력! 강력한 턱을 가진 백악기의 제왕" },
-            { name: "트리케라톱스", period: "백악기 후기", length: 9, height: 3, weight: "6~12톤", diet: "초식", color: "#f59e0b", feature: "얼굴에 솟은 3개의 날카로운 뿔과 목 뒤의 단단한 프릴로 티라노에 맞선 천하장사" },
-            { name: "브라키오사우루스", period: "쥐라기 후기", length: 25, height: 13, weight: "40톤", diet: "초식", color: "#10b981", feature: "기린처럼 앞다리가 뒷다리보다 길어서 아파트 4층 높이 나뭇잎을 뜯어먹은 거인" },
-            { name: "안킬로사우루스", period: "백악기 후기", length: 8, height: 1.7, weight: "6톤", diet: "초식", color: "#06b6d4", feature: "온몸이 단단한 골편 갑옷으로 덮여 있고 꼬리 끝에 뼈 곤봉 철퇴를 달고 다닌 살아있는 탱크" },
-            { name: "벨로키랍토르", period: "백악기 후기", length: 2, height: 0.5, weight: "15kg", diet: "육식", color: "#8b5cf6", feature: "영화보다 훨씬 작고 칠면조 크기에 깃털이 덮였던 민첩하고 지능 높은 사냥꾼" }
+            { name: "티라노사우루스 (T-Rex)", period: "백악기 후기", length: 12, height: 4, weight: "8~9톤", diet: "육식", color: "#ef4444", feature: "30cm 바나나 크기 톱니 이빨과 5톤 치악력! 강력한 턱을 가진 백악기의 제왕", img: "images/dinosaurs/tyrannosaurus.png" },
+            { name: "트리케라톱스", period: "백악기 후기", length: 9, height: 3, weight: "6~12톤", diet: "초식", color: "#f59e0b", feature: "얼굴에 솟은 3개의 날카로운 뿔과 목 뒤의 단단한 프릴로 티라노에 맞선 천하장사", img: "images/dinosaurs/triceratops.png" },
+            { name: "브라키오사우루스", period: "쥐라기 후기", length: 25, height: 13, weight: "40톤", diet: "초식", color: "#10b981", feature: "기린처럼 앞다리가 뒷다리보다 길어서 아파트 4층 높이 나뭇잎을 뜯어먹은 거인", img: "images/dinosaurs/brachiosaurus.png" },
+            { name: "안킬로사우루스", period: "백악기 후기", length: 8, height: 1.7, weight: "6톤", diet: "초식", color: "#06b6d4", feature: "온몸이 단단한 골편 갑옷으로 덮여 있고 꼬리 끝에 뼈 곤봉 철퇴를 달고 다닌 살아있는 탱크", img: "images/dinosaurs/ankylosaurus.png" },
+            { name: "벨로키랍토르", period: "백악기 후기", length: 2, height: 0.5, weight: "15kg", diet: "육식", color: "#8b5cf6", feature: "영화보다 훨씬 작고 칠면조 크기에 깃털이 덮였던 민첩하고 지능 높은 사냥꾼", img: "images/dinosaurs/velociraptor.jpg" },
+            { name: "스테고사우루스", period: "쥐라기 후기", length: 9, height: 4, weight: "5톤", diet: "초식", color: "#eab308", feature: "등에 솟은 17장의 오각형 골판과 꼬리 끝에 4개의 치명적인 가시(타고마이저)를 지닌 방어의 달인", img: "images/dinosaurs/stegosaurus.png" }
         ];
 
         const QUIZ_QUESTIONS = [
@@ -320,17 +321,28 @@
 
             if (currentSlide === 1) {
                 body.innerHTML = `
-                    <div class="text-center py-6">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-kids mb-4">
-                            <span>🦕 은찬이의 자연 탐험 1호</span> · <span>7~10세 초등 맞춤</span>
+                    <div class="text-center py-4">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-kids mb-3">
+                            <span>🦕 은찬이의 자연 탐험 1호</span> · <span>자연사 박물관 실물 화석 & 고화질 학술 일러스트</span>
                         </div>
-                        <h2 class="font-kids text-3xl md:text-5xl text-white mb-4 leading-tight">
+                        <h2 class="font-kids text-3xl md:text-4xl lg:text-5xl text-white mb-3 leading-tight">
                             거대한 거인들이 살았던 지구!<br>
                             <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-amber-300">공룡과 지구의 역사 대탐구</span> 🌿
                         </h2>
-                        <p class="text-slate-300 text-sm md:text-base max-w-2xl mx-auto leading-relaxed mb-6 font-sans">
+                        <div class="relative max-w-xl mx-auto mb-4 rounded-3xl overflow-hidden border border-emerald-500/30 shadow-2xl group">
+                            <img src="images/dinosaurs/dino-museum.jpg" alt="국립 자연사 박물관 공룡 골격 화석" class="w-full h-48 md:h-56 object-cover object-center group-hover:scale-105 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
+                            <div class="absolute bottom-3 left-4 right-4 flex items-center justify-between text-left">
+                                <div>
+                                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-500/80 text-slate-950 font-kids">실물 화석 탑재</span>
+                                    <p class="text-white text-xs font-kids mt-1">자연사 박물관 대형 공룡 골격 화석과 함께하는 생생한 탐험!</p>
+                                </div>
+                                <span class="text-xl">🏛️</span>
+                            </div>
+                        </div>
+                        <p class="text-slate-300 text-xs md:text-sm max-w-2xl mx-auto leading-relaxed mb-4 font-sans">
                             인간이 태어나기 훨씬 전, 1억 6천만 년 동안 지구를 지배했던 진짜 공룡들을 만나러 가요!<br>
-                            <strong>티라노사우루스</strong>의 바나나 이빨부터 <strong>트리케라톱스</strong>, 운석 충돌과 <strong>살아있는 공룡의 후예</strong>까지 신기한 비밀을 밝혀냅니다.
+                            <strong>티라노사우루스</strong>의 30cm 실물 바나나 이빨 화석부터 <strong>트리케라톱스</strong>, 운석 충돌과 <strong>살아있는 공룡의 후예</strong>까지 신기한 비밀을 밝혀냅니다.
                         </p>
                         <div class="flex flex-wrap items-center justify-center gap-3">
                             <button onclick="playSound('roar'); nextSlide();" class="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-kids text-base shadow-xl shadow-emerald-950 transition active:scale-95 flex items-center gap-2 font-bold">
@@ -397,31 +409,304 @@
                         </div>
                     </div>
                 `;
-            } else if (currentSlide >= 4 && currentSlide <= 10) {
-                // Dinosaurs individual slides
-                const dIdx = currentSlide === 10 ? 1 : (currentSlide >= 7 ? currentSlide - 5 : currentSlide - 4);
-                const d = DINOS[dIdx % DINOS.length];
+            } else if (currentSlide === 4) {
+                // Slide 4: Tyrannosaurus Rex
+                const d = DINOS[0];
                 body.innerHTML = `
                     <div>
                         <div class="flex items-center gap-3 mb-4">
-                            <span class="text-3xl">🦖</span>
+                            <span class="text-3xl">👑</span>
                             <div>
-                                <span class="text-xs font-bold text-emerald-400 font-kids">${d.period}</span>
+                                <span class="text-xs font-bold text-red-400 font-kids">${d.period} · 수각류 육식공룡</span>
                                 <h3 class="font-kids text-2xl text-white">${d.name}</h3>
                             </div>
                         </div>
                         <div class="grid md:grid-cols-2 gap-6 items-center">
-                            <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 text-center">
-                                <div class="text-7xl mb-4 py-4 filter drop-shadow-[0_10px_20px_rgba(16,185,129,0.3)]">
-                                    ${currentSlide === 4 ? '🦖' : (currentSlide === 6 ? '🦏' : (currentSlide === 7 ? '🦕' : '🦎'))}
+                            <div class="p-5 rounded-3xl bg-slate-900/90 border border-red-500/30 text-center shadow-xl relative overflow-hidden group">
+                                <div class="h-48 md:h-56 flex items-center justify-center p-2">
+                                    <img src="${d.img}" alt="${d.name} 복원도" class="max-h-full max-w-full object-contain filter drop-shadow-[0_12px_24px_rgba(239,68,68,0.35)] group-hover:scale-105 transition-transform duration-500">
                                 </div>
-                                <span class="text-xs font-kids px-3 py-1 rounded-full bg-slate-800 text-emerald-300 border border-slate-700">
-                                    식성: ${d.diet} 공룡
-                                </span>
+                                <div class="mt-2 flex items-center justify-between">
+                                    <span class="text-[11px] font-kids px-3 py-1 rounded-full bg-red-950/80 text-red-300 border border-red-500/30">
+                                        식성: ${d.diet}의 제왕
+                                    </span>
+                                    <span class="text-[10px] text-slate-400 font-kids">학술 정밀 복원도</span>
+                                </div>
                             </div>
                             <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300">
                                 <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
-                                    <strong class="text-emerald-300 font-kids text-sm block mb-1">🌟 핵심 특징</strong>
+                                    <strong class="text-red-400 font-kids text-sm block mb-1">🌟 제왕의 무시무시한 힘</strong>
+                                    ${d.feature}
+                                </div>
+                                <div class="grid grid-cols-3 gap-2 text-[11px] font-kids text-center">
+                                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+                                        <span class="text-slate-400 block">몸길이</span>
+                                        <span class="text-white text-xs">${d.length}m</span>
+                                    </div>
+                                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+                                        <span class="text-slate-400 block">키(높이)</span>
+                                        <span class="text-amber-300 text-xs">${d.height}m</span>
+                                    </div>
+                                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+                                        <span class="text-slate-400 block">몸무게</span>
+                                        <span class="text-sky-300 text-xs">${d.weight}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 5) {
+                // Slide 5: Banana tooth & bite force
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🍌</span>
+                            <div>
+                                <span class="text-xs font-bold text-amber-400 font-kids">실물 화석으로 확인하는 위력</span>
+                                <h3 class="font-kids text-2xl text-white">30cm 바나나 이빨 화석 & 5톤 치악력!</h3>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6 items-center">
+                            <div class="p-4 rounded-3xl bg-slate-900/90 border border-amber-500/30 text-center shadow-xl relative overflow-hidden group">
+                                <div class="h-48 md:h-56 rounded-2xl overflow-hidden flex items-center justify-center bg-black/40">
+                                    <img src="images/dinosaurs/trex-tooth.jpg" alt="티라노사우루스 이빨 실물 화석" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <div class="mt-2 flex items-center justify-between">
+                                    <span class="text-[11px] font-kids px-2.5 py-1 rounded-full bg-amber-950/80 text-amber-300 border border-amber-500/30">
+                                        박물관 소장 실제 치아 화석
+                                    </span>
+                                    <span class="text-[10px] text-slate-400 font-kids">길이 약 30cm</span>
+                                </div>
+                            </div>
+                            <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-amber-300 font-kids text-sm block mb-1">🍌 진짜 바나나만한 톱니 칼날!</strong>
+                                    티라노사우루스의 이빨은 잇몸 뿌리까지 합쳐 무려 30cm에 달했어요! 고기를 썰어내는 미세한 톱니가 양쪽에 박혀 있어 사냥감을 단단히 움켜쥐었답니다.
+                                </div>
+                                <div class="p-3.5 bg-rose-950/40 rounded-2xl border border-rose-500/30">
+                                    <strong class="text-rose-300 font-kids text-sm block mb-1">🐘 5톤 치악력: 코끼리 무게로 콰직!</strong>
+                                    턱으로 무는 힘이 약 5톤(50,000뉴턴)으로, 사자의 15배가 넘어요! 초식공룡의 두꺼운 다리뼈를 씹으면 한입에 가루처럼 부서졌어요.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 6) {
+                // Slide 6: Triceratops
+                const d = DINOS[1];
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🛡️</span>
+                            <div>
+                                <span class="text-xs font-bold text-amber-400 font-kids">${d.period} · 각룡류 초식공룡</span>
+                                <h3 class="font-kids text-2xl text-white">${d.name}</h3>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6 items-center">
+                            <div class="p-5 rounded-3xl bg-slate-900/90 border border-amber-500/30 text-center shadow-xl relative overflow-hidden group">
+                                <div class="h-48 md:h-56 flex items-center justify-center p-2">
+                                    <img src="${d.img}" alt="${d.name} 복원도" class="max-h-full max-w-full object-contain filter drop-shadow-[0_12px_24px_rgba(245,158,11,0.35)] group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <div class="mt-2 flex items-center justify-between">
+                                    <span class="text-[11px] font-kids px-3 py-1 rounded-full bg-amber-950/80 text-amber-300 border border-amber-500/30">
+                                        식성: ${d.diet} 공룡
+                                    </span>
+                                    <span class="text-[10px] text-slate-400 font-kids">학술 정밀 복원도</span>
+                                </div>
+                            </div>
+                            <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300">
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-amber-300 font-kids text-sm block mb-1">🌟 3개의 날카로운 창과 방패</strong>
+                                    ${d.feature}
+                                </div>
+                                <div class="grid grid-cols-3 gap-2 text-[11px] font-kids text-center">
+                                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+                                        <span class="text-slate-400 block">몸길이</span>
+                                        <span class="text-white text-xs">${d.length}m</span>
+                                    </div>
+                                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+                                        <span class="text-slate-400 block">키(높이)</span>
+                                        <span class="text-amber-300 text-xs">${d.height}m</span>
+                                    </div>
+                                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+                                        <span class="text-slate-400 block">몸무게</span>
+                                        <span class="text-sky-300 text-xs">${d.weight}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 7) {
+                // Slide 7: Brachiosaurus
+                const d = DINOS[2];
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🦕</span>
+                            <div>
+                                <span class="text-xs font-bold text-emerald-400 font-kids">${d.period} · 용각류 초식공룡</span>
+                                <h3 class="font-kids text-2xl text-white">${d.name}</h3>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6 items-center">
+                            <div class="p-5 rounded-3xl bg-slate-900/90 border border-emerald-500/30 text-center shadow-xl relative overflow-hidden group">
+                                <div class="h-48 md:h-56 flex items-center justify-center p-2">
+                                    <img src="${d.img}" alt="${d.name} 복원도" class="max-h-full max-w-full object-contain filter drop-shadow-[0_12px_24px_rgba(16,185,129,0.35)] group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <div class="mt-2 flex items-center justify-between">
+                                    <span class="text-[11px] font-kids px-3 py-1 rounded-full bg-emerald-950/80 text-emerald-300 border border-emerald-500/30">
+                                        식성: ${d.diet} 거인
+                                    </span>
+                                    <span class="text-[10px] text-slate-400 font-kids">학술 정밀 복원도</span>
+                                </div>
+                            </div>
+                            <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300">
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-emerald-300 font-kids text-sm block mb-1">🌟 아파트 4층 높이의 목</strong>
+                                    ${d.feature}
+                                </div>
+                                <div class="grid grid-cols-3 gap-2 text-[11px] font-kids text-center">
+                                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+                                        <span class="text-slate-400 block">몸길이</span>
+                                        <span class="text-white text-xs">${d.length}m</span>
+                                    </div>
+                                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+                                        <span class="text-slate-400 block">키(높이)</span>
+                                        <span class="text-amber-300 text-xs">${d.height}m</span>
+                                    </div>
+                                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+                                        <span class="text-slate-400 block">몸무게</span>
+                                        <span class="text-sky-300 text-xs">${d.weight}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 8) {
+                // Slide 8: Ankylosaurus
+                const d = DINOS[3];
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🔨</span>
+                            <div>
+                                <span class="text-xs font-bold text-cyan-400 font-kids">${d.period} · 곡룡류 초식공룡</span>
+                                <h3 class="font-kids text-2xl text-white">${d.name}</h3>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6 items-center">
+                            <div class="p-5 rounded-3xl bg-slate-900/90 border border-cyan-500/30 text-center shadow-xl relative overflow-hidden group">
+                                <div class="h-48 md:h-56 flex items-center justify-center p-2">
+                                    <img src="${d.img}" alt="${d.name} 복원도" class="max-h-full max-w-full object-contain filter drop-shadow-[0_12px_24px_rgba(6,182,212,0.35)] group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <div class="mt-2 flex items-center justify-between">
+                                    <span class="text-[11px] font-kids px-3 py-1 rounded-full bg-cyan-950/80 text-cyan-300 border border-cyan-500/30">
+                                        식성: ${d.diet} 장갑탱크
+                                    </span>
+                                    <span class="text-[10px] text-slate-400 font-kids">학술 정밀 복원도</span>
+                                </div>
+                            </div>
+                            <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300">
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-cyan-300 font-kids text-sm block mb-1">🌟 뼈 곤봉 꼬리 철퇴의 위력</strong>
+                                    ${d.feature}
+                                </div>
+                                <div class="grid grid-cols-3 gap-2 text-[11px] font-kids text-center">
+                                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+                                        <span class="text-slate-400 block">몸길이</span>
+                                        <span class="text-white text-xs">${d.length}m</span>
+                                    </div>
+                                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+                                        <span class="text-slate-400 block">키(높이)</span>
+                                        <span class="text-amber-300 text-xs">${d.height}m</span>
+                                    </div>
+                                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+                                        <span class="text-slate-400 block">몸무게</span>
+                                        <span class="text-sky-300 text-xs">${d.weight}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 9) {
+                // Slide 9: Velociraptor
+                const d = DINOS[4];
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🏃‍♂️</span>
+                            <div>
+                                <span class="text-xs font-bold text-purple-400 font-kids">${d.period} · 드로마에오사우루스류</span>
+                                <h3 class="font-kids text-2xl text-white">${d.name}</h3>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6 items-center">
+                            <div class="p-4 rounded-3xl bg-slate-900/90 border border-purple-500/30 text-center shadow-xl relative overflow-hidden group">
+                                <div class="h-48 md:h-56 rounded-2xl overflow-hidden flex items-center justify-center bg-slate-950">
+                                    <img src="${d.img}" alt="${d.name} 깃털 복원도" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <div class="mt-2 flex items-center justify-between">
+                                    <span class="text-[11px] font-kids px-3 py-1 rounded-full bg-purple-950/80 text-purple-300 border border-purple-500/30">
+                                        식성: ${d.diet} 깃털 사냥꾼
+                                    </span>
+                                    <span class="text-[10px] text-slate-400 font-kids">실제 깃털 학술 복원도</span>
+                                </div>
+                            </div>
+                            <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300">
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-purple-300 font-kids text-sm block mb-1">🌟 날카로운 갈고리 발톱과 높은 지능</strong>
+                                    ${d.feature}
+                                </div>
+                                <div class="grid grid-cols-3 gap-2 text-[11px] font-kids text-center">
+                                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+                                        <span class="text-slate-400 block">몸길이</span>
+                                        <span class="text-white text-xs">${d.length}m</span>
+                                    </div>
+                                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+                                        <span class="text-slate-400 block">키(높이)</span>
+                                        <span class="text-amber-300 text-xs">${d.height}m</span>
+                                    </div>
+                                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+                                        <span class="text-slate-400 block">몸무게</span>
+                                        <span class="text-sky-300 text-xs">${d.weight}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 10) {
+                // Slide 10: Stegosaurus
+                const d = DINOS[5];
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🛡️</span>
+                            <div>
+                                <span class="text-xs font-bold text-teal-400 font-kids">${d.period} · 검룡류 초식공룡</span>
+                                <h3 class="font-kids text-2xl text-white">${d.name}</h3>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6 items-center">
+                            <div class="p-5 rounded-3xl bg-slate-900/90 border border-teal-500/30 text-center shadow-xl relative overflow-hidden group">
+                                <div class="h-48 md:h-56 flex items-center justify-center p-2">
+                                    <img src="${d.img}" alt="${d.name} 복원도" class="max-h-full max-w-full object-contain filter drop-shadow-[0_12px_24px_rgba(20,184,166,0.35)] group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <div class="mt-2 flex items-center justify-between">
+                                    <span class="text-[11px] font-kids px-3 py-1 rounded-full bg-teal-950/80 text-teal-300 border border-teal-500/30">
+                                        식성: ${d.diet} 골판 공룡
+                                    </span>
+                                    <span class="text-[10px] text-slate-400 font-kids">학술 정밀 복원도</span>
+                                </div>
+                            </div>
+                            <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300">
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-teal-300 font-kids text-sm block mb-1">🌟 등에 솟은 17장의 골판과 꼬리 가시</strong>
                                     ${d.feature}
                                 </div>
                                 <div class="grid grid-cols-3 gap-2 text-[11px] font-kids text-center">
@@ -478,14 +763,25 @@
                                 <h3 class="font-kids text-2xl text-white">뼈가 돌이 된 신비한 '화석'의 비밀</h3>
                             </div>
                         </div>
-                        <div class="grid md:grid-cols-2 gap-4 text-xs font-sans text-slate-300">
-                            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-700 space-y-2">
-                                <strong class="text-amber-300 font-kids text-sm block">1. 흙과 모래에 묻혀요</strong>
-                                <p>공룡이 죽은 뒤 강이나 호수의 진흙 속에 빠르게 묻히면 살은 썩어 없어지고 뼈만 남아요.</p>
+                        <div class="grid md:grid-cols-2 gap-5 items-center">
+                            <div class="p-3 rounded-3xl bg-slate-900/90 border border-amber-500/30 overflow-hidden shadow-xl group">
+                                <div class="h-48 md:h-52 rounded-2xl overflow-hidden relative">
+                                    <img src="images/dinosaurs/fossil-skeleton.jpg" alt="자연사 박물관 공룡 골격 화석" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <div class="mt-2 flex items-center justify-between px-2">
+                                    <span class="text-[10px] text-amber-300 font-kids">자연사 박물관 전신 골격 화석</span>
+                                    <span class="text-[10px] text-slate-400 font-kids">수천만 년의 기적</span>
+                                </div>
                             </div>
-                            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-700 space-y-2">
-                                <strong class="text-emerald-300 font-kids text-sm block">2. 지하수의 미네랄이 스며들어요</strong>
-                                <p>수백만 년 동안 뼈의 미세한 구멍 속으로 지하수 속 광물질이 채워져 진짜 단단한 돌로 변한답니다!</p>
+                            <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300">
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700 space-y-1">
+                                    <strong class="text-amber-300 font-kids text-sm block">1. 흙과 모래에 빠르게 묻혀요</strong>
+                                    <p>공룡이 죽은 뒤 강이나 호수의 진흙 속에 공기와의 접촉 없이 빠르게 묻히면 살은 분해되고 단단한 뼈만 남아요.</p>
+                                </div>
+                                <div class="p-3.5 bg-emerald-950/40 rounded-2xl border border-emerald-500/30 space-y-1">
+                                    <strong class="text-emerald-300 font-kids text-sm block">2. 지하수의 미네랄이 스며들어 돌로 변신!</strong>
+                                    <p>수백만 년 동안 뼈의 미세한 구멍 속으로 지하수의 석영·방해석 같은 광물질이 채워져 진짜 단단한 돌로 재탄생한답니다!</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -500,13 +796,24 @@
                                 <h3 class="font-kids text-2xl text-white">하늘을 나는 프테라노돈은 공룡이 아니다?!</h3>
                             </div>
                         </div>
-                        <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
-                            <p>
-                                많은 친구들이 하늘을 나는 '프테라노돈'을 날아다니는 공룡이라고 생각하지만, 생물학적으로 공룡이 아니라 <strong>'익룡(하늘을 나는 파충류)'</strong>이에요!
-                            </p>
-                            <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
-                                <strong class="text-rose-300 font-kids text-sm block mb-1">📏 진짜 공룡의 과학적 정의!</strong>
-                                공룡은 도마뱀처럼 다리가 양옆으로 벌어진 것이 아니라, 사람이나 코끼리처럼 <strong>몸통 바로 아래로 다리가 수직으로 곧게 뻗은 육상 파충류</strong>만 공룡이라고 불러요!
+                        <div class="grid md:grid-cols-2 gap-5 items-center">
+                            <div class="p-4 rounded-3xl bg-slate-900/90 border border-rose-500/30 text-center shadow-xl group">
+                                <div class="h-48 md:h-52 flex items-center justify-center p-2 bg-slate-950/60 rounded-2xl">
+                                    <img src="images/dinosaurs/pteranodon.png" alt="프테라노돈 복원도" class="max-h-full max-w-full object-contain filter drop-shadow-[0_10px_20px_rgba(244,63,94,0.3)] group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <div class="mt-2 flex items-center justify-between px-1">
+                                    <span class="text-[10px] text-rose-300 font-kids">날개폭 7m 비행 파충류</span>
+                                    <span class="text-[10px] text-slate-400 font-kids">익룡 (Pterosaur)</span>
+                                </div>
+                            </div>
+                            <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
+                                <p>
+                                    많은 친구들이 하늘을 나는 '프테라노돈'을 날아다니는 공룡이라고 생각하지만, 생물학적으로 공룡이 아니라 <strong>'익룡(하늘을 나는 비행 파충류)'</strong>이에요!
+                                </p>
+                                <div class="p-3.5 bg-rose-950/40 rounded-2xl border border-rose-500/30">
+                                    <strong class="text-rose-300 font-kids text-sm block mb-1">📏 진짜 공룡의 과학적 정의!</strong>
+                                    공룡은 도마뱀처럼 다리가 양옆으로 꺾인 것이 아니라, 사람이나 코끼리처럼 <strong>몸통 바로 아래로 다리가 수직으로 곧게 뻗은 육상 파충류</strong>만 공룡이라고 불러요!
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -521,13 +828,24 @@
                                 <h3 class="font-kids text-2xl text-white">바다의 모사사우루스도 공룡이 아니에요!</h3>
                             </div>
                         </div>
-                        <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
-                            <p>
-                                영화에서 상어를 한입에 삼키던 바다 괴물 모사사우루스와 목이 긴 플레시오사우루스도 공룡이 아니라 <strong>'어룡 & 수장룡(바다에 살던 파충류)'</strong>이에요.
-                            </p>
-                            <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
-                                <strong class="text-sky-300 font-kids text-sm block mb-1">🌊 물속에 살던 거대 도마뱀 친척!</strong>
-                                모사사우루스는 오늘날의 왕도마뱀, 뱀과 훨씬 가까운 친척이며 지느러미로 헤엄쳤기 때문에 땅 위를 걷는 공룡 무리에 속하지 않는답니다!
+                        <div class="grid md:grid-cols-2 gap-5 items-center">
+                            <div class="p-3 rounded-3xl bg-slate-900/90 border border-sky-500/30 overflow-hidden shadow-xl group">
+                                <div class="h-48 md:h-52 rounded-2xl overflow-hidden relative">
+                                    <img src="images/dinosaurs/mosasaurus.jpg" alt="모사사우루스 해양 복원도" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <div class="mt-2 flex items-center justify-between px-2">
+                                    <span class="text-[10px] text-sky-300 font-kids">길이 17m 바다의 포식자</span>
+                                    <span class="text-[10px] text-slate-400 font-kids">해양 수장 파충류</span>
+                                </div>
+                            </div>
+                            <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
+                                <p>
+                                    영화에서 상어를 한입에 삼키던 거대 바다 괴물 모사사우루스와 플레시오사우루스도 공룡이 아니라 <strong>'어룡 & 수장룡(바다 파충류)'</strong>이에요.
+                                </p>
+                                <div class="p-3.5 bg-sky-950/40 rounded-2xl border border-sky-500/30">
+                                    <strong class="text-sky-300 font-kids text-sm block mb-1">🌊 물속에 살던 왕도마뱀의 사촌!</strong>
+                                    모사사우루스는 오늘날의 왕도마뱀, 뱀과 훨씬 가까운 친척이며 지느러미로 헤엄쳤기 때문에 육지를 걷는 공룡 무리에 속하지 않는답니다!
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -542,13 +860,24 @@
                                 <h3 class="font-kids text-2xl text-white">돌멩이를 꿀꺽 삼킨 거인들 (위석)</h3>
                             </div>
                         </div>
-                        <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
-                            <p>
-                                브라키오사우루스 같은 목 긴 초식공룡들은 거친 솔잎과 나뭇가지를 이빨로 꼭꼭 씹지 않고 통째로 삼켰어요!
-                            </p>
-                            <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
-                                <strong class="text-emerald-300 font-kids text-sm block mb-1">🪨 뱃속의 믹서기 '위석(Gastrolith)'</strong>
-                                공룡들은 둥근 자갈돌을 삼켜서 위장 속에 넣어두었어요. 뱃속에서 돌멩이들이 서로 부딪히며 거친 나뭇잎을 맷돌처럼 곱게 갈아주었답니다! 오늘날의 닭과 비둘기도 모래주머니에 모래알을 넣어 똑같이 소화해요.
+                        <div class="grid md:grid-cols-2 gap-5 items-center">
+                            <div class="p-3 rounded-3xl bg-slate-900/90 border border-emerald-500/30 overflow-hidden shadow-xl group">
+                                <div class="h-48 md:h-52 rounded-2xl overflow-hidden relative bg-black/40 flex items-center justify-center">
+                                    <img src="images/dinosaurs/gastrolith.jpg" alt="공룡 위석 실물 화석" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <div class="mt-2 flex items-center justify-between px-2">
+                                    <span class="text-[10px] text-emerald-300 font-kids">공룡 뱃속에서 발견된 실제 자갈 화석</span>
+                                    <span class="text-[10px] text-slate-400 font-kids">위석 (Gastrolith)</span>
+                                </div>
+                            </div>
+                            <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
+                                <p>
+                                    브라키오사우루스 같은 목 긴 초식공룡들은 거친 솔잎과 나뭇가지를 이빨로 꼭꼭 씹지 않고 통째로 삼켰어요!
+                                </p>
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-emerald-300 font-kids text-sm block mb-1">🪨 뱃속의 믹서기 '위석(Gastrolith)'</strong>
+                                    공룡들은 매끄러운 자갈돌을 삼켜서 위장 속에 넣어두었어요. 뱃속에서 돌멩이들이 서로 부딪히며 거친 나뭇잎을 맷돌처럼 곱게 갈아주었답니다! 오늘날의 닭과 비둘기도 모래주머니에 모래알을 넣어 똑같이 소화해요.
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -563,14 +892,25 @@
                                 <h3 class="font-kids text-2xl text-white">거대 운석 충돌과 공룡들의 작별</h3>
                             </div>
                         </div>
-                        <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
-                            <div class="p-3.5 bg-rose-950/40 rounded-2xl border border-rose-500/30">
-                                <strong class="text-rose-300 font-kids text-sm block mb-1">💥 멕시코 유카탄 반도의 쾅!</strong>
-                                지름 10km의 거대한 소행성이 시속 수만 km로 지구에 충돌했어요. 원자폭탄 수억 개에 맞먹는 폭발로 거대한 먼지구름이 하늘을 뒤덮었어요.
+                        <div class="grid md:grid-cols-2 gap-5 items-center">
+                            <div class="p-3 rounded-3xl bg-slate-900/90 border border-rose-500/30 overflow-hidden shadow-xl group">
+                                <div class="h-48 md:h-52 rounded-2xl overflow-hidden relative">
+                                    <img src="images/dinosaurs/asteroid-impact.jpg" alt="소행성 지구 충돌 일러스트" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <div class="mt-2 flex items-center justify-between px-2">
+                                    <span class="text-[10px] text-rose-300 font-kids">지름 10km 소행성의 유카탄 반도 충돌</span>
+                                    <span class="text-[10px] text-slate-400 font-kids">대멸종 시뮬레이션</span>
+                                </div>
                             </div>
-                            <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
-                                <strong class="text-amber-300 font-kids text-sm block mb-1">❄️ 햇빛이 사라진 길고 추운 겨울</strong>
-                                햇빛이 수년간 차단되어 식물들이 말라 죽고, 먹이가 사라지자 몸집이 거대했던 공룡들은 결국 살아남지 못했답니다.
+                            <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
+                                <div class="p-3.5 bg-rose-950/40 rounded-2xl border border-rose-500/30">
+                                    <strong class="text-rose-300 font-kids text-sm block mb-1">💥 멕시코 유카탄 반도의 쾅!</strong>
+                                    지름 10km의 거대한 소행성이 시속 수만 km로 지구에 충돌했어요. 원자폭탄 수억 개에 맞먹는 폭발로 거대한 먼지구름과 재가 하늘 전체를 덮었어요.
+                                </div>
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                                    <strong class="text-amber-300 font-kids text-sm block mb-1">❄️ 햇빛이 사라진 길고 추운 겨울</strong>
+                                    햇빛이 수년간 차단되어 식물들이 말라 죽고 먹이 피라미드가 무너지자, 몸집이 거대했던 비조류 공룡들은 결국 작별을 고했답니다.
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -585,13 +925,24 @@
                                 <h3 class="font-kids text-2xl text-white">공룡은 멸종하지 않았다?! 참새와 닭!</h3>
                             </div>
                         </div>
-                        <div class="p-6 rounded-3xl bg-slate-900/90 border border-slate-700 space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
-                            <p>
-                                우리가 매일 창밖에서 보는 귀여운 <strong>참새, 비둘기, 그리고 맛있는 닭</strong>은 놀랍게도 <strong>살아남은 소형 육식공룡(수각류)의 직계 후손</strong>이에요!
-                            </p>
-                            <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
-                                <strong class="text-emerald-300 font-kids text-sm block mb-1">🪶 깃털 달린 공룡들의 변신</strong>
-                                운석 충돌 당시 따뜻한 깃털을 지니고 몸집이 작아 적은 먹이로도 견딜 수 있었던 날아다니는 깃털 공룡들이 살아남아 오늘날 1만 종이 넘는 '새(조류)'가 되었답니다!
+                        <div class="grid md:grid-cols-2 gap-5 items-center">
+                            <div class="p-3 rounded-3xl bg-slate-900/90 border border-amber-500/30 overflow-hidden shadow-xl group">
+                                <div class="h-48 md:h-52 rounded-2xl overflow-hidden relative bg-black/50 flex items-center justify-center">
+                                    <img src="images/dinosaurs/archaeopteryx.jpg" alt="베를린 박물관 소장 시조새 실물 화석" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <div class="mt-2 flex items-center justify-between px-2">
+                                    <span class="text-[10px] text-amber-300 font-kids">공룡과 새를 잇는 시조새(Archaeopteryx) 화석</span>
+                                    <span class="text-[10px] text-slate-400 font-kids">베를린 자연사 박물관 소장</span>
+                                </div>
+                            </div>
+                            <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
+                                <p>
+                                    우리가 매일 창밖에서 보는 귀여운 <strong>참새, 비둘기, 그리고 맛있는 닭</strong>은 놀랍게도 <strong>살아남은 소형 깃털 육식공룡(수각류)의 직계 후손</strong>이에요!
+                                </p>
+                                <div class="p-3.5 bg-emerald-950/40 rounded-2xl border border-emerald-500/30">
+                                    <strong class="text-emerald-300 font-kids text-sm block mb-1">🪶 깃털 달린 공룡들의 변신</strong>
+                                    운석 충돌 당시 따뜻한 깃털을 지니고 몸집이 작아 적은 먹이로도 견딜 수 있었던 깃털 공룡들이 살아남아 오늘날 1만 종이 넘는 '새(조류)'가 되었답니다!
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -606,14 +957,25 @@
                                 <h3 class="font-kids text-2xl text-white">우리나라에도 공룡이 살았을까요?</h3>
                             </div>
                         </div>
-                        <div class="grid sm:grid-cols-2 gap-4 text-xs font-sans text-slate-300">
-                            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-700 space-y-2">
-                                <strong class="text-sky-300 font-kids text-sm block">🌊 경남 고성 공룡 발자국</strong>
-                                <p>세계 3대 공룡 발자국 화석지 중 하나로, 거대한 초식공룡과 익룡들이 해안가를 쿵쿵 걸어간 수천 개의 발자국이 선명하게 남아 있어요!</p>
+                        <div class="grid md:grid-cols-2 gap-5 items-center">
+                            <div class="p-3 rounded-3xl bg-slate-900/90 border border-sky-500/30 overflow-hidden shadow-xl group">
+                                <div class="h-48 md:h-52 rounded-2xl overflow-hidden relative">
+                                    <img src="images/dinosaurs/footprints.jpg" alt="해안 암반에 보존된 공룡 발자국 보행렬 화석" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <div class="mt-2 flex items-center justify-between px-2">
+                                    <span class="text-[10px] text-sky-300 font-kids">암반에 선명하게 남은 거대 공룡 보행렬</span>
+                                    <span class="text-[10px] text-slate-400 font-kids">실물 지질 화석</span>
+                                </div>
                             </div>
-                            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-700 space-y-2">
-                                <strong class="text-emerald-300 font-kids text-sm block">🥚 전남 해남 우항리 화석지</strong>
-                                <p>공룡 발자국과 함께 익룡 발자국, 새 발자국이 한 갯벌 층에서 세계 최초로 동시에 발견된 세계적인 유적지랍니다!</p>
+                            <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300 leading-relaxed">
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700 space-y-1">
+                                    <strong class="text-sky-300 font-kids text-sm block">🌊 경남 고성 덕명리 공룡 발자국</strong>
+                                    <p>세계 3대 공룡 발자국 화석지 중 하나로, 거대한 초식공룡과 익룡들이 해안가를 쿵쿵 걸어간 수천 개의 발자국이 선명하게 남아 있어요!</p>
+                                </div>
+                                <div class="p-3.5 bg-emerald-950/40 rounded-2xl border border-emerald-500/30 space-y-1">
+                                    <strong class="text-emerald-300 font-kids text-sm block">🥚 전남 해남 우항리 화석지</strong>
+                                    <p>공룡 발자국과 함께 익룡 발자국, 새 발자국이 한 갯벌 층에서 세계 최초로 동시에 발견된 세계적인 유적지랍니다!</p>
+                                </div>
                             </div>
                         </div>
                     </div>
