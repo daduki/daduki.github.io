@@ -1,0 +1,1887 @@
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>왜 비행기가 바로 직진해서 가지 않나요? | 지도에서는 알 수 없는 둥근 지구의 진실 2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script src="js/d3.min.js"></script>
+    <script src="js/topojson-client.min.js"></script>
+    <script src="js/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                        kids: ['"Jua"', 'cursive', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .font-kids { font-family: 'Jua', cursive, sans-serif; }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.88);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .globe-canvas, .mercator-canvas {
+            display: block;
+            border-radius: 1rem;
+            cursor: grab;
+        }
+        .globe-canvas:active { cursor: grabbing; }
+        @keyframes softGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(56, 189, 248, 0.7); }
+        }
+        .glow-sky { animation: softGlow 2.5s infinite ease-in-out; }
+        .slide-fade { transition: opacity 0.35s ease, transform 0.35s ease; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans flex flex-col justify-between selection:bg-sky-500 selection:text-white">
+
+    <!-- Top Navigation -->
+    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="eunchan-study.html" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition flex items-center gap-1.5 text-xs font-semibold">
+                    <i class="fa-solid fa-arrow-left"></i> 공부방 홈
+                </a>
+                <div>
+                    <h1 class="font-kids text-base md:text-lg text-sky-400 flex items-center gap-2">
+                        <span>✈️ 둥근 지구의 진실 2</span>
+                        <span class="text-[11px] font-sans px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30">대권항로 탐험</span>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Slide progress & Sound/Read toggles -->
+            <div class="flex items-center gap-2 md:gap-3">
+                <div class="flex items-center gap-1 bg-slate-800/80 px-2.5 py-1 rounded-full border border-slate-700 text-xs">
+                    <i class="fa-solid fa-layer-group text-sky-400"></i>
+                    <span id="slideIndicator" class="font-kids text-sky-400 text-sm font-bold">1</span>
+                    <span class="text-slate-400 font-kids text-xs">/ 22</span>
+                </div>
+                <button id="ttsBtn" onclick="toggleReadOutLoud()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 hover:text-amber-300 transition text-xs font-semibold" title="친절한 목소리로 읽어주기">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+                <button onclick="toggleIndexDrawer()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-xs font-semibold" title="전체 목차">
+                    <i class="fa-solid fa-list-ol"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Top Progress Bar -->
+        <div class="w-full bg-slate-800 h-1.5 overflow-hidden">
+            <div id="topProgressBar" class="bg-gradient-to-r from-sky-500 via-teal-400 to-emerald-400 h-full transition-all duration-300" style="width: 4.5%"></div>
+        </div>
+    </header>
+
+    <!-- Main Slide Stage -->
+    <main class="flex-grow flex items-center justify-center px-3 md:px-6 py-6 max-w-5xl mx-auto w-full">
+        <div id="slideCard" class="w-full glass-card rounded-3xl p-5 md:p-8 border border-white/10 shadow-2xl relative overflow-hidden min-h-[580px] flex flex-col justify-between">
+            <!-- Slide Content Injected Dynamically -->
+            <div id="slideBody" class="slide-fade flex-grow flex flex-col justify-center"></div>
+
+            <!-- Slide Bottom Controls -->
+            <div class="pt-6 border-t border-white/10 flex items-center justify-between mt-4">
+                <button id="prevBtn" onclick="prevSlide()" class="px-5 py-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:pointer-events-none text-slate-200 font-kids text-sm flex items-center gap-2 transition">
+                    <i class="fa-solid fa-arrow-left"></i> 이전장
+                </button>
+                
+                <div class="flex items-center gap-1.5 overflow-x-auto max-w-[200px] md:max-w-[400px] py-1" id="dotsContainer">
+                    <!-- Dots generated in JS -->
+                </div>
+
+                <button id="nextBtn" onclick="nextSlide()" class="px-6 py-2.5 rounded-2xl bg-sky-600 hover:bg-sky-500 text-white font-kids text-sm flex items-center gap-2 shadow-lg shadow-sky-900/40 transition">
+                    다음장 <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Slide Index Drawer -->
+    <div id="indexDrawer" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex justify-end">
+        <div class="bg-slate-900 border-l border-slate-700 w-full max-w-md h-full p-6 overflow-y-auto flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-4">
+                    <h3 class="font-kids text-lg text-sky-400">📖 전체 22개 슬라이드 목차</h3>
+                    <button onclick="toggleIndexDrawer()" class="text-slate-400 hover:text-white text-xl">✕</button>
+                </div>
+                <div class="space-y-1.5" id="drawerList"></div>
+            </div>
+            <button onclick="toggleIndexDrawer()" class="w-full py-3 mt-4 bg-slate-800 text-slate-300 rounded-xl font-kids text-sm">닫기</button>
+        </div>
+    </div>
+
+    <!-- Audio Synthesizer -->
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, now);
+                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1);
+                osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                osc.start(now);
+                osc.stop(now + 0.5);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.exponentialRampToValueAtTime(140, now + 0.25);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'pop') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(350, now);
+                osc.frequency.exponentialRampToValueAtTime(620, now + 0.08);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                osc.start(now);
+                osc.stop(now + 0.1);
+            } else if (type === 'fanfare') {
+                [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+                    const o = audioCtx.createOscillator();
+                    const g = audioCtx.createGain();
+                    o.connect(g);
+                    g.connect(audioCtx.destination);
+                    o.type = 'triangle';
+                    o.frequency.setValueAtTime(freq, now + i * 0.12);
+                    g.gain.setValueAtTime(0.18, now + i * 0.12);
+                    g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.12 + 0.4);
+                    o.start(now + i * 0.12);
+                    o.stop(now + i * 0.12 + 0.4);
+                });
+            }
+        }
+    </script>
+
+    <!-- Spherical Math & Core Flight Route Engine -->
+    <script>
+        // Great-Circle Spherical Interpolation (SLERP)
+        function slerp(p0, p1, t) {
+            const toRad = Math.PI / 180;
+            const toDeg = 180 / Math.PI;
+            const lon0 = p0[0] * toRad, lat0 = p0[1] * toRad;
+            const lon1 = p1[0] * toRad, lat1 = p1[1] * toRad;
+
+            const v0 = [Math.cos(lat0) * Math.cos(lon0), Math.cos(lat0) * Math.sin(lon0), Math.sin(lat0)];
+            const v1 = [Math.cos(lat1) * Math.cos(lon1), Math.cos(lat1) * Math.sin(lon1), Math.sin(lat1)];
+
+            let dot = v0[0]*v1[0] + v0[1]*v1[1] + v0[2]*v1[2];
+            dot = Math.max(-1, Math.min(1, dot));
+            const omega = Math.acos(dot);
+            if (Math.abs(omega) < 1e-6) return p0;
+
+            const sinOmega = Math.sin(omega);
+            const s0 = Math.sin((1 - t) * omega) / sinOmega;
+            const s1 = Math.sin(t * omega) / sinOmega;
+
+            const x = s0 * v0[0] + s1 * v1[0];
+            const y = s0 * v0[1] + s1 * v1[1];
+            const z = s0 * v0[2] + s1 * v1[2];
+
+            const lat = Math.atan2(z, Math.sqrt(x*x + y*y)) * toDeg;
+            const lon = Math.atan2(y, x) * toDeg;
+            return [lon, lat];
+        }
+
+        // Great-Circle distance in km
+        function gcDistance(p0, p1) {
+            const toRad = Math.PI / 180;
+            const dLat = (p1[1] - p0[1]) * toRad;
+            const dLon = (p1[0] - p0[0]) * toRad;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(p0[1] * toRad) * Math.cos(p1[1] * toRad) *
+                      Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return Math.round(6371 * c);
+        }
+
+        // Normalize longitude to [-180, 180]
+        function normLon(lon) {
+            let l = lon % 360;
+            if (l > 180) l -= 360;
+            if (l < -180) l += 360;
+            return l;
+        }
+
+        // Generate N points along great circle
+        function generateGreatCirclePoints(p0, p1, steps = 80) {
+            const pts = [];
+            for (let i = 0; i <= steps; i++) {
+                pts.push(slerp(p0, p1, i / steps));
+            }
+            return pts;
+        }
+
+        // Generate points for planar straight line across cylinder
+        function getPlanarPoints(p0, p1, steps = 80) {
+            let lon0 = p0[0], lat0 = p0[1];
+            let lon1 = p1[0], lat1 = p1[1];
+            let dLon = lon1 - lon0;
+            if (dLon > 180) dLon -= 360;
+            if (dLon < -180) dLon += 360;
+            const pts = [];
+            for (let i = 0; i <= steps; i++) {
+                const t = i / steps;
+                let lon = normLon(lon0 + dLon * t);
+                let lat = lat0 + (lat1 - lat0) * t;
+                pts.push([lon, lat]);
+            }
+            return pts;
+        }
+
+        // Split coordinates across rotated antimeridian seam so lines never erratically cross screen
+        function splitByRotatedAntimeridian(points, rotLon) {
+            const segments = [];
+            let current = [];
+            for (let i = 0; i < points.length; i++) {
+                const pt = points[i];
+                const rotX = normLon(pt[0] + rotLon);
+                if (current.length === 0) {
+                    current.push(pt);
+                } else {
+                    const prev = current[current.length - 1];
+                    const prevRotX = normLon(prev[0] + rotLon);
+                    if (Math.abs(rotX - prevRotX) > 180) {
+                        segments.push(current);
+                        current = [pt];
+                    } else {
+                        current.push(pt);
+                    }
+                }
+            }
+            if (current.length > 0) segments.push(current);
+            return segments;
+        }
+
+        // Split coordinates across static 180 antimeridian
+        function splitAntimeridian(points) {
+            return splitByRotatedAntimeridian(points, 0);
+        }
+
+        // 3 Key Routes Data
+        const ROUTES_DATA = {
+            icn_jfk: {
+                id: 'icn_jfk',
+                title: '1. 대한민국 인천 ⇄ 미국 뉴욕',
+                p0: [126.44, 37.46], // ICN
+                p1: [-73.78, 40.64], // JFK
+                name0: '인천 (ICN)',
+                name1: '뉴욕 (JFK)',
+                flag0: 'kr',
+                flag1: 'us',
+                centerLonLat: [-170, 65],
+                distanceKm: 11050,
+                flatIllusionDistanceKm: 13500, // apparent detour
+                savedKm: 2450,
+                savedHours: '약 2시간 30분 단축',
+                flatIllusionText: '태평양을 오른쪽으로 곧게 가로지르는 수평선이 가장 빨라 보입니다.',
+                trueRouteText: '이륙 후 북동쪽으로 캄차카반도, 알래스카 북극권, 캐나다 북부를 거쳐 내려오는 경로가 지구본 위의 완벽한 최단 직선입니다!',
+                keyWaypoints: ['캄차카 반도', '베링 해협', '알래스카 북극권', '캐나다 허드슨만']
+            },
+            jfk_lhr: {
+                id: 'jfk_lhr',
+                title: '2. 미국 뉴욕 ⇄ 영국 런던',
+                p0: [-73.78, 40.64], // JFK
+                p1: [-0.45, 51.47],  // LHR
+                name0: '뉴욕 (JFK)',
+                name1: '런던 (LHR)',
+                flag0: 'us',
+                flag1: 'ca', // flag
+                centerLonLat: [-40, 52],
+                distanceKm: 5560,
+                flatIllusionDistanceKm: 6600,
+                savedKm: 1040,
+                savedHours: '약 1시간 15분 단축',
+                flatIllusionText: '뉴욕과 런던의 위도가 비슷해 보여 대서양을 가로로 곧게 건너는 것이 가장 빨라 보입니다.',
+                trueRouteText: '북쪽으로 크게 포물선을 그리며 캐나다 뉴펀들랜드, 그린란드 남단, 아이슬란드를 스치듯 지나오는 경로가 최단 거리입니다!',
+                keyWaypoints: ['뉴펀들랜드', '그린란드 남단', '아이슬란드 상공', '스코틀랜드']
+            },
+            scl_syd: {
+                id: 'scl_syd',
+                title: '3. 칠레 산티아고 ⇄ 호주 시드니',
+                p0: [-70.79, -33.39], // SCL
+                p1: [151.17, -33.95], // SYD
+                name0: '산티아고 (SCL)',
+                name1: '시드니 (SYD)',
+                flag0: 'ar', // nearby flag
+                flag1: 'au',
+                centerLonLat: [-140, -60],
+                distanceKm: 11340,
+                flatIllusionDistanceKm: 14800,
+                savedKm: 3460,
+                savedHours: '약 3시간 30분 단축',
+                flatIllusionText: '지도에서 두 도시는 남태평양 바다 한가운데를 일직선으로 통과하는 것이 가장 가까워 보입니다.',
+                trueRouteText: '남태평양 바다 한가운데가 아닌, 남쪽으로 크게 내려가 남극 대륙 가장자리(고위도 남극해)를 스치듯 지나 호주로 올라옵니다!',
+                keyWaypoints: ['남극해', '남극 대륙 가장자리', '태즈메이니아 해', '남극 얼음 바다']
+            }
+        };
+
+        // Slide State
+        let currentSlide = 1;
+        const totalSlides = 22;
+        let worldFeatures = null;
+        let worldTopology = null;
+
+        // Quizzes state
+        let quizAnswers = {
+            route1: null,
+            route2: null,
+            route3: null,
+            final1: null,
+            final2: null,
+            final3: null
+        };
+
+        // Load TopoJSON
+        fetch('data/world-110m.json')
+            .then(res => res.json())
+            .then(topo => {
+                worldTopology = topo;
+                worldFeatures = topojson.feature(topo, topo.objects.countries);
+                renderSlide();
+            })
+            .catch(err => {
+                console.error("Local world data error, fallback to CDN:", err);
+                fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
+                    .then(r => r.json())
+                    .then(topo => {
+                        worldTopology = topo;
+                        worldFeatures = topojson.feature(topo, topo.objects.countries);
+                        renderSlide();
+                    });
+            });
+
+        function updateProgress() {
+            document.getElementById('slideIndicator').textContent = currentSlide;
+            const pct = (currentSlide / totalSlides) * 100;
+            document.getElementById('topProgressBar').style.width = pct + '%';
+            document.getElementById('prevBtn').disabled = (currentSlide === 1);
+            document.getElementById('nextBtn').disabled = (currentSlide === totalSlides);
+
+            const dotsCont = document.getElementById('dotsContainer');
+            dotsCont.innerHTML = '';
+            for (let i = 1; i <= totalSlides; i++) {
+                const dot = document.createElement('button');
+                dot.className = `w-2 h-2 rounded-full transition-all flex-shrink-0 ${i === currentSlide ? 'w-5 bg-sky-400' : 'bg-slate-700 hover:bg-slate-500'}`;
+                dot.onclick = () => goToSlide(i);
+                dotsCont.appendChild(dot);
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                playSound('pop');
+                currentSlide++;
+                renderSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                playSound('pop');
+                currentSlide--;
+                renderSlide();
+            }
+        }
+
+        function goToSlide(n) {
+            playSound('pop');
+            currentSlide = n;
+            renderSlide();
+            const drawer = document.getElementById('indexDrawer');
+            if (!drawer.classList.contains('hidden')) drawer.classList.add('hidden');
+        }
+
+        function toggleIndexDrawer() {
+            const drawer = document.getElementById('indexDrawer');
+            drawer.classList.toggle('hidden');
+            if (!drawer.classList.contains('hidden')) {
+                const list = document.getElementById('drawerList');
+                list.innerHTML = '';
+                const titles = [
+                    "01. ✈️ 표지: 왜 비행기는 직진하지 않을까?",
+                    "02. 🛫 도입 1: 비행기 안 모니터의 수수께끼",
+                    "03. 🧶 도입 2: 지구본과 팽팽한 실 실험",
+                    "04. 🧭 도입 3: 마법의 선 '대권항로'",
+                    "05. 🇰🇷🇺🇸 항로 1: [인천 ⇄ 뉴욕] 태평양 vs 북극",
+                    "06. 🗺️ 항로 1: 평면 지도의 거대한 착각",
+                    "07. 🌐 항로 1: 3D 지구본의 진짜 최단 직선",
+                    "08. ⏱️ 항로 1: 2,400km와 2시간 단축의 기적",
+                    "09. ❓ 퀴즈 1: 인천-뉴욕 비행기가 지나는 곳은?",
+                    "10. 🇺🇸🇬🇧 항로 2: [뉴욕 ⇄ 런던] 대서양 횡단",
+                    "11. 🗺️ 항로 2: 평면 지도의 가로선 착각",
+                    "12. 🌐 항로 2: 3D 지구본의 그린란드·아이슬란드 길",
+                    "13. 💡 항로 2: 왜 북쪽으로 올라갈수록 가까울까?",
+                    "14. ❓ 퀴즈 2: 뉴욕-런던 비행기가 지나는 거대 섬은?",
+                    "15. 🇨🇱🇦🇺 항로 3: [산티아고 ⇄ 시드니] 남반구의 비밀",
+                    "16. 🗺️ 항로 3: 남태평양 직진의 착각",
+                    "17. 🌐 항로 3: 3D 지구본의 남극해 비행로",
+                    "18. 🐧 항로 3: 펭귄의 얼음 바다를 스쳐가는 감동",
+                    "19. ❓ 퀴즈 3: 산티아고-시드니 비행기가 향하는 곳은?",
+                    "20. 📑 3대 비행항로 총정리 인포그래픽",
+                    "21. 🎯 실전 종합 퀴즈 대도전",
+                    "22. 🏆 비행 항로 마스터 배지 수여"
+                ];
+                titles.forEach((t, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = `w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between transition ${idx + 1 === currentSlide ? 'bg-sky-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}`;
+                    btn.textContent = t;
+                    btn.onclick = () => goToSlide(idx + 1);
+                    list.appendChild(btn);
+                });
+            }
+        }
+
+        // Draw 3D Globe with Great Circle Flight Arc
+        function drawFlightGlobe(canvas, route, customRotation = null) {
+            if (!worldFeatures) return;
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            const radius = Math.min(width, height) / 2 - 14;
+
+            const initialRot = customRotation || [-route.centerLonLat[0], -route.centerLonLat[1], 0];
+            let rotation = [...initialRot];
+
+            const projection = d3.geoOrthographic()
+                .scale(radius * 1.05)
+                .translate([width / 2, height / 2])
+                .rotate(rotation)
+                .clipAngle(90);
+
+            const path = d3.geoPath().projection(projection).context(ctx);
+            const gcPoints = generateGreatCirclePoints(route.p0, route.p1, 80);
+
+            function render(airplaneT = 0.5) {
+                ctx.clearRect(0, 0, width, height);
+
+                // Ocean background
+                ctx.beginPath();
+                ctx.arc(width / 2, height / 2, radius, 0, 2 * Math.PI);
+                const grad = ctx.createRadialGradient(width / 2 - radius * 0.3, height / 2 - radius * 0.3, radius * 0.1, width / 2, height / 2, radius);
+                grad.addColorStop(0, '#1e293b');
+                grad.addColorStop(1, '#080e1a');
+                ctx.fillStyle = grad;
+                ctx.fill();
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = '#38bdf8';
+                ctx.stroke();
+
+                // Graticules
+                ctx.beginPath();
+                path(d3.geoGraticule10());
+                ctx.lineWidth = 0.5;
+                ctx.strokeStyle = 'rgba(56, 189, 248, 0.18)';
+                ctx.stroke();
+
+                // Continents
+                worldFeatures.features.forEach(f => {
+                    ctx.beginPath();
+                    path(f);
+                    ctx.fillStyle = '#334155';
+                    ctx.fill();
+                    ctx.lineWidth = 0.5;
+                    ctx.strokeStyle = '#1e293b';
+                    ctx.stroke();
+                });
+
+                // Flight Great Circle Line
+                const lineGeo = { type: "LineString", coordinates: gcPoints };
+                ctx.beginPath();
+                path(lineGeo);
+                ctx.lineWidth = 3.5;
+                ctx.strokeStyle = '#10b981'; // Glowing emerald flight path
+                ctx.stroke();
+
+                // Glowing Dash Line overlay
+                ctx.setLineDash([4, 4]);
+                ctx.beginPath();
+                path(lineGeo);
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = '#6ee7b7';
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Start & End City Pins
+                [route.p0, route.p1].forEach((pt, idx) => {
+                    const projected = projection(pt);
+                    if (projected && !isNaN(projected[0])) {
+                        // Check if on visible hemisphere
+                        const rot = projection.rotate();
+                        const pRot = d3.geoRotation(rot)(pt);
+                        if (pRot[0] >= -90 && pRot[0] <= 90) {
+                            ctx.beginPath();
+                            ctx.arc(projected[0], projected[1], 5.5, 0, 2 * Math.PI);
+                            ctx.fillStyle = idx === 0 ? '#38bdf8' : '#f43f5e';
+                            ctx.fill();
+                            ctx.lineWidth = 2;
+                            ctx.strokeStyle = '#ffffff';
+                            ctx.stroke();
+                        }
+                    }
+                });
+
+                // Moving Airplane along route
+                const planePos = slerp(route.p0, route.p1, airplaneT);
+                const planeProj = projection(planePos);
+                if (planeProj && !isNaN(planeProj[0])) {
+                    const rot = projection.rotate();
+                    const pRot = d3.geoRotation(rot)(planePos);
+                    if (pRot[0] >= -90 && pRot[0] <= 90) {
+                        ctx.font = '16px sans-serif';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText('✈️', planeProj[0], planeProj[1]);
+                    }
+                }
+
+                // Atmosphere rim shadow
+                ctx.beginPath();
+                ctx.arc(width / 2, height / 2, radius, 0, 2 * Math.PI);
+                const rimGrad = ctx.createRadialGradient(width / 2, height / 2, radius * 0.75, width / 2, height / 2, radius);
+                rimGrad.addColorStop(0, 'rgba(0,0,0,0)');
+                rimGrad.addColorStop(1, 'rgba(0,0,0,0.55)');
+                ctx.fillStyle = rimGrad;
+                ctx.fill();
+            }
+
+            render();
+
+            // 3D Globe Dragging interaction (Guarded to prevent slide navigation)
+            canvas.style.touchAction = 'none';
+            canvas.style.cursor = 'grab';
+            let dragging = false;
+            let lastPos = [0, 0];
+            function onDown(e) {
+                dragging = true;
+                isInteractingWithMap = true;
+                touchStartedOnInteractive = true;
+                canvas.style.cursor = 'grabbing';
+                lastPos = [e.clientX || (e.touches && e.touches[0].clientX), e.clientY || (e.touches && e.touches[0].clientY)];
+                if (e.cancelable) e.preventDefault();
+                e.stopPropagation();
+            }
+            function onMove(e) {
+                if (!dragging) return;
+                isInteractingWithMap = true;
+                const x = e.clientX || (e.touches && e.touches[0].clientX);
+                const y = e.clientY || (e.touches && e.touches[0].clientY);
+                const dx = x - lastPos[0];
+                const dy = y - lastPos[1];
+                lastPos = [x, y];
+                rotation[0] += dx * 0.4;
+                rotation[1] = Math.max(-85, Math.min(85, rotation[1] - dy * 0.4));
+                projection.rotate(rotation);
+                render();
+                if (e.cancelable) e.preventDefault();
+            }
+            function onUp() {
+                dragging = false;
+                canvas.style.cursor = 'grab';
+                setTimeout(() => { isInteractingWithMap = false; }, 120);
+            }
+
+            if (!canvas._hasGlobeDragListeners) {
+                canvas._hasGlobeDragListeners = true;
+                canvas.addEventListener('mousedown', onDown);
+                window.addEventListener('mousemove', onMove);
+                window.addEventListener('mouseup', onUp);
+                canvas.addEventListener('touchstart', onDown, { passive: false });
+                window.addEventListener('touchmove', onMove, { passive: false });
+                window.addEventListener('touchend', onUp);
+            }
+        }
+
+        // Global interaction flag to prevent swipe navigation while dragging maps
+        let isInteractingWithMap = false;
+        let touchStartedOnInteractive = false;
+
+        // Draw 2D Mercator Map Comparing Flat Line vs True Great Circle
+        // Features real-time horizontal drag-to-pan & seamless continuous line rendering
+        function drawFlightMercator(canvas, route, customRot = null) {
+            if (!worldFeatures) return;
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+
+            if (customRot !== null) {
+                canvas._rotLon = customRot;
+            } else if (canvas._rotLon === undefined) {
+                // Optimal initial centering for each route so it is unified
+                if (route.id === 'icn_jfk') canvas._rotLon = -160; // Pacific center (Incheon to NY continuous)
+                else if (route.id === 'jfk_lhr') canvas._rotLon = 30; // Atlantic center (NY to London continuous)
+                else if (route.id === 'scl_syd') canvas._rotLon = 140; // South Pacific center (Santiago to Sydney continuous)
+                else canvas._rotLon = -160;
+            }
+
+            const projection = d3.geoMercator()
+                .scale(width / (2 * Math.PI) * 0.95)
+                .translate([width / 2, height / 2 + 18])
+                .rotate([canvas._rotLon, 0]);
+
+            const path = d3.geoPath().projection(projection).context(ctx);
+
+            ctx.clearRect(0, 0, width, height);
+
+            // Ocean background
+            ctx.fillStyle = '#09111e';
+            ctx.fillRect(0, 0, width, height);
+
+            // Graticules (Latitude & Longitude grid)
+            ctx.beginPath();
+            path(d3.geoGraticule10());
+            ctx.lineWidth = 0.5;
+            ctx.strokeStyle = 'rgba(56, 189, 248, 0.12)';
+            ctx.stroke();
+
+            // Equator (Full 360 circle)
+            const equator = d3.geoCircle().center([0, 90]).radius(90)();
+            ctx.beginPath();
+            path(equator);
+            ctx.lineWidth = 0.8;
+            ctx.strokeStyle = 'rgba(244, 63, 94, 0.35)';
+            ctx.stroke();
+
+            // Continents
+            worldFeatures.features.forEach(f => {
+                ctx.beginPath();
+                path(f);
+                ctx.fillStyle = '#1e293b';
+                ctx.fill();
+                ctx.lineWidth = 0.5;
+                ctx.strokeStyle = '#334155';
+                ctx.stroke();
+            });
+
+            // 1. Fake Planar Line (주황색 점선 - 평면 지도의 착각 속 직선)
+            const planarPoints = getPlanarPoints(route.p0, route.p1, 80);
+            const planarSegments = splitByRotatedAntimeridian(planarPoints, canvas._rotLon);
+            planarSegments.forEach(seg => {
+                ctx.beginPath();
+                seg.forEach((pt, i) => {
+                    const proj = projection(pt);
+                    if (proj) {
+                        if (i === 0) ctx.moveTo(proj[0], proj[1]);
+                        else ctx.lineTo(proj[0], proj[1]);
+                    }
+                });
+                ctx.setLineDash([5, 5]);
+                ctx.lineWidth = 2.5;
+                ctx.strokeStyle = '#f59e0b'; // Amber dashed
+                ctx.stroke();
+                ctx.setLineDash([]);
+            });
+
+            // 2. True Great Circle (초록색 실선 - 실제 둥근 지구 최단 대권항로)
+            const gcPoints = generateGreatCirclePoints(route.p0, route.p1, 100);
+            const gcSegments = splitByRotatedAntimeridian(gcPoints, canvas._rotLon);
+            gcSegments.forEach(seg => {
+                ctx.beginPath();
+                seg.forEach((pt, i) => {
+                    const proj = projection(pt);
+                    if (proj) {
+                        if (i === 0) ctx.moveTo(proj[0], proj[1]);
+                        else ctx.lineTo(proj[0], proj[1]);
+                    }
+                });
+                ctx.lineWidth = 3.2;
+                ctx.strokeStyle = '#10b981'; // Emerald solid
+                ctx.stroke();
+            });
+
+            // City Pins & Name Tags
+            [
+                { pt: route.p0, name: route.name0.split(' ')[0], color: '#38bdf8' },
+                { pt: route.p1, name: route.name1.split(' ')[0], color: '#f43f5e' }
+            ].forEach(item => {
+                const projected = projection(item.pt);
+                if (projected && projected[0] >= -10 && projected[0] <= width + 10) {
+                    ctx.beginPath();
+                    ctx.arc(projected[0], projected[1], 4.5, 0, 2 * Math.PI);
+                    ctx.fillStyle = item.color;
+                    ctx.fill();
+                    ctx.lineWidth = 1.5;
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.stroke();
+
+                    ctx.font = 'bold 11px sans-serif';
+                    ctx.fillStyle = '#ffffff';
+                    ctx.shadowColor = 'rgba(0,0,0,0.8)';
+                    ctx.shadowBlur = 4;
+                    ctx.fillText(item.name, projected[0] + 6, projected[1] - 4);
+                    ctx.shadowBlur = 0;
+                }
+            });
+
+            // Real-time status indicator on canvas
+            ctx.save();
+            ctx.font = 'bold 10px sans-serif';
+            if (gcSegments.length === 1) {
+                ctx.fillStyle = 'rgba(16, 185, 129, 0.95)';
+                ctx.fillText('🟢 경로가 하나의 선으로 연결됨', 8, 16);
+            } else {
+                ctx.fillStyle = 'rgba(245, 158, 11, 0.95)';
+                ctx.fillText('🟡 지도 양끝 분할됨 (좌우 드래그로 중앙 이동)', 8, 16);
+            }
+            ctx.fillStyle = 'rgba(148, 163, 184, 0.7)';
+            ctx.fillText('↔️ 좌우 드래그 가능', width - 88, 16);
+            ctx.restore();
+
+            // Drag to Pan/Rotate 2D Mercator Map horizontally
+            if (!canvas._hasMercatorDragListeners) {
+                canvas._hasMercatorDragListeners = true;
+                canvas.style.touchAction = 'none';
+                canvas.style.cursor = 'grab';
+                let mDragging = false;
+                let startX = 0;
+
+                function onMDown(e) {
+                    mDragging = true;
+                    isInteractingWithMap = true;
+                    touchStartedOnInteractive = true;
+                    canvas.style.cursor = 'grabbing';
+                    startX = e.clientX || (e.touches && e.touches[0].clientX);
+                    if (e.cancelable) e.preventDefault();
+                    e.stopPropagation();
+                }
+
+                function onMMove(e) {
+                    if (!mDragging) return;
+                    isInteractingWithMap = true;
+                    const x = e.clientX || (e.touches && e.touches[0].clientX);
+                    const dx = x - startX;
+                    startX = x;
+                    canvas._rotLon = normLon(canvas._rotLon + dx * 0.45);
+                    drawFlightMercator(canvas, route);
+                    if (e.cancelable) e.preventDefault();
+                }
+
+                function onMUp() {
+                    mDragging = false;
+                    canvas.style.cursor = 'grab';
+                    setTimeout(() => { isInteractingWithMap = false; }, 120);
+                }
+
+                canvas.addEventListener('mousedown', onMDown);
+                window.addEventListener('mousemove', onMMove);
+                window.addEventListener('mouseup', onMUp);
+                canvas.addEventListener('touchstart', onMDown, { passive: false });
+                window.addEventListener('touchmove', onMMove, { passive: false });
+                window.addEventListener('touchend', onMUp);
+            }
+        }
+
+        // Global Helper for quick map center switching
+        function setMercatorCenter(canvasId, rotLon, routeId) {
+            const c = document.getElementById(canvasId);
+            if (c && ROUTES_DATA[routeId]) {
+                drawFlightMercator(c, ROUTES_DATA[routeId], rotLon);
+            }
+        }
+
+        // Render Slides
+        function renderSlide() {
+            updateProgress();
+            const body = document.getElementById('slideBody');
+            body.innerHTML = '';
+
+            // SLIDE 1: Cover
+            if (currentSlide === 1) {
+                body.innerHTML = `
+                    <div class="text-center py-4">
+                        <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 text-xs font-bold mb-4 font-kids">
+                            <span>🎒 은찬이의 공부방</span> · <span>지리 탐험 2호</span>
+                        </div>
+                        <h2 class="font-kids text-3xl md:text-5xl text-white mb-4 leading-tight">
+                            왜 비행기가 바로<br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-teal-300 to-emerald-400">직진해서 가지 않나요?</span> ✈️
+                        </h2>
+                        <p class="text-slate-300 text-sm md:text-base max-w-xl mx-auto leading-relaxed mb-8">
+                            비행기 안 좌석 모니터에서 비행기 항로가 <span class="text-amber-400 font-bold">둥근 활처럼 휘어져</span> 날아가는 걸 본 적 있나요?<br>
+                            평면 지도에서는 멀리 돌아가는 것처럼 보이지만, <span class="text-sky-400 font-bold">사실은 그것이 세상에서 가장 빠른 최단 직선</span>이라는 놀라운 비밀!<br>
+                            둥근 지구의 마법 같은 <strong>대권항로(Great Circle Route)</strong> 3대 항로를 함께 파헤쳐봐요!
+                        </p>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3 max-w-lg mx-auto mb-8 text-xs font-kids">
+                            <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 text-slate-300">
+                                <span class="text-xl block mb-1">🇰🇷✈️🇺🇸</span> 인천 ⇄ 뉴욕 항로
+                            </div>
+                            <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 text-slate-300">
+                                <span class="text-xl block mb-1">🇺🇸✈️🇬🇧</span> 뉴욕 ⇄ 런던 항로
+                            </div>
+                            <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 text-slate-300">
+                                <span class="text-xl block mb-1">🇨🇱✈️🇦🇺</span> 산티아고 ⇄ 시드니
+                            </div>
+                        </div>
+                        <button onclick="nextSlide()" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-sky-500 to-teal-500 hover:from-sky-400 hover:to-teal-400 text-slate-950 font-kids text-lg shadow-xl shadow-sky-900/40 transition-transform active:scale-95 inline-flex items-center gap-2">
+                            <span>신나는 비행기 항로 탐험 시작하기 🚀</span>
+                        </button>
+                    </div>
+                `;
+            }
+
+            // SLIDE 2: Airplane Monitor Mystery
+            else if (currentSlide === 2) {
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 font-kids">도입 1 · 모니터의 수수께끼</span>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                                비행기 좌석 모니터 속<br>
+                                <span class="text-amber-400">휘어진 비행 경로!</span> 🛫
+                            </h3>
+                            <div class="space-y-3 text-slate-300 text-sm leading-relaxed">
+                                <p class="bg-slate-900/90 p-4 rounded-2xl border border-white/5">
+                                    비행기를 타고 멀리 해외여행을 갈 때 앞좌석 화면을 켜면 비행기가 날아가는 지도가 나와요.
+                                </p>
+                                <p class="p-4 bg-amber-950/20 border border-amber-500/30 rounded-2xl text-amber-200">
+                                    🤔 "어? 서울에서 미국으로 가는데 비행기가 오른쪽으로 곧게 안 가고, <strong>북쪽 위로 둥글게 활처럼 휘어서 날아가네?</strong> 기름도 아깝게 왜 멀리 돌아갈까?"
+                                </p>
+                                <p class="text-xs text-slate-400">
+                                    많은 어른들도 "혹시 전쟁 위험 지역을 피하려고 돌아가나?" 하고 오해한답니다!
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-6 bg-slate-900/90 rounded-3xl border border-slate-800 text-center">
+                            <div class="w-full max-w-xs bg-slate-950 p-4 rounded-2xl border-4 border-slate-700 shadow-2xl relative">
+                                <div class="flex justify-between items-center text-[10px] text-slate-400 pb-2 border-b border-slate-800">
+                                    <span>FLIGHT SCREEN</span>
+                                    <span class="text-emerald-400 font-bold">ALT 10,500m</span>
+                                </div>
+                                <div class="py-8 relative flex items-center justify-center">
+                                    <svg viewBox="0 0 200 100" class="w-full h-24">
+                                        <path d="M 20 80 Q 100 15 180 80" fill="none" stroke="#38bdf8" stroke-width="3" stroke-dasharray="4,4"/>
+                                        <circle cx="20" cy="80" r="5" fill="#38bdf8"/>
+                                        <text x="15" y="95" fill="#94a3b8" font-size="10" font-family="sans-serif">인천</text>
+                                        <circle cx="180" cy="80" r="5" fill="#f43f5e"/>
+                                        <text x="165" y="95" fill="#94a3b8" font-size="10" font-family="sans-serif">뉴욕</text>
+                                        <text x="92" y="32" font-size="16">✈️</text>
+                                    </svg>
+                                </div>
+                                <div class="text-[11px] font-kids text-amber-400 bg-amber-950/40 p-2 rounded-xl border border-amber-500/20">
+                                    "왜 똑바로 안 가고 위로 둥글게 돌아갈까?"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // SLIDE 3: Globe & Thread Experiment
+            else if (currentSlide === 3) {
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-kids">도입 2 · 신기한 실험</span>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                                둥근 지구본에 실을 대고<br>
+                                <span class="text-emerald-400">팽팽하게 당겨보면?</span> 🧶
+                            </h3>
+                            <div class="space-y-3 text-slate-300 text-sm leading-relaxed">
+                                <p class="bg-slate-900/90 p-4 rounded-2xl border border-white/5">
+                                    집에 있는 둥근 지구본에 실 한 가닥을 올려놓고, 서울과 뉴욕에 양 끝을 붙인 다음 <strong>실을 팽팽하게 꽉 당겨보세요!</strong>
+                                </p>
+                                <p class="p-4 bg-emerald-950/20 border border-emerald-500/30 rounded-2xl text-emerald-200">
+                                    💡 <strong>실이 저절로 북쪽(알래스카와 북극 근처)으로 슥 올라가요!</strong><br>
+                                    둥근 공 모양에서는 위쪽으로 올라가는 길이 실제로는 <strong>가장 짧은 최단거리 직선</strong>이기 때문이에요!
+                                </p>
+                                <p class="text-xs text-slate-400">
+                                    평면 종이 지도에서만 휘어져 보일 뿐, 실제 둥근 우주에서 보면 가장 곧게 뻗은 길인 것이죠!
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-6 bg-slate-900/90 rounded-3xl border border-slate-800 text-center">
+                            <div class="w-48 h-48 rounded-full bg-gradient-to-tr from-sky-800 to-slate-900 border-2 border-sky-400/50 shadow-2xl relative flex items-center justify-center">
+                                <div class="text-6xl">🌐</div>
+                                <!-- Thread overlay -->
+                                <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+                                    <path d="M 25 45 Q 50 18 75 42" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round"/>
+                                    <circle cx="25" cy="45" r="3" fill="#38bdf8"/>
+                                    <circle cx="75" cy="42" r="3" fill="#f43f5e"/>
+                                    <text x="46" y="22" font-size="10">✈️</text>
+                                </svg>
+                            </div>
+                            <p class="text-xs text-emerald-400 mt-4 font-kids">
+                                "실을 가장 세게 팽팽히 당긴 선 = 비행기가 날아가는 길!"
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // SLIDE 4: Great Circle Concept
+            else if (currentSlide === 4) {
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 font-kids">도입 3 · 핵심 개념</span>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                                마법의 지름길,<br>
+                                <span class="text-sky-400">'대권항로(Great Circle)'</span>란? 🧭
+                            </h3>
+                            <div class="space-y-3 text-slate-300 text-sm leading-relaxed">
+                                <p class="bg-slate-900/90 p-4 rounded-2xl border border-white/5">
+                                    수박을 칼로 정중앙을 지나도록 반으로 자르면 단면이 가장 큰 동그라미가 되지요?
+                                </p>
+                                <div class="p-4 bg-sky-950/20 border border-sky-500/30 rounded-2xl space-y-2">
+                                    <p class="text-xs font-bold text-sky-300">🌍 지구 중심을 지나는 가장 큰 원!</p>
+                                    <p class="text-xs text-slate-300">
+                                        둥근 지구 표면의 두 점을 이을 때, <strong>지구 중심을 통과하는 거대한 원의 호</strong>를 따라가는 길을 <strong>대권항로(Great Circle Route)</strong>라고 불러요.
+                                    </p>
+                                </div>
+                                <p class="text-xs text-slate-400">
+                                    비행기는 기름을 아끼고 손님들이 가장 빨리 도착하도록 무조건 이 대권항로를 따라서 날아간답니다!
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-6 bg-slate-900/90 rounded-3xl border border-slate-800 text-center">
+                            <div class="space-y-3 w-full max-w-xs text-xs font-kids">
+                                <div class="p-4 bg-slate-950 rounded-2xl border border-rose-500/30 text-rose-300">
+                                    ❌ 평면 지도의 가짜 직선<br>
+                                    <span class="text-[11px] font-sans text-slate-400 font-normal">지구본에서 보면 엄청나게 멀리 돌아가는 길</span>
+                                </div>
+                                <div class="text-xl text-slate-500">VS</div>
+                                <div class="p-4 bg-emerald-950/40 rounded-2xl border border-emerald-500/40 text-emerald-300">
+                                    ⭕ 실제 지구본의 대권항로<br>
+                                    <span class="text-[11px] font-sans text-slate-300 font-normal">거리도 가장 짧고, 시간도 수 시간 단축!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // SLIDE 5: Route 1 Intro (Incheon to New York)
+            else if (currentSlide === 5) {
+                const r = ROUTES_DATA.icn_jfk;
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-kids">대표 항로 1</span>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                                대한민국 인천 ⇄ 미국 뉴욕<br>
+                                <span class="text-emerald-400">태평양을 건너지 않는다고?!</span> 🇰🇷🇺🇸
+                            </h3>
+                            <div class="space-y-3 text-slate-300 text-sm leading-relaxed">
+                                <p class="bg-slate-900/90 p-4 rounded-2xl border border-white/5">
+                                    인천국제공항에서 출발해 미국 최대 도시 뉴욕(JFK)으로 가는 비행기예요.
+                                </p>
+                                <div class="grid grid-cols-2 gap-3 pt-1 font-kids">
+                                    <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 text-center">
+                                        <span class="text-xs text-slate-400 block">출발지</span>
+                                        <span class="text-white text-base">인천 (ICN) 🇰🇷</span>
+                                    </div>
+                                    <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 text-center">
+                                        <span class="text-xs text-slate-400 block">도착지</span>
+                                        <span class="text-white text-base">뉴욕 (JFK) 🇺🇸</span>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-slate-300 p-3 bg-emerald-950/20 rounded-xl border border-emerald-500/30">
+                                    평면 지도로 보면 태평양 한가운데를 가로질러 하와이 옆으로 슝 지나가는 게 가장 빨라 보이지요? 다음 장에서 진짜 길을 확인해보세요!
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-4 bg-slate-900/90 rounded-3xl border border-slate-800">
+                            <canvas id="route1Mercator" width="380" height="220" class="rounded-xl border border-slate-700"></canvas>
+                            <div class="flex items-center justify-between w-full mt-2.5 px-1 text-[11px] font-kids">
+                                <span class="text-sky-300 flex items-center gap-1">
+                                    <i class="fa-solid fa-arrows-left-right animate-pulse"></i> 2D 지도 좌우 드래그 가능
+                                </span>
+                                <div class="flex items-center gap-1.5">
+                                    <button onclick="setMercatorCenter('route1Mercator', -160, 'icn_jfk')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 transition active:scale-95">태평양 중심</button>
+                                    <button onclick="setMercatorCenter('route1Mercator', 30, 'icn_jfk')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-teal-300 border border-slate-700 transition active:scale-95">대서양 중심</button>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4 mt-2 text-xs font-kids">
+                                <span class="text-amber-400">--- 주황 점선: 지도 속 가짜 직선</span>
+                                <span class="text-emerald-400">── 초록 실선: 실제 대권항로</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                setTimeout(() => {
+                    const c = document.getElementById('route1Mercator');
+                    if (c) drawFlightMercator(c, r);
+                }, 50);
+            }
+
+            // SLIDE 6: Route 1 Flat Illusion
+            else if (currentSlide === 6) {
+                const r = ROUTES_DATA.icn_jfk;
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30 font-kids">항로 1 · 평면 지도의 착각</span>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                                평면 지도에서는 왜<br>
+                                <span class="text-rose-400">위로 돌아가는 것처럼</span> 보일까? 🗺️
+                            </h3>
+                            <div class="space-y-3 text-slate-300 text-sm leading-relaxed">
+                                <p class="bg-slate-900/90 p-4 rounded-2xl border border-white/5">
+                                    우리가 1편에서 배웠던 메르카토르 지도의 비밀을 떠올려보세요! 북극에 가까울수록 땅과 바다가 풍선처럼 엄청나게 커졌지요?
+                                </p>
+                                <p class="p-4 bg-rose-950/20 border border-rose-500/30 rounded-2xl text-rose-200">
+                                    🚨 <strong>북극 근처가 뻥튀기되어 있어서,</strong><br>
+                                    북쪽으로 올라간 비행기 경로가 평면 지도에서는 엄청나게 위로 불룩 솟구쳐 멀리 돌아가는 것처럼 왜곡되는 것이에요!
+                                </p>
+                                <p class="text-xs text-slate-400">
+                                    하지만 실제로는 북쪽으로 갈수록 지구 둘레가 작아져서 훨씬 짧은 지름길이 된답니다!
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-4 bg-slate-900/90 rounded-3xl border border-slate-800">
+                            <canvas id="route1Mercator2" width="380" height="220" class="rounded-xl border border-slate-700"></canvas>
+                            <div class="flex items-center justify-between w-full mt-2.5 px-1 text-[11px] font-kids">
+                                <span class="text-sky-300 flex items-center gap-1">
+                                    <i class="fa-solid fa-arrows-left-right animate-pulse"></i> 2D 지도 좌우 드래그 가능
+                                </span>
+                                <div class="flex items-center gap-1.5">
+                                    <button onclick="setMercatorCenter('route1Mercator2', -160, 'icn_jfk')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 transition active:scale-95">태평양 중심</button>
+                                    <button onclick="setMercatorCenter('route1Mercator2', 30, 'icn_jfk')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-teal-300 border border-slate-700 transition active:scale-95">대서양 중심</button>
+                                </div>
+                            </div>
+                            <p class="text-[11px] text-slate-400 mt-2 font-kids text-center">
+                                북극이 양옆으로 찢어져 늘어났기 때문에 초록색 최단 항로가 활처럼 휜 모양이 돼요!
+                            </p>
+                        </div>
+                    </div>
+                `;
+                setTimeout(() => {
+                    const c = document.getElementById('route1Mercator2');
+                    if (c) drawFlightMercator(c, r);
+                }, 50);
+            }
+
+            // SLIDE 7: Route 1 3D Globe Reality
+            else if (currentSlide === 7) {
+                const r = ROUTES_DATA.icn_jfk;
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-kids">항로 1 · 3D 지구본의 진실</span>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                                3D 지구본에서 보면...<br>
+                                <span class="text-emerald-400">소름 돋을 만큼 완벽한 직선!</span> 🌐
+                            </h3>
+                            <div class="space-y-3 text-slate-300 text-sm leading-relaxed">
+                                <p class="bg-slate-900/90 p-4 rounded-2xl border border-white/5">
+                                    오른쪽의 3D 둥근 지구본을 보세요! 비행기가 북동쪽으로 캄차카반도와 알래스카, 캐나다를 통과하는 모습이 자를 대고 그은 것처럼 <strong>완벽한 일직선</strong>이지요?
+                                </p>
+                                <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 space-y-1.5 text-xs font-kids">
+                                    <div class="text-emerald-400">✈️ 비행기가 지나는 실제 경로:</div>
+                                    <div class="text-slate-300 flex items-center gap-2">
+                                        <span>인천</span> ➔ <span>러시아 캄차카</span> ➔ <span>알래스카 북극권</span> ➔ <span>캐나다</span> ➔ <span>뉴욕</span>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-slate-400">
+                                    태평양 한가운데를 건너는 것보다 이 북극 인근 경로가 거리를 <strong>약 2,450km나 단축</strong>해 줍니다!
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-4 bg-slate-900/90 rounded-3xl border border-slate-800 text-center">
+                            <span class="text-xs font-kids text-sky-400 mb-2">3D 둥근 지구본 속 최단 직선 항로</span>
+                            <canvas id="route1Globe" width="280" height="280" class="globe-canvas border border-slate-700 glow-sky mb-2"></canvas>
+                            <p class="text-[11px] text-slate-400 font-kids">
+                                👆 손가락이나 마우스로 돌려서 북극 위에서 내려다보세요!
+                            </p>
+                        </div>
+                    </div>
+                `;
+                setTimeout(() => {
+                    const c = document.getElementById('route1Globe');
+                    if (c) drawFlightGlobe(c, r);
+                }, 50);
+            }
+
+            // SLIDE 8: Route 1 Time & Fuel Savings
+            else if (currentSlide === 8) {
+                const r = ROUTES_DATA.icn_jfk;
+                body.innerHTML = `
+                    <div class="text-center max-w-2xl mx-auto py-2">
+                        <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-kids">항로 1 핵심 요약</span>
+                        <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                            2,450km 단축! 비행기 2시간 30분의 기적 ⏱️
+                        </h3>
+                        <p class="text-slate-300 text-sm mb-6 leading-relaxed">
+                            만약 지도의 직선만 믿고 태평양을 가로질렀다면 무슨 일이 벌어졌을까요?
+                        </p>
+                        <div class="grid md:grid-cols-3 gap-4 text-left mb-6">
+                            <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-800">
+                                <div class="text-2xl mb-2">📏</div>
+                                <h4 class="font-kids text-sm text-sky-400 mb-1">거리 단축</h4>
+                                <p class="text-xs text-slate-400">약 13,500km에서 <strong>11,050km</strong>로 무려 2,450km나 줄어들어요!</p>
+                            </div>
+                            <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-800">
+                                <div class="text-2xl mb-2">⏰</div>
+                                <h4 class="font-kids text-sm text-amber-400 mb-1">시간 절약</h4>
+                                <p class="text-xs text-slate-400">승객들이 비행기 안에 갇혀 있는 시간을 <strong>2시간 반 이상</strong> 아껴줘요.</p>
+                            </div>
+                            <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-800">
+                                <div class="text-2xl mb-2">⛽</div>
+                                <h4 class="font-kids text-sm text-emerald-400 mb-1">항공유 절약</h4>
+                                <p class="text-xs text-slate-400">수만 리터의 기름을 절약해 탄소 배출도 줄이고 지구도 지켜요!</p>
+                            </div>
+                        </div>
+                        <div class="p-3 bg-slate-900/60 rounded-xl border border-white/5 text-xs text-slate-300">
+                            💡 이제 인천 ⇄ 뉴욕 항로를 복습하는 퀴즈를 풀어볼까요?
+                        </div>
+                    </div>
+                `;
+            }
+
+            // SLIDE 9: Quiz 1 (Incheon to New York)
+            else if (currentSlide === 9) {
+                const ans = quizAnswers.route1;
+                body.innerHTML = `
+                    <div class="max-w-xl mx-auto text-center py-4">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 text-xs font-bold mb-3 font-kids">
+                            <span>❓ 복습 퀴즈 1</span> · <span>인천 ⇄ 뉴욕 항로</span>
+                        </div>
+                        <h3 class="font-kids text-2xl md:text-3xl text-white mb-4 leading-relaxed">
+                            한국(인천)에서 미국(뉴욕)으로 날아갈 때,<br>
+                            <span class="text-purple-400">실제로 비행기가 통과하는 지름길</span>은 어디일까요?
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-6">3D 지구본에서 본 진짜 직선 항로를 기억해보세요!</p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-md mx-auto mb-6">
+                            <button onclick="answerRouteQuiz('route1', 'alaska')" class="p-5 rounded-2xl font-kids text-sm md:text-base flex items-center justify-center gap-3 transition-all active:scale-95 ${ans === 'alaska' ? 'bg-emerald-600 text-white ring-4 ring-emerald-400' : 'bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700'}">
+                                <span>🏔️ 1. 캄차카와 알래스카 북극권</span>
+                            </button>
+                            <button onclick="answerRouteQuiz('route1', 'hawaii')" class="p-5 rounded-2xl font-kids text-sm md:text-base flex items-center justify-center gap-3 transition-all active:scale-95 ${ans === 'hawaii' ? 'bg-rose-600 text-white ring-4 ring-rose-400' : 'bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700'}">
+                                <span>🏖️ 2. 하와이 옆 태평양 한가운데</span>
+                            </button>
+                        </div>
+
+                        <div id="qRoute1Feedback" class="min-h-[70px] flex items-center justify-center">
+                            ${ans === 'alaska' ? `
+                                <div class="p-4 rounded-2xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 text-sm font-kids animate-pop">
+                                    🎉 정답이에요! 딩동댕!<br>
+                                    <span class="text-xs font-sans text-slate-300 font-normal">비행기는 북동쪽으로 알래스카와 캐나다 북부를 거쳐 가야 진짜 최단 직선이 돼요!</span>
+                                </div>
+                            ` : (ans === 'hawaii' ? `
+                                <div class="p-4 rounded-2xl bg-rose-950/60 border border-rose-500/40 text-rose-300 text-sm font-kids animate-pop">
+                                    💡 앗! 평면 지도의 착시에 속았어요!<br>
+                                    <span class="text-xs font-sans text-slate-300 font-normal">태평양 한가운데로 가면 2,450km나 더 멀리 돌아가게 된답니다!</span>
+                                </div>
+                            ` : '')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // SLIDE 10: Route 2 Intro (New York to London)
+            else if (currentSlide === 10) {
+                const r = ROUTES_DATA.jfk_lhr;
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 font-kids">대표 항로 2</span>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                                미국 뉴욕 ⇄ 영국 런던<br>
+                                <span class="text-sky-400">대서양을 똑바로 가로지를까?</span> 🇺🇸🇬🇧
+                            </h3>
+                            <div class="space-y-3 text-slate-300 text-sm leading-relaxed">
+                                <p class="bg-slate-900/90 p-4 rounded-2xl border border-white/5">
+                                    미국 뉴욕(북위 40도)과 영국 런던(북위 51도)은 지도에서 보면 비슷한 높이(위도)에 있는 것처럼 보여요.
+                                </p>
+                                <div class="grid grid-cols-2 gap-3 pt-1 font-kids">
+                                    <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 text-center">
+                                        <span class="text-xs text-slate-400 block">출발지</span>
+                                        <span class="text-white text-base">뉴욕 (JFK) 🇺🇸</span>
+                                    </div>
+                                    <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 text-center">
+                                        <span class="text-xs text-slate-400 block">도착지</span>
+                                        <span class="text-white text-base">런던 (LHR) 🇬🇧</span>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-slate-300 p-3 bg-sky-950/20 rounded-xl border border-sky-500/30">
+                                    그래서 대서양 바다를 가로로 곧게 직진(동서 방향)하는 게 가장 빨라 보이지만, 비행기는 신기하게도 북쪽으로 솟구쳐 날아갑니다!
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-4 bg-slate-900/90 rounded-3xl border border-slate-800">
+                            <canvas id="route2Mercator" width="380" height="220" class="rounded-xl border border-slate-700"></canvas>
+                            <div class="flex items-center justify-between w-full mt-2.5 px-1 text-[11px] font-kids">
+                                <span class="text-sky-300 flex items-center gap-1">
+                                    <i class="fa-solid fa-arrows-left-right animate-pulse"></i> 2D 지도 좌우 드래그 가능
+                                </span>
+                                <div class="flex items-center gap-1.5">
+                                    <button onclick="setMercatorCenter('route2Mercator', 30, 'jfk_lhr')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-teal-300 border border-slate-700 transition active:scale-95">대서양 중심</button>
+                                    <button onclick="setMercatorCenter('route2Mercator', -160, 'jfk_lhr')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 transition active:scale-95">태평양 중심</button>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4 mt-2 text-xs font-kids">
+                                <span class="text-amber-400">--- 가로선 착각</span>
+                                <span class="text-emerald-400">── 북쪽 포물선 대권항로</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                setTimeout(() => {
+                    const c = document.getElementById('route2Mercator');
+                    if (c) drawFlightMercator(c, r);
+                }, 50);
+            }
+
+            // SLIDE 11: Route 2 Flat Illusion
+            else if (currentSlide === 11) {
+                const r = ROUTES_DATA.jfk_lhr;
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30 font-kids">항로 2 · 평면 지도의 착각</span>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                                "비행기가 위로 북극까지<br>
+                                <span class="text-rose-400">돌아서 가는 것 같아요!"</span> 🧐
+                            </h3>
+                            <div class="space-y-3 text-slate-300 text-sm leading-relaxed">
+                                <p class="bg-slate-900/90 p-4 rounded-2xl border border-white/5">
+                                    평면 지도만 보면 비행기가 캐나다 뉴펀들랜드 섬, 그린란드 남단, 아이슬란드 상공까지 엄청나게 위로 불룩하게 솟아올라 가요.
+                                </p>
+                                <p class="p-4 bg-rose-950/20 border border-rose-500/30 rounded-2xl text-rose-200 text-xs">
+                                    🤔 "아니, 똑바로 가로질러 가면 바다만 건너면 되는데 왜 굳이 북쪽 얼음섬들을 스쳐서 갈까요?"
+                                </p>
+                                <p class="text-xs text-slate-400">
+                                    그 비밀은 바로 지구의 '경도선(세로줄)'들이 북극점으로 갈수록 좁아진다는 사실에 있어요!
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-4 bg-slate-900/90 rounded-3xl border border-slate-800">
+                            <canvas id="route2Mercator2" width="380" height="220" class="rounded-xl border border-slate-700"></canvas>
+                            <div class="flex items-center justify-between w-full mt-2.5 px-1 text-[11px] font-kids">
+                                <span class="text-sky-300 flex items-center gap-1">
+                                    <i class="fa-solid fa-arrows-left-right animate-pulse"></i> 2D 지도 좌우 드래그 가능
+                                </span>
+                                <div class="flex items-center gap-1.5">
+                                    <button onclick="setMercatorCenter('route2Mercator2', 30, 'jfk_lhr')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-teal-300 border border-slate-700 transition active:scale-95">대서양 중심</button>
+                                    <button onclick="setMercatorCenter('route2Mercator2', -160, 'jfk_lhr')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 transition active:scale-95">태평양 중심</button>
+                                </div>
+                            </div>
+                            <p class="text-[11px] text-slate-400 mt-2 font-kids text-center">
+                                캐나다 끝자락과 그린란드 남단을 지나는 놀라운 비행 경로!
+                            </p>
+                        </div>
+                    </div>
+                `;
+                setTimeout(() => {
+                    const c = document.getElementById('route2Mercator2');
+                    if (c) drawFlightMercator(c, r);
+                }, 50);
+            }
+
+            // SLIDE 12: Route 2 3D Globe Reality
+            else if (currentSlide === 12) {
+                const r = ROUTES_DATA.jfk_lhr;
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 font-kids">항로 2 · 3D 지구본의 진실</span>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                                그린란드 남단과 아이슬란드를<br>
+                                <span class="text-sky-400">스치는 마법의 최단 경로!</span> 🌐
+                            </h3>
+                            <div class="space-y-3 text-slate-300 text-sm leading-relaxed">
+                                <p class="bg-slate-900/90 p-4 rounded-2xl border border-white/5">
+                                    3D 지구본에서 뉴욕과 런던을 실로 당기면, 실이 자연스럽게 <strong>그린란드 남단과 아이슬란드</strong> 바로 옆을 지나갑니다!
+                                </p>
+                                <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 space-y-1.5 text-xs font-kids">
+                                    <div class="text-sky-400">✈️ 실제 경유 상공:</div>
+                                    <div class="text-slate-300 flex items-center gap-2">
+                                        <span>뉴욕</span> ➔ <span>캐나다 뉴펀들랜드</span> ➔ <span>그린란드 남단</span> ➔ <span>아이슬란드</span> ➔ <span>런던</span>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-slate-400">
+                                    이 항로는 가로 직선보다 <strong>약 1,040km나 짧아서</strong> 1시간 15분 이상 일찍 런던에 도착할 수 있어요!
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-4 bg-slate-900/90 rounded-3xl border border-slate-800 text-center">
+                            <span class="text-xs font-kids text-sky-400 mb-2">3D 지구본에서 본 대서양 대권항로</span>
+                            <canvas id="route2Globe" width="280" height="280" class="globe-canvas border border-slate-700 glow-sky mb-2"></canvas>
+                            <p class="text-[11px] text-slate-400 font-kids">
+                                👆 지구본을 돌려 그린란드와 대서양 상공을 살펴보세요!
+                            </p>
+                        </div>
+                    </div>
+                `;
+                setTimeout(() => {
+                    const c = document.getElementById('route2Globe');
+                    if (c) drawFlightGlobe(c, r);
+                }, 50);
+            }
+
+            // SLIDE 13: Why heading North is shorter?
+            else if (currentSlide === 13) {
+                body.innerHTML = `
+                    <div class="text-center max-w-2xl mx-auto py-2">
+                        <span class="text-xs font-bold px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 font-kids">과학의 비밀</span>
+                        <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                            왜 북쪽으로 올라갈수록 거리가 짧아질까? 💡
+                        </h3>
+                        <p class="text-slate-300 text-sm mb-6 leading-relaxed">
+                            지구의 세로선(경도선)들은 북극점으로 갈수록 서로 어떻게 될까요?
+                        </p>
+                        <div class="grid md:grid-cols-2 gap-4 text-left mb-6">
+                            <div class="p-5 bg-slate-900/90 rounded-2xl border border-slate-800">
+                                <div class="text-3xl mb-2">🍉</div>
+                                <h4 class="font-kids text-sm text-rose-400 mb-1">적도 (가운데)</h4>
+                                <p class="text-xs text-slate-400">지구의 가장 뚱뚱한 배 부분이라 한 바퀴 둘레가 무려 <strong>40,000km</strong>나 돼요!</p>
+                            </div>
+                            <div class="p-5 bg-slate-900/90 rounded-2xl border border-emerald-500/30">
+                                <div class="text-3xl mb-2">📍</div>
+                                <h4 class="font-kids text-sm text-emerald-400 mb-1">고위도 (북극 가까이)</h4>
+                                <p class="text-xs text-slate-400">북극점으로 모여들기 때문에 한 바퀴 둘레가 수천 km로 <strong>엄청나게 좁아져요!</strong></p>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-sky-950/40 rounded-2xl border border-sky-500/30 text-xs font-kids text-sky-300">
+                            "둘레가 좁은 위쪽으로 살짝 올라가서 건너편으로 훌쩍 넘어가는 것이 훨씬 빠르답니다!"
+                        </div>
+                    </div>
+                `;
+            }
+
+            // SLIDE 14: Quiz 2 (New York to London)
+            else if (currentSlide === 14) {
+                const ans = quizAnswers.route2;
+                body.innerHTML = `
+                    <div class="max-w-xl mx-auto text-center py-4">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 text-xs font-bold mb-3 font-kids">
+                            <span>❓ 복습 퀴즈 2</span> · <span>뉴욕 ⇄ 런던 항로</span>
+                        </div>
+                        <h3 class="font-kids text-2xl md:text-3xl text-white mb-4 leading-relaxed">
+                            미국 뉴욕에서 영국 런던으로 가는 비행기가<br>
+                            <span class="text-purple-400">대권항로 지름길에서 스쳐 지나가는 거대한 얼음섬</span>은?
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-6">1편에서도 배웠던 세상에서 가장 큰 얼음섬을 떠올려보세요!</p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-md mx-auto mb-6">
+                            <button onclick="answerRouteQuiz('route2', 'greenland')" class="p-5 rounded-2xl font-kids text-base flex items-center justify-center gap-3 transition-all active:scale-95 ${ans === 'greenland' ? 'bg-emerald-600 text-white ring-4 ring-emerald-400' : 'bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700'}">
+                                <span>🇬🇱 1. 그린란드 남단</span>
+                            </button>
+                            <button onclick="answerRouteQuiz('route2', 'hawaii')" class="p-5 rounded-2xl font-kids text-base flex items-center justify-center gap-3 transition-all active:scale-95 ${ans === 'hawaii' ? 'bg-rose-600 text-white ring-4 ring-rose-400' : 'bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700'}">
+                                <span>🏝️ 2. 따뜻한 하와이 섬</span>
+                            </button>
+                        </div>
+
+                        <div id="qRoute2Feedback" class="min-h-[70px] flex items-center justify-center">
+                            ${ans === 'greenland' ? `
+                                <div class="p-4 rounded-2xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 text-sm font-kids animate-pop">
+                                    🎉 완벽한 정답! 은찬이 지리 박사네요!<br>
+                                    <span class="text-xs font-sans text-slate-300 font-normal">비행기는 캐나다 뉴펀들랜드와 그린란드 남단, 아이슬란드를 거쳐 런던으로 내려옵니다!</span>
+                                </div>
+                            ` : (ans === 'hawaii' ? `
+                                <div class="p-4 rounded-2xl bg-rose-950/60 border border-rose-500/40 text-rose-300 text-sm font-kids animate-pop">
+                                    💡 앗! 하와이는 대서양이 아니라 태평양에 있어요!<br>
+                                    <span class="text-xs font-sans text-slate-300 font-normal">대서양 북쪽의 거대한 얼음섬인 그린란드 남단을 지나간답니다!</span>
+                                </div>
+                            ` : '')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // SLIDE 15: Route 3 Intro (Santiago to Sydney)
+            else if (currentSlide === 15) {
+                const r = ROUTES_DATA.scl_syd;
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-kids">대표 항로 3</span>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                                칠레 산티아고 ⇄ 호주 시드니<br>
+                                <span class="text-emerald-400">남반구의 충격적인 진실!</span> 🇨🇱🇦🇺
+                            </h3>
+                            <div class="space-y-3 text-slate-300 text-sm leading-relaxed">
+                                <p class="bg-slate-900/90 p-4 rounded-2xl border border-white/5">
+                                    남아메리카 칠레 산티아고에서 오세아니아 호주 시드니로 가는 초대형 남반구 횡단 비행기예요!
+                                </p>
+                                <div class="grid grid-cols-2 gap-3 pt-1 font-kids">
+                                    <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 text-center">
+                                        <span class="text-xs text-slate-400 block">출발지</span>
+                                        <span class="text-white text-base">산티아고 (SCL) 🇨🇱</span>
+                                    </div>
+                                    <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 text-center">
+                                        <span class="text-xs text-slate-400 block">도착지</span>
+                                        <span class="text-white text-base">시드니 (SYD) 🇦🇺</span>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-slate-300 p-3 bg-emerald-950/20 rounded-xl border border-emerald-500/30">
+                                    지도에서 보면 두 도시는 남태평양 바다를 사이에 두고 있으니 바다 한가운데를 똑바로 통과하는 게 당연해 보이지요?
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-4 bg-slate-900/90 rounded-3xl border border-slate-800">
+                            <canvas id="route3Mercator" width="380" height="220" class="rounded-xl border border-slate-700"></canvas>
+                            <div class="flex items-center justify-between w-full mt-2.5 px-1 text-[11px] font-kids">
+                                <span class="text-sky-300 flex items-center gap-1">
+                                    <i class="fa-solid fa-arrows-left-right animate-pulse"></i> 2D 지도 좌우 드래그 가능
+                                </span>
+                                <div class="flex items-center gap-1.5">
+                                    <button onclick="setMercatorCenter('route3Mercator', 140, 'scl_syd')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 transition active:scale-95">태평양 중심</button>
+                                    <button onclick="setMercatorCenter('route3Mercator', 30, 'scl_syd')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-teal-300 border border-slate-700 transition active:scale-95">대서양 중심</button>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4 mt-2 text-xs font-kids">
+                                <span class="text-amber-400">--- 남태평양 바다 직진선</span>
+                                <span class="text-emerald-400">── 남극 근처 대권항로</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                setTimeout(() => {
+                    const c = document.getElementById('route3Mercator');
+                    if (c) drawFlightMercator(c, r);
+                }, 50);
+            }
+
+            // SLIDE 16: Route 3 Flat Illusion
+            else if (currentSlide === 16) {
+                const r = ROUTES_DATA.scl_syd;
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30 font-kids">항로 3 · 평면 지도의 착각</span>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                                "비행기가 남극 쪽으로<br>
+                                <span class="text-rose-400">엄청나게 곤두박질치는데요?!"</span> 😱
+                            </h3>
+                            <div class="space-y-3 text-slate-300 text-sm leading-relaxed">
+                                <p class="bg-slate-900/90 p-4 rounded-2xl border border-white/5">
+                                    평면 지도에서 초록색 실제 비행선을 보세요! 지도 맨 아래쪽 남극 대륙 바로 앞까지 <strong>U자 모양으로 깊숙이 내려갔다가</strong> 다시 호주로 올라가요!
+                                </p>
+                                <p class="p-4 bg-rose-950/20 border border-rose-500/30 rounded-2xl text-rose-200 text-xs">
+                                    "선생님, 비행기가 남태평양 바다를 두고 왜 남극 얼음 바다까지 삥 돌아가나요?"
+                                </p>
+                                <p class="text-xs text-slate-400">
+                                    이것이 바로 둥근 지구의 남반구에서 일어나는 가장 신비로운 대권항로의 기적입니다!
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-4 bg-slate-900/90 rounded-3xl border border-slate-800">
+                            <canvas id="route3Mercator2" width="380" height="220" class="rounded-xl border border-slate-700"></canvas>
+                            <div class="flex items-center justify-between w-full mt-2.5 px-1 text-[11px] font-kids">
+                                <span class="text-sky-300 flex items-center gap-1">
+                                    <i class="fa-solid fa-arrows-left-right animate-pulse"></i> 2D 지도 좌우 드래그 가능
+                                </span>
+                                <div class="flex items-center gap-1.5">
+                                    <button onclick="setMercatorCenter('route3Mercator2', 140, 'scl_syd')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 transition active:scale-95">태평양 중심</button>
+                                    <button onclick="setMercatorCenter('route3Mercator2', 30, 'scl_syd')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-teal-300 border border-slate-700 transition active:scale-95">대서양 중심</button>
+                                </div>
+                            </div>
+                            <p class="text-[11px] text-slate-400 mt-2 font-kids text-center">
+                                평면 지도에서는 아래 남극 쪽으로 엄청나게 우회하는 것처럼 보여요!
+                            </p>
+                        </div>
+                    </div>
+                `;
+                setTimeout(() => {
+                    const c = document.getElementById('route3Mercator2');
+                    if (c) drawFlightMercator(c, r);
+                }, 50);
+            }
+
+            // SLIDE 17: Route 3 3D Globe Reality
+            else if (currentSlide === 17) {
+                const r = ROUTES_DATA.scl_syd;
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-kids">항로 3 · 3D 지구본의 진실</span>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                                남극 대륙 가장자리를 스치는<br>
+                                <span class="text-emerald-400">가장 빠른 기적의 지름길!</span> 🐧
+                            </h3>
+                            <div class="space-y-3 text-slate-300 text-sm leading-relaxed">
+                                <p class="bg-slate-900/90 p-4 rounded-2xl border border-white/5">
+                                    오른쪽 3D 지구본을 남극 아래에서 올려다보세요! 남태평양을 가로지르는 것보다, <strong>남극 대륙의 얼음 바다를 스쳐 지나가는 선</strong>이 완벽한 직선이지요?
+                                </p>
+                                <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 space-y-1.5 text-xs font-kids">
+                                    <div class="text-emerald-400">🐧 비행기가 지나는 실제 경로:</div>
+                                    <div class="text-slate-300 flex items-center gap-2">
+                                        <span>산티아고</span> ➔ <span>남극해(얼음 바다)</span> ➔ <span>남극 대륙 가장자리</span> ➔ <span>시드니</span>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-slate-400">
+                                    이 길은 거리를 무려 <strong>3,460km나 단축</strong>하고, <strong>3시간 30분</strong>이나 더 빨리 도착할 수 있게 해줍니다!
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-4 bg-slate-900/90 rounded-3xl border border-slate-800 text-center">
+                            <span class="text-xs font-kids text-sky-400 mb-2">3D 지구본 남극 주변 대권항로</span>
+                            <canvas id="route3Globe" width="280" height="280" class="globe-canvas border border-slate-700 glow-sky mb-2"></canvas>
+                            <p class="text-[11px] text-slate-400 font-kids">
+                                👆 지구본을 남극(아래쪽)으로 돌려서 하얀 남극해를 확인해보세요!
+                            </p>
+                        </div>
+                    </div>
+                `;
+                setTimeout(() => {
+                    const c = document.getElementById('route3Globe');
+                    if (c) drawFlightGlobe(c, r, [140, 60, 0]);
+                }, 50);
+            }
+
+            // SLIDE 18: Antarctic Flyover Wonder
+            else if (currentSlide === 18) {
+                body.innerHTML = `
+                    <div class="text-center max-w-2xl mx-auto py-2">
+                        <span class="text-xs font-bold px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-kids">비행기 창밖의 기적</span>
+                        <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                            비행기 창문 밖으로 하얀 빙하와 남극해가! ❄️
+                        </h3>
+                        <p class="text-slate-300 text-sm mb-6 leading-relaxed">
+                            실제로 칠레에서 호주로 가는 콴타스(Qantas)나 라탐(LATAM) 항공을 타면 비행기 창밖으로 거대한 남극 유빙과 빙하를 볼 수 있어요!
+                        </p>
+                        <div class="grid md:grid-cols-2 gap-4 text-left mb-6 font-kids">
+                            <div class="p-5 bg-slate-900/90 rounded-2xl border border-slate-800">
+                                <div class="text-2xl mb-1">🗺️ 평면 지도의 착각</div>
+                                <div class="text-xs text-rose-400 font-sans mt-2">
+                                    "남극 쪽으로 엄청나게 아래로 돌아서 날아가네?"
+                                </div>
+                            </div>
+                            <div class="p-5 bg-slate-900/90 rounded-2xl border border-emerald-500/40">
+                                <div class="text-2xl mb-1">🌐 3D 지구의 진실</div>
+                                <div class="text-xs text-emerald-300 font-sans mt-2">
+                                    "남극을 스쳐야만 가장 짧은 최단 직선이 된다!"
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-3 bg-slate-900/60 rounded-xl border border-white/5 text-xs text-slate-300">
+                            💡 이제 남반구 대권항로 퀴즈를 풀어볼까요?
+                        </div>
+                    </div>
+                `;
+            }
+
+            // SLIDE 19: Quiz 3 (Santiago to Sydney)
+            else if (currentSlide === 19) {
+                const ans = quizAnswers.route3;
+                body.innerHTML = `
+                    <div class="max-w-xl mx-auto text-center py-4">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 text-xs font-bold mb-3 font-kids">
+                            <span>❓ 복습 퀴즈 3</span> · <span>산티아고 ⇄ 시드니 항로</span>
+                        </div>
+                        <h3 class="font-kids text-2xl md:text-3xl text-white mb-4 leading-relaxed">
+                            칠레 산티아고에서 호주 시드니로 갈 때,<br>
+                            비행기는 <span class="text-purple-400">어느 곳에 가까운 지름길</span>을 통과할까요?
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-6">펭귄들이 살고 있는 추운 얼음 바다를 떠올려보세요!</p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-md mx-auto mb-6">
+                            <button onclick="answerRouteQuiz('route3', 'antarctica')" class="p-5 rounded-2xl font-kids text-base flex items-center justify-center gap-3 transition-all active:scale-95 ${ans === 'antarctica' ? 'bg-emerald-600 text-white ring-4 ring-emerald-400' : 'bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700'}">
+                                <span>🐧 1. 남극 대륙 가장자리 (남극해)</span>
+                            </button>
+                            <button onclick="answerRouteQuiz('route3', 'equator')" class="p-5 rounded-2xl font-kids text-base flex items-center justify-center gap-3 transition-all active:scale-95 ${ans === 'equator' ? 'bg-rose-600 text-white ring-4 ring-rose-400' : 'bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700'}">
+                                <span>🏝️ 2. 따뜻한 적도 부근 열대 바다</span>
+                            </button>
+                        </div>
+
+                        <div id="qRoute3Feedback" class="min-h-[70px] flex items-center justify-center">
+                            ${ans === 'antarctica' ? `
+                                <div class="p-4 rounded-2xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 text-sm font-kids animate-pop">
+                                    🎉 대단해요! 완벽한 정답!<br>
+                                    <span class="text-xs font-sans text-slate-300 font-normal">비행기는 남극 대륙 가장자리 얼음 바다를 스쳐 지나가며 3,460km를 아낍니다!</span>
+                                </div>
+                            ` : (ans === 'equator' ? `
+                                <div class="p-4 rounded-2xl bg-rose-950/60 border border-rose-500/40 text-rose-300 text-sm font-kids animate-pop">
+                                    💡 앗! 적도로 올라가면 엄청나게 멀어져요!<br>
+                                    <span class="text-xs font-sans text-slate-300 font-normal">남쪽 아래의 남극 대륙 가장자리를 스치는 것이 최단 대권항로예요!</span>
+                                </div>
+                            ` : '')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // SLIDE 20: Comprehensive Infographic Summary
+            else if (currentSlide === 20) {
+                body.innerHTML = `
+                    <div class="text-center max-w-3xl mx-auto py-2">
+                        <span class="text-xs font-bold px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 font-kids">대권항로 총정리</span>
+                        <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                            3대 대권항로 한눈에 비교하기 📑
+                        </h3>
+                        <div class="space-y-3 text-left">
+                            <div class="p-3.5 bg-slate-900/90 rounded-2xl border border-slate-800 flex items-center justify-between">
+                                <div>
+                                    <span class="text-xs text-sky-400 font-kids">1. 인천 ⇄ 뉴욕</span>
+                                    <div class="text-xs text-slate-300">태평양 대신 <strong>알래스카 북극권</strong> 경유 ➔ <span class="text-emerald-400 font-bold">2,450km (2.5시간) 절약!</span></div>
+                                </div>
+                                <span class="text-xl">🏔️</span>
+                            </div>
+                            <div class="p-3.5 bg-slate-900/90 rounded-2xl border border-slate-800 flex items-center justify-between">
+                                <div>
+                                    <span class="text-xs text-amber-400 font-kids">2. 뉴욕 ⇄ 런던</span>
+                                    <div class="text-xs text-slate-300">가로 직선 대신 <strong>그린란드 남단 & 아이슬란드</strong> 경유 ➔ <span class="text-emerald-400 font-bold">1,040km (1.2시간) 절약!</span></div>
+                                </div>
+                                <span class="text-xl">❄️</span>
+                            </div>
+                            <div class="p-3.5 bg-slate-900/90 rounded-2xl border border-slate-800 flex items-center justify-between">
+                                <div>
+                                    <span class="text-xs text-emerald-400 font-kids">3. 산티아고 ⇄ 시드니</span>
+                                    <div class="text-xs text-slate-300">남태평양 대신 <strong>남극 대륙 가장자리(남극해)</strong> 경유 ➔ <span class="text-emerald-400 font-bold">3,460km (3.5시간) 절약!</span></div>
+                                </div>
+                                <span class="text-xl">🐧</span>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-sky-950/30 border border-sky-500/30 rounded-2xl mt-4 text-xs text-slate-300">
+                            ⭐ <strong>대권항로의 핵심 진실:</strong> 평면 지도는 고위도를 왜곡하기 때문에 굽어 보이지만, 둥근 3D 지구 위에서는 가장 완벽한 최단 직선입니다!
+                        </div>
+                    </div>
+                `;
+            }
+
+            // SLIDE 21: Final Challenge Quiz (3 Questions)
+            else if (currentSlide === 21) {
+                const a1 = quizAnswers.final1;
+                const a2 = quizAnswers.final2;
+                const a3 = quizAnswers.final3;
+
+                body.innerHTML = `
+                    <div class="max-w-2xl mx-auto py-2">
+                        <div class="text-center mb-4">
+                            <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 text-xs font-bold font-kids">
+                                🎯 최종 실전 퀴즈 대도전!
+                            </span>
+                            <h3 class="font-kids text-2xl text-white mt-2">지리 마스터가 되기 위한 3가지 질문!</h3>
+                        </div>
+
+                        <div class="space-y-4 text-xs font-kids">
+                            <!-- Q1 -->
+                            <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-800">
+                                <p class="text-slate-200 mb-2.5">1. 둥근 지구 표면의 두 점을 가장 짧게 잇는 최단 거리 선을 무엇이라고 부를까요?</p>
+                                <div class="grid grid-cols-2 gap-2 font-sans">
+                                    <button onclick="answerFinalQuiz('final1', 'great_circle')" class="p-2.5 rounded-xl text-center transition ${a1 === 'great_circle' ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+                                        대권항로 (Great Circle)
+                                    </button>
+                                    <button onclick="answerFinalQuiz('final1', 'flat')" class="p-2.5 rounded-xl text-center transition ${a1 === 'flat' ? 'bg-rose-600 text-white font-bold' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+                                        평면직선항로
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Q2 -->
+                            <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-800">
+                                <p class="text-slate-200 mb-2.5">2. 왜 평면 지도에서는 최단 항로가 위쪽(북극)으로 둥글게 솟아올라 보일까요?</p>
+                                <div class="grid grid-cols-2 gap-2 font-sans">
+                                    <button onclick="answerFinalQuiz('final2', 'distortion')" class="p-2.5 rounded-xl text-center transition ${a2 === 'distortion' ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+                                        극지방이 풍선처럼 부풀려져 왜곡되었기 때문
+                                    </button>
+                                    <button onclick="answerFinalQuiz('final2', 'curved')" class="p-2.5 rounded-xl text-center transition ${a2 === 'curved' ? 'bg-rose-600 text-white font-bold' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+                                        실제로 비행기가 일부러 멀리 돌아서 가기 때문
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Q3 -->
+                            <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-800">
+                                <p class="text-slate-200 mb-2.5">3. 칠레 산티아고에서 호주 시드니로 갈 때 스쳐 지나가는 신비의 얼음 바다는?</p>
+                                <div class="grid grid-cols-2 gap-2 font-sans">
+                                    <button onclick="answerFinalQuiz('final3', 'antarctic')" class="p-2.5 rounded-xl text-center transition ${a3 === 'antarctic' ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+                                        남극 대륙 가장자리 (남극해)
+                                    </button>
+                                    <button onclick="answerFinalQuiz('final3', 'indian')" class="p-2.5 rounded-xl text-center transition ${a3 === 'indian' ? 'bg-rose-600 text-white font-bold' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+                                        인도양 열대 바다
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 text-center">
+                            ${(a1 === 'great_circle' && a2 === 'distortion' && a3 === 'antarctic') ? `
+                                <div class="p-3 bg-emerald-950/60 border border-emerald-500/40 rounded-xl text-emerald-300 font-kids text-sm animate-pop">
+                                    🎉 3문제 모두 완벽하게 맞췄어요! 다음 장으로 넘어가 마스터 배지를 받으세요! 🏆
+                                </div>
+                            ` : `
+                                <p class="text-slate-400 text-xs font-kids">3문제를 모두 풀고 정답을 확인해보세요!</p>
+                            `}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // SLIDE 22: Master Certificate & Badge
+            else if (currentSlide === 22) {
+                renderCompletionSlide();
+            }
+        }
+
+        // Quiz Handlers
+        function answerRouteQuiz(routeKey, val) {
+            quizAnswers[routeKey] = val;
+            if ((routeKey === 'route1' && val === 'alaska') ||
+                (routeKey === 'route2' && val === 'greenland') ||
+                (routeKey === 'route3' && val === 'antarctica')) {
+                playSound('correct');
+            } else {
+                playSound('wrong');
+            }
+            renderSlide();
+        }
+
+        function answerFinalQuiz(qKey, val) {
+            quizAnswers[qKey] = val;
+            if ((qKey === 'final1' && val === 'great_circle') ||
+                (qKey === 'final2' && val === 'distortion') ||
+                (qKey === 'final3' && val === 'antarctic')) {
+                playSound('correct');
+            } else {
+                playSound('wrong');
+            }
+            renderSlide();
+        }
+
+        function renderCompletionSlide() {
+            playSound('fanfare');
+            if (window.confetti) {
+                window.confetti({ particleCount: 130, spread: 85, origin: { y: 0.6 } });
+            }
+            const body = document.getElementById('slideBody');
+            body.innerHTML = `
+                <div class="text-center max-w-xl mx-auto py-2">
+                    <div class="w-24 h-24 mx-auto rounded-3xl bg-gradient-to-tr from-sky-500 via-teal-400 to-emerald-400 flex items-center justify-center text-5xl shadow-2xl mb-4 border-2 border-white/20 animate-pop">
+                        ✈️
+                    </div>
+                    <span class="px-4 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 text-xs font-bold font-kids">
+                        수료증 수여
+                    </span>
+                    <h3 class="font-kids text-3xl md:text-4xl text-white mt-2 mb-2">
+                        축하합니다! 은찬이는 이제<br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-teal-300 to-emerald-400">대권항로 비행 마스터</span>예요! 🌟
+                    </h3>
+                    <p class="text-slate-300 text-xs md:text-sm mb-6 leading-relaxed">
+                        비행기가 평면 지도에서 왜 곡선으로 날아가는지, 인천-뉴욕, 뉴욕-런던, 산티아고-시드니 3대 항로의 신비로운 지름길 비밀을 모두 정복했습니다!
+                    </p>
+
+                    <div class="bg-slate-900/90 p-5 rounded-3xl border border-slate-800 max-w-md mx-auto mb-6 text-left font-kids">
+                        <div class="flex items-center justify-between pb-3 border-b border-white/10 mb-3">
+                            <span class="text-xs text-slate-400">최종 칭호</span>
+                            <span class="text-lg text-sky-400">🎖️ 하늘길 항공 지리 박사</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3 text-xs">
+                            <div class="p-3 bg-slate-950 rounded-2xl text-slate-300">
+                                🌐 탐험 완료: <span class="text-emerald-400">대권항로 3대 노선</span>
+                            </div>
+                            <div class="p-3 bg-slate-950 rounded-2xl text-slate-300">
+                                🧭 획득 배지: <span class="text-amber-400">3D 지구 파일럿</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+                        <button onclick="restartExperience()" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-kids text-sm flex items-center justify-center gap-2 transition">
+                            <i class="fa-solid fa-rotate-left"></i> 처음부터 다시 보기
+                        </button>
+                        <a href="eunchan-study.html" class="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-sky-500 to-teal-500 hover:from-sky-400 hover:to-teal-400 text-slate-950 font-kids text-sm shadow-xl shadow-sky-900/40 flex items-center justify-center gap-2 transition">
+                            🎒 공부방 홈으로 가기 <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        function restartExperience() {
+            quizAnswers = {
+                route1: null,
+                route2: null,
+                route3: null,
+                final1: null,
+                final2: null,
+                final3: null
+            };
+            currentSlide = 1;
+            renderSlide();
+        }
+
+        // Text-to-Speech (TTS) for kids
+        let isSpeaking = false;
+        function toggleReadOutLoud() {
+            if (!('speechSynthesis' in window)) {
+                alert('이 브라우저는 음성 읽어주기를 지원하지 않습니다.');
+                return;
+            }
+            if (isSpeaking) {
+                window.speechSynthesis.cancel();
+                isSpeaking = false;
+                document.getElementById('ttsBtn').classList.remove('text-sky-400', 'animate-pulse');
+                document.getElementById('ttsBtn').classList.add('text-amber-400');
+                return;
+            }
+
+            const slide = document.getElementById('slideBody');
+            if (!slide) return;
+            const textToRead = slide.innerText.replace(/[⭕❌✨💡🚨🤔👉🔴🌟🎖️🏆🚀🍊🗺️🔍📏🌐❓🇩🇿🇰🇿🇦🇷🇮🇳🇦🇺🇧🇷🇺🇸🇨🇳🇨🇦🇷🇺🇬🇱✈️🛫🧭🧶⏱️🐧❄️🍉📍]/g, ' ');
+
+            const utterance = new SpeechSynthesisUtterance(textToRead);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.95;
+            utterance.pitch = 1.05;
+
+            utterance.onstart = () => {
+                isSpeaking = true;
+                document.getElementById('ttsBtn').classList.remove('text-amber-400');
+                document.getElementById('ttsBtn').classList.add('text-sky-400', 'animate-pulse');
+            };
+
+            utterance.onend = () => {
+                isSpeaking = false;
+                document.getElementById('ttsBtn').classList.remove('text-sky-400', 'animate-pulse');
+                document.getElementById('ttsBtn').classList.add('text-amber-400');
+            };
+
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Keyboard Navigation (Arrow Keys)
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'PageDown') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+        });
+
+        // Touch Swipe Navigation for mobile & tablets (prevented during map interactions)
+        let touchStartX = 0;
+        let touchEndX = 0;
+        document.addEventListener('touchstart', e => {
+            if (isInteractingWithMap || e.target.closest('canvas, button, a, input, select, textarea, .no-swipe')) {
+                touchStartedOnInteractive = true;
+                return;
+            }
+            touchStartedOnInteractive = false;
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.addEventListener('touchend', e => {
+            if (touchStartedOnInteractive || isInteractingWithMap) {
+                touchStartedOnInteractive = false;
+                isInteractingWithMap = false;
+                return;
+            }
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 75) nextSlide();
+            if (touchEndX - touchStartX > 75) prevSlide();
+        }, { passive: true });
+    </script>
+</body>
+</html>

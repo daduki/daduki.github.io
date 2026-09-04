@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지도에서는 알 수 없는 둥근 지구의 진실 | 은찬이의 공부방</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script src="js/d3.min.js"></script>
+    <script src="js/topojson-client.min.js"></script>
+    <script src="js/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                        kids: ['"Jua"', 'cursive', 'sans-serif']
+                    },
+                    colors: {
+                        earth: {
+                            ocean: '#0b132b',
+                            land: '#334155',
+                            highlight: '#10b981',
+                            gold: '#f59e0b',
+                            mercator: '#38bdf8'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .font-kids { font-family: 'Jua', cursive, sans-serif; }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.88);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .globe-canvas, .mercator-canvas {
+            display: block;
+            border-radius: 1rem;
+            cursor: grab;
+        }
+        .globe-canvas:active {
+            cursor: grabbing;
+        }
+        /* Custom pulse */
+        @keyframes softGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(16, 185, 129, 0.65); }
+        }
+        .glow-emerald { animation: softGlow 2.5s infinite ease-in-out; }
+        .slide-fade {
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans flex flex-col justify-between selection:bg-emerald-500 selection:text-white">
+
+    <!-- Top Navigation -->
+    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="eunchan-study.html" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition flex items-center gap-1.5 text-xs font-semibold">
+                    <i class="fa-solid fa-arrow-left"></i> 공부방 홈
+                </a>
+                <div>
+                    <h1 class="font-kids text-base md:text-lg text-emerald-400 flex items-center gap-2">
+                        <span>🌍 둥근 지구의 진실</span>
+                        <span class="text-[11px] font-sans px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">7~10세 초등 맞춤</span>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Slide progress & Sound/Read toggles -->
+            <div class="flex items-center gap-2 md:gap-3">
+                <div class="flex items-center gap-1 bg-slate-800/80 px-2.5 py-1 rounded-full border border-slate-700 text-xs">
+                    <i class="fa-solid fa-layer-group text-emerald-400"></i>
+                    <span id="slideIndicator" class="font-kids text-emerald-400 text-sm font-bold">1</span>
+                    <span class="text-slate-400 font-kids text-xs">/ 25</span>
+                </div>
+                <button id="ttsBtn" onclick="toggleReadOutLoud()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 hover:text-amber-300 transition text-xs font-semibold" title="친절한 목소리로 읽어주기">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+                <button onclick="toggleIndexDrawer()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-xs font-semibold" title="전체 목차">
+                    <i class="fa-solid fa-list-ol"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Top Progress Bar -->
+        <div class="w-full bg-slate-800 h-1.5 overflow-hidden">
+            <div id="topProgressBar" class="bg-gradient-to-r from-emerald-500 via-teal-400 to-sky-400 h-full transition-all duration-300" style="width: 4%"></div>
+        </div>
+    </header>
+
+    <!-- Main Slide Stage -->
+    <main class="flex-grow flex items-center justify-center px-3 md:px-6 py-6 max-w-5xl mx-auto w-full">
+        <div id="slideCard" class="w-full glass-card rounded-3xl p-5 md:p-8 border border-white/10 shadow-2xl relative overflow-hidden min-h-[580px] flex flex-col justify-between">
+            <!-- Slide Content Injected Dynamically -->
+            <div id="slideBody" class="slide-fade flex-grow flex flex-col justify-center"></div>
+
+            <!-- Slide Bottom Controls -->
+            <div class="pt-6 border-t border-white/10 flex items-center justify-between mt-4">
+                <button id="prevBtn" onclick="prevSlide()" class="px-5 py-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:pointer-events-none text-slate-200 font-kids text-sm flex items-center gap-2 transition">
+                    <i class="fa-solid fa-arrow-left"></i> 이전장
+                </button>
+                
+                <div class="flex items-center gap-1.5 overflow-x-auto max-w-[200px] md:max-w-[400px] py-1" id="dotsContainer">
+                    <!-- Dots generated in JS -->
+                </div>
+
+                <button id="nextBtn" onclick="nextSlide()" class="px-6 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-kids text-sm flex items-center gap-2 shadow-lg shadow-emerald-900/40 transition">
+                    다음장 <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Slide Index Modal / Drawer -->
+    <div id="indexDrawer" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex justify-end">
+        <div class="bg-slate-900 border-l border-slate-700 w-full max-w-md h-full p-6 overflow-y-auto flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-4">
+                    <h3 class="font-kids text-lg text-emerald-400">📖 전체 25개 슬라이드 목차</h3>
+                    <button onclick="toggleIndexDrawer()" class="text-slate-400 hover:text-white text-xl">✕</button>
+                </div>
+                <div class="space-y-1.5" id="drawerList"></div>
+            </div>
+            <button onclick="toggleIndexDrawer()" class="w-full py-3 mt-4 bg-slate-800 text-slate-300 rounded-xl font-kids text-sm">닫기</button>
+        </div>
+    </div>
+
+    <!-- Audio FX Synthesizer Script -->
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                // Happy high double chime
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1); // E5
+                osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2); // G5
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                osc.start(now);
+                osc.stop(now + 0.5);
+            } else if (type === 'wrong') {
+                // Gentle bonk sound
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(200, now);
+                osc.frequency.exponentialRampToValueAtTime(130, now + 0.25);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'pop') {
+                // Page flip pop
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(320, now);
+                osc.frequency.exponentialRampToValueAtTime(580, now + 0.08);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                osc.start(now);
+                osc.stop(now + 0.1);
+            } else if (type === 'fanfare') {
+                // Celebration fanfare
+                [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+                    const o = audioCtx.createOscillator();
+                    const g = audioCtx.createGain();
+                    o.connect(g);
+                    g.connect(audioCtx.destination);
+                    o.type = 'triangle';
+                    o.frequency.setValueAtTime(freq, now + i * 0.12);
+                    g.gain.setValueAtTime(0.18, now + i * 0.12);
+                    g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.12 + 0.4);
+                    o.start(now + i * 0.12);
+                    o.stop(now + i * 0.12 + 0.4);
+                });
+            }
+        }
+    </script>
+
+    <!-- Core Geography Data and Slide Engine -->
+    <script>
+        const COUNTRY_DATA = [
+            { rank: 1, id: "643", nameKo: "러시아", nameEn: "Russia", flag: "ru", area: "17,098,242", multiple: "약 77배", capital: "모스크바", continent: "유럽 & 아시아", center: [100, 60], scale: 1.0, clues: ["지구 육지 면적의 무려 8분의 1을 차지하는 세계 1위 영토 대국!", "시베리아 횡단철도가 달리며 11개의 시간대가 있어요.", "동쪽 끝은 아시아 태평양, 서쪽 끝은 유럽까지 이어져요."] },
+            { rank: 2, id: "124", nameKo: "캐나다", nameEn: "Canada", flag: "ca", area: "9,984,670", multiple: "약 45배", capital: "오타와", continent: "북아메리카", center: [-106, 56], scale: 1.1, clues: ["단풍나무(메이플)와 수많은 거대한 호수가 있는 북미 대국!", "세계에서 해안선 길이가 가장 긴 아름다운 자연의 나라예요.", "북극해와 닿아 있어 겨울에는 환상적인 오로라를 볼 수 있어요."] },
+            { rank: 3, id: "156", nameKo: "중국", nameEn: "China", flag: "cn", area: "9,596,961", multiple: "약 44배", capital: "베이징", continent: "아시아", center: [104, 35], scale: 1.3, clues: ["우주에서도 보인다는 만리장성과 귀여운 자이언트 판다의 고향!", "아시아 대륙에서 가장 넓은 영토를 가지고 있어요.", "동쪽 끝과 서쪽 끝의 실제 시차가 4시간이나 날 만큼 넓어요."] },
+            { rank: 4, id: "840", nameKo: "미국", nameEn: "United States", flag: "us", area: "9,525,067", multiple: "약 43배", capital: "워싱턴 D.C.", continent: "북아메리카", center: [-95, 38], scale: 1.3, clues: ["자유의 여신상과 거대한 그랜드 캐니언이 있는 50개 주의 연방국!", "본토 외에도 북쪽의 거대한 알래스카와 하와이를 품고 있어요.", "태평양부터 대서양까지 동서로 길게 이어진 거대 국가예요."] },
+            { rank: 5, id: "076", nameKo: "브라질", nameEn: "Brazil", flag: "br", area: "8,515,767", multiple: "약 39배", capital: "브라질리아", continent: "남아메리카", center: [-51, -14], scale: 1.3, clues: ["지구의 허파라 불리는 거대한 아마존 열대우림이 있는 나라!", "남아메리카 대륙 절반 가까이를 차지하는 최대 국가예요.", "신나는 삼바 축제와 펠레·네이마르로 유명한 축구 강국이에요."] },
+            { rank: 6, id: "036", nameKo: "호주", nameEn: "Australia", flag: "au", area: "7,692,024", multiple: "약 35배", capital: "캔버라", continent: "오세아니아", center: [133, -25], scale: 1.4, clues: ["대륙 전체가 하나의 나라인 신비로운 오세아니아의 거인!", "캥거루와 코알라 등 특별한 주머니 동물들이 살고 있어요.", "붉은 거대 바위 울루루와 아름다운 대산호초가 있어요."] },
+            { rank: 7, id: "356", nameKo: "인도", nameEn: "India", flag: "in", area: "3,287,263", multiple: "약 15배", capital: "뉴델리", continent: "아시아", center: [78, 20], scale: 1.7, clues: ["찬란한 타지마할과 14억 인구의 유구한 문명 대국!", "평면 지도에서는 작아 보이지만 그린란드(216만)보다 훨씬 넓어요.", "히말라야 산맥부터 인도양까지 거대한 아대륙을 형성해요."] },
+            { rank: 8, id: "032", nameKo: "아르헨티나", nameEn: "Argentina", flag: "ar", area: "2,780,400", multiple: "약 13배", capital: "부에노스아이레스", continent: "남아메리카", center: [-63, -38], scale: 1.6, clues: ["남아메리카 남쪽 끝까지 길게 뻗은 은빛의 나라!", "끝없는 팜파스 초원과 파타고니아의 거대한 빙하가 있어요.", "정열적인 탱고 음악과 메시가 태어난 세계적인 축구 강국이에요."] },
+            { rank: 9, id: "398", nameKo: "카자흐스탄", nameEn: "Kazakhstan", flag: "kz", area: "2,724,900", multiple: "약 12배", capital: "아스타나", continent: "중앙아시아", center: [67, 48], scale: 1.7, clues: ["바다와 닿지 않는 세상에서 가장 거대한 내륙국!", "황금빛 대초원(스텝)과 장엄한 톈산 산맥이 펼쳐져 있어요.", "인류 최초로 인공위성과 우주인을 쏘아 올린 바이코누르 우주기지가 있어요."] },
+            { rank: 10, id: "012", nameKo: "알제리", nameEn: "Algeria", flag: "dz", area: "2,381,741", multiple: "약 11배", capital: "알제", continent: "아프리카", center: [2.6, 28], scale: 1.8, clues: ["아프리카 대륙 전체에서 영토가 가장 넓은 1위 나라!", "국토의 80% 이상이 신비롭고 거대한 사하라 사막이에요.", "북쪽으로는 푸르고 따뜻한 지중해 바다와 맞닿아 있어요."] },
+            { rank: "보너스", id: "304", nameKo: "그린란드", nameEn: "Greenland", flag: "gl", area: "2,166,086", multiple: "약 10배", capital: "누크", continent: "북극 / 덴마크 자치령", center: [-42, 71], scale: 1.8, clues: ["세계에서 가장 거대한 신비의 섬 (덴마크 자치령)!", "국토의 80%가 두꺼운 얼음과 눈으로 덮인 겨울 왕국이에요.", "평면 지도에서는 대륙처럼 보이지만 실제로는 약 12위 수준이에요!"] }
+        ];
+
+        // Slide State
+        let currentSlide = 1;
+        const totalSlides = 25;
+        let worldFeatures = null;
+        let worldTopology = null;
+        let quiz1Answers = { q1: null, q2: null };
+        let quiz2State = {
+            questions: [],
+            currentQuizIndex: 0,
+            answers: {},
+            score: 0
+        };
+
+        // Initialize Quiz 2 random 5 questions from the 10 countries
+        function initQuiz2() {
+            const pool = [...COUNTRY_DATA.slice(0, 10)];
+            // Fisher-Yates shuffle
+            for (let i = pool.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [pool[i], pool[j]] = [pool[j], pool[i]];
+            }
+            quiz2State.questions = pool.slice(0, 5).map(c => {
+                // Pick 3 distractors
+                const others = COUNTRY_DATA.filter(o => o.nameKo !== c.nameKo);
+                const shuffledOthers = others.sort(() => 0.5 - Math.random()).slice(0, 3);
+                const options = [c, ...shuffledOthers].sort(() => 0.5 - Math.random());
+                return {
+                    country: c,
+                    options: options,
+                    clue: c.clues[Math.floor(Math.random() * c.clues.length)]
+                };
+            });
+        }
+        initQuiz2();
+
+        // Load TopoJSON
+        fetch('data/world-110m.json')
+            .then(res => res.json())
+            .then(topo => {
+                worldTopology = topo;
+                worldFeatures = topojson.feature(topo, topo.objects.countries);
+                renderSlide();
+            })
+            .catch(err => {
+                console.error("Local world data error, trying CDN fallback:", err);
+                fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
+                    .then(r => r.json())
+                    .then(topo => {
+                        worldTopology = topo;
+                        worldFeatures = topojson.feature(topo, topo.objects.countries);
+                        renderSlide();
+                    });
+            });
+
+        function updateProgress() {
+            document.getElementById('slideIndicator').textContent = currentSlide;
+            const pct = ((currentSlide) / totalSlides) * 100;
+            document.getElementById('topProgressBar').style.width = pct + '%';
+            document.getElementById('prevBtn').disabled = (currentSlide === 1);
+            document.getElementById('nextBtn').disabled = (currentSlide === totalSlides);
+
+            // Update dots
+            const dotsCont = document.getElementById('dotsContainer');
+            dotsCont.innerHTML = '';
+            for (let i = 1; i <= totalSlides; i++) {
+                const dot = document.createElement('button');
+                dot.className = `w-2 h-2 rounded-full transition-all flex-shrink-0 ${i === currentSlide ? 'w-5 bg-emerald-400' : 'bg-slate-700 hover:bg-slate-500'}`;
+                dot.onclick = () => goToSlide(i);
+                dotsCont.appendChild(dot);
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                playSound('pop');
+                currentSlide++;
+                renderSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                playSound('pop');
+                currentSlide--;
+                renderSlide();
+            }
+        }
+
+        function goToSlide(n) {
+            playSound('pop');
+            currentSlide = n;
+            renderSlide();
+            const drawer = document.getElementById('indexDrawer');
+            if (!drawer.classList.contains('hidden')) drawer.classList.add('hidden');
+        }
+
+        function toggleIndexDrawer() {
+            const drawer = document.getElementById('indexDrawer');
+            drawer.classList.toggle('hidden');
+            if (!drawer.classList.contains('hidden')) {
+                const list = document.getElementById('drawerList');
+                list.innerHTML = '';
+                const titles = [
+                    "01. 🌍 표지: 둥근 지구의 진실 인트로",
+                    "02. 🍊 도입 1: 귤껍질의 비밀",
+                    "03. 🗺️ 도입 2: 메르카토르 지도의 마법",
+                    "04. 🔍 주제 1: 그린란드 vs 인도 착시",
+                    "05. 📏 주제 1: 진짜 크기 대공개 (인포그래픽)",
+                    "06. 🌐 주제 1: 3D 지구본으로 보는 진짜 크기 요약",
+                    "07. ❓ 퀴즈 1-1: 메르카토르 왜곡 OX 퀴즈",
+                    "08. ❓ 퀴즈 1-2: 인도 vs 그린란드 선택형 퀴즈",
+                    "09. 🇩🇿 10위: 알제리 (아프리카 1위 거인)",
+                    "10. 🇰🇿 9위: 카자흐스탄 (세계 최대 내륙국)",
+                    "11. 🇦🇷 8위: 아르헨티나 (남미 축구·탱고 대국)",
+                    "12. 🇮🇳 7위: 인도 (14억 인구와 찬란한 문명)",
+                    "13. 🇦🇺 6위: 호주 (대륙 전체가 1개국)",
+                    "14. 🇧🇷 5위: 브라질 (아마존 열대우림의 고향)",
+                    "15. 🇺🇸 4위: 미국 (50개 주와 알래스카)",
+                    "16. 🇨🇳 3위: 중국 (아시아 대륙의 거인)",
+                    "17. 🇨🇦 2위: 캐나다 (단풍과 북극해의 나라)",
+                    "18. 🇷🇺 1위: 러시아 (지구 육지 1/8의 최강국)",
+                    "19. 🇬🇱 보너스: 그린란드는 실제 몇 위일까?",
+                    "20. 🎯 실전 퀴즈 1 (사지선다)",
+                    "21. 🎯 실전 퀴즈 2 (사지선다)",
+                    "22. 🎯 실전 퀴즈 3 (사지선다)",
+                    "23. 🎯 실전 퀴즈 4 (사지선다)",
+                    "24. 🎯 실전 퀴즈 5 (사지선다)",
+                    "25. 🏆 탐험 완료: 지구 지리 마스터 배지 수여"
+                ];
+                titles.forEach((t, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = `w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between transition ${idx + 1 === currentSlide ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}`;
+                    btn.textContent = t;
+                    btn.onclick = () => goToSlide(idx + 1);
+                    list.appendChild(btn);
+                });
+            }
+        }
+
+        // Global interaction flag to prevent swipe navigation while dragging maps
+        let isInteractingWithMap = false;
+        let touchStartedOnInteractive = false;
+
+        // D3 Canvas Globe Renderer
+        function drawGlobe(canvas, targetId, centerLonLat, scaleMultiplier = 1.0, interactive = true) {
+            if (!worldFeatures) return;
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            const radius = Math.min(width, height) / 2 - 14;
+
+            let rotation = [-centerLonLat[0], -centerLonLat[1], 0];
+            const projection = d3.geoOrthographic()
+                .scale(radius * scaleMultiplier)
+                .translate([width / 2, height / 2])
+                .rotate(rotation)
+                .clipAngle(90);
+
+            const path = d3.geoPath().projection(projection).context(ctx);
+
+            function render() {
+                ctx.clearRect(0, 0, width, height);
+
+                // Ocean background circle with radial glow
+                ctx.beginPath();
+                ctx.arc(width / 2, height / 2, radius, 0, 2 * Math.PI);
+                const grad = ctx.createRadialGradient(width / 2 - radius * 0.3, height / 2 - radius * 0.3, radius * 0.1, width / 2, height / 2, radius);
+                grad.addColorStop(0, '#1e293b');
+                grad.addColorStop(1, '#09111e');
+                ctx.fillStyle = grad;
+                ctx.fill();
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = '#38bdf8';
+                ctx.stroke();
+
+                // Graticules (Latitude & Longitude grid)
+                const graticule = d3.geoGraticule10();
+                ctx.beginPath();
+                path(graticule);
+                ctx.lineWidth = 0.5;
+                ctx.strokeStyle = 'rgba(56, 189, 248, 0.18)';
+                ctx.stroke();
+
+                // All continents
+                worldFeatures.features.forEach(f => {
+                    ctx.beginPath();
+                    path(f);
+                    if (targetId && (f.id === targetId || (Array.isArray(targetId) && targetId.includes(f.id)))) {
+                        ctx.fillStyle = '#10b981'; // Glowing Emerald
+                    } else {
+                        ctx.fillStyle = '#334155'; // Slate land
+                    }
+                    ctx.fill();
+                    ctx.lineWidth = 0.6;
+                    ctx.strokeStyle = '#1e293b';
+                    ctx.stroke();
+                });
+
+                // Target highlight border
+                if (targetId) {
+                    worldFeatures.features.forEach(f => {
+                        if (f.id === targetId || (Array.isArray(targetId) && targetId.includes(f.id))) {
+                            ctx.beginPath();
+                            path(f);
+                            ctx.lineWidth = 2.5;
+                            ctx.strokeStyle = '#34d399';
+                            ctx.stroke();
+                        }
+                    });
+                }
+
+                // Atmosphere rim shadow
+                ctx.beginPath();
+                ctx.arc(width / 2, height / 2, radius, 0, 2 * Math.PI);
+                const rimGrad = ctx.createRadialGradient(width / 2, height / 2, radius * 0.75, width / 2, height / 2, radius);
+                rimGrad.addColorStop(0, 'rgba(0,0,0,0)');
+                rimGrad.addColorStop(1, 'rgba(0,0,0,0.55)');
+                ctx.fillStyle = rimGrad;
+                ctx.fill();
+            }
+
+            render();
+
+            if (interactive) {
+                canvas.style.touchAction = 'none';
+                canvas.style.cursor = 'grab';
+                let dragging = false;
+                let lastPos = [0, 0];
+                function onPointerDown(e) {
+                    dragging = true;
+                    isInteractingWithMap = true;
+                    touchStartedOnInteractive = true;
+                    canvas.style.cursor = 'grabbing';
+                    lastPos = [e.clientX || (e.touches && e.touches[0].clientX), e.clientY || (e.touches && e.touches[0].clientY)];
+                    if (e.cancelable) e.preventDefault();
+                    e.stopPropagation();
+                }
+                function onPointerMove(e) {
+                    if (!dragging) return;
+                    isInteractingWithMap = true;
+                    const x = e.clientX || (e.touches && e.touches[0].clientX);
+                    const y = e.clientY || (e.touches && e.touches[0].clientY);
+                    const dx = x - lastPos[0];
+                    const dy = y - lastPos[1];
+                    lastPos = [x, y];
+                    rotation[0] += dx * 0.4;
+                    rotation[1] = Math.max(-80, Math.min(80, rotation[1] - dy * 0.4));
+                    projection.rotate(rotation);
+                    render();
+                    if (e.cancelable) e.preventDefault();
+                }
+                function onPointerUp() {
+                    dragging = false;
+                    canvas.style.cursor = 'grab';
+                    setTimeout(() => { isInteractingWithMap = false; }, 120);
+                }
+
+                if (!canvas._hasGlobeDragListeners) {
+                    canvas._hasGlobeDragListeners = true;
+                    canvas.addEventListener('mousedown', onPointerDown);
+                    window.addEventListener('mousemove', onPointerMove);
+                    window.addEventListener('mouseup', onPointerUp);
+                    canvas.addEventListener('touchstart', onPointerDown, { passive: false });
+                    window.addEventListener('touchmove', onPointerMove, { passive: false });
+                    window.addEventListener('touchend', onPointerUp);
+                }
+            }
+        }
+
+        // D3 Canvas Mercator Map Renderer (Supports Horizontal Dragging)
+        function drawMercator(canvas, targetId, highlightLat = null) {
+            if (!worldFeatures) return;
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+
+            if (canvas._rotLon === undefined) {
+                canvas._rotLon = 0;
+            }
+
+            const projection = d3.geoMercator()
+                .scale(width / (2 * Math.PI) * 0.95)
+                .translate([width / 2, height / 2 + 18])
+                .rotate([canvas._rotLon, 0]);
+
+            const path = d3.geoPath().projection(projection).context(ctx);
+
+            ctx.clearRect(0, 0, width, height);
+
+            // Ocean background
+            ctx.fillStyle = '#09111e';
+            ctx.fillRect(0, 0, width, height);
+
+            // Graticules
+            ctx.beginPath();
+            path(d3.geoGraticule10());
+            ctx.lineWidth = 0.5;
+            ctx.strokeStyle = 'rgba(56, 189, 248, 0.12)';
+            ctx.stroke();
+
+            // Equator line highlight
+            const equator = d3.geoCircle().center([0, 90]).radius(90)();
+            ctx.beginPath();
+            path(equator);
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = 'rgba(244, 63, 94, 0.4)';
+            ctx.stroke();
+
+            // Land
+            worldFeatures.features.forEach(f => {
+                ctx.beginPath();
+                path(f);
+                if (targetId && (f.id === targetId || (Array.isArray(targetId) && targetId.includes(f.id)))) {
+                    ctx.fillStyle = '#38bdf8'; // Flat map highlight
+                } else {
+                    ctx.fillStyle = '#1e293b';
+                }
+                ctx.fill();
+                ctx.lineWidth = 0.5;
+                ctx.strokeStyle = '#334155';
+                ctx.stroke();
+            });
+
+            if (targetId) {
+                worldFeatures.features.forEach(f => {
+                    if (f.id === targetId || (Array.isArray(targetId) && targetId.includes(f.id))) {
+                        ctx.beginPath();
+                        path(f);
+                        ctx.lineWidth = 2;
+                        ctx.strokeStyle = '#7dd3fc';
+                        ctx.stroke();
+                    }
+                });
+            }
+
+            // Latitude distortion label
+            if (highlightLat !== null) {
+                ctx.fillStyle = '#f43f5e';
+                ctx.font = '10px sans-serif';
+                ctx.fillText('적도 (왜곡 없음: 1배)', 6, height / 2 + 14);
+            }
+
+            // Interactive horizontal drag on 2D Mercator
+            if (!canvas._hasMercatorDragListeners) {
+                canvas._hasMercatorDragListeners = true;
+                canvas.style.touchAction = 'none';
+                canvas.style.cursor = 'grab';
+                let mDragging = false;
+                let mStartX = 0;
+
+                function onMDown(e) {
+                    mDragging = true;
+                    isInteractingWithMap = true;
+                    touchStartedOnInteractive = true;
+                    canvas.style.cursor = 'grabbing';
+                    mStartX = e.clientX || (e.touches && e.touches[0].clientX);
+                    if (e.cancelable) e.preventDefault();
+                    e.stopPropagation();
+                }
+
+                function onMMove(e) {
+                    if (!mDragging) return;
+                    isInteractingWithMap = true;
+                    const x = e.clientX || (e.touches && e.touches[0].clientX);
+                    const dx = x - mStartX;
+                    mStartX = x;
+                    let nextRot = (canvas._rotLon + dx * 0.45) % 360;
+                    if (nextRot > 180) nextRot -= 360;
+                    if (nextRot < -180) nextRot += 360;
+                    canvas._rotLon = nextRot;
+                    drawMercator(canvas, targetId, highlightLat);
+                    if (e.cancelable) e.preventDefault();
+                }
+
+                function onMUp() {
+                    mDragging = false;
+                    canvas.style.cursor = 'grab';
+                    setTimeout(() => { isInteractingWithMap = false; }, 120);
+                }
+
+                canvas.addEventListener('mousedown', onMDown);
+                window.addEventListener('mousemove', onMMove);
+                window.addEventListener('mouseup', onMUp);
+                canvas.addEventListener('touchstart', onMDown, { passive: false });
+                window.addEventListener('touchmove', onMMove, { passive: false });
+                window.addEventListener('touchend', onMUp);
+            }
+        }
+
+        // Render Current Slide
+        function renderSlide() {
+            updateProgress();
+            const body = document.getElementById('slideBody');
+            body.innerHTML = '';
+
+            // SLIDE 1: Cover
+            if (currentSlide === 1) {
+                body.innerHTML = `
+                    <div class="text-center py-4">
+                        <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold mb-4">
+                            <span>🎒 은찬이의 공부방</span> · <span>지리 탐험 1호</span>
+                        </div>
+                        <h2 class="font-kids text-3xl md:text-5xl text-white mb-4 leading-tight">
+                            지도에서는 알 수 없는<br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-sky-400">둥근 지구에 대한 진실!</span> 🌍
+                        </h2>
+                        <p class="text-slate-300 text-sm md:text-base max-w-xl mx-auto leading-relaxed mb-8">
+                            평평한 네모 지도와 둥근 3D 지구본은 왜 이렇게 다르게 생겼을까요?<br>
+                            그린란드가 인도보다 3배나 커 보이지만, <span class="text-emerald-400 font-bold">사실은 인도가 훨씬 넓다는 비밀!</span><br>
+                            세계에서 가장 영토가 넓은 나라 Top 10을 신나는 3D 지구본으로 탐험해보세요!
+                        </p>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3 max-w-lg mx-auto mb-8 text-xs font-kids">
+                            <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 text-slate-300">
+                                <span class="text-xl block mb-1">🍊</span> 귤껍질의 비밀
+                            </div>
+                            <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 text-slate-300">
+                                <span class="text-xl block mb-1">🗺️</span> 그린란드 vs 인도
+                            </div>
+                            <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 text-slate-300">
+                                <span class="text-xl block mb-1">🏆</span> 세계 영토 Top 10
+                            </div>
+                        </div>
+                        <button onclick="nextSlide()" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-kids text-lg shadow-xl shadow-emerald-900/40 transition-transform active:scale-95 inline-flex items-center gap-2">
+                            <span>신나는 지구 탐험 시작하기 🚀</span>
+                        </button>
+                    </div>
+                `;
+            }
+
+            // SLIDE 2: Orange Peel Analogy
+            else if (currentSlide === 2) {
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">도입 1 · 신기한 호기심</span>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                                둥근 귤껍질을 찢지 않고<br>
+                                <span class="text-amber-400">네모난 종이</span>로 펼칠 수 있을까? 🍊
+                            </h3>
+                            <div class="space-y-3 text-slate-300 text-sm leading-relaxed">
+                                <p class="bg-slate-900/90 p-4 rounded-2xl border border-white/5">
+                                    맛있는 귤을 먹을 때 껍질을 벗겨본 적 있나요? 동그란 귤껍질을 바닥에 납작하게 누르면 어떻게 될까요?
+                                </p>
+                                <p class="p-4 bg-amber-950/20 border border-amber-500/30 rounded-2xl text-amber-200">
+                                    👉 <strong>껍질이 찢어지거나 갈라져요!</strong><br>
+                                    공처럼 둥근 물체는 절대로 찢거나 늘리지 않고는 네모 반듯한 평면으로 만들 수 없기 때문이에요.
+                                </p>
+                                <p class="text-xs text-slate-400">
+                                    우리가 사는 지구도 둥근 공 모양이라서, 벽에 붙이는 네모난 세계지도를 만들 때 어딘가를 억지로 늘려야만 했답니다!
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-6 bg-slate-900/90 rounded-3xl border border-slate-800 text-center">
+                            <div class="relative w-64 h-64 flex items-center justify-center">
+                                <!-- Orange Sphere & Peeling diagram -->
+                                <div class="w-40 h-40 rounded-full bg-gradient-to-tr from-amber-600 via-orange-500 to-amber-400 shadow-2xl flex items-center justify-center text-5xl relative">
+                                    🌍
+                                    <div class="absolute -top-3 -right-3 text-2xl animate-bounce">✂️</div>
+                                </div>
+                                <div class="absolute bottom-2 flex gap-1 text-xs text-amber-300 font-kids bg-slate-950/80 px-3 py-1.5 rounded-full border border-amber-500/40">
+                                    <span>둥근 구체</span> ➔ <span>네모 평면으로 펴면 찢어짐!</span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-4 font-kids">
+                                "둥근 껍질을 억지로 펴면, 틈새가 벌어지거나 모양이 찌그러져요!"
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // SLIDE 3: Mercator Projection
+            else if (currentSlide === 3) {
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30">도입 2 · 지도의 탄생</span>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                                메르카토르 지도의 마법과<br>
+                                <span class="text-sky-400">숨겨진 거짓말!</span> 🗺️
+                            </h3>
+                            <div class="space-y-3 text-slate-300 text-sm leading-relaxed">
+                                <p class="bg-slate-900/90 p-4 rounded-2xl border border-white/5">
+                                    옛날 1569년, <strong>메르카토르</strong>라는 지리학자가 배를 타는 선원들을 위해 멋진 평면 지도를 만들었어요.
+                                    지도의 각도가 정확해서 나침반을 보며 항해하기엔 최고였지요!
+                                </p>
+                                <div class="p-4 bg-sky-950/20 border border-sky-500/30 rounded-2xl space-y-2">
+                                    <p class="text-xs font-bold text-sky-300">🚨 하지만 치명적인 문제가 발생했어요!</p>
+                                    <p class="text-xs text-slate-300">
+                                        지도의 위쪽(북극)과 아래쪽(남극)으로 갈수록 땅이 <strong>풍선처럼 엄청나게 뻥튀기</strong>되어 그려진다는 거예요!
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2 text-xs font-kids pt-2">
+                                    <div class="p-2.5 bg-slate-950 rounded-xl border border-slate-800 text-emerald-400">
+                                        중간(적도 부근): 왜곡 없음 (1배)
+                                    </div>
+                                    <div class="p-2.5 bg-slate-950 rounded-xl border border-rose-500/30 text-rose-400">
+                                        극지방(북극 부근): 최대 6배 이상 뻥튀기!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-4 bg-slate-900/90 rounded-3xl border border-slate-800">
+                            <canvas id="mercatorDemoCanvas" width="360" height="220" class="rounded-xl border border-slate-700"></canvas>
+                            <p class="text-[11px] text-slate-400 mt-3 font-kids">
+                                🔴 빨간 적도선에서 멀어질수록 크기가 거대하게 왜곡돼요!
+                            </p>
+                        </div>
+                    </div>
+                `;
+                setTimeout(() => {
+                    const c = document.getElementById('mercatorDemoCanvas');
+                    if (c) drawMercator(c, null, 0);
+                }, 50);
+            }
+
+            // SLIDE 4: Greenland vs India Illusion
+            else if (currentSlide === 4) {
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">주제 1 · 눈속임 착시</span>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                                평면 지도에서는<br>
+                                <span class="text-rose-400">그린란드가 인도보다 3배</span>나 크다?! 😱
+                            </h3>
+                            <div class="space-y-3 text-slate-300 text-sm leading-relaxed">
+                                <p class="bg-slate-900/90 p-4 rounded-2xl border border-white/5">
+                                    교실 벽에 걸린 평면 세계지도를 보세요. 위쪽에 있는 하얀 얼음섬 <strong>그린란드</strong>는 거대한 아프리카 대륙만큼이나 커 보여요!
+                                </p>
+                                <p class="bg-slate-900/90 p-4 rounded-2xl border border-white/5">
+                                    반면에 아래쪽에 있는 <strong>인도</strong>는 그린란드에 비하면 3분의 1 크기 정도로 작아 보이지요.
+                                </p>
+                                <div class="p-4 bg-rose-950/20 border border-rose-500/30 rounded-2xl text-rose-300 text-xs font-semibold">
+                                    🤔 "은찬아, 그럼 정말로 그린란드가 인도보다 3배나 더 넓은 땅일까요?"
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-4 bg-slate-900/90 rounded-3xl border border-slate-800">
+                            <canvas id="illusionCanvas" width="380" height="230" class="rounded-xl border border-slate-700"></canvas>
+                            <div class="flex items-center gap-4 mt-3 text-xs font-kids">
+                                <span class="flex items-center gap-1.5 text-sky-400"><span class="w-3 h-3 rounded bg-sky-400"></span> 북극 근처 그린란드 (엄청 커 보임!)</span>
+                                <span class="flex items-center gap-1.5 text-amber-400"><span class="w-3 h-3 rounded bg-amber-400"></span> 적도 근처 인도 (작아 보임!)</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                setTimeout(() => {
+                    const c = document.getElementById('illusionCanvas');
+                    if (c) drawMercator(c, ["304", "356"]);
+                }, 50);
+            }
+
+            // SLIDE 5: The True Size Revelation
+            else if (currentSlide === 5) {
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">주제 1 · 진실 대공개</span>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                                진짜 진실은...<br>
+                                <span class="text-emerald-400">인도가 그린란드보다 1.5배 더 넓다!</span> 🎉
+                            </h3>
+                            <div class="space-y-3 text-slate-300 text-sm leading-relaxed">
+                                <p class="bg-slate-900/90 p-4 rounded-2xl border border-white/5">
+                                    놀라지 마세요! 실제 인도의 땅 면적은 <strong>약 328만 km²</strong>이고, 그린란드는 <strong>약 216만 km²</strong>예요.
+                                </p>
+                                <div class="grid grid-cols-2 gap-3 pt-1">
+                                    <div class="p-3.5 bg-emerald-950/30 border border-emerald-500/40 rounded-2xl text-center">
+                                        <div class="text-xs text-emerald-400 font-kids mb-1">🇮🇳 실제 1위: 인도</div>
+                                        <div class="text-xl font-kids text-white">3,287,263 km²</div>
+                                        <div class="text-[11px] text-emerald-300 mt-1">대한민국의 약 15배!</div>
+                                    </div>
+                                    <div class="p-3.5 bg-slate-900 border border-slate-700 rounded-2xl text-center">
+                                        <div class="text-xs text-slate-400 font-kids mb-1">🇬🇱 실제 2위: 그린란드</div>
+                                        <div class="text-xl font-kids text-slate-200">2,166,086 km²</div>
+                                        <div class="text-[11px] text-slate-400 mt-1">인도 면적의 약 66%!</div>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-slate-400 bg-slate-900/60 p-3 rounded-xl">
+                                    💡 그린란드가 북극 바로 옆(고위도)에 있어서 평면 지도에서 4~5배 이상 풍선처럼 부풀려져 보였던 것이랍니다!
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-5 bg-slate-900/90 rounded-3xl border border-slate-800 text-center">
+                            <h4 class="font-kids text-sm text-emerald-400 mb-2">실제 3D 둥근 지구에서 본 진짜 크기</h4>
+                            <canvas id="trueSizeGlobe" width="280" height="280" class="globe-canvas border border-slate-700 glow-emerald"></canvas>
+                            <p class="text-[11px] text-slate-400 mt-3 font-kids">
+                                👆 마우스나 손가락으로 지구본을 빙글빙글 돌려보세요!
+                            </p>
+                        </div>
+                    </div>
+                `;
+                setTimeout(() => {
+                    const c = document.getElementById('trueSizeGlobe');
+                    if (c) drawGlobe(c, ["304", "356"], [30, 45], 1.15);
+                }, 50);
+            }
+
+            // SLIDE 6: Summary of Theme 1
+            else if (currentSlide === 6) {
+                body.innerHTML = `
+                    <div class="text-center max-w-2xl mx-auto py-2">
+                        <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">주제 1 핵심 정리</span>
+                        <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                            지구본을 보아야 진짜 크기가 보인다! 🌐
+                        </h3>
+                        <p class="text-slate-300 text-sm mb-6 leading-relaxed">
+                            우리가 배운 3가지 비밀을 꼭 기억해요!
+                        </p>
+                        <div class="grid md:grid-cols-3 gap-3 text-left mb-6">
+                            <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-800">
+                                <div class="text-2xl mb-2">🍊</div>
+                                <h4 class="font-kids text-sm text-amber-400 mb-1">1. 둥근 지구</h4>
+                                <p class="text-xs text-slate-400">지구는 둥근 공 모양이라 평면으로 펴면 반드시 왜곡이 생겨요.</p>
+                            </div>
+                            <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-800">
+                                <div class="text-2xl mb-2">🎈</div>
+                                <h4 class="font-kids text-sm text-sky-400 mb-1">2. 극지방 뻥튀기</h4>
+                                <p class="text-xs text-slate-400">북극과 남극에 가까울수록 평면 지도에서는 몇 배나 더 거대해져요.</p>
+                            </div>
+                            <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-800">
+                                <div class="text-2xl mb-2">🇮🇳</div>
+                                <h4 class="font-kids text-sm text-emerald-400 mb-1">3. 진짜 승자</h4>
+                                <p class="text-xs text-slate-400">그린란드보다 인도가 약 1.5배나 더 넓은 거대한 땅이에요!</p>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gradient-to-r from-emerald-950/40 to-teal-950/40 border border-emerald-500/30 rounded-2xl inline-block text-xs font-kids text-emerald-300">
+                            이제 배운 내용을 복습하는 2가지 퀴즈를 풀어볼까요? 🎯
+                        </div>
+                    </div>
+                `;
+            }
+
+            // SLIDE 7: Quiz 1-1 (OX Quiz)
+            else if (currentSlide === 7) {
+                const ans = quiz1Answers.q1;
+                body.innerHTML = `
+                    <div class="max-w-xl mx-auto text-center py-4">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 text-xs font-bold mb-3">
+                            <span>❓ 복습 퀴즈 1</span> · <span>OX 퀴즈</span>
+                        </div>
+                        <h3 class="font-kids text-2xl md:text-3xl text-white mb-4 leading-relaxed">
+                            "평면 세계지도(메르카토르 방식)는<br>
+                            <span class="text-purple-400">북극이나 남극</span>에 가까울수록<br>
+                            실제보다 훨씬 크게 부풀려져 그려진다?"
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-8">맞다고 생각하면 O, 틀리다고 생각하면 X를 눌러보세요!</p>
+                        
+                        <div class="grid grid-cols-2 gap-6 max-w-sm mx-auto mb-6">
+                            <button onclick="answerQuiz1('q1', true)" class="p-6 rounded-3xl font-kids text-4xl transition-all active:scale-95 ${ans === true ? 'bg-emerald-600 text-white ring-4 ring-emerald-400' : 'bg-slate-900 hover:bg-slate-800 text-emerald-400 border border-emerald-500/30'}">
+                                ⭕ 맞아요!
+                            </button>
+                            <button onclick="answerQuiz1('q1', false)" class="p-6 rounded-3xl font-kids text-4xl transition-all active:scale-95 ${ans === false ? 'bg-rose-600 text-white ring-4 ring-rose-400' : 'bg-slate-900 hover:bg-slate-800 text-rose-400 border border-rose-500/30'}">
+                                ❌ 틀려요!
+                            </button>
+                        </div>
+
+                        <div id="q1Feedback" class="min-h-[70px] flex items-center justify-center">
+                            ${ans === true ? `
+                                <div class="p-4 rounded-2xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 text-sm font-kids animate-pop">
+                                    🎉 정답이에요! 짝짝짝!<br>
+                                    <span class="text-xs font-sans text-slate-300 font-normal">북극과 남극으로 갈수록 풍선처럼 부풀려져 실제보다 몇 배나 거대하게 그려져요.</span>
+                                </div>
+                            ` : (ans === false ? `
+                                <div class="p-4 rounded-2xl bg-rose-950/60 border border-rose-500/40 text-rose-300 text-sm font-kids animate-pop">
+                                    💡 앗, 다시 한번 생각해보세요!<br>
+                                    <span class="text-xs font-sans text-slate-300 font-normal">귤껍질처럼 둥근 지구를 펴기 위해 양 끝 극지방을 넓게 늘려야 했답니다!</span>
+                                </div>
+                            ` : '')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // SLIDE 8: Quiz 1-2 (Multiple Choice)
+            else if (currentSlide === 8) {
+                const ans = quiz1Answers.q2;
+                body.innerHTML = `
+                    <div class="max-w-xl mx-auto text-center py-4">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 text-xs font-bold mb-3">
+                            <span>❓ 복습 퀴즈 2</span> · <span>진짜 크기 대결</span>
+                        </div>
+                        <h3 class="font-kids text-2xl md:text-3xl text-white mb-4 leading-relaxed">
+                            평면 지도에서는 그린란드가 훨씬 커 보이지만,<br>
+                            <span class="text-purple-400">실제로 영토 면적이 더 넓은 곳</span>은 어디일까요?
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-6">진짜 크기를 기억하며 정답을 골라보세요!</p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-md mx-auto mb-6">
+                            <button onclick="answerQuiz1('q2', 'india')" class="p-5 rounded-2xl font-kids text-lg flex items-center justify-center gap-3 transition-all active:scale-95 ${ans === 'india' ? 'bg-emerald-600 text-white ring-4 ring-emerald-400' : 'bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700'}">
+                                <img src="images/flags/in.png" class="w-8 h-5 rounded shadow">
+                                <span>1. 인도 🇮🇳</span>
+                            </button>
+                            <button onclick="answerQuiz1('q2', 'greenland')" class="p-5 rounded-2xl font-kids text-lg flex items-center justify-center gap-3 transition-all active:scale-95 ${ans === 'greenland' ? 'bg-rose-600 text-white ring-4 ring-rose-400' : 'bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700'}">
+                                <img src="images/flags/gl.png" class="w-8 h-5 rounded shadow">
+                                <span>2. 그린란드 🇬🇱</span>
+                            </button>
+                        </div>
+
+                        <div id="q2Feedback" class="min-h-[70px] flex items-center justify-center">
+                            ${ans === 'india' ? `
+                                <div class="p-4 rounded-2xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 text-sm font-kids animate-pop">
+                                    🏆 완벽한 정답! 은찬이 최고!<br>
+                                    <span class="text-xs font-sans text-slate-300 font-normal">인도는 약 328만 km²로, 그린란드(약 216만 km²)보다 약 1.5배나 더 넓어요!</span>
+                                </div>
+                            ` : (ans === 'greenland' ? `
+                                <div class="p-4 rounded-2xl bg-rose-950/60 border border-rose-500/40 text-rose-300 text-sm font-kids animate-pop">
+                                    💡 앗! 평면 지도의 착시에 속았어요!<br>
+                                    <span class="text-xs font-sans text-slate-300 font-normal">실제로는 인도가 그린란드보다 1.5배나 더 넓답니다!</span>
+                                </div>
+                            ` : '')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // SLIDES 9 to 18: Top 10 Countries (10 to 1)
+            else if (currentSlide >= 9 && currentSlide <= 18) {
+                // Rank 10 is at currentSlide=9, Rank 1 is at currentSlide=18
+                const countryIndex = (18 - currentSlide); // 18-9=9 (rank 10), 18-18=0 (rank 1)
+                const c = COUNTRY_DATA[countryIndex];
+                renderCountrySlide(c);
+            }
+
+            // SLIDE 19: Bonus Greenland
+            else if (currentSlide === 19) {
+                const c = COUNTRY_DATA.find(x => x.nameKo === "그린란드");
+                renderCountrySlide(c, true);
+            }
+
+            // SLIDES 20 to 24: Quiz 2 (5 random questions)
+            else if (currentSlide >= 20 && currentSlide <= 24) {
+                const qIndex = currentSlide - 20;
+                renderQuiz2Slide(qIndex);
+            }
+
+            // SLIDE 25: Master Explorer Badge
+            else if (currentSlide === 25) {
+                renderCompletionSlide();
+            }
+        }
+
+        // Render Single Country Slide (Slide 9~19)
+        function renderCountrySlide(country, isBonus = false) {
+            const body = document.getElementById('slideBody');
+            body.innerHTML = `
+                <div class="grid md:grid-cols-2 gap-6 items-center">
+                    <div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="px-3 py-1 rounded-full ${isBonus ? 'bg-amber-500/20 text-amber-300 border-amber-500/30' : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'} text-xs font-bold border">
+                                ${isBonus ? '✨ 보너스 탐구' : `세계 영토 순위 ${country.rank}위`}
+                            </span>
+                            <span class="text-xs text-slate-400 font-semibold">${country.continent}</span>
+                        </div>
+                        <div class="flex items-center gap-4 mb-3">
+                            <img src="images/flags/${country.flag}.png" alt="${country.nameKo} 국기" class="w-14 h-9 rounded-lg object-cover shadow border border-white/20">
+                            <div>
+                                <h3 class="font-kids text-3xl md:text-4xl text-white">${country.nameKo}</h3>
+                                <p class="text-xs text-slate-400 font-sans">${country.nameEn} · 수도: ${country.capital}</p>
+                            </div>
+                        </div>
+
+                        <!-- Stats Box -->
+                        <div class="grid grid-cols-2 gap-2.5 mb-4 font-kids">
+                            <div class="p-3 bg-slate-900/90 rounded-2xl border border-slate-800">
+                                <span class="text-[11px] text-slate-400 block mb-0.5">영토 면적</span>
+                                <span class="text-lg md:text-xl text-emerald-400">${country.area}</span> <span class="text-xs text-slate-400 font-normal">km²</span>
+                            </div>
+                            <div class="p-3 bg-slate-900/90 rounded-2xl border border-slate-800">
+                                <span class="text-[11px] text-slate-400 block mb-0.5">한반도 대비 크기</span>
+                                <span class="text-lg md:text-xl text-amber-400">대한민국의 ${country.multiple}</span>
+                            </div>
+                        </div>
+
+                        <!-- 3 Fun Clues / Facts -->
+                        <div class="space-y-2 text-xs text-slate-300 leading-relaxed bg-slate-900/60 p-4 rounded-2xl border border-white/5">
+                            ${country.clues.map(clue => `
+                                <div class="flex items-start gap-2">
+                                    <span class="text-emerald-400 flex-shrink-0">🌟</span>
+                                    <span>${clue}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Dual Map View (3D Globe + Mercator Flat) -->
+                    <div class="flex flex-col items-center justify-center p-4 bg-slate-900/90 rounded-3xl border border-slate-800">
+                        <div class="flex items-center justify-between w-full px-2 mb-2">
+                            <span class="text-xs font-kids text-emerald-400 flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                3D 둥근 지구본 (실제 크기)
+                            </span>
+                            <span class="text-[10px] text-slate-500 font-sans">손가락으로 돌려보세요 👆</span>
+                        </div>
+                        
+                        <canvas id="countryGlobeCanvas" width="280" height="280" class="globe-canvas border border-slate-700 glow-emerald mb-3"></canvas>
+                        
+                        <!-- Flat map position thumbnail -->
+                        <div class="w-full bg-slate-950 p-2.5 rounded-2xl border border-slate-800 flex items-center gap-3">
+                            <canvas id="countryMercatorCanvas" width="160" height="85" class="rounded-lg border border-slate-800 flex-shrink-0"></canvas>
+                            <div class="text-[11px] text-slate-400 leading-tight">
+                                <span class="text-sky-400 font-kids block mb-0.5">메르카토르 평면 지도 위치</span>
+                                위도: ${country.center[1]}°N / 경도: ${country.center[0]}°E
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            setTimeout(() => {
+                const gc = document.getElementById('countryGlobeCanvas');
+                const mc = document.getElementById('countryMercatorCanvas');
+                if (gc) drawGlobe(gc, country.id, country.center, country.scale);
+                if (mc) drawMercator(mc, country.id);
+            }, 50);
+        }
+
+        // Quiz 1 Handler
+        function answerQuiz1(qKey, val) {
+            quiz1Answers[qKey] = val;
+            if ((qKey === 'q1' && val === true) || (qKey === 'q2' && val === 'india')) {
+                playSound('correct');
+            } else {
+                playSound('wrong');
+            }
+            renderSlide();
+        }
+
+        // Quiz 2 Slide Handler (Slides 20~24)
+        function renderQuiz2Slide(qIndex) {
+            const body = document.getElementById('slideBody');
+            const q = quiz2State.questions[qIndex];
+            const chosen = quiz2State.answers[qIndex];
+
+            body.innerHTML = `
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 text-xs font-bold">
+                                🎯 실전 퀴즈 ${qIndex + 1} / 5
+                            </span>
+                            <span class="text-xs text-amber-400 font-kids">영토로 나라 맞추기!</span>
+                        </div>
+                        <h3 class="font-kids text-2xl md:text-3xl text-white mt-2 mb-3">
+                            3D 지구본에 반짝이는<br>
+                            <span class="text-emerald-400">이 나라는 어디일까요?</span> 🔍
+                        </h3>
+
+                        <!-- Mystery Clue Card -->
+                        <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-800 mb-5">
+                            <div class="text-xs text-slate-400 font-kids mb-1">💡 힌트 카드</div>
+                            <p class="text-sm text-slate-200 font-semibold leading-relaxed">
+                                "${q.clue}"
+                            </p>
+                        </div>
+
+                        <!-- 4 Choices with [Flag + Name] -->
+                        <div class="grid grid-cols-2 gap-3" id="quizOptions">
+                            ${q.options.map(opt => {
+                                const isSelected = (chosen && chosen.nameKo === opt.nameKo);
+                                const isCorrect = (opt.nameKo === q.country.nameKo);
+                                let btnClass = "bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700";
+                                if (chosen) {
+                                    if (isCorrect) {
+                                        btnClass = "bg-emerald-600 text-white border-emerald-400 ring-2 ring-emerald-400 font-bold";
+                                    } else if (isSelected && !isCorrect) {
+                                        btnClass = "bg-rose-600 text-white border-rose-400 ring-2 ring-rose-400 line-through opacity-70";
+                                    } else {
+                                        btnClass = "bg-slate-900/50 text-slate-500 border-slate-800 pointer-events-none";
+                                    }
+                                }
+                                return `
+                                    <button onclick="selectQuiz2Answer(${qIndex}, '${opt.nameKo}')" class="p-3.5 rounded-2xl font-kids text-sm flex items-center gap-2.5 transition-all active:scale-95 ${btnClass}">
+                                        <img src="images/flags/${opt.flag}.png" alt="${opt.nameKo} 국기" class="w-8 h-5 rounded object-cover shadow flex-shrink-0">
+                                        <span class="truncate">${opt.nameKo}</span>
+                                    </button>
+                                `;
+                            }).join('')}
+                        </div>
+
+                        <!-- Feedback Message -->
+                        <div class="min-h-[50px] mt-4 flex items-center">
+                            ${chosen ? (
+                                chosen.nameKo === q.country.nameKo ? `
+                                    <div class="w-full p-3 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 text-xs font-kids animate-pop flex items-center gap-2">
+                                        <span class="text-lg">🎉</span>
+                                        <span>정답입니다! <strong>${q.country.nameKo}</strong> (세계 영토 ${q.country.rank}위)을 맞췄어요!</span>
+                                    </div>
+                                ` : `
+                                    <div class="w-full p-3 rounded-xl bg-rose-950/60 border border-rose-500/40 text-rose-300 text-xs font-kids animate-pop flex items-center gap-2">
+                                        <span class="text-lg">💡</span>
+                                        <span>정답은 <strong>${q.country.nameKo}</strong>였어요! 3D 지구본의 초록색 위치를 확인해보세요.</span>
+                                    </div>
+                                `
+                            ) : ''}
+                        </div>
+                    </div>
+
+                    <!-- 3D Mystery Globe -->
+                    <div class="flex flex-col items-center justify-center p-4 bg-slate-900/90 rounded-3xl border border-slate-800 text-center">
+                        <span class="text-xs font-kids text-emerald-400 mb-2">반짝이는 초록색 영토를 확인하세요!</span>
+                        <canvas id="quizGlobeCanvas" width="280" height="280" class="globe-canvas border border-slate-700 glow-emerald"></canvas>
+                        <p class="text-[11px] text-slate-400 mt-3 font-kids">
+                            👆 지구본을 마우스나 손가락으로 돌려보며 크기를 느껴보세요!
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            setTimeout(() => {
+                const c = document.getElementById('quizGlobeCanvas');
+                if (c) drawGlobe(c, q.country.id, q.country.center, q.country.scale);
+            }, 50);
+        }
+
+        function selectQuiz2Answer(qIndex, nameKo) {
+            if (quiz2State.answers[qIndex]) return; // already answered
+            const q = quiz2State.questions[qIndex];
+            const selected = q.options.find(o => o.nameKo === nameKo);
+            quiz2State.answers[qIndex] = selected;
+
+            if (nameKo === q.country.nameKo) {
+                playSound('correct');
+                quiz2State.score++;
+            } else {
+                playSound('wrong');
+            }
+            renderSlide();
+        }
+
+        // SLIDE 25: Master Explorer Badge & Completion
+        function renderCompletionSlide() {
+            playSound('fanfare');
+            if (window.confetti) {
+                window.confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+            }
+            const body = document.getElementById('slideBody');
+            body.innerHTML = `
+                <div class="text-center max-w-xl mx-auto py-2">
+                    <div class="w-24 h-24 mx-auto rounded-3xl bg-gradient-to-tr from-emerald-500 via-teal-400 to-sky-400 flex items-center justify-center text-5xl shadow-2xl mb-4 border-2 border-white/20 animate-pop">
+                        🏆
+                    </div>
+                    <span class="px-4 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold font-kids">
+                        수료증 수여
+                    </span>
+                    <h3 class="font-kids text-3xl md:text-4xl text-white mt-2 mb-2">
+                        축하합니다! 은찬이는 이제<br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-sky-400">지구 지리 탐험 마스터</span>예요! 🌟
+                    </h3>
+                    <p class="text-slate-300 text-xs md:text-sm mb-6 leading-relaxed">
+                        평면 지도의 메르카토르 왜곡 비밀부터 인도 vs 그린란드 진짜 크기,<br>
+                        그리고 세계에서 영토가 가장 넓은 나라 Top 10까지 모두 정복했어요!
+                    </p>
+
+                    <!-- Score Card -->
+                    <div class="bg-slate-900/90 p-5 rounded-3xl border border-slate-800 max-w-md mx-auto mb-6 text-left">
+                        <div class="flex items-center justify-between pb-3 border-b border-white/10 mb-3">
+                            <span class="text-xs text-slate-400">최종 퀴즈 점수</span>
+                            <span class="font-kids text-xl text-emerald-400">맞춘 문제: ${quiz2State.score} / 5</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3 text-xs font-kids">
+                            <div class="p-3 bg-slate-950 rounded-2xl text-slate-300">
+                                🌟 획득 칭호: <span class="text-amber-400">세계 지리 박사</span>
+                            </div>
+                            <div class="p-3 bg-slate-950 rounded-2xl text-slate-300">
+                                🎖️ 완료 배지: <span class="text-emerald-400">3D 지구 마스터</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+                        <button onclick="restartExperience()" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-kids text-sm flex items-center justify-center gap-2 transition">
+                            <i class="fa-solid fa-rotate-left"></i> 처음부터 다시 보기
+                        </button>
+                        <a href="eunchan-study.html" class="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-kids text-sm shadow-xl shadow-emerald-900/40 flex items-center justify-center gap-2 transition">
+                            🎒 공부방 홈으로 가기 <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        function restartExperience() {
+            quiz1Answers = { q1: null, q2: null };
+            quiz2State.answers = {};
+            quiz2State.score = 0;
+            initQuiz2();
+            currentSlide = 1;
+            renderSlide();
+        }
+
+        // Text-to-Speech (TTS) for kids
+        let isSpeaking = false;
+        function toggleReadOutLoud() {
+            if (!('speechSynthesis' in window)) {
+                alert('이 브라우저는 음성 읽어주기를 지원하지 않습니다.');
+                return;
+            }
+            if (isSpeaking) {
+                window.speechSynthesis.cancel();
+                isSpeaking = false;
+                document.getElementById('ttsBtn').classList.remove('text-emerald-400', 'animate-pulse');
+                document.getElementById('ttsBtn').classList.add('text-amber-400');
+                return;
+            }
+
+            const slide = document.getElementById('slideBody');
+            if (!slide) return;
+            const textToRead = slide.innerText.replace(/[⭕❌✨💡🚨🤔👉🔴🌟🎖️🏆🚀🍊🗺️🔍📏🌐❓🇩🇿🇰🇿🇦🇷🇮🇳🇦🇺🇧🇷🇺🇸🇨🇳🇨🇦🇷🇺🇬🇱]/g, ' ');
+
+            const utterance = new SpeechSynthesisUtterance(textToRead);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.95; // slightly slower for kids
+            utterance.pitch = 1.05;
+
+            utterance.onstart = () => {
+                isSpeaking = true;
+                document.getElementById('ttsBtn').classList.remove('text-amber-400');
+                document.getElementById('ttsBtn').classList.add('text-emerald-400', 'animate-pulse');
+            };
+
+            utterance.onend = () => {
+                isSpeaking = false;
+                document.getElementById('ttsBtn').classList.remove('text-emerald-400', 'animate-pulse');
+                document.getElementById('ttsBtn').classList.add('text-amber-400');
+            };
+
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Keyboard Navigation (Arrow Keys)
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'PageDown') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+        });
+
+        // Touch Swipe Navigation for mobile & tablets (prevented during map interactions)
+        let touchStartX = 0;
+        let touchEndX = 0;
+        document.addEventListener('touchstart', e => {
+            if (isInteractingWithMap || e.target.closest('canvas, button, a, input, select, textarea, .no-swipe')) {
+                touchStartedOnInteractive = true;
+                return;
+            }
+            touchStartedOnInteractive = false;
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.addEventListener('touchend', e => {
+            if (touchStartedOnInteractive || isInteractingWithMap) {
+                touchStartedOnInteractive = false;
+                isInteractingWithMap = false;
+                return;
+            }
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 75) nextSlide();
+            if (touchEndX - touchStartX > 75) prevSlide();
+        }, { passive: true });
+    </script>
+</body>
+</html>

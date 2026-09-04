@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="images/dd_lifelog_icon.png">
     <meta name="google-site-verification" content="PkQVnc5XrT6IR2iHEEM-aWVXEXO8JDO2VF6aWgn__eE" />
     <title>Game Modes | 심지어타이쿤</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -43,9 +42,7 @@
         /* 멀티 핑 */
         @keyframes ping-ring { 0%{r:6;opacity:.9} 100%{r:20;opacity:0} }
         .ping-ring { animation: ping-ring 1.4s ease-out infinite; }
-            .nav-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; }
-        .nav-scroll::-webkit-scrollbar { display: none; }
-</style>
+    </style>
 </head>
 <body class="scroll-smooth">
 
@@ -56,12 +53,12 @@
                 <img src="images/simzieo_tycoon_icon.png" alt="심지어타이쿤 Icon" class="w-8 h-8 rounded-lg border border-sky-500/30 object-cover">
                 <span class="text-2xl font-bold tracking-tighter gradient-text">심지어타이쿤</span>
             </a>
-            <div class="hidden md:flex nav-scroll items-center gap-x-4 lg:gap-x-8 text-sm font-medium text-slate-300 max-w-[55vw]">
-                <a href="index.html" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">Home</a>
-                <a href="dd-lifelog.html" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">DD LifeLog</a>
-                <a href="railwaystudio.html" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">심지어타이쿤</a>
-                <a href="modes.html" class="whitespace-nowrap flex-shrink-0 text-sky-400 font-bold">Game Modes</a>
-                <a href="about_me.html" class="whitespace-nowrap flex-shrink-0 hover:text-sky-400 transition">About Me</a>
+            <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-300 items-center">
+                <a href="index.html" class="hover:text-sky-400 transition">Home</a>
+                <a href="dd-lifelog.html" class="hover:text-sky-400 transition">DD LifeLog</a>
+                <a href="railwaystudio.html" class="hover:text-sky-400 transition">심지어타이쿤</a>
+                <a href="modes.html" class="text-sky-400 font-bold">Game Modes</a>
+                <a href="about_me.html" class="hover:text-sky-400 transition">About Me</a>
             </div>
         </div>
     </nav>
@@ -256,18 +253,18 @@
             </div>
 
             <!-- Campaign stats bar -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+            <div class="grid grid-cols-3 gap-4 mt-6">
                 <div class="glass rounded-2xl p-5 text-center">
                     <p class="text-3xl font-extrabold text-sky-400">207</p>
-                    <p class="text-xs text-slate-500 mt-1 uppercase tracking-wide sm:tracking-widest">Total Stages</p>
+                    <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest">Total Stages</p>
                 </div>
                 <div class="glass rounded-2xl p-5 text-center">
                     <p class="text-3xl font-extrabold text-violet-400">3</p>
-                    <p class="text-xs text-slate-500 mt-1 uppercase tracking-wide sm:tracking-widest">Transport Types</p>
+                    <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest">Transport Types</p>
                 </div>
                 <div class="glass rounded-2xl p-5 text-center">
                     <p class="text-3xl font-extrabold text-emerald-400">∞</p>
-                    <p class="text-xs text-slate-500 mt-1 uppercase tracking-wide sm:tracking-widest">Route Possibilities</p>
+                    <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest">Route Possibilities</p>
                 </div>
             </div>
         </section>
@@ -514,10 +511,10 @@
                     <h5 class="text-xl font-bold gradient-text mb-2">EmStudio — 심지어타이쿤</h5>
                     <p class="text-slate-500 text-sm">Creative Simulation & Mobile Apps by Daduki</p>
                 </div>
-                <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs font-medium text-slate-400">
-                    <a href="index.html" class="whitespace-nowrap hover:text-sky-400 transition">EmStudio Home</a>
-                    <a href="dd-lifelog.html" class="whitespace-nowrap hover:text-sky-400 transition">DD LifeLog</a>
-                    <a href="mailto:daduki@gmail.com" class="whitespace-nowrap hover:text-sky-400 transition">Contact</a>
+                <div class="flex space-x-6 text-xs font-medium text-slate-400">
+                    <a href="index.html" class="hover:text-sky-400 transition">EmStudio Home</a>
+                    <a href="dd-lifelog.html" class="hover:text-sky-400 transition">DD LifeLog</a>
+                    <a href="mailto:daduki@gmail.com" class="hover:text-sky-400 transition">Contact</a>
                 </div>
             </div>
             <div class="mt-12 text-center text-[10px] text-slate-700 uppercase tracking-widest">

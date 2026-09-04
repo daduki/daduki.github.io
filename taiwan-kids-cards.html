@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="images/dd_lifelog_icon.png">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -70,31 +69,32 @@
             100% { transform: scale(1); opacity: 1; }
         }
         .animate-pop { animation: pop 0.4s ease-out forwards; }
-            .nav-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; }
-        .nav-scroll::-webkit-scrollbar { display: none; }
-</style>
+    </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-emerald-500 selection:text-white pb-20">
 
     <!-- Header Navigation -->
     <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
         <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center gap-3 min-w-0">
-                <a href="taiwan-trip.html" class="whitespace-nowrap flex-shrink-0 p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition flex items-center gap-1.5 text-xs font-semibold">
+            <div class="flex items-center gap-2">
+                <a href="eunchan-study.html" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1.5 text-xs font-semibold">
+                    <i class="fa-solid fa-graduation-cap"></i> 공부방 홈
+                </a>
+                <a href="taiwan-trip.html" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition flex items-center gap-1.5 text-xs font-semibold">
                     <i class="fa-solid fa-arrow-left"></i> 대시보드
                 </a>
-                <div class="min-w-0">
-                    <h1 class="font-kids text-sm sm:text-lg md:text-xl text-emerald-400 flex items-center gap-2 flex-wrap">
+                <div>
+                    <h1 class="font-kids text-lg md:text-xl text-emerald-400 flex items-center gap-2">
                         <span>🇹🇼 은찬이의 대만 탐험 카드뉴스 & 퀴즈</span>
-                        <span class="whitespace-nowrap text-xs font-sans px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">7세 눈높이</span>
+                        <span class="text-xs font-sans px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">7세 눈높이</span>
                     </h1>
                 </div>
             </div>
-            <div class="flex items-center gap-2 flex-shrink-0">
-                <a href="index.html" class="whitespace-nowrap text-xs text-slate-400 hover:text-slate-200 transition px-2 py-1 rounded bg-slate-800">
+            <div class="flex items-center gap-2">
+                <a href="index.html" class="text-xs text-slate-400 hover:text-slate-200 transition px-2 py-1 rounded bg-slate-800">
                     <i class="fa-solid fa-house mr-1"></i>메인
                 </a>
-                <button id="resetProgressBtn" onclick="resetProgress()" class="whitespace-nowrap text-xs text-rose-400 hover:text-rose-300 transition px-2 py-1 rounded bg-rose-950/40 border border-rose-800/40" title="학습 진척도 초기화">
+                <button id="resetProgressBtn" onclick="resetProgress()" class="text-xs text-rose-400 hover:text-rose-300 transition px-2 py-1 rounded bg-rose-950/40 border border-rose-800/40" title="학습 진척도 초기화">
                     <i class="fa-solid fa-rotate-left mr-1"></i>초기화
                 </button>
             </div>
