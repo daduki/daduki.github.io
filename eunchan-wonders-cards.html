@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>세계 7대 불가사의 & 랜드마크 탐험 | 은찬이의 공부방 🗿</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script src="js/d3.min.js"></script>
+    <script src="js/topojson-client.min.js"></script>
+    <script src="js/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                        kids: ['"Jua"', 'cursive', 'sans-serif']
+                    },
+                    colors: {
+                        wonder: {
+                            night: '#1e1b4b',
+                            stone: '#78716c',
+                            gold: '#eab308',
+                            sky: '#38bdf8'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .font-kids { font-family: 'Jua', cursive, sans-serif; }
+        .glass-card {
+            background: rgba(30, 27, 75, 0.9);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(234, 179, 8, 0.2);
+        }
+        .slide-fade {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .globe-canvas {
+            display: block;
+            border-radius: 1rem;
+            cursor: grab;
+            touch-action: none;
+        }
+        .globe-canvas:active { cursor: grabbing; }
+
+        /* Real-photo reveal & motion (new for this page) */
+        .img-reveal { opacity: 0; transform: scale(1.08); animation: imgReveal 0.6s ease forwards; }
+        @keyframes imgReveal { to { opacity: 1; transform: scale(1); } }
+        .ken-burns { animation: kenBurns 12s ease-in-out infinite alternate; }
+        @keyframes kenBurns { from { transform: scale(1) translate(0,0); } to { transform: scale(1.12) translate(-1.5%, -1%); } }
+        .sticker-pop { animation: stickerPop 0.5s cubic-bezier(.34,1.56,.64,1) both; }
+        @keyframes stickerPop { 0% { transform: scale(0) rotate(-15deg); opacity:0; } 100% { transform: scale(1) rotate(-8deg); opacity:1; } }
+    </style>
+</head>
+<body class="bg-wonder-night text-slate-100 min-h-screen font-sans flex flex-col justify-between selection:bg-amber-500 selection:text-white">
+
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-amber-900/30">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="eunchan-study.html" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition flex items-center gap-1.5 text-xs font-semibold">
+                    <i class="fa-solid fa-arrow-left"></i> 공부방 홈
+                </a>
+                <div>
+                    <h1 class="font-kids text-base md:text-lg text-amber-400 flex items-center gap-2">
+                        <span>🗿 세계 7대 불가사의 탐험</span>
+                        <span class="text-[11px] font-sans px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">7~10세 초등 맞춤</span>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Slide progress & Sound/Read toggles -->
+            <div class="flex items-center gap-2 md:gap-3">
+                <div class="flex items-center gap-1 bg-slate-800/80 px-2.5 py-1 rounded-full border border-slate-700 text-xs">
+                    <i class="fa-solid fa-layer-group text-amber-400"></i>
+                    <span id="slideIndicator" class="font-kids text-amber-300 text-sm font-bold">1</span>
+                    <span class="text-slate-400 font-kids text-xs">/ 23</span>
+                </div>
+                <button id="ttsBtn" onclick="toggleReadOutLoud()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-sky-400 hover:text-sky-300 transition text-xs font-semibold" title="친절한 목소리로 읽어주기">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+                <button onclick="toggleIndexDrawer()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-xs font-semibold" title="전체 목차">
+                    <i class="fa-solid fa-list-ol"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Top Progress Bar -->
+        <div class="w-full bg-slate-800 h-1.5 overflow-hidden">
+            <div id="topProgressBar" class="bg-gradient-to-r from-amber-500 via-yellow-400 to-sky-400 h-full transition-all duration-300" style="width: 4.35%"></div>
+        </div>
+    </header>
+
+    <!-- Main Slide Stage -->
+    <main class="flex-grow flex items-center justify-center px-3 md:px-6 py-6 max-w-5xl mx-auto w-full">
+        <div id="slideCard" class="w-full glass-card rounded-3xl p-5 md:p-8 border border-white/10 shadow-2xl relative overflow-hidden min-h-[580px] flex flex-col justify-between">
+            <!-- Slide Content Injected Dynamically -->
+            <div id="slideBody" class="slide-fade flex-grow flex flex-col justify-center"></div>
+
+            <!-- Slide Bottom Controls -->
+            <div class="pt-6 border-t border-white/10 flex items-center justify-between mt-4">
+                <button id="prevBtn" onclick="prevSlide()" class="px-5 py-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:pointer-events-none text-slate-200 font-kids text-sm flex items-center gap-2 transition">
+                    <i class="fa-solid fa-arrow-left"></i> 이전장
+                </button>
+
+                <div class="flex items-center gap-1.5 overflow-x-auto max-w-[200px] md:max-w-[420px] py-1" id="dotsContainer">
+                    <!-- Dots generated in JS -->
+                </div>
+
+                <button id="nextBtn" onclick="nextSlide()" class="px-6 py-2.5 rounded-2xl bg-gradient-to-r from-amber-600 to-yellow-500 hover:from-amber-500 hover:to-yellow-400 text-slate-950 font-kids text-sm flex items-center gap-2 shadow-lg shadow-amber-950/40 transition">
+                    다음장 <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Slide Index Modal / Drawer -->
+    <div id="indexDrawer" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex justify-end">
+        <div class="bg-slate-900 border-l border-slate-700 w-full max-w-md h-full p-6 overflow-y-auto flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-4">
+                    <h3 class="font-kids text-lg text-amber-400">🗿 전체 23개 슬라이드 목차</h3>
+                    <button onclick="toggleIndexDrawer()" class="text-slate-400 hover:text-white text-xl">✕</button>
+                </div>
+                <div class="space-y-1.5" id="drawerList"></div>
+            </div>
+            <button onclick="toggleIndexDrawer()" class="w-full py-3 mt-4 bg-slate-800 text-slate-300 rounded-xl font-kids text-sm">닫기</button>
+        </div>
+    </div>
+
+    <!-- Audio FX Synthesizer -->
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, now);
+                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1);
+                osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                osc.start(now);
+                osc.stop(now + 0.5);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.exponentialRampToValueAtTime(130, now + 0.25);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'pop') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(320, now);
+                osc.frequency.exponentialRampToValueAtTime(580, now + 0.08);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                osc.start(now);
+                osc.stop(now + 0.1);
+            } else if (type === 'fanfare') {
+                [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+                    const o = audioCtx.createOscillator();
+                    const g = audioCtx.createGain();
+                    o.connect(g);
+                    g.connect(audioCtx.destination);
+                    o.type = 'triangle';
+                    o.frequency.setValueAtTime(freq, now + i * 0.12);
+                    g.gain.setValueAtTime(0.2, now + i * 0.12);
+                    g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.12 + 0.4);
+                    o.start(now + i * 0.12);
+                    o.stop(now + i * 0.12 + 0.4);
+                });
+            }
+        }
+    </script>
+
+    <!-- Image fallback helper (3-tier: Commons photo -> onerror -> giant emoji placeholder) -->
+    <script>
+        function imgFallbackEmoji(imgEl, emoji) {
+            imgEl.onerror = null;
+            const wrap = imgEl.parentElement;
+            imgEl.remove();
+            wrap.insertAdjacentHTML('afterbegin', `<div class="w-full h-full flex items-center justify-center text-6xl bg-wonder-night">${emoji}</div>`);
+        }
+    </script>
+
+    <!-- Slide Engine -->
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 23;
+        let touchStartedOnInteractive = false;
+        let isInteractingWithMap = false;
+
+        const LANDMARKS = [
+            { key: 'giza', nameKo: '기자의 대피라미드', nameEn: 'Great Pyramid of Giza', country: '이집트', emoji: '🗿',
+              photo: 'https://commons.wikimedia.org/wiki/Special:FilePath/Great%20Pyramid%20of%20Giza%20-%201.jpg?width=900',
+              alt: '이집트 기자의 대피라미드 전경', lat: 29.98, lon: 31.13,
+              oneLiner: '4500년 전 쿠푸왕의 무덤, 고대 불가사의 중 유일한 생존자예요.' },
+            { key: 'petra', nameKo: '페트라 (알카즈네)', nameEn: 'Al-Khazneh (The Treasury), Petra, Jordan', country: '요르단', emoji: '🏛️',
+              photo: 'https://commons.wikimedia.org/wiki/Special:FilePath/Al-Khazneh%20%28The%20Treasury%29%2C%20Petra%2C%20Jordan.jpg?width=900',
+              alt: '요르단 페트라의 알카즈네(보물창고) 유적', lat: 30.33, lon: 35.44,
+              oneLiner: '분홍빛 절벽을 통째로 깎아 만든 2000년 전 도시예요.' },
+            { key: 'tajmahal', nameKo: '타지마할', nameEn: 'Taj Mahal, Agra, India', country: '인도', emoji: '🕌',
+              photo: 'https://commons.wikimedia.org/wiki/Special:FilePath/Taj%20Mahal%2C%20Agra%2C%20India.jpg?width=900',
+              alt: '인도 아그라의 하얀 대리석 건축물 타지마할', lat: 27.18, lon: 78.04,
+              oneLiner: '황제가 왕비를 위해 지은 하얀 대리석 사랑의 무덤이에요.' },
+            { key: 'greatwall', nameKo: '만리장성', nameEn: 'Great Wall of China', country: '중국', emoji: '🐉',
+              photo: 'https://commons.wikimedia.org/wiki/Special:FilePath/Great%20Wall%20of%20China.jpg?width=900',
+              alt: '중국 만리장성의 구불구불한 성벽', lat: 40.43, lon: 116.57,
+              oneLiner: '총 길이 21,196km! 용처럼 산을 넘는 거대한 성벽이에요.' },
+            { key: 'colosseum', nameKo: '콜로세움', nameEn: 'Colosseum of Rome, Italy', country: '이탈리아', emoji: '🏟️',
+              photo: 'https://commons.wikimedia.org/wiki/Special:FilePath/Colosseum%20of%20Rome%2C%20Italy.jpg?width=900',
+              alt: '이탈리아 로마의 원형 경기장 콜로세움', lat: 41.89, lon: 12.49,
+              oneLiner: '5만 명이 관람하던 2000년 전 로마의 대형 경기장이에요.' },
+            { key: 'chichenitza', nameKo: '치첸이트사', nameEn: 'The El Castillo Pyramid at Chichen Itza, Mexico', country: '멕시코', emoji: '🐍',
+              photo: 'https://commons.wikimedia.org/wiki/Special:FilePath/The%20El%20Castillo%20Pyramid%20at%20Chichen%20Itza%2C%20Mexico.jpg?width=900',
+              alt: '멕시코 치첸이트사의 엘 카스티요 피라미드', lat: 20.68, lon: -88.57,
+              oneLiner: '계단 수를 더하면 365! 마야 문명의 신비한 피라미드예요.' },
+            { key: 'christ', nameKo: '거대 예수상', nameEn: 'Christ the Redeemer - Cristo Redentor', country: '브라질', emoji: '🙏',
+              photo: 'https://commons.wikimedia.org/wiki/Special:FilePath/Christ%20the%20Redeemer%20-%20Cristo%20Redentor.jpg?width=900',
+              alt: '브라질 리우데자네이루의 거대 예수상', lat: -22.95, lon: -43.21,
+              oneLiner: '산꼭대기에서 두 팔 벌려 도시를 안아주는 조각상이에요.' },
+            { key: 'machupicchu', nameKo: '마추픽추', nameEn: 'Machu Picchu, Peru', country: '페루', emoji: '🏔️',
+              photo: 'https://commons.wikimedia.org/wiki/Special:FilePath/Machu%20Picchu%2C%20Peru.jpg?width=900',
+              alt: '페루 안데스산맥의 고대 도시 마추픽추', lat: -13.16, lon: -72.55,
+              oneLiner: '구름 위 안데스산맥에 숨겨졌던 잉카 문명의 도시예요.' },
+            { key: 'eiffel', nameKo: '에펠탑', nameEn: 'Tour Eiffel Wikimedia Commons', country: '프랑스', emoji: '🗼',
+              photo: 'https://commons.wikimedia.org/wiki/Special:FilePath/Tour%20Eiffel%20Wikimedia%20Commons.jpg?width=900',
+              alt: '프랑스 파리의 에펠탑', lat: 48.86, lon: 2.29,
+              oneLiner: '철거될 뻔했지만 파리의 상징이 된 철탑이에요.' },
+            { key: 'liberty', nameKo: '자유의 여신상', nameEn: 'Statue of Liberty, NY', country: '미국', emoji: '🗽',
+              photo: 'https://commons.wikimedia.org/wiki/Special:FilePath/Statue%20of%20Liberty%2C%20NY.jpg?width=900',
+              alt: '미국 뉴욕의 자유의 여신상', lat: 40.69, lon: -74.04,
+              oneLiner: '프랑스가 선물한, 횃불을 든 자유의 상징이에요.' }
+        ];
+
+        const QUIZ_QUESTIONS = [
+            {
+                q: "이집트의 기자 대피라미드는 원래 누구를 위한 무덤으로 지어졌을까요?",
+                options: ["파라오 쿠푸왕", "이집트 여왕 클레오파트라", "로마 황제 아우구스투스", "인도 황제 샤 자한"],
+                ans: 0,
+                hint: "고대 이집트의 왕을 '파라오'라고 불러요. 대피라미드는 쿠푸왕의 무덤으로 지어졌어요!"
+            },
+            {
+                q: "중국 만리장성의 총 길이는 대략 몇 km일까요?",
+                options: ["210km", "2,100km", "21,196km", "210,000km"],
+                ans: 2,
+                hint: "여러 시대에 걸쳐 만들어진 모든 구간을 다 합치면 무려 21,196km나 된답니다!"
+            },
+            {
+                q: "콜로세움은 언제, 어느 나라에 지어졌을까요?",
+                options: ["약 500년 전, 프랑스", "약 2,000년 전, 고대 로마(이탈리아)", "약 100년 전, 미국", "약 4,500년 전, 이집트"],
+                ans: 1,
+                hint: "콜로세움은 약 2,000년 전 고대 로마 사람들이 만든 거대한 원형 경기장이에요!"
+            },
+            {
+                q: "멕시코 치첸이트사 피라미드의 계단 개수(91×4+1)를 모두 더하면 무엇과 같아질까요?",
+                options: ["1년의 날짜 수(365)", "일주일의 요일 수", "지구 나이", "달의 개수"],
+                ans: 0,
+                hint: "사면 계단 91개씩 4번(364) 더하기 맨 위 신전 바닥 1개를 더하면 정확히 365가 돼요!"
+            },
+            {
+                q: "페루의 마추픽추는 어디에 숨겨져 있던 고대 도시일까요?",
+                options: ["사막 한가운데", "깊은 바닷속", "안데스산맥의 높은 산 위", "북극의 얼음 속"],
+                ans: 2,
+                hint: "해발 약 2,400m나 되는 안데스산맥 높은 곳에 숨겨져 있어서 오랫동안 발견되지 못했어요!"
+            }
+        ];
+        let quizAnswers = {};
+
+        const SLIDE_TITLES = [
+            "01. 🗿 인트로: 세계 7대 불가사의 대탐험 출발",
+            "02. 📜 고대 불가사의 vs 신 세계 7대 불가사의",
+            "03. 🗿 기자의 대피라미드 (이집트)",
+            "04. 📏 [비교] 은찬이와 피라미드 키 대결",
+            "05. 🏛️ 페트라 알카즈네 (요르단)",
+            "06. 🕌 타지마할 (인도)",
+            "07. 🐉 만리장성 (중국)",
+            "08. 📏 [비교] 만리장성 vs 서울-부산 왕복",
+            "09. 🏟️ 콜로세움 (이탈리아)",
+            "10. 📏 [비교] 콜로세움 관중 5만 명의 규모",
+            "11. 🐍 치첸이트사 (멕시코) & 365 계단의 비밀",
+            "12. 🙏 거대 예수상 (브라질)",
+            "13. 🏔️ 마추픽추 (페루)",
+            "14. 🗼 [보너스] 에펠탑 (프랑스)",
+            "15. 🗽 [보너스] 자유의 여신상 (미국)",
+            "16. 🌐 [인터랙티브] 지구본으로 랜드마크 찾기",
+            "17. 🗺️ 전체 랜드마크 한눈에 복습하기",
+            "18. 🎯 실전 퀴즈 1",
+            "19. 🎯 실전 퀴즈 2",
+            "20. 🎯 실전 퀴즈 3",
+            "21. 🎯 실전 퀴즈 4",
+            "22. 🎯 실전 퀴즈 5",
+            "23. 🏆 [수료증] 세계 랜드마크 탐험가 배지"
+        ];
+
+        function updateProgress() {
+            document.getElementById('slideIndicator').textContent = currentSlide;
+            const pct = (currentSlide / totalSlides) * 100;
+            document.getElementById('topProgressBar').style.width = pct + '%';
+            document.getElementById('prevBtn').disabled = (currentSlide === 1);
+            document.getElementById('nextBtn').disabled = (currentSlide === totalSlides);
+
+            const dotsCont = document.getElementById('dotsContainer');
+            dotsCont.innerHTML = '';
+            for (let i = 1; i <= totalSlides; i++) {
+                const dot = document.createElement('button');
+                dot.className = `w-2 h-2 rounded-full transition-all flex-shrink-0 ${i === currentSlide ? 'w-5 bg-amber-400' : 'bg-slate-700 hover:bg-slate-500'}`;
+                dot.onclick = () => goToSlide(i);
+                dotsCont.appendChild(dot);
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                playSound('pop');
+                currentSlide++;
+                renderSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                playSound('pop');
+                currentSlide--;
+                renderSlide();
+            }
+        }
+
+        function goToSlide(n) {
+            playSound('pop');
+            currentSlide = n;
+            renderSlide();
+            const drawer = document.getElementById('indexDrawer');
+            if (!drawer.classList.contains('hidden')) drawer.classList.add('hidden');
+        }
+
+        function toggleIndexDrawer() {
+            const drawer = document.getElementById('indexDrawer');
+            drawer.classList.toggle('hidden');
+            if (!drawer.classList.contains('hidden')) {
+                const list = document.getElementById('drawerList');
+                list.innerHTML = '';
+                SLIDE_TITLES.forEach((t, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = `w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between transition ${idx + 1 === currentSlide ? 'bg-amber-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}`;
+                    btn.textContent = t;
+                    btn.onclick = () => goToSlide(idx + 1);
+                    list.appendChild(btn);
+                });
+            }
+        }
+
+        function renderSlide() {
+            updateProgress();
+            const body = document.getElementById('slideBody');
+
+            if (currentSlide === 1) {
+                const w = LANDMARKS.find(x => x.key === 'giza');
+                body.innerHTML = `
+                    <div class="text-center py-4">
+                        <div class="relative w-full max-w-xl mx-auto h-48 md:h-56 rounded-3xl overflow-hidden mb-6 border border-white/10">
+                            <!-- Photo: ${w.nameEn}, Wikimedia Commons, see file page for license -->
+                            <img src="${w.photo}" alt="${w.alt}, 세계 7대 불가사의 탐험의 시작"
+                                 loading="lazy" decoding="async"
+                                 class="w-full h-full object-cover img-reveal ken-burns"
+                                 onerror="imgFallbackEmoji(this,'${w.emoji}')">
+                            <div class="absolute inset-0 bg-gradient-to-t from-wonder-night via-wonder-night/20 to-transparent"></div>
+                            <div class="absolute top-3 right-3 text-3xl sticker-pop" style="animation-delay:0.4s">⏳</div>
+                        </div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-kids mb-4">
+                            <span>🗿 은찬이의 세계 탐험 1호</span> · <span>7~10세 초등 맞춤</span>
+                        </div>
+                        <h2 class="font-kids text-3xl md:text-5xl text-white mb-4 leading-tight">
+                            전 세계 1억 명이 함께 뽑은!<br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-300 to-sky-400">세계 7대 불가사의 대탐험</span> 🌍
+                        </h2>
+                        <p class="text-slate-300 text-sm md:text-base max-w-2xl mx-auto leading-relaxed mb-6 font-sans">
+                            4500년 전에 지어졌지만 아직도 우뚝 서 있는 <strong>이집트 피라미드</strong>부터, 2007년 전 세계 사람들의 투표로 새롭게 뽑힌 <strong>신(新) 세계 7대 불가사의</strong>까지!<br>
+                            사진과 3D 지구본으로 직접 랜드마크(세상에 널리 알려진 유명한 건축물)를 찾아 떠나요.
+                        </p>
+                        <div class="flex flex-wrap items-center justify-center gap-3">
+                            <button onclick="playSound('fanfare'); nextSlide();" class="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-kids text-base shadow-xl shadow-amber-950/40 transition active:scale-95 flex items-center gap-2 font-bold">
+                                <span>🧭 탐험 출발!</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 2) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">📜</span>
+                            <div>
+                                <span class="text-xs font-bold text-amber-400 font-kids">불가사의(믿을 수 없을 만큼 신비한 것)의 두 가지 이야기</span>
+                                <h3 class="font-kids text-2xl text-white">고대 불가사의 vs 신(新) 세계 7대 불가사의</h3>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-4 font-sans text-xs md:text-sm text-slate-300 mb-4">
+                            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-700">
+                                <span class="text-xs font-kids text-sky-400 block mb-1">옛날 옛적 · 고대 세계 7대 불가사의</span>
+                                <div class="text-2xl mb-2">🏛️</div>
+                                <p>약 2,000년 전 고대 그리스 사람들이 "이건 정말 대단하다!"며 뽑은 7개의 건축물이에요. 하지만 지진과 전쟁, 화재 등으로 대부분 사라졌어요.</p>
+                            </div>
+                            <div class="p-4 bg-amber-950/30 rounded-2xl border border-amber-500/40 ring-2 ring-amber-500/20">
+                                <span class="text-xs font-kids text-amber-300 block mb-1">2007년 · 신(新) 세계 7대 불가사의</span>
+                                <div class="text-2xl mb-2">🗳️</div>
+                                <p class="font-semibold text-white">전 세계 <strong>1억 명이 넘는 사람들이 인터넷과 전화로 투표</strong>해서 새롭게 뽑은 7개의 놀라운 건축물이에요!</p>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-700 text-xs md:text-sm text-slate-300 leading-relaxed">
+                            <strong class="text-amber-300 font-kids block mb-1">🗿 그런데 이집트 피라미드는 왜 투표에 없었을까요?</strong>
+                            사실 피라미드는 <strong>고대 세계 7대 불가사의 중 유일하게 지금까지 살아남은 진짜 불가사의</strong>라서, 다른 후보들과 경쟁하지 않고 특별히 <strong>명예 회원</strong>으로 신 세계 7대 불가사의에 함께 초대되었답니다!
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 3) {
+                const w = LANDMARKS.find(x => x.key === 'giza');
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-6 items-center">
+                        <div class="relative h-52 md:h-64 rounded-2xl overflow-hidden border border-slate-700">
+                            <!-- Photo: ${w.nameEn}, Wikimedia Commons, see file page for license -->
+                            <img src="${w.photo}" alt="${w.alt}" loading="lazy" decoding="async"
+                                 class="w-full h-full object-cover img-reveal" onerror="imgFallbackEmoji(this,'${w.emoji}')">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                            <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-amber-500/90 text-slate-950 text-[11px] font-bold">명예 회원 · 이집트</span>
+                            <div class="absolute bottom-3 right-3 px-2 py-1 rounded-lg bg-slate-950/80 text-amber-300 text-[11px] font-kids sticker-pop">⏳ 4500년 전!</div>
+                        </div>
+                        <div>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mb-3">${w.nameKo} ${w.emoji}</h3>
+                            <div class="grid grid-cols-3 gap-2 mb-3 font-kids text-center text-[11px]">
+                                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800"><span class="text-slate-400 block">지어진 때</span><span class="text-amber-300 text-xs">약 4500년 전</span></div>
+                                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800"><span class="text-slate-400 block">원래 높이</span><span class="text-sky-300 text-xs">약 146m</span></div>
+                                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800"><span class="text-slate-400 block">돌덩이 수</span><span class="text-white text-xs">약 230만 개</span></div>
+                            </div>
+                            <div class="space-y-2 text-xs md:text-sm text-slate-300 leading-relaxed">
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700">고대 이집트의 왕을 <strong>파라오</strong>라고 불러요. 대피라미드는 <strong>쿠푸왕</strong>의 무덤으로 지어졌어요.</p>
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700">고대 세계 7대 불가사의 중 <strong>유일하게 지금까지 남아있는</strong> 진짜 불가사의예요!</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 4) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div>
+                                <span class="text-xs font-bold text-amber-400 font-kids">은찬이(120cm)와 비교해보는</span>
+                                <h3 class="font-kids text-2xl text-white">피라미드는 얼마나 클까?</h3>
+                            </div>
+                        </div>
+                        <div class="p-5 bg-slate-900/90 rounded-3xl border border-slate-700">
+                            <div class="flex items-end gap-6 justify-center h-40 mb-4">
+                                <div class="flex flex-col items-center justify-end h-full">
+                                    <div class="w-8 rounded-t-lg bg-sky-400" style="height: 14px;"></div>
+                                    <span class="text-[11px] font-kids text-sky-300 mt-2">은찬이<br>1.2m</span>
+                                </div>
+                                <div class="flex flex-col items-center justify-end h-full">
+                                    <div class="w-16 rounded-t-lg bg-gradient-to-t from-amber-600 to-amber-300" style="height: 100%;"></div>
+                                    <span class="text-[11px] font-kids text-amber-300 mt-2">대피라미드<br>약 146m</span>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <span class="font-kids text-2xl text-white">은찬이 키의 약 <span class="text-amber-400">122배</span>예요! 😲</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-400 font-kids text-center mt-3">
+                            💡 서울 63빌딩(249m)과 비교하면? 대피라미드는 63빌딩 절반보다 조금 더 높은 거대한 돌산이랍니다!
+                        </p>
+                    </div>
+                `;
+            } else if (currentSlide === 5) {
+                const w = LANDMARKS.find(x => x.key === 'petra');
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-6 items-center">
+                        <div class="relative h-52 md:h-64 rounded-2xl overflow-hidden border border-slate-700">
+                            <!-- Photo: ${w.nameEn}, Wikimedia Commons, see file page for license -->
+                            <img src="${w.photo}" alt="${w.alt}" loading="lazy" decoding="async"
+                                 class="w-full h-full object-cover img-reveal" onerror="imgFallbackEmoji(this,'${w.emoji}')">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                            <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-rose-500/90 text-white text-[11px] font-bold">신 세계 7대 불가사의 · 요르단</span>
+                        </div>
+                        <div>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mb-3">${w.nameKo} ${w.emoji}</h3>
+                            <div class="space-y-2 text-xs md:text-sm text-slate-300 leading-relaxed">
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700"><strong>나바테아인</strong>이라는 사람들이 약 2,000년 전 <strong>분홍빛 사암 절벽</strong>을 통째로 깎아 만든 신비한 도시예요.</p>
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700">사진 속 건물 '알카즈네(보물창고)'는 높이가 약 40m이고, 좁고 긴 협곡(시크)을 한참 걸어야 만날 수 있어요.</p>
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700">영화 &lt;인디아나 존스&gt;에도 등장했을 만큼 신비로운 분위기로 유명해요.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 6) {
+                const w = LANDMARKS.find(x => x.key === 'tajmahal');
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-6 items-center">
+                        <div class="relative h-52 md:h-64 rounded-2xl overflow-hidden border border-slate-700">
+                            <!-- Photo: ${w.nameEn}, Wikimedia Commons, see file page for license -->
+                            <img src="${w.photo}" alt="${w.alt}" loading="lazy" decoding="async"
+                                 class="w-full h-full object-cover img-reveal" onerror="imgFallbackEmoji(this,'${w.emoji}')">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                            <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-sky-500/90 text-white text-[11px] font-bold">신 세계 7대 불가사의 · 인도</span>
+                            <div class="absolute bottom-3 right-3 px-2 py-1 rounded-lg bg-slate-950/80 text-rose-300 text-[11px] font-kids sticker-pop">💗 사랑 이야기</div>
+                        </div>
+                        <div>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mb-3">${w.nameKo} ${w.emoji}</h3>
+                            <div class="space-y-2 text-xs md:text-sm text-slate-300 leading-relaxed">
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700">1632~1653년, <strong>무굴제국</strong>의 황제 <strong>샤 자한</strong>이 사랑하는 왕비 뭄타즈 마할을 위해 지은 하얀 대리석 무덤이에요.</p>
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700">완성까지 약 20년이 걸렸고, 인부 2만 명이 넘게 참여한 대공사였어요.</p>
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700">세상에서 가장 아름다운 <strong>사랑 이야기</strong>가 담긴 건축물로 손꼽혀요.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 7) {
+                const w = LANDMARKS.find(x => x.key === 'greatwall');
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-6 items-center">
+                        <div class="relative h-52 md:h-64 rounded-2xl overflow-hidden border border-slate-700">
+                            <!-- Photo: ${w.nameEn}, Wikimedia Commons, see file page for license -->
+                            <img src="${w.photo}" alt="${w.alt}" loading="lazy" decoding="async"
+                                 class="w-full h-full object-cover img-reveal" onerror="imgFallbackEmoji(this,'${w.emoji}')">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                            <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-emerald-600/90 text-white text-[11px] font-bold">신 세계 7대 불가사의 · 중국</span>
+                        </div>
+                        <div>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mb-3">${w.nameKo} ${w.emoji}</h3>
+                            <div class="space-y-2 text-xs md:text-sm text-slate-300 leading-relaxed">
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700">북쪽의 침입자들을 막기 위해 여러 시대에 걸쳐 쌓은 성벽으로, 총 길이가 무려 <strong>약 21,196km</strong>예요!</p>
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700">산등성이를 구불구불 타고 넘는 모습이 마치 <strong>거대한 용</strong>이 누워있는 것 같아요.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 8) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div>
+                                <span class="text-xs font-bold text-emerald-400 font-kids">21,196km는 도대체 얼마나 먼 거리일까?</span>
+                                <h3 class="font-kids text-2xl text-white">서울 ↔ 부산과 비교해보기</h3>
+                            </div>
+                        </div>
+                        <div class="p-5 bg-slate-900/90 rounded-3xl border border-slate-700 text-center">
+                            <p class="text-xs md:text-sm text-slate-300 mb-3">서울에서 부산까지 거리는 약 400km예요. 한 번 왕복(가고 오기)하면 약 800km!</p>
+                            <div class="text-3xl mb-2 tracking-wide">🚄🚄🚄🚄🚄🚄🚄🚄🚄🚄🚄🚄🚄🚄🚄🚄🚄🚄🚄🚄🚄🚄🚄🚄🚄🚄</div>
+                            <p class="font-kids text-xl text-white mb-1">서울↔부산을 무려 <span class="text-emerald-400">약 26번</span> 왕복하는 거리!</p>
+                            <p class="text-[11px] text-slate-400 font-kids">🌍 지구 둘레(약 40,075km)의 절반이 넘는 어마어마한 길이예요!</p>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 9) {
+                const w = LANDMARKS.find(x => x.key === 'colosseum');
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-6 items-center">
+                        <div class="relative h-52 md:h-64 rounded-2xl overflow-hidden border border-slate-700">
+                            <!-- Photo: ${w.nameEn}, Wikimedia Commons, see file page for license -->
+                            <img src="${w.photo}" alt="${w.alt}" loading="lazy" decoding="async"
+                                 class="w-full h-full object-cover img-reveal" onerror="imgFallbackEmoji(this,'${w.emoji}')">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                            <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-purple-600/90 text-white text-[11px] font-bold">신 세계 7대 불가사의 · 이탈리아</span>
+                            <div class="absolute bottom-3 right-3 px-2 py-1 rounded-lg bg-slate-950/80 text-amber-300 text-[11px] font-kids sticker-pop">⏳ 2000년 전!</div>
+                        </div>
+                        <div>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mb-3">${w.nameKo} ${w.emoji}</h3>
+                            <div class="space-y-2 text-xs md:text-sm text-slate-300 leading-relaxed">
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700">약 2,000년 전 <strong>고대 로마</strong>에서 지어진 거대한 원형 경기장이에요.</p>
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700"><strong>5만 명이 넘는 관중</strong>이 함께 모여 다양한 경기와 공연을 구경할 수 있었어요.</p>
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700">오늘날 야구장이나 축구 경기장의 <strong>먼 조상님</strong> 같은 건물이에요!</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 10) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div>
+                                <span class="text-xs font-bold text-purple-400 font-kids">관중 5만 명은 얼마나 많은 걸까?</span>
+                                <h3 class="font-kids text-2xl text-white">잠실야구장과 비교해보기</h3>
+                            </div>
+                        </div>
+                        <div class="grid sm:grid-cols-2 gap-3">
+                            <div class="p-4 bg-slate-900/90 rounded-2xl border border-purple-500/30 text-center">
+                                <div class="text-3xl mb-2">🏟️🏟️</div>
+                                <span class="font-kids text-lg text-purple-300">콜로세움</span>
+                                <p class="text-xs text-slate-400 mt-1">약 5만 명 이상 수용</p>
+                            </div>
+                            <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-700 text-center">
+                                <div class="text-3xl mb-2">⚾</div>
+                                <span class="font-kids text-lg text-slate-200">서울 잠실야구장</span>
+                                <p class="text-xs text-slate-400 mt-1">약 23,750석</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-400 font-kids text-center mt-3">
+                            💡 콜로세움 관중석은 오늘날 잠실야구장을 두 번 가득 채우는 규모와 비슷해요!
+                        </p>
+                    </div>
+                `;
+            } else if (currentSlide === 11) {
+                const w = LANDMARKS.find(x => x.key === 'chichenitza');
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-6 items-center">
+                        <div class="relative h-52 md:h-64 rounded-2xl overflow-hidden border border-slate-700">
+                            <!-- Photo: ${w.nameEn}, Wikimedia Commons, see file page for license -->
+                            <img src="${w.photo}" alt="${w.alt}" loading="lazy" decoding="async"
+                                 class="w-full h-full object-cover img-reveal" onerror="imgFallbackEmoji(this,'${w.emoji}')">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                            <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-lime-600/90 text-slate-950 text-[11px] font-bold">신 세계 7대 불가사의 · 멕시코</span>
+                            <div class="absolute bottom-3 right-3 px-2 py-1 rounded-lg bg-slate-950/80 text-lime-300 text-[11px] font-kids sticker-pop">🔢 365일의 비밀</div>
+                        </div>
+                        <div>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mb-3">${w.nameKo} ${w.emoji}</h3>
+                            <div class="space-y-2 text-xs md:text-sm text-slate-300 leading-relaxed mb-3">
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700">약 1,000년 전 <strong>마야 문명</strong>이 만든 피라미드예요.</p>
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700">봄가을 낮과 밤 길이가 같은 날(춘분·추분)에는 계단에 <strong>뱀이 스르륵 내려오는 그림자</strong>가 나타나요!</p>
+                            </div>
+                            <div class="p-3 bg-lime-950/30 border border-lime-500/30 rounded-xl text-center font-kids text-sm text-lime-200">
+                                91 + 91 + 91 + 91 + 1(꼭대기 신전) = <span class="text-lime-300 text-lg">365</span> 🎉<br>
+                                <span class="text-[11px] text-slate-400 font-sans font-normal">사면 계단 91개씩 + 꼭대기 1개 = 1년의 날짜 수와 똑같아요!</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 12) {
+                const w = LANDMARKS.find(x => x.key === 'christ');
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-6 items-center">
+                        <div class="relative h-52 md:h-64 rounded-2xl overflow-hidden border border-slate-700">
+                            <!-- Photo: ${w.nameEn}, Wikimedia Commons, see file page for license -->
+                            <img src="${w.photo}" alt="${w.alt}" loading="lazy" decoding="async"
+                                 class="w-full h-full object-cover img-reveal" onerror="imgFallbackEmoji(this,'${w.emoji}')">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                            <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-teal-600/90 text-white text-[11px] font-bold">신 세계 7대 불가사의 · 브라질</span>
+                        </div>
+                        <div>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mb-3">${w.nameKo} ${w.emoji}</h3>
+                            <div class="space-y-2 text-xs md:text-sm text-slate-300 leading-relaxed">
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700">브라질 리우데자네이루의 <strong>코르코바도 산</strong>(해발 약 700m) 꼭대기에 서 있어요.</p>
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700">1931년에 완성되었고, 팔을 벌린 모습이 마치 도시 전체를 <strong>따뜻하게 안아주는</strong> 것 같아요.</p>
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700">동상 높이만 약 30m, 양팔 너비도 약 28m나 되는 거대한 조각상이에요.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 13) {
+                const w = LANDMARKS.find(x => x.key === 'machupicchu');
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-6 items-center">
+                        <div class="relative h-52 md:h-64 rounded-2xl overflow-hidden border border-slate-700">
+                            <!-- Photo: ${w.nameEn}, Wikimedia Commons, see file page for license -->
+                            <img src="${w.photo}" alt="${w.alt}" loading="lazy" decoding="async"
+                                 class="w-full h-full object-cover img-reveal" onerror="imgFallbackEmoji(this,'${w.emoji}')">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                            <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-orange-600/90 text-white text-[11px] font-bold">신 세계 7대 불가사의 · 페루</span>
+                            <div class="absolute bottom-3 right-3 px-2 py-1 rounded-lg bg-slate-950/80 text-sky-300 text-[11px] font-kids sticker-pop">☁️ 천공의 도시</div>
+                        </div>
+                        <div>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mb-3">${w.nameKo} ${w.emoji}</h3>
+                            <div class="space-y-2 text-xs md:text-sm text-slate-300 leading-relaxed">
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700">남아메리카 <strong>안데스산맥</strong> 해발 약 2,400m 높은 산 위에 숨겨진 고대 <strong>잉카 문명</strong>의 도시예요.</p>
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700">약 1450년경 지어졌지만 오랫동안 잊혀졌다가, <strong>1911년</strong>에야 세상에 다시 알려졌어요.</p>
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700">구름 위에 떠 있는 것처럼 보여서 '천공의 도시'라는 별명도 있어요.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 14) {
+                const w = LANDMARKS.find(x => x.key === 'eiffel');
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-6 items-center">
+                        <div class="relative h-52 md:h-64 rounded-2xl overflow-hidden border border-slate-700">
+                            <!-- Photo: ${w.nameEn}, Wikimedia Commons, see file page for license -->
+                            <img src="${w.photo}" alt="${w.alt}" loading="lazy" decoding="async"
+                                 class="w-full h-full object-cover img-reveal" onerror="imgFallbackEmoji(this,'${w.emoji}')">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                            <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-blue-600/90 text-white text-[11px] font-bold">✨ 보너스 랜드마크 · 프랑스</span>
+                        </div>
+                        <div>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mb-3">${w.nameKo} ${w.emoji}</h3>
+                            <p class="text-xs text-slate-400 mb-3">신 세계 7대 불가사의는 아니지만, 전 세계에서 가장 유명한 랜드마크 중 하나예요!</p>
+                            <div class="space-y-2 text-xs md:text-sm text-slate-300 leading-relaxed">
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700">1889년 파리 세계 박람회를 기념해 세워진 <strong>철로 만든 탑</strong>이에요. 높이는 약 330m!</p>
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700">사실 원래는 <strong>20년 뒤 철거될 임시 건축물</strong>이었는데, 너무 사랑받아서 지금까지 파리의 상징으로 남았어요!</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 15) {
+                const w = LANDMARKS.find(x => x.key === 'liberty');
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-6 items-center">
+                        <div class="relative h-52 md:h-64 rounded-2xl overflow-hidden border border-slate-700">
+                            <!-- Photo: ${w.nameEn}, Wikimedia Commons, see file page for license -->
+                            <img src="${w.photo}" alt="${w.alt}" loading="lazy" decoding="async"
+                                 class="w-full h-full object-cover img-reveal" onerror="imgFallbackEmoji(this,'${w.emoji}')">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                            <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-cyan-600/90 text-white text-[11px] font-bold">✨ 보너스 랜드마크 · 미국</span>
+                        </div>
+                        <div>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mb-3">${w.nameKo} ${w.emoji}</h3>
+                            <p class="text-xs text-slate-400 mb-3">신 세계 7대 불가사의는 아니지만, 자유를 상징하는 세계적인 랜드마크예요!</p>
+                            <div class="space-y-2 text-xs md:text-sm text-slate-300 leading-relaxed">
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700">1886년 <strong>프랑스</strong>가 미국의 독립 100주년을 축하하며 선물한 거대한 청동 조각상이에요.</p>
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700">오른손엔 <strong>자유를 상징하는 횃불</strong>을, 왼손엔 독립선언서를 들고 있어요.</p>
+                                <p class="p-3 bg-slate-900/80 rounded-xl border border-slate-700">받침대까지 합친 높이는 약 93m로, 아파트 30층 높이와 비슷해요.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 16) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold text-sky-400 font-kids">지구본을 돌리고 톡톡 눌러보세요</span>
+                                <h3 class="font-kids text-2xl text-white">3D 지구본으로 랜드마크 찾기 🌐</h3>
+                            </div>
+                            <span id="wonderVisitedCount" class="text-xs px-2.5 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 font-kids">발견: 0 / 10</span>
+                        </div>
+                        <div class="flex flex-col md:flex-row gap-4 items-center">
+                            <div class="p-3 bg-slate-900/90 rounded-3xl border border-slate-700 flex flex-col items-center">
+                                <canvas id="wondersGlobeCanvas" width="300" height="300" class="globe-canvas border border-slate-700"></canvas>
+                                <p class="text-[11px] text-slate-400 mt-2 font-kids">👆 드래그로 회전, 반짝이는 점을 톡 눌러보세요!</p>
+                            </div>
+                            <div id="wonderInfoPanel" class="flex-1 w-full p-4 bg-slate-900/90 rounded-2xl border border-slate-700 min-h-[140px] flex items-center justify-center text-center">
+                                <p class="text-xs text-slate-400 font-kids">지구본 위 반짝이는 점을 눌러서<br>랜드마크 이름을 확인해보세요! ✨</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                setTimeout(() => {
+                    const c = document.getElementById('wondersGlobeCanvas');
+                    if (c) initWondersGlobe(c);
+                    updateWonderInfoPanel();
+                }, 50);
+            } else if (currentSlide === 17) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🗺️</span>
+                            <div>
+                                <span class="text-xs font-bold text-amber-400 font-kids">10곳 랜드마크 한눈에 복습!</span>
+                                <h3 class="font-kids text-2xl text-white">전체 탐험 지도 되짚어보기</h3>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5" id="recapGrid"></div>
+                    </div>
+                `;
+                const grid = document.getElementById('recapGrid');
+                if (grid) {
+                    grid.innerHTML = LANDMARKS.map(w => `
+                        <div class="relative h-20 sm:h-24 rounded-xl overflow-hidden border border-slate-700">
+                            <!-- Photo: ${w.nameEn}, Wikimedia Commons, see file page for license -->
+                            <img src="${w.photo}" alt="${w.alt}" loading="lazy" decoding="async"
+                                 class="w-full h-full object-cover img-reveal" onerror="imgFallbackEmoji(this,'${w.emoji}')">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent"></div>
+                            <span class="absolute bottom-1 left-1.5 right-1.5 text-[10px] text-slate-100 font-bold leading-tight">${w.nameKo}</span>
+                        </div>
+                    `).join('');
+                }
+            } else if (currentSlide >= 18 && currentSlide <= 22) {
+                const qIdx = currentSlide - 18;
+                const q = QUIZ_QUESTIONS[qIdx];
+                const selected = quizAnswers[qIdx];
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs font-bold text-amber-400 font-kids">🎯 랜드마크 실전 퀴즈 (${qIdx + 1} / 5)</span>
+                            <span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-kids">점수: ${Object.values(quizAnswers).filter((a, i) => a === QUIZ_QUESTIONS[i].ans).length * 20}점</span>
+                        </div>
+                        <h3 class="font-kids text-xl md:text-2xl text-white mb-4 leading-snug">
+                            Q${qIdx + 1}. ${q.q}
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                            ${q.options.map((opt, optIdx) => {
+                                let style = "bg-slate-800/90 border-slate-700 hover:bg-slate-700 text-slate-200";
+                                if (selected !== undefined) {
+                                    if (optIdx === q.ans) style = "bg-emerald-600/90 border-emerald-400 text-white font-bold ring-2 ring-emerald-400";
+                                    else if (optIdx === selected) style = "bg-rose-600/90 border-rose-400 text-white font-bold";
+                                }
+                                return `
+                                    <button onclick="handleQuizAnswer(${qIdx}, ${optIdx})" class="p-4 rounded-2xl border text-left font-kids text-sm transition ${style}">
+                                        ${optIdx + 1}. ${opt}
+                                    </button>
+                                `;
+                            }).join('')}
+                        </div>
+                        <div class="p-3 bg-slate-900 rounded-2xl border border-slate-800 text-xs text-slate-400 font-kids">
+                            💡 힌트: ${q.hint}
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 23) {
+                const w = LANDMARKS.find(x => x.key === 'giza');
+                const correctCount = Object.values(quizAnswers).filter((a, i) => a === QUIZ_QUESTIONS[i].ans).length;
+                const score = correctCount * 20;
+                playSound('fanfare');
+                if (typeof confetti === 'function') {
+                    confetti({ particleCount: 90, spread: 70, origin: { y: 0.6 } });
+                }
+                body.innerHTML = `
+                    <div class="text-center py-2">
+                        <div class="relative w-full max-w-md mx-auto h-32 rounded-2xl overflow-hidden mb-4 border border-white/10">
+                            <!-- Photo: ${w.nameEn}, Wikimedia Commons, see file page for license -->
+                            <img src="${w.photo}" alt="세계 랜드마크 탐험 완주를 축하하는 배경 사진, 이집트 대피라미드" loading="lazy" decoding="async"
+                                 class="w-full h-full object-cover img-reveal ken-burns" onerror="imgFallbackEmoji(this,'${w.emoji}')">
+                            <div class="absolute inset-0 bg-gradient-to-t from-wonder-night via-wonder-night/50 to-wonder-night/10"></div>
+                        </div>
+                        <div class="w-20 h-20 mx-auto -mt-16 relative rounded-3xl bg-gradient-to-tr from-amber-500 to-yellow-400 shadow-[0_0_35px_rgba(234,179,8,0.5)] flex items-center justify-center text-4xl mb-3 border-2 border-white/20">
+                            🏆
+                        </div>
+                        <span class="text-xs font-bold text-amber-400 font-kids tracking-widest uppercase">World Wonders Explorer Certificate</span>
+                        <h3 class="font-kids text-3xl md:text-4xl text-white mt-1 mb-2">
+                            은찬이의 세계 랜드마크 탐험 수료를 축하합니다! 🎉
+                        </h3>
+                        <p class="text-slate-300 text-xs md:text-sm mb-4 font-sans">
+                            고대 불가사의부터 신 세계 7대 불가사의, 그리고 보너스 랜드마크까지 모두 훌륭하게 탐구했어요!
+                        </p>
+                        <div class="inline-flex items-center gap-4 p-4 rounded-2xl bg-amber-950/30 border border-amber-500/30 text-center mb-6">
+                            <div>
+                                <span class="text-[11px] text-slate-400 font-kids block">퀴즈 성적</span>
+                                <span class="font-kids text-2xl text-amber-300">${score}점</span>
+                            </div>
+                            <div class="w-px h-8 bg-amber-500/30"></div>
+                            <div>
+                                <span class="text-[11px] text-slate-400 font-kids block">수여 칭호</span>
+                                <span class="font-kids text-lg text-sky-300">세계 랜드마크 탐험가 🗿</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap items-center justify-center gap-3 font-kids text-xs">
+                            <a href="eunchan-study.html" class="px-6 py-3 rounded-xl bg-amber-600 hover:bg-amber-500 text-white transition shadow-lg shadow-amber-950/40">
+                                🎒 은찬이의 공부방 홈으로 이동
+                            </a>
+                            <button onclick="goToSlide(1)" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+                                🔄 처음부터 다시 탐험하기
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function handleQuizAnswer(qIdx, optIdx) {
+            if (quizAnswers[qIdx] !== undefined) return;
+            quizAnswers[qIdx] = optIdx;
+            if (optIdx === QUIZ_QUESTIONS[qIdx].ans) {
+                playSound('correct');
+            } else {
+                playSound('wrong');
+            }
+            renderSlide();
+        }
+
+        // ---- Interactive 3D Wonders Globe (D3 orthographic, drag-to-rotate, tap-to-select pins) ----
+        let worldFeatures = null;
+        fetch('data/world-110m.json')
+            .then(res => res.json())
+            .then(topo => {
+                worldFeatures = topojson.feature(topo, topo.objects.countries);
+                if (currentSlide === 16) {
+                    const c = document.getElementById('wondersGlobeCanvas');
+                    if (c) renderWondersGlobe(c);
+                }
+            })
+            .catch(err => {
+                console.error('Local world data error, trying CDN fallback:', err);
+                fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
+                    .then(r => r.json())
+                    .then(topo => {
+                        worldFeatures = topojson.feature(topo, topo.objects.countries);
+                        if (currentSlide === 16) {
+                            const c = document.getElementById('wondersGlobeCanvas');
+                            if (c) renderWondersGlobe(c);
+                        }
+                    });
+            });
+
+        const wondersGlobe = { rotation: [-20, -15, 0], visited: new Set(), selected: null, pinPos: [] };
+
+        function angularDistanceDeg(lon1, lat1, lon2, lat2) {
+            const toRad = Math.PI / 180;
+            const p1 = lat1 * toRad, p2 = lat2 * toRad, dl = (lon2 - lon1) * toRad;
+            const cosd = Math.sin(p1) * Math.sin(p2) + Math.cos(p1) * Math.cos(p2) * Math.cos(dl);
+            return Math.acos(Math.max(-1, Math.min(1, cosd))) * 180 / Math.PI;
+        }
+
+        function renderWondersGlobe(canvas) {
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            const radius = Math.min(width, height) / 2 - 14;
+
+            const projection = d3.geoOrthographic()
+                .scale(radius)
+                .translate([width / 2, height / 2])
+                .rotate(wondersGlobe.rotation)
+                .clipAngle(90);
+            const path = d3.geoPath().projection(projection).context(ctx);
+
+            ctx.clearRect(0, 0, width, height);
+
+            // Ocean sphere with radial glow
+            ctx.beginPath();
+            ctx.arc(width / 2, height / 2, radius, 0, 2 * Math.PI);
+            const grad = ctx.createRadialGradient(width / 2 - radius * 0.3, height / 2 - radius * 0.3, radius * 0.1, width / 2, height / 2, radius);
+            grad.addColorStop(0, '#1e293b');
+            grad.addColorStop(1, '#09111e');
+            ctx.fillStyle = grad;
+            ctx.fill();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = '#38bdf8';
+            ctx.stroke();
+
+            if (worldFeatures) {
+                // Graticules
+                const graticule = d3.geoGraticule10();
+                ctx.beginPath();
+                path(graticule);
+                ctx.lineWidth = 0.5;
+                ctx.strokeStyle = 'rgba(56, 189, 248, 0.15)';
+                ctx.stroke();
+
+                // Land
+                worldFeatures.features.forEach(f => {
+                    ctx.beginPath();
+                    path(f);
+                    ctx.fillStyle = '#334155';
+                    ctx.fill();
+                    ctx.lineWidth = 0.5;
+                    ctx.strokeStyle = '#1e293b';
+                    ctx.stroke();
+                });
+            }
+
+            // Landmark pins (visible hemisphere only)
+            wondersGlobe.pinPos = [];
+            const rot = projection.rotate();
+            const centerLon = -rot[0], centerLat = -rot[1];
+            LANDMARKS.forEach(w => {
+                const d = angularDistanceDeg(w.lon, w.lat, centerLon, centerLat);
+                if (d < 90) {
+                    const xy = projection([w.lon, w.lat]);
+                    if (!xy) return;
+                    const visited = wondersGlobe.visited.has(w.key);
+                    const isSelected = wondersGlobe.selected === w.key;
+                    ctx.beginPath();
+                    ctx.arc(xy[0], xy[1], isSelected ? 7 : 5, 0, 2 * Math.PI);
+                    ctx.fillStyle = visited ? '#34d399' : '#eab308';
+                    ctx.fill();
+                    ctx.lineWidth = isSelected ? 2.5 : 1.5;
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.stroke();
+                    wondersGlobe.pinPos.push({ x: xy[0], y: xy[1], key: w.key });
+                }
+            });
+
+            // Atmosphere rim shadow
+            ctx.beginPath();
+            ctx.arc(width / 2, height / 2, radius, 0, 2 * Math.PI);
+            const rimGrad = ctx.createRadialGradient(width / 2, height / 2, radius * 0.75, width / 2, height / 2, radius);
+            rimGrad.addColorStop(0, 'rgba(0,0,0,0)');
+            rimGrad.addColorStop(1, 'rgba(0,0,0,0.5)');
+            ctx.fillStyle = rimGrad;
+            ctx.fill();
+        }
+
+        function handleWondersTap(canvas, clientX, clientY) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            const x = (clientX - rect.left) * scaleX;
+            const y = (clientY - rect.top) * scaleY;
+            let hit = null;
+            let bestDist = 18;
+            wondersGlobe.pinPos.forEach(p => {
+                const d = Math.hypot(p.x - x, p.y - y);
+                if (d < bestDist) { bestDist = d; hit = p; }
+            });
+            if (hit) {
+                wondersGlobe.selected = hit.key;
+                wondersGlobe.visited.add(hit.key);
+                playSound('pop');
+                renderWondersGlobe(canvas);
+                updateWonderInfoPanel();
+            }
+        }
+
+        function updateWonderInfoPanel() {
+            const panel = document.getElementById('wonderInfoPanel');
+            const counter = document.getElementById('wonderVisitedCount');
+            if (counter) counter.textContent = `발견: ${wondersGlobe.visited.size} / ${LANDMARKS.length}`;
+            if (!panel) return;
+            const w = LANDMARKS.find(l => l.key === wondersGlobe.selected);
+            if (!w) return;
+            panel.innerHTML = `
+                <div class="text-left w-full">
+                    <span class="text-2xl">${w.emoji}</span>
+                    <h4 class="font-kids text-lg text-white inline-block ml-1">${w.nameKo}</h4>
+                    <p class="text-[11px] text-slate-400 mb-1">${w.nameEn} · ${w.country}</p>
+                    <p class="text-xs text-slate-300 leading-relaxed">${w.oneLiner}</p>
+                </div>
+            `;
+        }
+
+        function initWondersGlobe(canvas) {
+            if (!canvas) return;
+            renderWondersGlobe(canvas);
+            if (canvas._hasWondersListeners) return;
+            canvas._hasWondersListeners = true;
+
+            let dragging = false;
+            let lastPos = [0, 0];
+            let downPos = [0, 0];
+
+            function getXYany(e) {
+                if (e.changedTouches && e.changedTouches.length) return [e.changedTouches[0].clientX, e.changedTouches[0].clientY];
+                if (e.touches && e.touches.length) return [e.touches[0].clientX, e.touches[0].clientY];
+                return [e.clientX, e.clientY];
+            }
+
+            function onDown(e) {
+                dragging = true;
+                isInteractingWithMap = true;
+                touchStartedOnInteractive = true;
+                canvas.style.cursor = 'grabbing';
+                const p = getXYany(e);
+                lastPos = p;
+                downPos = p;
+                if (e.cancelable) e.preventDefault();
+                e.stopPropagation();
+            }
+            function onMove(e) {
+                if (!dragging) return;
+                isInteractingWithMap = true;
+                const p = getXYany(e);
+                const dx = p[0] - lastPos[0];
+                const dy = p[1] - lastPos[1];
+                lastPos = p;
+                wondersGlobe.rotation[0] += dx * 0.4;
+                wondersGlobe.rotation[1] = Math.max(-80, Math.min(80, wondersGlobe.rotation[1] - dy * 0.4));
+                renderWondersGlobe(canvas);
+                if (e.cancelable) e.preventDefault();
+            }
+            function onUp(e) {
+                dragging = false;
+                canvas.style.cursor = 'grab';
+                const p = getXYany(e);
+                const dist = Math.hypot(p[0] - downPos[0], p[1] - downPos[1]);
+                if (dist < 6) handleWondersTap(canvas, downPos[0], downPos[1]);
+                setTimeout(() => { isInteractingWithMap = false; }, 120);
+            }
+
+            canvas.addEventListener('mousedown', onDown);
+            window.addEventListener('mousemove', onMove);
+            window.addEventListener('mouseup', onUp);
+            canvas.addEventListener('touchstart', onDown, { passive: false });
+            window.addEventListener('touchmove', onMove, { passive: false });
+            window.addEventListener('touchend', onUp);
+        }
+
+        // TTS Read Aloud
+        let isSpeaking = false;
+        function toggleReadOutLoud() {
+            if (!('speechSynthesis' in window)) {
+                alert("이 브라우저는 음성 읽어주기를 지원하지 않습니다.");
+                return;
+            }
+
+            if (isSpeaking) {
+                window.speechSynthesis.cancel();
+                isSpeaking = false;
+                document.getElementById('ttsBtn').classList.remove('text-sky-400', 'animate-pulse');
+                document.getElementById('ttsBtn').classList.add('text-sky-400');
+                return;
+            }
+
+            const slide = document.getElementById('slideBody');
+            if (!slide) return;
+            const textToRead = slide.innerText.replace(/[🗿📜🗳️🏛️🕌🐉🏟️🐍🙏🏔️🗼🗽🌐🗺️🎯🏆💡⏳💗🔢☁️✨🧭🌍🚄⚾😲🎉🔄🎒👆🌟📏Q\d\.]/g, ' ');
+
+            const utterance = new SpeechSynthesisUtterance(textToRead);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.95;
+            utterance.pitch = 1.05;
+
+            utterance.onstart = () => {
+                isSpeaking = true;
+                document.getElementById('ttsBtn').classList.add('text-sky-300', 'animate-pulse');
+            };
+
+            utterance.onend = () => {
+                isSpeaking = false;
+                document.getElementById('ttsBtn').classList.remove('text-sky-300', 'animate-pulse');
+            };
+
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Keyboard
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'PageDown') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+        });
+
+        // Touch Swipe
+        let touchStartX = 0;
+        let touchEndX = 0;
+        document.addEventListener('touchstart', e => {
+            if (isInteractingWithMap || e.target.closest('canvas, button, a, input, select, textarea')) {
+                touchStartedOnInteractive = true;
+                return;
+            }
+            touchStartedOnInteractive = false;
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.addEventListener('touchend', e => {
+            if (touchStartedOnInteractive || isInteractingWithMap) {
+                touchStartedOnInteractive = false;
+                isInteractingWithMap = false;
+                return;
+            }
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 75) nextSlide();
+            if (touchEndX - touchStartX > 75) prevSlide();
+        }, { passive: true });
+
+        // Init
+        renderSlide();
+    </script>
+</body>
+</html>
