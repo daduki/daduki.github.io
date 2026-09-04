@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>우리 몸속 방어대의 비밀 | 은찬이의 공부방 🛡️</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script src="js/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                        kids: ['"Jua"', 'cursive', 'sans-serif']
+                    },
+                    colors: {
+                        med: {
+                            dark: '#170b10',
+                            blood: '#dc2626',
+                            bloodlight: '#f87171',
+                            shield: '#3b82f6',
+                            spark: '#f59e0b',
+                            calm: '#22c55e'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .font-kids { font-family: 'Jua', cursive, sans-serif; }
+        .glass-card {
+            background: rgba(23, 11, 16, 0.92);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(244, 63, 94, 0.2);
+        }
+        .slide-fade {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .sticker-pop { animation: stickerPop 0.5s cubic-bezier(.34,1.56,.64,1) both; }
+        @keyframes stickerPop { 0% { transform: scale(0) rotate(-15deg); opacity:0; } 100% { transform: scale(1) rotate(-8deg); opacity:1; } }
+
+        /* Cute mascot character system */
+        .mascot-wrap { position: relative; display: inline-flex; }
+        .mascot-body { position: relative; filter: drop-shadow(0 10px 14px rgba(0,0,0,.35)); }
+        .mascot-face .eye { position:absolute; top:40%; width:13%; height:13%; background:#1f2937; border-radius:50%; }
+        .mascot-face .eye::after { content:""; position:absolute; top:15%; left:15%; width:35%; height:35%; background:#fff; border-radius:50%; }
+        .mascot-face .eye.l { left:28%; } .mascot-face .eye.r { right:28%; }
+        .mascot-face .mouth { position:absolute; bottom:26%; left:50%; transform:translateX(-50%); width:30%; height:16%; border-bottom:4px solid #1f2937; border-radius:0 0 100% 100% / 0 0 100% 100%; }
+        .mascot-blush { position:absolute; bottom:30%; width:11%; height:7%; border-radius:50%; background:rgba(244,63,94,.4); }
+        .mascot-blush.l { left:14%; } .mascot-blush.r { right:14%; }
+        .mascot-spike { position:absolute; width:18%; height:18%; border-radius:30%; }
+        @keyframes mWiggle { 0%,100%{transform:rotate(-3deg)} 50%{transform:rotate(3deg)} }
+        @keyframes mBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10%)} }
+        @keyframes mPulse  { 0%,100%{transform:scale(1)} 50%{transform:scale(1.06)} }
+        .m-wiggle { animation: mWiggle 1.8s ease-in-out infinite; }
+        .m-bounce { animation: mBounce 1.6s ease-in-out infinite; }
+        .m-pulse  { animation: mPulse 1.4s ease-in-out infinite; }
+        .m-pop-out { transform: scale(0); opacity: 0; transition: .2s; }
+    </style>
+</head>
+<body class="bg-[#170b10] text-slate-100 min-h-screen font-sans flex flex-col justify-between selection:bg-rose-500 selection:text-white">
+
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-rose-900/30">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="eunchan-study.html" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition flex items-center gap-1.5 text-xs font-semibold">
+                    <i class="fa-solid fa-arrow-left"></i> 공부방 홈
+                </a>
+                <div>
+                    <h1 class="font-kids text-base md:text-lg text-rose-400 flex items-center gap-2">
+                        <span>🛡️ 우리 몸속 방어대의 비밀</span>
+                        <span class="text-[11px] font-sans px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">7~10세 초등 맞춤</span>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Slide progress & Sound/Read toggles -->
+            <div class="flex items-center gap-2 md:gap-3">
+                <div class="flex items-center gap-1 bg-slate-800/80 px-2.5 py-1 rounded-full border border-slate-700 text-xs">
+                    <i class="fa-solid fa-layer-group text-rose-400"></i>
+                    <span id="slideIndicator" class="font-kids text-rose-300 text-sm font-bold">1</span>
+                    <span class="text-slate-400 font-kids text-xs">/ 27</span>
+                </div>
+                <button id="ttsBtn" onclick="toggleReadOutLoud()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 hover:text-amber-300 transition text-xs font-semibold" title="친절한 목소리로 읽어주기">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+                <button onclick="toggleIndexDrawer()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-xs font-semibold" title="전체 목차">
+                    <i class="fa-solid fa-list-ol"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Top Progress Bar -->
+        <div class="w-full bg-slate-800 h-1.5 overflow-hidden">
+            <div id="topProgressBar" class="bg-gradient-to-r from-med-blood via-med-shield to-med-spark h-full transition-all duration-300" style="width: 3.7%"></div>
+        </div>
+    </header>
+
+    <!-- Main Slide Stage -->
+    <main class="flex-grow flex items-center justify-center px-3 md:px-6 py-6 max-w-5xl mx-auto w-full">
+        <div id="slideCard" class="w-full glass-card rounded-3xl p-5 md:p-8 border border-white/10 shadow-2xl relative overflow-hidden min-h-[580px] flex flex-col justify-between">
+            <!-- Slide Content Injected Dynamically -->
+            <div id="slideBody" class="slide-fade flex-grow flex flex-col justify-center"></div>
+
+            <!-- Slide Bottom Controls -->
+            <div class="pt-6 border-t border-white/10 flex items-center justify-between mt-4">
+                <button id="prevBtn" onclick="prevSlide()" class="px-5 py-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:pointer-events-none text-slate-200 font-kids text-sm flex items-center gap-2 transition">
+                    <i class="fa-solid fa-arrow-left"></i> 이전장
+                </button>
+
+                <div class="flex items-center gap-1.5 overflow-x-auto max-w-[200px] md:max-w-[420px] py-1" id="dotsContainer">
+                    <!-- Dots generated in JS -->
+                </div>
+
+                <button id="nextBtn" onclick="nextSlide()" class="px-6 py-2.5 rounded-2xl bg-gradient-to-r from-med-blood to-med-shield hover:opacity-90 text-white font-kids text-sm flex items-center gap-2 shadow-lg shadow-rose-950 transition">
+                    다음장 <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Slide Index Modal / Drawer -->
+    <div id="indexDrawer" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex justify-end">
+        <div class="bg-slate-900 border-l border-slate-700 w-full max-w-md h-full p-6 overflow-y-auto flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-4">
+                    <h3 class="font-kids text-lg text-rose-400">🛡️ 방어대의 비밀 27개 슬라이드 목차</h3>
+                    <button onclick="toggleIndexDrawer()" class="text-slate-400 hover:text-white text-xl">✕</button>
+                </div>
+                <div class="space-y-1.5" id="drawerList"></div>
+            </div>
+            <button onclick="toggleIndexDrawer()" class="w-full py-3 mt-4 bg-slate-800 text-slate-300 rounded-xl font-kids text-sm">닫기</button>
+        </div>
+    </div>
+
+    <!-- Audio FX Synthesizer -->
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, now);
+                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1);
+                osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                osc.start(now);
+                osc.stop(now + 0.5);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.exponentialRampToValueAtTime(130, now + 0.25);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'pop') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(320, now);
+                osc.frequency.exponentialRampToValueAtTime(580, now + 0.08);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                osc.start(now);
+                osc.stop(now + 0.1);
+            } else if (type === 'ping') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(880, now);
+                osc.frequency.exponentialRampToValueAtTime(1180, now + 0.09);
+                gain.gain.setValueAtTime(0.12, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.16);
+                osc.start(now);
+                osc.stop(now + 0.16);
+            } else if (type === 'fanfare') {
+                [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+                    const o = audioCtx.createOscillator();
+                    const g = audioCtx.createGain();
+                    o.connect(g);
+                    g.connect(audioCtx.destination);
+                    o.type = 'triangle';
+                    o.frequency.setValueAtTime(freq, now + i * 0.12);
+                    g.gain.setValueAtTime(0.2, now + i * 0.12);
+                    g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.12 + 0.4);
+                    o.start(now + i * 0.12);
+                    o.stop(now + i * 0.12 + 0.4);
+                });
+            }
+        }
+    </script>
+
+    <!-- Cute Mascot Character System (hand-drawn via CSS, no external art) -->
+    <script>
+        const MASCOTS = {
+            germ: { bg: 'bg-gradient-to-br from-lime-400 to-emerald-600', spikes: 8, spikeColor: 'bg-emerald-500' },
+            wbc: { bg: 'bg-gradient-to-br from-sky-300 to-blue-500', cross: true },
+            rbc: { bg: 'bg-gradient-to-br from-rose-400 to-red-600', dimple: true },
+            platelet: { bg: 'bg-gradient-to-br from-amber-300 to-amber-500', teardrop: true },
+            spark: { bg: 'bg-gradient-to-br from-amber-300 to-orange-500', spikes: 6, spikeColor: 'bg-orange-500' }
+        };
+
+        function spikesHTML(n, colorClass) {
+            let html = '';
+            for (let i = 0; i < n; i++) {
+                const angle = (360 / n) * i;
+                html += `<div class="mascot-spike ${colorClass}" style="top:50%;left:50%;transform:translate(-50%,-50%) rotate(${angle}deg) translate(0,-46%) rotate(45deg);"></div>`;
+            }
+            return html;
+        }
+
+        function mascotHTML(type, opts = {}) {
+            const size = opts.size || 96;
+            const anim = opts.anim ? `m-${opts.anim}` : '';
+            const cfg = MASCOTS[type];
+            const shapeStyle = cfg.teardrop ? 'border-radius:0 50% 50% 50%; transform:rotate(45deg);' : 'border-radius:50%;';
+
+            const faceInner = `
+                <div class="eye l"></div><div class="eye r"></div>
+                <div class="mouth"></div>
+                <div class="mascot-blush l"></div><div class="mascot-blush r"></div>
+                ${cfg.spikes ? spikesHTML(cfg.spikes, cfg.spikeColor) : ''}
+                ${cfg.dimple ? `<div class="absolute rounded-full bg-black/10" style="width:38%;height:38%;top:31%;left:31%;"></div>` : ''}
+                ${cfg.cross ? `
+                    <div class="absolute bg-white rounded" style="width:34%;height:9%;top:45.5%;left:33%;"></div>
+                    <div class="absolute bg-white rounded" style="width:9%;height:34%;top:33%;left:45.5%;"></div>
+                ` : ''}
+            `;
+            // Rotating the whole element makes the teardrop shape, but it also tilts the eyes/mouth
+            // 45deg with it — so for teardrop mascots the face is wrapped in a counter-rotated inner
+            // layer (same box via inset:0) to keep the eyes/mouth upright and correctly positioned.
+            const faceContent = cfg.teardrop
+                ? `<div style="position:absolute;inset:0;transform:rotate(-45deg);">${faceInner}</div>`
+                : faceInner;
+
+            return `
+                <div class="mascot-wrap items-center justify-center ${anim}" style="width:${size}px;height:${size}px">
+                    <div class="mascot-body mascot-face relative w-full h-full ${cfg.bg} border-4 border-white/10" style="${shapeStyle}">
+                        ${faceContent}
+                    </div>
+                </div>`;
+        }
+
+        function propBadgeHTML(emoji, fromClass, toClass, size = 88, anim = '') {
+            return `
+                <div class="mascot-wrap items-center justify-center rounded-full bg-gradient-to-br ${fromClass} ${toClass}
+                    border-4 border-white/15 shadow-lg ${anim ? 'm-' + anim : ''}" style="width:${size}px;height:${size}px">
+                    <span style="font-size:${Math.round(size * 0.5)}px" class="drop-shadow leading-none">${emoji}</span>
+                </div>`;
+        }
+    </script>
+
+    <!-- Slide Engine -->
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 27;
+        let touchStartedOnInteractive = false;
+
+        // 혈액 3형제 (blood trio)
+        const BLOOD_TRIO = [
+            { type: 'rbc', name: '적혈구', role: '산소 배달부 🚚', color: 'text-rose-300',
+              short: '온몸 구석구석에 숨 쉬는 데 필요한 산소를 배달해줘요.',
+              detail: '적혈구는 우리 몸 구석구석을 도는 작은 택배 트럭이에요! 은찬이가 숨을 한 번 쉬는 사이에도 몸 곳곳으로 산소를 열심히 나르고 있어요.' },
+            { type: 'wbc', name: '백혈구', role: '몸속 경찰관 👮', color: 'text-sky-300',
+              short: '나쁜 세균이 들어오면 용감하게 맞서 싸워요.',
+              detail: '백혈구는 우리 몸을 지키는 용감한 경찰관 부대예요. 세균처럼 나쁜 침입자가 들어오면 곧바로 달려가서 씩씩하게 맞서 싸워요.' },
+            { type: 'platelet', name: '혈소판', role: '응급 구조대 🚑', color: 'text-amber-300',
+              short: '상처가 나면 재빨리 달려가 피를 멈추고 딱지를 만들어요.',
+              detail: '혈소판은 삐뽀삐뽀! 출동하는 응급 구조대예요. 상처가 나면 눈 깜짝할 사이에 몰려가서 피를 멈추고 딱지를 만들어줘요.' }
+        ];
+
+        // 8 medicine/immune topics: each has a "왜 그럴까?" 문제 슬라이드 + "특별 지원군" 해결 슬라이드
+        const TOPICS = [
+            {
+                theme: 'from-amber-900/40 to-orange-950/60',
+                mascotHtml: mascotHTML('spark', { size: 92, anim: 'wiggle' }),
+                pBadge: '히스타민 경보', pSticker: '📢 왕왕 울려요!',
+                pTag: '알러지가 뭐길래?', pTitle: '가렵고 부어오르는 이유',
+                pBody: `가끔 모기에 물리거나 어떤 음식을 먹으면 피부가 빨갛게 붓고 가려워요. 우리 몸속에는 <strong class="text-amber-300">히스타민(위험을 알리는 작은 경보 물질)</strong>이 있어요. 위험을 느끼면 히스타민이 왕왕 경보를 울려서 피부가 붓고 가려워지는 거예요!`,
+                sEmoji: '💉', sFrom: 'from-sky-400', sTo: 'to-blue-600', sAnim: 'bounce',
+                sTitle: '항히스타민 주사: 경보를 꺼주는 도우미',
+                sFacts: [
+                    { icon: '🔇', title: '시끄러운 경보를 살짝 꺼줘요', text: '항히스타민 약(주사)은 너무 크게 울리는 히스타민 경보 소리를 살짝 줄여줘요.' },
+                    { icon: '😌', title: '가려움과 붓기가 가라앉아요', text: '경보가 잠잠해지면 빨갛게 부었던 피부도, 가려움도 스르륵 가라앉아요.' },
+                    { icon: '👩‍⚕️', title: '꼭 어른과 함께 사용해요', text: '언제, 얼마나 사용할지는 어른이나 의사 선생님이 정해줘요.' }
+                ]
+            },
+            {
+                theme: 'from-rose-900/40 to-red-950/60',
+                mascotHtml: mascotHTML('wbc', { size: 92, anim: 'pulse' }),
+                pBadge: '백혈구 부대', pSticker: '🔥 작전 개시!',
+                pTag: '열이 나는 진짜 이유', pTitle: '몸이 뜨거워지는 건 작전이에요!',
+                pBody: `몸이 아프면 열이 나죠? 사실 나쁜 게 아니에요! <strong class="text-rose-300">백혈구 부대(몸속의 용감한 경찰관들)</strong>가 세균과 힘차게 싸우려고 일부러 체온을 높이는 작전이에요. 몸이 뜨거워지면 나쁜 세균들이 힘을 잘 못 써요.`,
+                sEmoji: '🌡️', sFrom: 'from-orange-400', sTo: 'to-amber-600', sAnim: '',
+                sTitle: '해열제: 체온 스위치를 살짝 낮춰줘요',
+                sFacts: [
+                    { icon: '🎚️', title: '체온 조절 스위치를 살짝 낮춰요', text: '해열제는 몸속 체온 조절 스위치를 살짝 내려서 열을 편안한 정도로 낮춰줘요.' },
+                    { icon: '😴', title: '몸이 편히 쉴 수 있어요', text: '열이 너무 높아 힘들 때, 몸을 편안하게 쉬도록 도와줘요.' },
+                    { icon: '👮', title: '싸움은 백혈구가 계속해요', text: '해열제를 먹어도 백혈구 부대는 계속 세균과 씩씩하게 싸운답니다.' }
+                ]
+            },
+            {
+                theme: 'from-emerald-900/40 to-teal-950/60',
+                mascotHtml: mascotHTML('germ', { size: 92, anim: 'wiggle' }),
+                pBadge: '작은 침입자들', pSticker: '🔍 둘은 달라요!',
+                pTag: '세균 vs 바이러스', pTitle: '누가 항생제의 상대일까?',
+                pBody: `세균과 바이러스는 둘 다 눈에 안 보일 만큼 작지만 서로 달라요. <strong class="text-emerald-300">세균</strong>은 스스로 살아 움직이는 작은 생물이고, <strong class="text-emerald-300">바이러스</strong>는 훨씬 더 작아서 혼자서는 아무것도 못해요. 우리가 흔히 걸리는 감기는 대부분 바이러스 때문에 생겨요.`,
+                sEmoji: '💊', sFrom: 'from-indigo-400', sTo: 'to-violet-600', sAnim: '',
+                sTitle: '항생제: 세균만 콕 찾아내는 저격수',
+                sFacts: [
+                    { icon: '🎯', title: '세균만 골라서 물리쳐요', text: '항생제는 세균이 자라지 못하게 막거나 없애주는 약이에요.' },
+                    { icon: '🚫', title: '감기 바이러스에는 안 통해요', text: '감기는 대부분 바이러스 때문이라, 항생제를 먹어도 잘 듣지 않아요.' },
+                    { icon: '⏰', title: '처방받은 만큼 끝까지 먹어야 해요', text: '의사 선생님이 알려준 기간과 양을 끝까지 지켜야 세균이 완전히 사라져요.' }
+                ]
+            },
+            {
+                theme: 'from-slate-800/60 to-slate-950/70',
+                mascotHtml: propBadgeHTML('🦟', 'from-slate-500', 'to-slate-700', 92, 'wiggle'),
+                pBadge: '모기의 침', pSticker: '🩸 살짝 물어요',
+                pTag: '모기에 물리면?', pTitle: '왜 이렇게 가려울까?',
+                pBody: `모기가 우리 피를 빨 때 아주 작은 침을 살짝 남겨요. 그 침 속에는 가려움을 일으키는 물질이 들어있어요. 우리 몸이 그 물질을 이상하다고 느껴서 히스타민을 뿜어내며 가렵고 부어올라요.`,
+                sEmoji: '🧴', sFrom: 'from-emerald-400', sTo: 'to-teal-600', sAnim: '',
+                sTitle: '모기약: 가려움을 진정시켜줘요',
+                sFacts: [
+                    { icon: '🧴', title: '가려움 물질을 진정시켜요', text: '모기약을 바르면 가려움을 일으키는 물질이 얌전해져요.' },
+                    { icon: '💧', title: '부기도 가라앉혀줘요', text: '빨갛게 부었던 자리도 점점 가라앉도록 도와줘요.' },
+                    { icon: '✋', title: '긁지 않고 살살 발라요', text: '너무 긁으면 상처가 날 수 있으니 살살 발라주는 게 좋아요.' }
+                ]
+            },
+            {
+                theme: 'from-teal-900/40 to-emerald-950/60',
+                mascotHtml: propBadgeHTML('🛡️', 'from-emerald-400', 'to-teal-600', 92, 'pulse'),
+                pBadge: '백신', pSticker: '🎓 미리 배워요!',
+                pTag: '예방접종이 뭘까?', pTitle: '몸속 훈련용 모형이에요',
+                pBody: `백신은 진짜 힘센 세균이나 바이러스가 아니라, 아주 약하게 만들었거나 힘을 완전히 뺀 <strong class="text-teal-300">모형</strong>이에요. 이 모형을 몸속에 살짝 보여주면 백혈구 부대가 미리 얼굴을 익혀둬요.`,
+                sEmoji: '', sMascotHtml: mascotHTML('wbc', { size: 92, anim: 'bounce' }),
+                sTitle: '백신의 비밀: 미리 훈련하는 작전',
+                sFacts: [
+                    { icon: '📸', title: '나쁜 친구 얼굴을 미리 외워요', text: '백혈구 부대가 모형을 보고 나쁜 세균·바이러스의 얼굴을 미리 기억해둬요.' },
+                    { icon: '⚡', title: '다음엔 훨씬 빨리 물리쳐요', text: '나중에 진짜가 나타나면 얼굴을 이미 알고 있어서 순식간에 물리칠 수 있어요.' },
+                    { icon: '💪', title: '병에 안 걸리거나 가볍게 지나가요', text: '미리 훈련해둔 덕분에 병에 걸리지 않거나, 걸려도 가볍게 지나가요.' }
+                ]
+            },
+            {
+                theme: 'from-rose-900/40 to-pink-950/60',
+                mascotHtml: mascotHTML('platelet', { size: 92, anim: 'bounce' }),
+                pBadge: '혈소판 출동', pSticker: '🚨 삐뽀삐뽀!',
+                pTag: '상처가 나면?', pTitle: '피부에 작은 문이 열려요',
+                pBody: `넘어지거나 긁혀서 상처가 나면, 피부에 작은 문이 열린 것과 같아요. 이 틈으로 세균이 슬쩍 들어올 수 있어요! 그래서 얼른 도와줄 친구들이 필요해요.`,
+                sEmoji: '🩹', sFrom: 'from-rose-400', sTo: 'to-pink-600', sAnim: '',
+                sTitle: '빨간약과 딱지: 상처를 지키는 보호막',
+                sFacts: [
+                    { icon: '🧪', title: '소독약이 세균을 없애줘요', text: '빨간약(소독약)을 바르면 상처 속에 들어온 세균을 없애줘요.' },
+                    { icon: '🚑', title: '혈소판이 피를 굳혀요', text: '응급 구조대인 혈소판이 달려와서 피를 굳혀 딱지를 만들어요.' },
+                    { icon: '🙅', title: '딱지는 손으로 뜯으면 안 돼요', text: '딱지는 새살이 돋을 때까지 지켜주는 보호막이라 그대로 두는 게 좋아요.' }
+                ]
+            },
+            {
+                theme: 'from-amber-900/30 to-yellow-950/50',
+                mascotHtml: propBadgeHTML('😮‍💨', 'from-amber-400', 'to-orange-500', 92, ''),
+                pBadge: '콜록콜록', pSticker: '👍 몸을 지켜요',
+                pTag: '기침은 왜 날까?', pTitle: '사실은 착한 반응이에요',
+                pBody: `사실 기침은 나쁜 게 아니라 착한 반응이에요! 목에 먼지나 이물질, 끈적한 가래가 있으면 몸이 "콜록!" 하고 밖으로 내보내려는 거예요.`,
+                sEmoji: '🍯', sFrom: 'from-amber-400', sTo: 'to-orange-500', sAnim: '',
+                sTitle: '기침약: 목을 편안하게 해줘요',
+                sFacts: [
+                    { icon: '🍯', title: '목의 자극을 가라앉혀요', text: '기침약은 따끔거리는 목을 편안하게 가라앉혀줘요.' },
+                    { icon: '💧', title: '가래를 묽게 만들어줘요', text: '끈적한 가래를 묽게 만들어서 더 쉽게 내보낼 수 있도록 도와줘요.' },
+                    { icon: '🥤', title: '물을 많이 마시는 것도 도움이 돼요', text: '따뜻한 물을 자주 마시면 목이 한결 편안해져요.' }
+                ]
+            },
+            {
+                theme: 'from-lime-900/30 to-green-950/50',
+                mascotHtml: propBadgeHTML('😣', 'from-lime-400', 'to-green-500', 92, ''),
+                pBadge: '소화 일꾼들', pSticker: '😣 힘들어해요',
+                pTag: '배가 아플 때', pTitle: '작은 일꾼들이 지쳤어요',
+                pBody: `음식을 먹으면 배 속에서 잘게 부수는 작은 일꾼들이 열심히 일해요. 그런데 너무 급하게 먹거나 몸이 지치면 일꾼들이 힘들어해서 배가 아프고 더부룩해질 수 있어요.`,
+                sEmoji: '🌿', sFrom: 'from-lime-400', sTo: 'to-green-600', sAnim: '',
+                sTitle: '소화제: 작은 일꾼을 도와줘요',
+                sFacts: [
+                    { icon: '🌿', title: '소화를 돕는 일꾼(효소)을 보내줘요', text: '소화제는 음식을 잘게 부수는 작은 일꾼(효소)을 도와주는 약이에요.' },
+                    { icon: '🍽️', title: '배 속 음식을 더 잘 부숴줘요', text: '딱딱하게 뭉친 음식을 더 잘게 부수도록 도와줘서 배가 편안해져요.' },
+                    { icon: '🐢', title: '천천히 골고루 먹는 게 최고예요', text: '꼭꼭 씹어서 천천히 먹으면 일꾼들이 훨씬 수월하게 일할 수 있어요.' }
+                ]
+            }
+        ];
+
+        // 총정리 갤러리 (9개 주제)
+        const GALLERY = [
+            { html: mascotHTML('wbc', { size: 60 }), name: '백혈구', line: '몸속 경찰관' },
+            { html: propBadgeHTML('🌡️', 'from-orange-400', 'to-amber-600', 60), name: '해열제', line: '체온 스위치 조절' },
+            { html: propBadgeHTML('💊', 'from-indigo-400', 'to-violet-600', 60), name: '항생제', line: '세균만 콕!' },
+            { html: propBadgeHTML('💉', 'from-sky-400', 'to-blue-600', 60), name: '항히스타민', line: '가려움 경보 진정' },
+            { html: propBadgeHTML('🧴', 'from-emerald-400', 'to-teal-600', 60), name: '모기약', line: '가려움 진정' },
+            { html: propBadgeHTML('🛡️', 'from-emerald-400', 'to-teal-600', 60), name: '백신', line: '미리 훈련 작전' },
+            { html: propBadgeHTML('🩹', 'from-rose-400', 'to-pink-600', 60), name: '소독약&딱지', line: '상처 보호막' },
+            { html: propBadgeHTML('🍯', 'from-amber-400', 'to-orange-500', 60), name: '기침약', line: '목을 편안하게' },
+            { html: propBadgeHTML('🌿', 'from-lime-400', 'to-green-600', 60), name: '소화제', line: '소화 일꾼 지원' }
+        ];
+
+        const QUIZ_QUESTIONS = [
+            { q: "백혈구가 하는 일은 무엇일까요?", options: ["온몸에 산소를 배달해요", "나쁜 세균과 싸워요", "상처를 아물게 해요", "밥을 소화시켜요"], ans: 1, hint: "백혈구는 우리 몸속을 지키는 용감한 경찰관이에요!" },
+            { q: "열이 나는 진짜 이유는 무엇일까요?", options: ["날씨가 더워서", "백혈구 부대가 싸우려고 체온을 올려서", "물을 안 마셔서", "잠을 많이 자서"], ans: 1, hint: "체온이 올라가면 백혈구가 더 힘차게 세균과 싸울 수 있어요." },
+            { q: "항생제가 듣지 않는 것은 무엇일까요?", options: ["세균", "감기 바이러스", "상처", "치통"], ans: 1, hint: "항생제는 세균만 골라서 물리쳐요. 바이러스에는 안 통해요!" },
+            { q: "예방접종(백신)은 어떤 원리로 우리를 지켜줄까요?", options: ["약해진 세균 모형으로 미리 훈련시켜요", "몸을 더 뜨겁게 만들어요", "잠을 더 잘 자게 해줘요", "밥맛을 좋게 해줘요"], ans: 0, hint: "백혈구 부대가 미리 얼굴을 기억해두면 나중에 훨씬 빨리 물리칠 수 있어요." },
+            { q: "딱지는 왜 생길까요?", options: ["피부가 심심해서", "혈소판과 굳은 피가 상처를 덮어 보호해줘서", "약을 발라서", "옷에 스쳐서"], ans: 1, hint: "딱지 아래에서 새살이 돋을 때까지 안전하게 지켜주는 보호막이에요." }
+        ];
+        let quizAnswers = {};
+
+        const SLIDE_TITLES = [
+            "01. 🛡️ 인트로: 주사와 약, 몸속에서 무슨 일이?",
+            "02. 🩸 혈액 3형제 소개",
+            "03. 🩸 혈액 3형제가 하는 일",
+            "04. 😖 알러지: 가렵고 붓는 이유",
+            "05. 💉 항히스타민 주사의 비밀",
+            "06. 🌡️ 열이 나는 진짜 이유",
+            "07. 🌡️ 해열제의 비밀",
+            "08. 🦠 세균 vs 바이러스",
+            "09. 💊 항생제의 비밀",
+            "10. 🦟 모기에 물리면 가려운 이유",
+            "11. 🧴 모기약의 비밀",
+            "12. 🛡️ 예방접종(백신)이 뭘까?",
+            "13. 🛡️ 백신의 비밀: 미리 훈련하기",
+            "14. 🩹 상처가 나면 무슨 일이?",
+            "15. 🩹 빨간약과 딱지의 비밀",
+            "16. 😮‍💨 기침은 왜 날까?",
+            "17. 🍯 기침약의 비밀",
+            "18. 🍚 배가 아플 때",
+            "19. 🌿 소화제의 비밀",
+            "20. 🎮 [인터랙티브] 몸속 방어대 대작전",
+            "21. 🗂️ 총정리 갤러리",
+            "22. 🎯 실전 퀴즈 1 (백혈구)",
+            "23. 🎯 실전 퀴즈 2 (열)",
+            "24. 🎯 실전 퀴즈 3 (항생제)",
+            "25. 🎯 실전 퀴즈 4 (백신)",
+            "26. 🎯 실전 퀴즈 5 (딱지)",
+            "27. 🏆 [수료증] 방어대 대장 배지"
+        ];
+
+        function updateProgress() {
+            document.getElementById('slideIndicator').textContent = currentSlide;
+            const pct = (currentSlide / totalSlides) * 100;
+            document.getElementById('topProgressBar').style.width = pct + '%';
+            document.getElementById('prevBtn').disabled = (currentSlide === 1);
+            document.getElementById('nextBtn').disabled = (currentSlide === totalSlides);
+
+            const dotsCont = document.getElementById('dotsContainer');
+            dotsCont.innerHTML = '';
+            for (let i = 1; i <= totalSlides; i++) {
+                const dot = document.createElement('button');
+                dot.className = `w-2 h-2 rounded-full transition-all flex-shrink-0 ${i === currentSlide ? 'w-5 bg-rose-400' : 'bg-slate-700 hover:bg-slate-500'}`;
+                dot.onclick = () => goToSlide(i);
+                dotsCont.appendChild(dot);
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                playSound('pop');
+                currentSlide++;
+                renderSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                playSound('pop');
+                currentSlide--;
+                renderSlide();
+            }
+        }
+
+        function goToSlide(n) {
+            playSound('pop');
+            currentSlide = n;
+            renderSlide();
+            const drawer = document.getElementById('indexDrawer');
+            if (!drawer.classList.contains('hidden')) drawer.classList.add('hidden');
+        }
+
+        function toggleIndexDrawer() {
+            const drawer = document.getElementById('indexDrawer');
+            drawer.classList.toggle('hidden');
+            if (!drawer.classList.contains('hidden')) {
+                const list = document.getElementById('drawerList');
+                list.innerHTML = '';
+                SLIDE_TITLES.forEach((t, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = `w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between transition ${idx + 1 === currentSlide ? 'bg-rose-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}`;
+                    btn.textContent = t;
+                    btn.onclick = () => goToSlide(idx + 1);
+                    list.appendChild(btn);
+                });
+            }
+        }
+
+        // Concept panel: gradient background + mascot/prop badge (no photos on this page)
+        function mascotPanelHTML(mascotHtmlStr, themeClasses, badgeText, stickerText, captionText, heightClass) {
+            return `
+                <div class="relative ${heightClass || 'h-52'} rounded-2xl overflow-hidden border border-white/10 bg-gradient-to-br ${themeClasses} flex items-center justify-center">
+                    <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-black/30 text-white text-[11px] font-bold">${badgeText}</span>
+                    ${stickerText ? `<span class="sticker-pop absolute top-2.5 right-2.5 px-2.5 py-1 rounded-xl bg-med-dark/90 border border-white/20 text-[11px] font-bold text-white">${stickerText}</span>` : ''}
+                    ${mascotHtmlStr}
+                    <span class="absolute bottom-2.5 left-2.5 text-sm text-white font-kids drop-shadow">${captionText}</span>
+                </div>
+            `;
+        }
+
+        function factsBlockHTML(facts) {
+            return facts.map(f => `
+                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700">
+                    <strong class="text-rose-300 font-kids text-sm block mb-1">${f.icon} ${f.title}</strong>
+                    ${f.text}
+                </div>
+            `).join('');
+        }
+
+        function renderSlide() {
+            // Safety: the battle mini-game (slide 20) uses setInterval to spawn germs — always
+            // clear it the moment we're not on slide 20, or it keeps spawning forever.
+            if (battleInterval !== null && currentSlide !== 20) {
+                clearInterval(battleInterval);
+                battleInterval = null;
+            }
+
+            updateProgress();
+            const body = document.getElementById('slideBody');
+
+            if (currentSlide === 1) {
+                body.innerHTML = `
+                    <div class="text-center py-4">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-kids mb-4">
+                            <span>🛡️ 은찬이의 몸속 탐험</span> · <span>7~10세 초등 맞춤</span>
+                        </div>
+                        <div class="flex items-center justify-center gap-6 mb-5">
+                            ${mascotHTML('wbc', { size: 110, anim: 'bounce' })}
+                            ${mascotHTML('germ', { size: 90, anim: 'wiggle' })}
+                        </div>
+                        <h2 class="font-kids text-3xl md:text-5xl text-white mb-4 leading-tight">
+                            주사를 맞거나 약을 먹으면<br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-med-blood via-rose-300 to-med-shield">몸속에서 무슨 일이 일어날까?</span> 🛡️
+                        </h2>
+                        <p class="text-slate-300 text-sm md:text-base max-w-2xl mx-auto leading-relaxed mb-3 font-sans">
+                            우리 몸속에는 눈에 보이지 않는 <strong>방어대</strong>가 살고 있어요! 백혈구, 적혈구, 혈소판이 팀을 이루고, 열이 나거나 다치면 주사와 약이라는 <strong>특별 지원군</strong>이 도와줘요.<br>
+                            지금부터 방어대의 비밀을 하나씩 알아볼까요?
+                        </p>
+                        <p class="text-[11px] md:text-xs text-amber-300/90 max-w-xl mx-auto mb-6 font-kids leading-relaxed">
+                            💊 약은 항상 어른이나 의사 선생님과 함께 먹어야 해요!
+                        </p>
+                        <div class="flex flex-wrap items-center justify-center gap-3">
+                            <button onclick="playSound('pop'); nextSlide();" class="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-med-blood to-med-shield hover:opacity-90 text-white font-kids text-base shadow-xl shadow-rose-950 transition active:scale-95 flex items-center gap-2 font-bold">
+                                <span>🚀 방어대 출동!</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 2) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🩸</span>
+                            <div>
+                                <span class="text-xs font-bold text-rose-400 font-kids">우리 몸을 지키는 팀</span>
+                                <h3 class="font-kids text-2xl text-white">혈액 3형제를 소개할게요</h3>
+                            </div>
+                        </div>
+                        <div class="grid sm:grid-cols-3 gap-3 font-sans text-xs text-slate-300">
+                            ${BLOOD_TRIO.map(m => `
+                                <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-700 flex flex-col items-center text-center gap-2">
+                                    ${mascotHTML(m.type, { size: 84, anim: 'bounce' })}
+                                    <strong class="font-kids text-lg ${m.color}">${m.name}</strong>
+                                    <span class="text-[11px] font-kids text-slate-400">${m.role}</span>
+                                    <p>${m.short}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 3) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🩸</span>
+                            <div>
+                                <span class="text-xs font-bold text-rose-400 font-kids">더 자세히 알아볼까요?</span>
+                                <h3 class="font-kids text-2xl text-white">혈액 3형제가 하는 일</h3>
+                            </div>
+                        </div>
+                        <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300">
+                            ${BLOOD_TRIO.map(m => `
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl border border-slate-700 flex items-center gap-3">
+                                    ${mascotHTML(m.type, { size: 56 })}
+                                    <div>
+                                        <strong class="${m.color} font-kids text-sm block mb-1">${m.name} · ${m.role}</strong>
+                                        ${m.detail}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide >= 4 && currentSlide <= 19) {
+                const offset = currentSlide - 4;
+                const tIdx = Math.floor(offset / 2);
+                const isSolution = offset % 2 === 1;
+                const t = TOPICS[tIdx];
+
+                if (!isSolution) {
+                    body.innerHTML = `
+                        <div>
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="text-3xl">🔎</span>
+                                <div>
+                                    <span class="text-xs font-bold text-rose-400 font-kids">${t.pTag}</span>
+                                    <h3 class="font-kids text-2xl text-white">${t.pTitle}</h3>
+                                </div>
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-5 items-center">
+                                ${mascotPanelHTML(t.mascotHtml, t.theme, t.pBadge, t.pSticker, t.pTag, 'h-56 md:h-64')}
+                                <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300">
+                                    <p class="leading-relaxed">${t.pBody}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    const solutionMascot = t.sMascotHtml || propBadgeHTML(t.sEmoji, t.sFrom, t.sTo, 92, t.sAnim);
+                    body.innerHTML = `
+                        <div>
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="text-3xl">🦸</span>
+                                <div>
+                                    <span class="text-xs font-bold text-rose-400 font-kids">특별 지원군 등장!</span>
+                                    <h3 class="font-kids text-2xl text-white">${t.sTitle}</h3>
+                                </div>
+                            </div>
+                            <div class="grid md:grid-cols-[auto,1fr] gap-5 items-start">
+                                <div class="flex justify-center md:justify-start">
+                                    <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-700">${solutionMascot}</div>
+                                </div>
+                                <div class="space-y-3 font-sans text-xs md:text-sm text-slate-300">
+                                    ${factsBlockHTML(t.sFacts)}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            } else if (currentSlide === 20) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold text-rose-400 font-kids">인터랙티브 미니게임</span>
+                                <h3 class="font-kids text-2xl text-white">몸속 방어대 대작전! 🎮</h3>
+                            </div>
+                            <span class="text-[11px] text-slate-400 font-kids">세균이 사라지기 전에 콕! 눌러보세요 👇</span>
+                        </div>
+                        <div class="p-4 bg-slate-900 rounded-3xl border border-slate-800 flex flex-col items-center">
+                            <div class="w-full flex items-center justify-between mb-2 px-1">
+                                <span class="text-xs font-kids text-emerald-300">🦠 잡은 세균: <span id="battleScore">0 / 12</span></span>
+                                <span class="text-[11px] font-kids text-slate-400">백혈구가 되어 세균을 물리쳐요!</span>
+                            </div>
+                            <div id="battleArena" class="relative w-full max-w-[580px] h-72 rounded-2xl border border-slate-700 overflow-hidden bg-gradient-to-br from-slate-800 to-slate-950"></div>
+                            <div id="battleWinBanner" class="hidden mt-3 w-full max-w-[580px] text-center p-3 rounded-2xl bg-emerald-600/20 border border-emerald-500/40 text-emerald-300 font-kids text-sm">
+                                🎉 12마리 잡기 성공! 방어대 승리! 🛡️
+                            </div>
+                        </div>
+                    </div>
+                `;
+                setTimeout(() => startBattleGame(), 50);
+            } else if (currentSlide === 21) {
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🗂️</span>
+                            <div>
+                                <span class="text-xs font-bold text-rose-400 font-kids">지금까지 배운 방어대 지원군</span>
+                                <h3 class="font-kids text-2xl text-white">총정리 갤러리</h3>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-3 gap-3">
+                            ${GALLERY.map(g => `
+                                <div class="p-3 rounded-2xl bg-slate-900/80 border border-slate-700 flex flex-col items-center text-center gap-1.5">
+                                    ${g.html}
+                                    <strong class="font-kids text-xs text-white">${g.name}</strong>
+                                    <span class="text-[10px] text-slate-400 font-sans">${g.line}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide >= 22 && currentSlide <= 26) {
+                const qIdx = currentSlide - 22;
+                const q = QUIZ_QUESTIONS[qIdx];
+                const selected = quizAnswers[qIdx];
+                body.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs font-bold text-rose-400 font-kids">🎯 방어대 실전 퀴즈 (${qIdx + 1} / 5)</span>
+                            <span class="text-xs px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-kids">점수: ${Object.values(quizAnswers).filter((a, i) => a === QUIZ_QUESTIONS[i].ans).length * 20}점</span>
+                        </div>
+                        <h3 class="font-kids text-xl md:text-2xl text-white mb-4 leading-snug">
+                            Q${qIdx + 1}. ${q.q}
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                            ${q.options.map((opt, optIdx) => {
+                                let style = "bg-slate-800/90 border-slate-700 hover:bg-slate-700 text-slate-200";
+                                if (selected !== undefined) {
+                                    if (optIdx === q.ans) style = "bg-blue-600/90 border-blue-400 text-white font-bold ring-2 ring-blue-400";
+                                    else if (optIdx === selected) style = "bg-rose-600/90 border-rose-400 text-white font-bold";
+                                }
+                                return `
+                                    <button onclick="handleQuizAnswer(${qIdx}, ${optIdx})" class="p-4 rounded-2xl border text-left font-kids text-sm transition ${style}">
+                                        ${optIdx + 1}. ${opt}
+                                    </button>
+                                `;
+                            }).join('')}
+                        </div>
+                        <div class="p-3 bg-slate-900 rounded-2xl border border-slate-800 text-xs text-slate-400 font-kids">
+                            💡 힌트: ${q.hint}
+                        </div>
+                    </div>
+                `;
+            } else if (currentSlide === 27) {
+                const correctCount = Object.values(quizAnswers).filter((a, i) => a === QUIZ_QUESTIONS[i].ans).length;
+                const score = correctCount * 20;
+                playSound('fanfare');
+                if (typeof confetti === 'function') {
+                    confetti({ particleCount: 90, spread: 70, origin: { y: 0.6 } });
+                }
+                body.innerHTML = `
+                    <div class="text-center py-4">
+                        <div class="relative h-40 rounded-3xl overflow-hidden border border-slate-700 mb-4 max-w-md mx-auto bg-gradient-to-br from-med-blood/40 to-med-shield/40 flex items-center justify-center">
+                            <div class="w-20 h-20 rounded-3xl bg-gradient-to-tr from-med-blood to-med-shield shadow-[0_0_35px_rgba(244,63,94,0.5)] flex items-center justify-center text-4xl">
+                                🏆
+                            </div>
+                        </div>
+                        <span class="text-xs font-bold text-rose-400 font-kids tracking-widest uppercase">Body Defense Squad Certificate</span>
+                        <h3 class="font-kids text-3xl md:text-4xl text-white mt-1 mb-2">
+                            은찬이의 방어대 탐험 수료를 축하합니다! 🎉
+                        </h3>
+                        <p class="text-slate-300 text-xs md:text-sm mb-2 font-sans">
+                            혈액 3형제부터 주사, 해열제, 항생제, 백신, 소화제까지 우리 몸속 방어대의 비밀을 훌륭하게 탐구했어요!
+                        </p>
+                        <p class="text-[11px] md:text-xs text-amber-300/90 max-w-md mx-auto mb-4 font-kids leading-relaxed">
+                            💊 약은 항상 어른이나 의사 선생님과 함께 먹어야 해요!
+                        </p>
+                        <div class="inline-flex items-center gap-4 p-4 rounded-2xl bg-rose-950/40 border border-rose-500/30 text-center mb-6">
+                            <div>
+                                <span class="text-[11px] text-slate-400 font-kids block">퀴즈 성적</span>
+                                <span class="font-kids text-2xl text-rose-300">${score}점</span>
+                            </div>
+                            <div class="w-px h-8 bg-rose-500/30"></div>
+                            <div>
+                                <span class="text-[11px] text-slate-400 font-kids block">수여 칭호</span>
+                                <span class="font-kids text-lg text-amber-300">방어대 대장 🛡️</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap items-center justify-center gap-3 font-kids text-xs">
+                            <a href="eunchan-study.html" class="px-6 py-3 rounded-xl bg-rose-600 hover:bg-rose-500 text-white transition shadow-lg shadow-rose-950">
+                                🎒 은찬이의 공부방 홈으로 이동
+                            </a>
+                            <button onclick="goToSlide(1)" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+                                🔄 처음부터 다시 탐험하기
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function handleQuizAnswer(qIdx, optIdx) {
+            if (quizAnswers[qIdx] !== undefined) return;
+            quizAnswers[qIdx] = optIdx;
+            if (optIdx === QUIZ_QUESTIONS[qIdx].ans) {
+                playSound('correct');
+            } else {
+                playSound('wrong');
+            }
+            renderSlide();
+        }
+
+        // Battle mini-game (slide 20): click germs before they vanish. Interval MUST be cleared
+        // whenever we leave slide 20 — handled at the top of renderSlide() above.
+        let battleInterval = null;
+        let battleCaught = 0;
+        let battleGoalReached = false;
+        const BATTLE_GOAL = 12;
+
+        function startBattleGame() {
+            if (battleInterval) { clearInterval(battleInterval); battleInterval = null; }
+            const arena = document.getElementById('battleArena');
+            if (!arena) return;
+            arena.innerHTML = '';
+            battleCaught = 0;
+            battleGoalReached = false;
+            updateBattleScore();
+            battleInterval = setInterval(spawnGerm, 1100);
+        }
+
+        function updateBattleScore() {
+            const el = document.getElementById('battleScore');
+            if (el) el.textContent = `${battleCaught} / ${BATTLE_GOAL}`;
+        }
+
+        function spawnGerm() {
+            if (currentSlide !== 20 || battleGoalReached) return;
+            const arena = document.getElementById('battleArena');
+            if (!arena) {
+                if (battleInterval) { clearInterval(battleInterval); battleInterval = null; }
+                return;
+            }
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'absolute';
+            const x = 8 + Math.random() * 78;
+            const y = 10 + Math.random() * 68;
+            btn.style.left = x + '%';
+            btn.style.top = y + '%';
+            btn.style.transform = 'translate(-50%,-50%)';
+            btn.style.transition = 'transform .2s ease, opacity .2s ease';
+            btn.innerHTML = mascotHTML('germ', { size: 52, anim: 'wiggle' });
+            btn.onclick = () => catchGerm(btn);
+            arena.appendChild(btn);
+
+            const missTimer = setTimeout(() => {
+                if (btn.isConnected && !btn.dataset.caught) {
+                    btn.remove();
+                }
+            }, 3200);
+            btn._missTimer = missTimer;
+        }
+
+        function catchGerm(el) {
+            if (el.dataset.caught) return;
+            el.dataset.caught = '1';
+            if (el._missTimer) clearTimeout(el._missTimer);
+            playSound('pop');
+            el.style.transform = 'translate(-50%,-50%) scale(0)';
+            el.style.opacity = '0';
+            setTimeout(() => { if (el.isConnected) el.remove(); }, 220);
+
+            battleCaught++;
+            updateBattleScore();
+
+            if (battleCaught >= BATTLE_GOAL && !battleGoalReached) {
+                battleGoalReached = true;
+                if (battleInterval) { clearInterval(battleInterval); battleInterval = null; }
+                playSound('fanfare');
+                const banner = document.getElementById('battleWinBanner');
+                if (banner) banner.classList.remove('hidden');
+            }
+        }
+
+        // TTS Read Aloud
+        let isSpeaking = false;
+        function toggleReadOutLoud() {
+            if (!('speechSynthesis' in window)) {
+                alert("이 브라우저는 음성 읽어주기를 지원하지 않습니다.");
+                return;
+            }
+
+            if (isSpeaking) {
+                window.speechSynthesis.cancel();
+                isSpeaking = false;
+                document.getElementById('ttsBtn').classList.remove('text-rose-400', 'animate-pulse');
+                document.getElementById('ttsBtn').classList.add('text-amber-400');
+                return;
+            }
+
+            const slide = document.getElementById('slideBody');
+            if (!slide) return;
+            // Strip emoji (broad unicode ranges) but keep digits/units so "12마리" or "4500년" read fine.
+            const textToRead = slide.innerText
+                .replace(/[\p{Extended_Pictographic}‍️]/gu, ' ')
+                .replace(/Q\d+\./g, ' ');
+
+            const utterance = new SpeechSynthesisUtterance(textToRead);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.95;
+            utterance.pitch = 1.05;
+
+            utterance.onstart = () => {
+                isSpeaking = true;
+                document.getElementById('ttsBtn').classList.remove('text-amber-400');
+                document.getElementById('ttsBtn').classList.add('text-rose-400', 'animate-pulse');
+            };
+
+            utterance.onend = () => {
+                isSpeaking = false;
+                document.getElementById('ttsBtn').classList.remove('text-rose-400', 'animate-pulse');
+                document.getElementById('ttsBtn').classList.add('text-amber-400');
+            };
+
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Keyboard
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'PageDown') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+        });
+
+        // Touch Swipe
+        let touchStartX = 0;
+        let touchEndX = 0;
+        document.addEventListener('touchstart', e => {
+            if (e.target.closest('canvas, button, a, input, select, textarea')) {
+                touchStartedOnInteractive = true;
+                return;
+            }
+            touchStartedOnInteractive = false;
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.addEventListener('touchend', e => {
+            if (touchStartedOnInteractive) {
+                touchStartedOnInteractive = false;
+                return;
+            }
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 75) nextSlide();
+            if (touchEndX - touchStartX > 75) prevSlide();
+        }, { passive: true });
+
+        // Init
+        renderSlide();
+    </script>
+</body>
+</html>
