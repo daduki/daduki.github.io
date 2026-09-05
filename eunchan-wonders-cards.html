@@ -1154,5 +1154,35 @@
         // Init
         renderSlide();
     </script>
+
+    <!-- Mobile Swipe Support -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const card = document.getElementById('slideCard');
+            if (card) {
+                let touchStartX = 0;
+                let touchEndX = 0;
+                
+                card.addEventListener('touchstart', e => {
+                    touchStartX = e.changedTouches[0].screenX;
+                }, {passive: true});
+                
+                card.addEventListener('touchend', e => {
+                    touchEndX = e.changedTouches[0].screenX;
+                    handleSwipe();
+                }, {passive: true});
+                
+                function handleSwipe() {
+                    const threshold = 50;
+                    if (touchEndX < touchStartX - threshold) {
+                        if (typeof nextSlide === 'function') nextSlide();
+                    }
+                    if (touchEndX > touchStartX + threshold) {
+                        if (typeof prevSlide === 'function') prevSlide();
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>
