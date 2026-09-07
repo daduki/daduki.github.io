@@ -1512,6 +1512,7 @@
                 activeBtn.classList.remove('text-slate-400');
             }
             renderTimeline();
+            renderMap(tabKey);
         }
 
         // Modal Handlers
@@ -1714,6 +1715,7 @@
         // Initialize on DOM Loaded
         document.addEventListener('DOMContentLoaded', () => {
             loadItinerary();
+            renderMap(currentTab);
             initChecklist();
             updateDDay();
             setInterval(updateDDay, 1000);
