@@ -1392,6 +1392,114 @@
         }
 
         // Tab Filter Switching
+        
+        // ================= MAP LOGIC =================
+        const mapData = {
+            "1": [
+                { lat: 25.0777, lng: 121.2328, title: "타오위안 국제공항", info: "입국 및 공항철도 탑승", img: "images/taiwan-trip/ev_1_1-1.jpg", seq: 1 },
+                { lat: 25.0478, lng: 121.5170, title: "타이베이역", info: "호텔 체크인", img: "images/taiwan-trip/ev_1_2-1.jpg", seq: 2 },
+                { lat: 25.0489, lng: 121.5111, title: "철도부원구 박물관", info: "기차 박물관 관람", img: "images/taiwan-trip/ev_1_3-1.jpg", seq: 3 },
+                { lat: 25.0558, lng: 121.5155, title: "닝샤 야시장", info: "저녁식사", img: "images/taiwan-trip/ev_1_6-1.jpg", seq: 4 }
+            ],
+            "2": [
+                { lat: 24.9984, lng: 121.5810, title: "타이베이 동물원", info: "판다 관람", img: "images/taiwan-trip/ev_2_1-1.jpg", seq: 1 },
+                { lat: 24.9691, lng: 121.5884, title: "마오콩 곤돌라", info: "크리스탈 캐빈", img: "images/taiwan-trip/ev_2_2-1.jpg", seq: 2 },
+                { lat: 25.0833, lng: 121.5574, title: "미라마 백화점", info: "대관람차 야경", img: "images/taiwan-trip/ev_2_4-1.jpg", seq: 3 }
+            ],
+            "3": [
+                { lat: 25.0478, lng: 121.5170, title: "타이베이역", info: "TRA 이란선 탑승", img: "images/taiwan-trip/ev_3_1-2.jpg", seq: 1 },
+                { lat: 25.0408, lng: 121.7766, title: "스펀(Shifen)", info: "천등 날리기", img: "images/taiwan-trip/ev_3_1-1.jpg", seq: 2 },
+                { lat: 25.0441, lng: 121.5294, title: "화산 1914", info: "창의문화원구", img: "images/taiwan-trip/ev_3_3-1.jpg", seq: 3 },
+                { lat: 25.0339, lng: 121.5644, title: "타이베이 101", info: "타워 야경", img: "images/taiwan-trip/taipei-101.jpg", seq: 4 }
+            ],
+            "4": [
+                { lat: 25.0478, lng: 121.5170, title: "타이베이역", info: "출발", img: "images/taiwan-trip/ev_1_2-1.jpg", seq: 1 },
+                { lat: 25.0777, lng: 121.2328, title: "타오위안 국제공항", info: "출국 및 귀국", img: "images/taiwan-trip/ev_4_4-1.jpg", seq: 2 }
+            ]
+        };
+
+        const mapInstances = [];
+
+        function renderMap(dayId) {
+            const container = document.getElementById('mapViewContainer');
+            container.classList.remove('hidden');
+            container.innerHTML = '';
+            
+            // Cleanup existing map instances
+            mapInstances.forEach(m => m.remove());
+            mapInstances.length = 0;
+
+            if (dayId === 'all') {
+                container.innerHTML = `
+                    <div class="mb-2 text-sm font-bold text-sky-300">🗺️ 4일 전체 코스 (한눈에 보기)</div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        ${[1, 2, 3, 4].map(d => `<div class="rounded-xl overflow-hidden border border-slate-700 bg-slate-800 p-2"><div class="text-xs font-bold text-center mb-1 text-slate-300">${d}일차 동선</div><div id="map-day-${d}" class="w-full h-48 rounded-lg z-0 relative"></div></div>`).join('')}
+                    </div>
+                `;
+                [1, 2, 3, 4].forEach(d => initLeafletMap(`map-day-${d}`, d.toString(), false));
+            } else {
+                container.innerHTML = `
+                    <div class="mb-2 text-sm font-bold text-sky-300">🗺️ ${dayId}일차 동선</div>
+                    <div class="rounded-xl overflow-hidden border border-slate-700 bg-slate-800 p-2">
+                        <div id="map-single" class="w-full h-64 md:h-80 rounded-lg z-0 relative"></div>
+                    </div>
+                `;
+                initLeafletMap('map-single', dayId, true);
+            }
+        }
+
+        function initLeafletMap(elementId, day, isSingle) {
+            const places = mapData[day];
+            if (!places || places.length === 0) return;
+
+            const map = L.map(elementId, {
+                zoomControl: isSingle,
+                dragging: true,
+                touchZoom: true,
+                scrollWheelZoom: false
+            });
+            mapInstances.push(map);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            const latlngs = places.map(p => [p.lat, p.lng]);
+            const polyline = L.polyline(latlngs, {color: '#38bdf8', weight: 3, dashArray: '5, 5'}).addTo(map);
+            
+            map.fitBounds(polyline.getBounds(), { padding: [20, 20] });
+            setTimeout(() => {
+                map.invalidateSize();
+                map.fitBounds(polyline.getBounds(), { padding: [20, 20] });
+            }, 100);
+
+            places.forEach(p => {
+                const iconHtml = `
+                    <div style="background-color: #0ea5e9; color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3); font-size: 12px;">
+                        ${p.seq}
+                    </div>
+                `;
+                const customIcon = L.divIcon({
+                    html: iconHtml,
+                    className: '',
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 12],
+                    popupAnchor: [0, -12]
+                });
+                
+                const popupContent = `
+                    <div style="text-align: center; min-width: 120px;">
+                        <img src="${p.img}" alt="${p.title}" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px; margin-bottom: 4px;">
+                        <strong style="color: #0f172a; font-size: 14px;">${p.title}</strong>
+                        <div style="color: #475569; font-size: 11px;">${p.info}</div>
+                    </div>
+                `;
+
+                L.marker([p.lat, p.lng], {icon: customIcon}).bindPopup(popupContent).addTo(map);
+            });
+        }
+        // ================= END MAP LOGIC =================
+
         function changeDayTab(tabKey) {
             currentTab = tabKey;
             document.querySelectorAll('.tab-btn').forEach(btn => {
