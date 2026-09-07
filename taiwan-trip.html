@@ -36,6 +36,9 @@
         .nav-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; }
         .nav-scroll::-webkit-scrollbar { display: none; }
     </style>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
 <body class="scroll-smooth min-h-screen flex flex-col justify-between">
 
@@ -451,6 +454,11 @@
                     <button onclick="changeDayTab('4')" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition border border-slate-800" id="tab-4">
                         4일차 (11/24 화) · 귀국 (진에어 LJ0172)
                     </button>
+                </div>
+
+                
+                <!-- Map View Container -->
+                <div id="mapViewContainer" class="mb-6 w-full hidden transition-all duration-500">
                 </div>
 
                 <!-- Timeline Container (Rendered dynamically by JavaScript) -->
