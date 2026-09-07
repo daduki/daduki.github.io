@@ -1511,8 +1511,9 @@
             });
             mapInstances.push(map);
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; OpenStreetMap contributors'
+            // Google Maps Tile Layer
+            L.tileLayer('https://mt1.google.com/vt/lyrs=m&hl=kr&x={x}&y={y}&z={z}', {
+                attribution: '&copy; <a href="https://www.google.com/maps">Google Maps</a>'
             }).addTo(map);
 
             const latlngs = places.map(p => [p.lat, p.lng]);
@@ -1539,10 +1540,13 @@
                 });
                 
                 const popupContent = `
-                    <div style="text-align: center; min-width: 120px;">
-                        <img src="${p.img}" alt="${p.title}" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px; margin-bottom: 4px;">
-                        <strong style="color: #0f172a; font-size: 14px;">${p.title}</strong>
-                        <div style="color: #475569; font-size: 11px;">${p.info}</div>
+                    <div style="text-align: center; min-width: 140px; padding-bottom: 4px;">
+                        <img src="${p.img}" alt="${p.title}" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px; margin-bottom: 6px;">
+                        <strong style="color: #0f172a; font-size: 14px; display: block; margin-bottom: 2px;">${p.title}</strong>
+                        <div style="color: #475569; font-size: 11px; margin-bottom: 8px;">${p.info}</div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.title + ' 대만')}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; justify-content: center; gap: 4px; background-color: #3b82f6; color: white; padding: 6px 10px; border-radius: 6px; text-decoration: none; font-size: 11px; font-weight: bold; width: 100%; box-sizing: border-box; transition: background-color 0.2s;">
+                            <span>🗺️</span> 구글 맵에서 상세 보기
+                        </a>
                     </div>
                 `;
 
