@@ -335,6 +335,7 @@
             function onDown(e) {
                 e.preventDefault();
                 e.stopPropagation();
+                if (e.touches) touchStartedOnInteractive = true;
                 const point = e.touches ? e.touches[0] : e;
                 const { x, y } = svgUserPoint(svg, point.clientX, point.clientY);
                 draggedHand = pickHand(x, y);
