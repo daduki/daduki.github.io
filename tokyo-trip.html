@@ -700,6 +700,7 @@
                             <option value="food">🍜 식사/맛집</option>
                             <option value="spot">⛩️ 관광/체험</option>
                             <option value="drink">🍶 이자카야/바</option>
+                            <option value="run">🏃 러닝</option>
                             <option value="move">🚉 이동/교통</option>
                             <option value="hotel">🏨 숙소</option>
                         </select>
@@ -829,6 +830,18 @@
             },
             // Day 2 (11/25 수) - 야네센 & 간다
             {
+                id: 'ev_2_0',
+                day: 2,
+                time: '06:00 ~ 07:00',
+                category: 'run',
+                categoryLabel: '🏃 러닝',
+                title: '스미다강 리버사이드 러닝 (아즈마바시 왕복 약 5~6km)',
+                desc: '숙소 바로 앞 아즈마바시(吾妻橋)에서 시작하는 완전히 평탄한 강변길. 신호등 없이 쭉 이어지며 스카이트리와 아사히맥주 본사 오브제 뷰를 즐길 수 있음. 료고쿠바시 부근까지 갔다가 되돌아오면 약 5~6km.',
+                kidsTip: '이른 아침엔 로컬 러너들이 꽤 많은 인기 코스. 09:00 야네센 일정 전까지 샤워·조식 시간을 넉넉히 확보하려면 07:00까지는 마무리.',
+                budget: '',
+                images: []
+            },
+            {
                 id: 'ev_2_1',
                 day: 2,
                 time: '09:00 ~ 11:30',
@@ -890,6 +903,18 @@
             },
             // Day 3 (11/26 목) - 카구라자카 & 시부야 나이트아웃
             {
+                id: 'ev_3_0',
+                day: 3,
+                time: '06:00 ~ 07:00',
+                category: 'run',
+                categoryLabel: '🏃 러닝',
+                title: '고쿄(皇居) 반시계 방향 러닝 (약 5km)',
+                desc: 'Strava 세그먼트 "Imperial Palace Tokyo Counter Clockwise Sidewalk" — 사쿠라다몬 등에서 출발해 고쿄 외곽을 한 바퀴 도는, 도쿄 러너들의 성지 코스. 우에노에서 전철로 약 20분. 평탄하고 신호등이 거의 없어 한 바퀴 약 5km를 편하게 달릴 수 있음.',
+                kidsTip: '반드시 반시계 방향(고쿄를 항상 왼쪽에 두고 달리기)으로 도는 게 현지 러너들 사이 암묵적 매너. 고쿄 북쪽(기타노마루) 구역이 오늘 첫 일정인 카구라자카와 가까워 러닝 후 곧장 이동하기 좋음.',
+                budget: '',
+                images: []
+            },
+            {
                 id: 'ev_3_1',
                 day: 3,
                 time: '09:30 ~ 11:30',
@@ -950,6 +975,18 @@
                 images: []
             },
             // Day 4 (11/27 금) - 귀국 반나절
+            {
+                id: 'ev_4_0',
+                day: 4,
+                time: '06:30 ~ 08:00',
+                category: 'run',
+                categoryLabel: '🏃 러닝',
+                title: '런 커뮤트: 아사쿠사 숙소 → 츠키지 (스미다강변, 약 6~7km)',
+                desc: '왕복이 아니라 숙소에서 스미다강 리버사이드를 따라 남쪽으로 쭉 달려 그대로 츠키지 장외시장에 도착하는 편도 코스. 러닝이 곧 아침 이동 수단이 되는 마지막 날 전용 구성 — 도착하면 바로 조식(다음 일정)으로 이어짐.',
+                kidsTip: '짐은 미리 체크아웃 가능한 만큼 정리해두고 가볍게 출발. 러닝복 그대로 츠키지에서 요기한 뒤 숙소로 돌아가 씻고 체크아웃하는 흐름을 추천.',
+                budget: '',
+                images: []
+            },
             {
                 id: 'ev_4_1',
                 day: 4,
@@ -1140,6 +1177,9 @@
                         } else if (item.category === 'drink') {
                             catBorder = 'border-fuchsia-500/40 bg-fuchsia-950/10';
                             timeColor = 'text-fuchsia-400 font-bold';
+                        } else if (item.category === 'run') {
+                            catBorder = 'border-emerald-500/40 bg-emerald-950/10';
+                            timeColor = 'text-emerald-400 font-bold';
                         }
 
                         const images = item.images || [];
@@ -1234,21 +1274,24 @@
                 { lat: 35.7143, lng: 139.7908, title: "홋피도리", info: "이자카야 크롤", seq: 4 }
             ],
             "2": [
-                { lat: 35.7280, lng: 139.7669, title: "야나카 긴자", info: "레트로 상점가 산책", seq: 1 },
-                { lat: 35.7203, lng: 139.7616, title: "네즈신사", info: "도리이 터널 · 한테이", seq: 2 },
-                { lat: 35.7188, lng: 139.7745, title: "우에노 공원", info: "도쿄국립박물관", seq: 3 },
-                { lat: 35.7098, lng: 139.7745, title: "아메요코 시장", info: "간식 & 다치노미", seq: 4 },
-                { lat: 35.6918, lng: 139.7708, title: "간다역 뒷골목", info: "다치노미 크롤", seq: 5 }
+                { lat: 35.7106, lng: 139.7966, title: "아즈마바시 (러닝 출발점)", info: "스미다강 리버사이드 러닝", seq: 1 },
+                { lat: 35.7280, lng: 139.7669, title: "야나카 긴자", info: "레트로 상점가 산책", seq: 2 },
+                { lat: 35.7203, lng: 139.7616, title: "네즈신사", info: "도리이 터널 · 한테이", seq: 3 },
+                { lat: 35.7188, lng: 139.7745, title: "우에노 공원", info: "도쿄국립박물관", seq: 4 },
+                { lat: 35.7098, lng: 139.7745, title: "아메요코 시장", info: "간식 & 다치노미", seq: 5 },
+                { lat: 35.6918, lng: 139.7708, title: "간다역 뒷골목", info: "다치노미 크롤", seq: 6 }
             ],
             "3": [
-                { lat: 35.7017, lng: 139.7402, title: "카구라자카", info: "골목 산책", seq: 1 },
-                { lat: 35.6613, lng: 139.6683, title: "시모키타자와", info: "빈티지샵 탐방", seq: 2 },
-                { lat: 35.6595, lng: 139.7016, title: "시부야 노베에요코초", info: "초소형 바 골목", seq: 3 },
-                { lat: 35.6467, lng: 139.7100, title: "에비스요코초", info: "사케바 크롤", seq: 4 }
+                { lat: 35.6786, lng: 139.7565, title: "고쿄 사쿠라다몬 (러닝 출발점)", info: "고쿄 반시계 방향 러닝 약 5km", seq: 1 },
+                { lat: 35.7017, lng: 139.7402, title: "카구라자카", info: "골목 산책", seq: 2 },
+                { lat: 35.6613, lng: 139.6683, title: "시모키타자와", info: "빈티지샵 탐방", seq: 3 },
+                { lat: 35.6595, lng: 139.7016, title: "시부야 노베에요코초", info: "초소형 바 골목", seq: 4 },
+                { lat: 35.6467, lng: 139.7100, title: "에비스요코초", info: "사케바 크롤", seq: 5 }
             ],
             "4": [
-                { lat: 35.6654, lng: 139.7707, title: "츠키지 장외시장", info: "스시 조식", seq: 1 },
-                { lat: 35.7720, lng: 140.3929, title: "나리타 국제공항", info: "귀국 탑승", seq: 2 }
+                { lat: 35.7106, lng: 139.7966, title: "아즈마바시 (러닝 출발점)", info: "런 커뮤트 시작 — 스미다강변 남하", seq: 1 },
+                { lat: 35.6654, lng: 139.7707, title: "츠키지 장외시장", info: "런 커뮤트 도착 · 스시 조식", seq: 2 },
+                { lat: 35.7720, lng: 140.3929, title: "나리타 국제공항", info: "귀국 탑승", seq: 3 }
             ]
         };
 
@@ -1405,6 +1448,7 @@
                 food: '🍜 식사/맛집',
                 spot: '⛩️ 관광/체험',
                 drink: '🍶 이자카야/바',
+                run: '🏃 러닝',
                 move: '🚉 이동/교통',
                 hotel: '🏨 숙소'
             };
