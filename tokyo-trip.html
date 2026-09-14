@@ -1121,10 +1121,10 @@
             const daysToShow = currentTab === 'all' ? [1, 2, 3, 4] : [parseInt(currentTab)];
 
             const dayMeta = {
-                1: { title: '1일차 — 11월 24일 (화)', sub: '인천(ICN) 출국 ➔ 나리타 도착 ➔ 스카이라이너 ➔ 아사쿠사 센소지 ➔ 홋피도리 이자카야', badge: '제주항공 7C1125 출국' },
-                2: { title: '2일차 — 11월 25일 (수)', sub: '야네센 산책(야나카 긴자·네즈신사) ➔ 한테이 쿠시아게 ➔ 아메요코 ➔ 간다 다치노미 골목', badge: '야네센 & 간다' },
-                3: { title: '3일차 — 11월 26일 (목)', sub: '카구라자카 골목 ➔ 시모키타자와 ➔ 시부야 노베에요코초 ➔ 에비스요코초', badge: '카구라자카 & 나이트아웃' },
-                4: { title: '4일차 — 11월 27일 (금)', sub: '츠키지 장외시장 조식 ➔ 체크아웃 ➔ 나리타 공항 ➔ 인천(ICN) 귀국', badge: '제주항공 7C1130 귀국' }
+                1: { title: '1일차 — 11월 24일 (화)', sub: '인천(ICN) 출국 ➔ 나리타 도착 ➔ 스카이라이너 ➔ 아사쿠사 센소지 ➔ 홋피도리 이자카야', badge: '제주항공 7C1125 출국', hotelArea: '🏨 우에노역·아사쿠사역 도보권 (체크인)' },
+                2: { title: '2일차 — 11월 25일 (수)', sub: '야네센 산책(야나카 긴자·네즈신사) ➔ 한테이 쿠시아게 ➔ 아메요코 ➔ 간다 다치노미 골목', badge: '야네센 & 간다', hotelArea: '🏨 우에노역 인근 숙소 그대로 추천 (야네센·간다 모두 도보·단거리)' },
+                3: { title: '3일차 — 11월 26일 (목)', sub: '카구라자카 골목 ➔ 시모키타자와 ➔ 시부야 노베에요코초 ➔ 에비스요코초', badge: '카구라자카 & 나이트아웃', hotelArea: '🏨 우에노 숙소 유지 시 막차 주의 — 동선만 보면 시부야·에비스역 인근이 더 편리' },
+                4: { title: '4일차 — 11월 27일 (금)', sub: '츠키지 장외시장 조식 ➔ 체크아웃 ➔ 나리타 공항 ➔ 인천(ICN) 귀국', badge: '제주항공 7C1130 귀국', hotelArea: '🏨 우에노 숙소 체크아웃' }
             };
 
             let html = '';
@@ -1142,6 +1142,7 @@
                                 <div>
                                     <h3 class="text-base md:text-lg font-bold text-white">${meta.title}</h3>
                                     <p class="text-xs text-slate-400">${meta.sub}</p>
+                                    ${meta.hotelArea ? `<p class="text-[11px] text-sky-300 mt-1">${meta.hotelArea}</p>` : ''}
                                 </div>
                             </div>
                             <div class="flex items-center gap-2">
