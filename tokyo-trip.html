@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="google-site-verification" content="PkQVnc5XrT6IR2iHEEM-aWVXEXO8JDO2VF6aWgn__eE" />
+    <link rel="icon" type="image/png" href="images/dd_lifelog_icon.png">
+    <title>도쿄 솔로 여행 대시보드 — 3박 4일 로컬 이자카야 & 노포 투어 | EmStudio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap');
+        body { font-family: 'Pretendard', sans-serif; background-color: #020617; color: #f8fafc; }
+        .gradient-text { background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gradient-rose { background: linear-gradient(135deg, #fb7185, #e11d48); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,0.08); }
+        .glass-card { background: rgba(30, 41, 59, 0.65); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.08); }
+        .card-hover:hover { border-color: rgba(244, 63, 94, 0.4); transform: translateY(-2px); transition: all 0.25s ease; }
+        .tab-btn.active { background-color: #e11d48; color: #ffffff; border-color: #fb7185; }
+        .ticket-cutout { position: relative; }
+        .ticket-cutout::before, .ticket-cutout::after {
+            content: ''; position: absolute; width: 20px; height: 20px; background-color: #020617; border-radius: 50%; z-index: 10;
+        }
+        .ticket-cutout::before { top: 50%; left: -10px; transform: translateY(-50%); }
+        .ticket-cutout::after { top: 50%; right: -10px; transform: translateY(-50%); }
+        @media print {
+            .no-print { display: none !important; }
+            body { background: #ffffff !important; color: #000000 !important; }
+            .glass, .glass-card { background: #ffffff !important; border: 1px solid #cbd5e1 !important; color: #000000 !important; }
+            .text-white, .text-slate-100, .text-slate-200, .text-slate-300 { color: #0f172a !important; }
+            .text-slate-400, .text-slate-500 { color: #475569 !important; }
+        }
+        .nav-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; }
+        .nav-scroll::-webkit-scrollbar { display: none; }
+    </style>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+<body class="scroll-smooth min-h-screen flex flex-col justify-between">
+
+    <!-- Header Navbar -->
+    <nav class="fixed w-full z-50 glass border-b border-white/5 no-print">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-3">
+                <span class="text-2xl">🗼</span>
+                <div>
+                    <span class="text-lg md:text-xl font-extrabold text-white tracking-tight">도쿄솔로여행</span>
+                    <span class="text-[10px] font-semibold text-rose-400 px-2 py-0.5 rounded bg-rose-500/10 border border-rose-500/20 ml-2">3박 4일</span>
+                </div>
+            </a>
+            <div class="hidden md:flex nav-scroll items-center gap-x-3 lg:gap-x-5 text-sm font-medium text-slate-300 max-w-[62vw]">
+                <a href="index.html" class="whitespace-nowrap flex-shrink-0 hover:text-rose-400 transition">Home</a>
+                <a href="#flight" class="whitespace-nowrap flex-shrink-0 hover:text-rose-400 transition">✈️ 항공권 일정</a>
+                <a href="#itinerary" class="whitespace-nowrap flex-shrink-0 hover:text-rose-400 transition">📅 타임라인 스케쥴</a>
+                <a href="#local-highlights" class="whitespace-nowrap flex-shrink-0 hover:text-rose-400 transition">🍶 로컬 맛집&이자카야</a>
+                <a href="#checklist" class="whitespace-nowrap flex-shrink-0 hover:text-rose-400 transition">✅ 체크리스트</a>
+                <button onclick="window.print()" class="whitespace-nowrap flex-shrink-0 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-600 transition flex items-center gap-1.5">
+                    <span>🖨️ 인쇄/PDF</span>
+                </button>
+            </div>
+            <!-- Mobile Controls -->
+            <div class="md:hidden flex items-center gap-2">
+                <button onclick="window.print()" class="bg-slate-800 text-slate-200 text-xs px-2.5 py-1.5 rounded-lg border border-slate-700">🖨️</button>
+                <button id="mobileMenuBtn" class="p-2 text-slate-300 hover:text-white focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobileMenu" class="hidden md:hidden px-6 pt-2 pb-4 bg-slate-900 border-b border-slate-800 space-y-2 text-sm">
+            <a href="index.html" class="block py-1.5 text-slate-300 hover:text-rose-400">Home</a>
+            <a href="#flight" class="block py-1.5 text-slate-300 hover:text-rose-400">✈️ 왕복 항공권 일정</a>
+            <a href="#itinerary" class="block py-1.5 text-slate-300 hover:text-rose-400">📅 타임라인 스케쥴 관리</a>
+            <a href="#local-highlights" class="block py-1.5 text-slate-300 hover:text-rose-400">🍶 로컬 맛집 & 이자카야 하이라이트</a>
+            <a href="#checklist" class="block py-1.5 text-slate-300 hover:text-rose-400">✅ 준비 체크리스트</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-28 pb-20 px-4 md:px-6 max-w-6xl mx-auto flex-grow w-full min-w-0">
+
+        <!-- Hero Section & D-Day Countdown -->
+        <section class="mb-10">
+            <div class="glass p-6 md:p-8 rounded-3xl border border-rose-500/30 relative overflow-hidden shadow-2xl">
+                <div class="absolute -right-16 -top-16 w-64 h-64 bg-rose-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -left-16 -bottom-16 w-64 h-64 bg-fuchsia-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 relative z-10">
+                    <div class="max-w-2xl">
+                        <div class="flex flex-wrap items-center gap-2 mb-3">
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30 flex items-center gap-1.5">
+                                <span>🗼</span> 도쿄 3박 4일 나 홀로 여행
+                            </span>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-500/30">
+                                🍶 로컬 이자카야 & 노포 맛집 투어
+                            </span>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
+                                <span>✈️</span> 제주항공 왕복 확정
+                            </span>
+                        </div>
+                        <h1 class="text-3xl md:text-5xl font-black text-white tracking-tight leading-tight mb-3">
+                            나 혼자 떠나는<br>
+                            <span class="gradient-rose">도쿄 로컬 미식 & 이자카야 여행</span>
+                        </h1>
+                        <p class="text-slate-300 text-sm md:text-base leading-relaxed mb-4">
+                            2026.11.24(화) ~ 11.27(금) · JLPT N1 일본어로 즐기는, 관광객 없는 진짜 도쿄 — 로컬 노포와 이자카야, 사케바 위주의 3박 4일 솔로 여행.
+                        </p>
+
+                        <!-- Traveler Info Badges -->
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2">
+                            <div class="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700/60 text-center">
+                                <div class="text-lg mb-0.5">🧳</div>
+                                <div class="text-xs font-bold text-white">나 홀로</div>
+                                <div class="text-[10px] text-slate-400">자유로운 나만의 페이스</div>
+                            </div>
+                            <div class="bg-slate-800/80 p-2.5 rounded-xl border border-rose-500/40 text-center bg-rose-950/20">
+                                <div class="text-lg mb-0.5">🈴</div>
+                                <div class="text-xs font-bold text-rose-300">JLPT N1</div>
+                                <div class="text-[10px] text-rose-400">일본어 프리토킹 가능</div>
+                            </div>
+                            <div class="bg-slate-800/80 p-2.5 rounded-xl border border-fuchsia-500/40 text-center bg-fuchsia-950/20">
+                                <div class="text-lg mb-0.5">🍶</div>
+                                <div class="text-xs font-bold text-fuchsia-300">사케 & 하이볼</div>
+                                <div class="text-[10px] text-fuchsia-400">이자카야 카운터석 최애</div>
+                            </div>
+                            <div class="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700/60 text-center">
+                                <div class="text-lg mb-0.5">🚶</div>
+                                <div class="text-xs font-bold text-white">관광지 최소화</div>
+                                <div class="text-[10px] text-slate-400">로컬 노포 위주 동선</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Countdown Card -->
+                    <div class="w-full lg:w-auto flex-shrink-0 bg-slate-900/90 p-5 rounded-2xl border border-rose-500/40 shadow-xl text-center min-w-[280px]">
+                        <div class="flex items-center justify-between gap-2 mb-3 pb-2 border-b border-slate-800">
+                            <span class="text-xs font-bold text-slate-400">🛫 인천공항 출국 D-Day</span>
+                            <span id="ddayBadge" class="text-xs font-extrabold px-2.5 py-0.5 rounded-full bg-rose-500 text-white shadow-sm animate-pulse">D-DAY</span>
+                        </div>
+                        <div class="grid grid-cols-4 gap-2 mb-3">
+                            <div class="bg-slate-800 p-2 rounded-lg border border-slate-700">
+                                <span id="cntDays" class="text-xl md:text-2xl font-black text-rose-400 block font-mono">00</span>
+                                <span class="text-[10px] text-slate-400">일</span>
+                            </div>
+                            <div class="bg-slate-800 p-2 rounded-lg border border-slate-700">
+                                <span id="cntHours" class="text-xl md:text-2xl font-black text-white block font-mono">00</span>
+                                <span class="text-[10px] text-slate-400">시간</span>
+                            </div>
+                            <div class="bg-slate-800 p-2 rounded-lg border border-slate-700">
+                                <span id="cntMinutes" class="text-xl md:text-2xl font-black text-white block font-mono">00</span>
+                                <span class="text-[10px] text-slate-400">분</span>
+                            </div>
+                            <div class="bg-slate-800 p-2 rounded-lg border border-slate-700">
+                                <span id="cntSeconds" class="text-xl md:text-2xl font-black text-fuchsia-400 block font-mono">00</span>
+                                <span class="text-[10px] text-slate-400">초</span>
+                            </div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 flex items-center justify-center gap-1">
+                            <span>✈️</span> <span>2026.11.24(화) 08:25 인천(ICN) 출발 기준</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Summary Bar -->
+                <div class="mt-6 pt-5 border-t border-slate-800 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                    <div class="flex items-center gap-2 text-slate-300">
+                        <span class="text-base">🛫</span>
+                        <div>
+                            <span class="text-slate-500 block text-[10px]">출국편</span>
+                            <span class="font-bold text-rose-400">제주항공 7C1125 (08:25)</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 text-slate-300">
+                        <span class="text-base">🛬</span>
+                        <div>
+                            <span class="text-slate-500 block text-[10px]">귀국편</span>
+                            <span class="font-bold text-fuchsia-400">제주항공 7C1130 (15:10)</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 text-slate-300">
+                        <span class="text-base">🏨</span>
+                        <div>
+                            <span class="text-slate-500 block text-[10px]">숙소</span>
+                            <span class="font-bold text-slate-200">우에노·아사쿠사 인근 (시타마치)</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 text-slate-300">
+                        <span class="text-base">🍶</span>
+                        <div>
+                            <span class="text-slate-500 block text-[10px]">여행 테마</span>
+                            <span class="font-bold text-emerald-400">로컬 이자카야 & 사케바 크롤</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Flight Schedule Details Section (Based on Real Ticket Image) -->
+        <section id="flight" class="mb-12">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <span>✈️</span> 왕복 비행기 상세 일정표 (제주항공 JEJU AIR)
+                    </h2>
+                    <p class="text-xs md:text-sm text-slate-400 mt-1">
+                        출국(7C1125) & 귀국(7C1130) 확정 스케줄 · 예약번호 AIR135463
+                    </p>
+                </div>
+                <span class="self-start sm:self-auto text-xs font-semibold px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                    직항 왕복 · 일반석 (1인)
+                </span>
+            </div>
+
+            <!-- Flight Ticket Cards Grid -->
+            <div class="grid lg:grid-cols-2 gap-6">
+
+                <!-- 1. Outbound Flight Ticket (출국) -->
+                <div class="glass-card rounded-3xl border border-rose-500/40 p-6 relative overflow-hidden shadow-xl flex flex-col justify-between">
+                    <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-rose-400 to-fuchsia-500"></div>
+
+                    <div>
+                        <!-- Header & Flight Badge -->
+                        <div class="flex items-center justify-between pb-4 border-b border-slate-700/60 mb-5">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-8 h-8 rounded-lg bg-rose-500/20 text-rose-400 font-bold flex items-center justify-center text-sm border border-rose-500/30">🛫</span>
+                                <div>
+                                    <span class="text-xs font-bold text-rose-400 uppercase tracking-wider block">출국 상세일정</span>
+                                    <span class="text-sm font-extrabold text-white">11월 24일 (화)</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 border border-slate-700">
+                                    <span class="text-xs">🧡</span>
+                                    <span class="text-xs font-extrabold text-white">제주항공 7C1125</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Departure & Arrival Route Display -->
+                        <div class="flex items-center justify-between gap-2 my-4">
+                            <!-- Departure -->
+                            <div class="text-left">
+                                <div class="text-2xl sm:text-3xl font-black text-white font-mono">08:25</div>
+                                <div class="text-xs font-bold text-rose-300 mt-0.5">서울 (ICN)</div>
+                                <div class="text-[11px] text-slate-400">인천 국제공항</div>
+                            </div>
+
+                            <!-- Flight Duration Graphic -->
+                            <div class="flex-1 px-3 text-center">
+                                <div class="text-[11px] font-bold text-rose-400 mb-1">총 2시간 25분 비행</div>
+                                <div class="relative flex items-center justify-center">
+                                    <div class="w-full h-0.5 bg-slate-700"></div>
+                                    <div class="absolute bg-slate-900 px-2 text-slate-400 text-xs">✈️</div>
+                                </div>
+                                <div class="text-[10px] text-slate-500 mt-1">직항 (Direct)</div>
+                            </div>
+
+                            <!-- Arrival -->
+                            <div class="text-right">
+                                <div class="text-2xl sm:text-3xl font-black text-white font-mono">10:50</div>
+                                <div class="text-xs font-bold text-rose-300 mt-0.5">도쿄 나리타 (NRT)</div>
+                                <div class="text-[11px] text-slate-400">나리타 국제공항</div>
+                            </div>
+                        </div>
+
+                        <!-- Ticket Specs Detail Table -->
+                        <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 text-xs space-y-2.5 mt-5">
+                            <div class="flex justify-between items-center text-slate-300">
+                                <span class="text-slate-400">좌석 등급 / 예약번호</span>
+                                <span class="font-bold text-white">일반석 · AIR135463</span>
+                            </div>
+                            <div class="flex justify-between items-center text-slate-300">
+                                <span class="text-slate-400">공항 권장 도착 시간</span>
+                                <span class="font-bold text-amber-300">06:25 (출발 2시간 전)</span>
+                            </div>
+                            <div class="flex justify-between items-center text-slate-300">
+                                <span class="text-slate-400">나리타 도착 후</span>
+                                <span class="font-bold text-rose-300">게이세이 스카이라이너로 도심 이동 (약 45분)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Outbound Tip -->
+                    <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-start gap-2 bg-rose-950/20 p-2.5 rounded-xl border border-rose-900/40">
+                        <span class="text-amber-400 text-xs">💡</span>
+                        <span><strong>출국 팁:</strong> 나리타 도착이 오전이라 여유롭게 입국 심사 후 곧장 시내로 진입할 수 있어요.</span>
+                    </div>
+                </div>
+
+                <!-- 2. Inbound Flight Ticket (귀국) -->
+                <div class="glass-card rounded-3xl border border-fuchsia-500/40 p-6 relative overflow-hidden shadow-xl flex flex-col justify-between">
+                    <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-fuchsia-400 to-rose-500"></div>
+
+                    <div>
+                        <!-- Header & Flight Badge -->
+                        <div class="flex items-center justify-between pb-4 border-b border-slate-700/60 mb-5">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-8 h-8 rounded-lg bg-fuchsia-500/20 text-fuchsia-400 font-bold flex items-center justify-center text-sm border border-fuchsia-500/30">🛬</span>
+                                <div>
+                                    <span class="text-xs font-bold text-fuchsia-400 uppercase tracking-wider block">귀국 상세일정</span>
+                                    <span class="text-sm font-extrabold text-white">11월 27일 (금)</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 border border-slate-700">
+                                    <span class="text-xs">🧡</span>
+                                    <span class="text-xs font-extrabold text-white">제주항공 7C1130</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Departure & Arrival Route Display -->
+                        <div class="flex items-center justify-between gap-2 my-4">
+                            <!-- Departure -->
+                            <div class="text-left">
+                                <div class="text-2xl sm:text-3xl font-black text-white font-mono">15:10</div>
+                                <div class="text-xs font-bold text-fuchsia-300 mt-0.5">도쿄 나리타 (NRT)</div>
+                                <div class="text-[11px] text-slate-400">나리타 국제공항</div>
+                            </div>
+
+                            <!-- Flight Duration Graphic -->
+                            <div class="flex-1 px-3 text-center">
+                                <div class="text-[11px] font-bold text-fuchsia-400 mb-1">총 3시간 5분 비행</div>
+                                <div class="relative flex items-center justify-center">
+                                    <div class="w-full h-0.5 bg-slate-700"></div>
+                                    <div class="absolute bg-slate-900 px-2 text-slate-400 text-xs">✈️</div>
+                                </div>
+                                <div class="text-[10px] text-slate-500 mt-1">직항 (Direct)</div>
+                            </div>
+
+                            <!-- Arrival -->
+                            <div class="text-right">
+                                <div class="text-2xl sm:text-3xl font-black text-white font-mono">18:15</div>
+                                <div class="text-xs font-bold text-fuchsia-300 mt-0.5">서울 (ICN)</div>
+                                <div class="text-[11px] text-slate-400">인천 국제공항</div>
+                            </div>
+                        </div>
+
+                        <!-- Ticket Specs Detail Table -->
+                        <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 text-xs space-y-2.5 mt-5">
+                            <div class="flex justify-between items-center text-slate-300">
+                                <span class="text-slate-400">좌석 등급 / 예약번호</span>
+                                <span class="font-bold text-white">일반석 · AIR135463</span>
+                            </div>
+                            <div class="flex justify-between items-center text-slate-300">
+                                <span class="text-slate-400">공항 권장 도착 시간</span>
+                                <span class="font-bold text-amber-300">13:10 (출발 2시간 전)</span>
+                            </div>
+                            <div class="flex justify-between items-center text-slate-300">
+                                <span class="text-slate-400">나리타행 이동</span>
+                                <span class="font-bold text-fuchsia-300">체크아웃 후 스카이라이너로 여유있게 출발</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Return Flight Tip -->
+                    <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-start gap-2 bg-fuchsia-950/20 p-2.5 rounded-xl border border-fuchsia-900/40">
+                        <span class="text-amber-400 text-xs">💡</span>
+                        <span><strong>귀국 팁:</strong> 오후 출발이라 마지막 날 오전에 츠키지 장외시장에서 아침을 먹고 여유롭게 이동할 수 있어요.</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Itinerary Timeline & Live Schedule Editor Section -->
+        <section id="itinerary" class="mb-12">
+            <div class="glass p-6 md:p-8 rounded-3xl border border-rose-500/30">
+
+                <!-- Section Header with Action Buttons -->
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-slate-800">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                                <span>📅</span> 일자별 여행 스케쥴 타임라인
+                            </h2>
+                            <span class="text-xs bg-rose-500/20 text-rose-300 px-2.5 py-0.5 rounded-full border border-rose-500/30 font-semibold">실시간 수정 지원</span>
+                        </div>
+                        <p class="text-xs md:text-sm text-slate-400">
+                            항공 일정과 로컬 맛집·이자카야 동선을 한눈에 확인하고 직접 수정·추가할 수 있습니다. (브라우저 자동 저장)
+                        </p>
+                    </div>
+
+                    <!-- Manager Controls -->
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button onclick="openAddModal()" class="bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-lg shadow-rose-900/30">
+                            <span>➕ 일정 추가</span>
+                        </button>
+                        <button onclick="resetItineraryToDefault()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-3 py-2 rounded-xl border border-slate-700 transition">
+                            🔄 추천일정 복원
+                        </button>
+                        <button onclick="exportItineraryJSON()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-3 py-2 rounded-xl border border-slate-700 transition">
+                            📤 내보내기
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Day Filter Tabs -->
+                <div class="flex flex-wrap gap-2 my-6">
+                    <button onclick="changeDayTab('all')" class="tab-btn active px-4 py-2 rounded-xl text-xs font-bold transition border border-slate-700" id="tab-all">
+                        전체 일정 (3박 4일)
+                    </button>
+                    <button onclick="changeDayTab('1')" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition border border-slate-800" id="tab-1">
+                        1일차 (11/24 화) · 도착 & 아사쿠사
+                    </button>
+                    <button onclick="changeDayTab('2')" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition border border-slate-800" id="tab-2">
+                        2일차 (11/25 수) · 야네센 & 간다
+                    </button>
+                    <button onclick="changeDayTab('3')" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition border border-slate-800" id="tab-3">
+                        3일차 (11/26 목) · 카구라자카 & 시부야
+                    </button>
+                    <button onclick="changeDayTab('4')" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition border border-slate-800" id="tab-4">
+                        4일차 (11/27 금) · 귀국 (제주항공 7C1130)
+                    </button>
+                </div>
+
+                <!-- Map View Container -->
+                <div id="mapViewContainer" class="mb-6 w-full hidden transition-all duration-500">
+                </div>
+
+                <!-- Timeline Container (Rendered dynamically by JavaScript) -->
+                <div id="timelineContainer" class="space-y-6">
+                    <!-- Dynamic Days and Events will appear here -->
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Local Food & Izakaya Highlights Section -->
+        <section id="local-highlights" class="mb-12">
+            <div class="flex items-center justify-between mb-5">
+                <div>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <span>🍶</span> 로컬 맛집 & 이자카야 하이라이트
+                    </h2>
+                    <p class="text-xs md:text-sm text-slate-400 mt-1">
+                        관광객보다 로컬이 많은, <strong class="text-rose-300">진짜 도쿄를 맛보는</strong> 3가지 테마
+                    </p>
+                </div>
+                <span class="hidden sm:inline-block text-xs font-semibold px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                    혼밥·혼술 친화 스팟 위주
+                </span>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Point 1: Noodle/One-bowl noteworthy shops -->
+                <div class="glass-card p-6 rounded-2xl border border-amber-500/30 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center text-xl border border-amber-500/30">🍜</span>
+                            <div>
+                                <h3 class="font-bold text-white text-base">노포 소바 & 한 그릇 맛집</h3>
+                                <span class="text-[11px] text-amber-400">100년 넘은 곳도 흔해요</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                            혼밥에 전혀 부담 없는 카운터·좌식 노포들. 자루소바+튀김에 반주로 니혼슈를 곁들이는 "소바자케" 문화도 함께 즐겨보세요.
+                        </p>
+                        <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-xs space-y-2">
+                            <div class="font-semibold text-amber-300 text-[11px]">✨ 추천 노포:</div>
+                            <ul class="space-y-1 text-slate-300 text-[11px] list-disc list-inside">
+                                <li><strong>나미키 야부소바:</strong> 1913년 창업, 아사쿠사 대표 소바</li>
+                                <li><strong>한테이:</strong> 1887년 목조건물, 네즈의 쿠시아게 노포</li>
+                                <li><strong>간다 야부소바:</strong> 소바자케로 저녁 워밍업하기 좋은 곳</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center gap-1.5">
+                        <span>💡</span> <span>점심 노포는 오픈 직후 방문이 웨이팅을 피하는 지름길!</span>
+                    </div>
+                </div>
+
+                <!-- Point 2: Tachinomi/Yokocho alley bars -->
+                <div class="glass-card p-6 rounded-2xl border border-fuchsia-500/30 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="w-10 h-10 rounded-xl bg-fuchsia-500/20 flex items-center justify-center text-xl border border-fuchsia-500/30">🏮</span>
+                            <div>
+                                <h3 class="font-bold text-white text-base">다치노미 & 요코초 골목바</h3>
+                                <span class="text-[11px] text-fuchsia-400">혼술 손님이 절반 이상</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                            좁은 골목에 늘어선 스탠딩 바들 — 옆자리 손님과 자연스럽게 합석하는 경우도 흔한, 가장 로컬적인 도쿄의 밤.
+                        </p>
+                        <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-xs space-y-2">
+                            <div class="font-semibold text-fuchsia-300 text-[11px]">🍺 추천 골목:</div>
+                            <ul class="space-y-1 text-slate-300 text-[11px] list-disc list-inside">
+                                <li><strong>홋피도리 (아사쿠사):</strong> 노상 좌판형 이자카야 거리</li>
+                                <li><strong>간다 다치노미 골목:</strong> 퇴근한 샐러리맨들의 성지</li>
+                                <li><strong>시부야 노베에요코초:</strong> 전후(戰後) 형태가 남은 초소형 바 골목</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center gap-1.5">
+                        <span>💡</span> <span>대부분 현금만 받으니 잔돈을 넉넉히 챙기세요.</span>
+                    </div>
+                </div>
+
+                <!-- Point 3: Sakaba nightcap -->
+                <div class="glass-card p-6 rounded-2xl border border-rose-500/30 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="w-10 h-10 rounded-xl bg-rose-500/20 flex items-center justify-center text-xl border border-rose-500/30">🍶</span>
+                            <div>
+                                <h3 class="font-bold text-white text-base">사케바 & 하이볼 나이트캡</h3>
+                                <span class="text-[11px] text-rose-400">여러 잔 비교 시음하기 좋음</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                            옛 시장 건물을 개조한 실내 포장마차 골목 등, 공용 테이블 위주라 혼술 손님끼리 자연스럽게 어울리는 분위기.
+                        </p>
+                        <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-xs space-y-2">
+                            <div class="font-semibold text-rose-300 text-[11px]">🥃 추천 스팟:</div>
+                            <ul class="space-y-1 text-slate-300 text-[11px] list-disc list-inside">
+                                <li><strong>에비스요코초:</strong> 사케 오마카세 잔술 세트로 비교 시음</li>
+                                <li><strong>아메요코 다치노미:</strong> 낮술 즐기는 로컬 사이 워밍업</li>
+                                <li><strong>골목 하이볼바:</strong> 위스키 하이볼로 가볍게 마무리</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center gap-1.5">
+                        <span>💡</span> <span>자릿세(오토시/차지)가 있는 가게가 많으니 문 앞 메뉴를 먼저 확인하세요.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Checklist Section -->
+        <section id="checklist" class="mb-12">
+            <div class="glass p-6 md:p-8 rounded-3xl border border-rose-500/30">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                            <span>✅</span> 여행 준비 상황 & 짐 싸기 체크리스트
+                        </h2>
+                        <p class="text-xs md:text-sm text-slate-400 mt-1">
+                            체크하면 브라우저에 자동 저장됩니다. 실시간 준비 진행률을 확인하세요!
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="text-right">
+                            <span class="text-xs text-slate-400">준비 완료율</span>
+                            <div id="progressText" class="text-lg font-black text-rose-400">0%</div>
+                        </div>
+                        <button onclick="resetChecklist()" class="text-xs text-slate-400 hover:text-rose-400 border border-slate-700 px-3 py-1.5 rounded-lg transition">
+                            초기화
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="w-full bg-slate-900 h-3 rounded-full overflow-hidden border border-slate-800 mb-8">
+                    <div id="progressBar" class="bg-gradient-to-r from-rose-500 to-fuchsia-500 h-full w-0 transition-all duration-500"></div>
+                </div>
+
+                <!-- Checklist Grid -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                    <!-- Category 1: Travel Essentials -->
+                    <div class="bg-slate-900/80 p-5 rounded-2xl border border-sky-500/30">
+                        <div class="flex items-center gap-2 font-bold text-sky-300 text-sm mb-4 pb-2 border-b border-slate-800">
+                            <span>🧳</span> 여행 필수품
+                        </div>
+                        <div class="space-y-2.5 text-xs">
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="tokyo_item_suica" class="checklist-item rounded bg-slate-800 border-slate-700 text-rose-500 focus:ring-0 w-4 h-4">
+                                <label for="tokyo_item_suica" class="text-slate-300 cursor-pointer">모바일 Suica 등록 또는 Welcome Suica 카드</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="tokyo_item_esim" class="checklist-item rounded bg-slate-800 border-slate-700 text-rose-500 focus:ring-0 w-4 h-4">
+                                <label for="tokyo_item_esim" class="text-slate-300 cursor-pointer">포켓와이파이 예약 또는 eSIM 사전 설치</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="tokyo_item_battery" class="checklist-item rounded bg-slate-800 border-slate-700 text-rose-500 focus:ring-0 w-4 h-4">
+                                <label for="tokyo_item_battery" class="text-slate-300 cursor-pointer">보조배터리</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="tokyo_item_coat" class="checklist-item rounded bg-slate-800 border-slate-700 text-rose-500 focus:ring-0 w-4 h-4">
+                                <label for="tokyo_item_coat" class="text-slate-300 cursor-pointer">겉옷 & 우산 (11월 도쿄 최저기온 10도 안팎)</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="tokyo_item_shoes" class="checklist-item rounded bg-slate-800 border-slate-700 text-rose-500 focus:ring-0 w-4 h-4">
+                                <label for="tokyo_item_shoes" class="text-slate-300 cursor-pointer">편한 워킹화 (로컬 골목 도보 이동량 많음)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category 2: Payment & Documents -->
+                    <div class="bg-slate-900/80 p-5 rounded-2xl border border-rose-500/30">
+                        <div class="flex items-center gap-2 font-bold text-rose-300 text-sm mb-4 pb-2 border-b border-slate-800">
+                            <span>💴</span> 결제 & 서류
+                        </div>
+                        <div class="space-y-2.5 text-xs">
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="tokyo_item_passport" class="checklist-item rounded bg-slate-800 border-slate-700 text-rose-500 focus:ring-0 w-4 h-4">
+                                <label for="tokyo_item_passport" class="text-slate-300 cursor-pointer">여권 (유효기간 6개월 이상)</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="tokyo_item_eticket" class="checklist-item rounded bg-slate-800 border-slate-700 text-rose-500 focus:ring-0 w-4 h-4">
+                                <label for="tokyo_item_eticket" class="text-slate-300 cursor-pointer">항공권 e-티켓 확인 (7C1125/7C1130, AIR135463)</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="tokyo_item_cash" class="checklist-item rounded bg-slate-800 border-slate-700 text-rose-500 focus:ring-0 w-4 h-4">
+                                <label for="tokyo_item_cash" class="text-slate-300 cursor-pointer">엔화 현금 (다치노미/노포는 카드 미취급 다수)</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="tokyo_item_travelcard" class="checklist-item rounded bg-slate-800 border-slate-700 text-rose-500 focus:ring-0 w-4 h-4">
+                                <label for="tokyo_item_travelcard" class="text-slate-300 cursor-pointer">트래블월렛/트래블로그 엔화 충전</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="tokyo_item_creditcard" class="checklist-item rounded bg-slate-800 border-slate-700 text-rose-500 focus:ring-0 w-4 h-4">
+                                <label for="tokyo_item_creditcard" class="text-slate-300 cursor-pointer">해외결제 가능 신용카드 (예비용)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category 3: Local Experience Prep -->
+                    <div class="bg-slate-900/80 p-5 rounded-2xl border border-fuchsia-500/30">
+                        <div class="flex items-center gap-2 font-bold text-fuchsia-300 text-sm mb-4 pb-2 border-b border-slate-800">
+                            <span>🍶</span> 로컬 체험 준비
+                        </div>
+                        <div class="space-y-2.5 text-xs">
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="tokyo_item_maplist" class="checklist-item rounded bg-slate-800 border-slate-700 text-rose-500 focus:ring-0 w-4 h-4">
+                                <label for="tokyo_item_maplist" class="text-slate-300 cursor-pointer">구글맵에 미리 저장해둔 이자카야/노포 리스트</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="tokyo_item_otoshi" class="checklist-item rounded bg-slate-800 border-slate-700 text-rose-500 focus:ring-0 w-4 h-4">
+                                <label for="tokyo_item_otoshi" class="text-slate-300 cursor-pointer">오토시(자릿세) 문화 숙지</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="tokyo_item_reservation" class="checklist-item rounded bg-slate-800 border-slate-700 text-rose-500 focus:ring-0 w-4 h-4">
+                                <label for="tokyo_item_reservation" class="text-slate-300 cursor-pointer">인기 노포 1인석 사전 예약 필요 여부 확인</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="tokyo_item_lasttrain" class="checklist-item rounded bg-slate-800 border-slate-700 text-rose-500 focus:ring-0 w-4 h-4">
+                                <label for="tokyo_item_lasttrain" class="text-slate-300 cursor-pointer">도쿄 지하철 막차 시간 확인</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category 4: Safety & Health -->
+                    <div class="bg-slate-900/80 p-5 rounded-2xl border border-sky-500/30">
+                        <div class="flex items-center gap-2 font-bold text-sky-300 text-sm mb-4 pb-2 border-b border-slate-800">
+                            <span>🏥</span> 안전 & 건강
+                        </div>
+                        <div class="space-y-2.5 text-xs">
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="tokyo_item_insurance" class="checklist-item rounded bg-slate-800 border-slate-700 text-rose-500 focus:ring-0 w-4 h-4">
+                                <label for="tokyo_item_insurance" class="text-slate-300 cursor-pointer">해외여행자보험 가입</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="tokyo_item_meds" class="checklist-item rounded bg-slate-800 border-slate-700 text-rose-500 focus:ring-0 w-4 h-4">
+                                <label for="tokyo_item_meds" class="text-slate-300 cursor-pointer">상비약 (숙취해소제, 소화제, 진통제)</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="tokyo_item_emergency" class="checklist-item rounded bg-slate-800 border-slate-700 text-rose-500 focus:ring-0 w-4 h-4">
+                                <label for="tokyo_item_emergency" class="text-slate-300 cursor-pointer">현지 응급 연락처 / 영사관 정보 저장</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal for Adding / Editing Schedule Items -->
+    <div id="scheduleModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4 no-print">
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                <h3 id="modalTitle" class="text-lg font-bold text-white">일정 추가</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white text-xl">✕</button>
+            </div>
+
+            <form id="scheduleForm" onsubmit="saveScheduleItem(event)" class="space-y-4 text-xs">
+                <input type="hidden" id="editItemId" value="">
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-slate-400 mb-1 font-semibold">여행 일자</label>
+                        <select id="itemDay" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-rose-500">
+                            <option value="1">1일차 (11/24 화)</option>
+                            <option value="2">2일차 (11/25 수)</option>
+                            <option value="3">3일차 (11/26 목)</option>
+                            <option value="4">4일차 (11/27 금)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1 font-semibold">카테고리</label>
+                        <select id="itemCategory" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-rose-500">
+                            <option value="flight">✈️ 비행/항공</option>
+                            <option value="food">🍜 식사/맛집</option>
+                            <option value="spot">⛩️ 관광/체험</option>
+                            <option value="drink">🍶 이자카야/바</option>
+                            <option value="move">🚉 이동/교통</option>
+                            <option value="hotel">🏨 숙소</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-slate-400 mb-1 font-semibold">시간대 (예: 09:30~11:30)</label>
+                        <input type="text" id="itemTime" required placeholder="09:30~11:30" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-rose-500">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1 font-semibold">주요 장소 / 활동명</label>
+                        <input type="text" id="itemTitle" required placeholder="장소 또는 활동명" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-rose-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-slate-400 mb-1 font-semibold">상세 동선 및 내용</label>
+                    <textarea id="itemDesc" rows="3" required placeholder="동선 및 활동 세부 내용을 입력하세요." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-rose-500"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-fuchsia-300 mb-1 font-semibold">🍶 인사이더 팁 (선택)</label>
+                    <input type="text" id="itemKidsTip" placeholder="혼술 팁, 예약 필요 여부, 현금 준비 등" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-fuchsia-200 focus:outline-none focus:border-fuchsia-500">
+                </div>
+
+                <div class="flex justify-end gap-2 pt-3 border-t border-slate-800">
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold">취소</button>
+                    <button type="submit" class="px-5 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold shadow-lg shadow-rose-900/30">저장</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="glass border-t border-white/5 py-8 mt-12 no-print">
+        <div class="max-w-6xl mx-auto px-6 text-center text-xs text-slate-400">
+            <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-4 font-semibold">
+                <a href="index.html" class="whitespace-nowrap hover:text-rose-400 transition">EmStudio Home</a>
+                <a href="#flight" class="whitespace-nowrap hover:text-rose-400 transition">항공권 일정</a>
+                <a href="#itinerary" class="whitespace-nowrap hover:text-rose-400 transition">타임라인 스케쥴</a>
+                <a href="#local-highlights" class="whitespace-nowrap hover:text-rose-400 transition">로컬 맛집&이자카야</a>
+                <a href="dd-lifelog.html" class="whitespace-nowrap hover:text-rose-400 transition">DD LifeLog</a>
+                <a href="railwaystudio.html" class="whitespace-nowrap hover:text-rose-400 transition">심지어타이쿤</a>
+            </div>
+            <p>© 2026 EmStudio. Tokyo Solo Trip Dashboard (3N4D).</p>
+        </div>
+    </footer>
+
+    <!-- Interactive Scripts -->
+    <script>
+        // Default 4-Day Itinerary Data (Including precise Flight Info)
+        const defaultItinerary = [
+            // Day 1 (11/24 화) - 도착
+            {
+                id: 'ev_1_1',
+                day: 1,
+                time: '08:25 ~ 10:50',
+                category: 'flight',
+                categoryLabel: '✈️ 출국 비행 (제주항공 7C1125)',
+                title: '🛫 인천(ICN) 출발 ➔ 나리타(NRT) 도착',
+                desc: '제주항공 7C1125편, 일반석. 예약번호 AIR135463. 인천공항 최소 출발 2시간 전 도착 권장.',
+                kidsTip: '포켓와이파이/eSIM은 출국 전 인천공항에서 미리 활성화하거나 나리타 도착 즉시 수령하세요.',
+                budget: '왕복 항공권: 약 250,000원 (1인)',
+                images: []
+            },
+            {
+                id: 'ev_1_2',
+                day: 1,
+                time: '10:50 ~ 13:00',
+                category: 'move',
+                categoryLabel: '🚉 입국 & 스카이라이너 이동',
+                title: '나리타 공항 입국 심사 & 게이세이 스카이라이너 탑승',
+                desc: '입국 심사·수하물 수령 후 게이세이 스카이라이너(Skyliner) 탑승, 닛포리(日暮里) 또는 우에노(上野)역까지 약 45분.',
+                kidsTip: '닛포리·우에노역 창구에서 Welcome Suica(외국인 전용, 보증금 없음) 또는 모바일 Suica를 바로 발급받으세요.',
+                budget: '스카이라이너 편도: 약 2,570엔 (약 25,000원)',
+                images: []
+            },
+            {
+                id: 'ev_1_3',
+                day: 1,
+                time: '13:00 ~ 14:00',
+                category: 'hotel',
+                categoryLabel: '🏨 숙소 체크인',
+                title: '우에노/아사쿠사 인근 호텔 체크인',
+                desc: '시타마치(下町, 옛 서민 동네) 지역 숙소에 짐을 풀고 가벼운 복장으로 정비.',
+                kidsTip: '체크인이 15시 이전이면 짐만 맡기고 바로 아사쿠사로 이동해도 무방.',
+                budget: '',
+                images: []
+            },
+            {
+                id: 'ev_1_4',
+                day: 1,
+                time: '14:30 ~ 16:30',
+                category: 'spot',
+                categoryLabel: '⛩️ 관광/문화',
+                title: '센소지(浅草寺) & 나카미세도리 & 갓파바시 도구가이',
+                desc: '아사쿠사 상징 센소지와 나카미세도리를 가볍게 둘러본 뒤, 요리 도구·식품 모형 전문 거리인 갓파바시 도구가이(かっぱ橋道具街)까지 도보 이동.',
+                kidsTip: '낮 시간대 나카미세도리는 관광객이 많으니 참배만 짧게 하고 갓파바시 쪽에서 여유롭게 시간을 보내는 편이 로컬 감성에 가깝습니다.',
+                budget: '',
+                images: []
+            },
+            {
+                id: 'ev_1_5',
+                day: 1,
+                time: '18:00 ~ 19:30',
+                category: 'food',
+                categoryLabel: '🍜 로컬 맛집',
+                title: '나미키 야부소바(なみ木 藪蕎麦) 또는 소메타로(染太郎) 오코노미야키',
+                desc: '나미키 야부소바는 1913년 창업한 아사쿠사 대표 소바 노포. 가볍게 먹고 싶다면 1937년부터 이어온 오코노미야키 노포 소메타로도 좋은 대안.',
+                kidsTip: '노포 소바집은 자루소바+튀김 세트에 반주로 시원한 니혼슈를 곁들이는 "소바자케(蕎麦酒)" 문화가 있으니 시도해볼 만합니다.',
+                budget: '식사: 약 2,000엔 (약 18,000원)',
+                images: []
+            },
+            {
+                id: 'ev_1_6',
+                day: 1,
+                time: '20:00 ~ 22:00',
+                category: 'drink',
+                categoryLabel: '🍶 이자카야·바',
+                title: '홋피도리(ホッピー通り) 스탠딩 이자카야 크롤',
+                desc: '아사쿠사의 대표 노상 이자카야 거리. 좁은 골목 양옆으로 늘어선 야외 좌판형 술집에서 홉피(ホッピー)와 곱창구이(모츠야키)를 즐길 수 있습니다.',
+                kidsTip: '혼자여도 전혀 어색하지 않은 분위기 — 옆자리 손님과 자연스럽게 합석하는 경우도 흔합니다. 현금만 받는 가게가 많으니 잔돈 필수.',
+                budget: '술+안주: 약 3,000엔 (약 27,000원)',
+                images: []
+            },
+            // Day 2 (11/25 수) - 야네센 & 간다
+            {
+                id: 'ev_2_1',
+                day: 2,
+                time: '09:00 ~ 11:30',
+                category: 'spot',
+                categoryLabel: '⛩️ 관광/문화',
+                title: '야네센(谷根千) 산책 — 야나카 긴자 & 야나카 영원 & 네즈신사',
+                desc: '야나카 긴자(레트로 상점가), 야나카 영원(고양이와 오래된 절이 많은 묘지 산책로), 네즈신사(가을 도리이 터널)까지 걸어서 도는 도쿄에서 가장 옛 정취가 남은 동네.',
+                kidsTip: '야나카 긴자의 멘치카츠(고로케형 커틀릿) 노점에서 서서 먹는 간단한 아침 간식 추천.',
+                budget: '',
+                images: []
+            },
+            {
+                id: 'ev_2_2',
+                day: 2,
+                time: '12:00 ~ 13:30',
+                category: 'food',
+                categoryLabel: '🍜 로컬 맛집',
+                title: '한테이(はん亭) — 네즈의 1887년 목조 건물 쿠시아게 노포',
+                desc: '등록유형문화재 목조 가옥에서 즐기는 대나무 꼬치 튀김(쿠시아게) 코스. 한 점씩 튀겨져 나와 혼밥에도 전혀 부담 없는 카운터/좌식 구성.',
+                kidsTip: '점심에도 예약이 꽉 차는 경우가 있어 평일 오픈 직후 방문을 추천.',
+                budget: '식사: 약 3,500엔 (약 32,000원)',
+                images: []
+            },
+            {
+                id: 'ev_2_3',
+                day: 2,
+                time: '14:00 ~ 15:30',
+                category: 'spot',
+                categoryLabel: '⛩️ 관광/문화',
+                title: '우에노 공원 & 도쿄국립박물관(혼칸 하이라이트)',
+                desc: '우에노온시 공원을 가로질러 도쿄국립박물관 본관의 사무라이 갑주·우키요에 상설전을 짧게 관람.',
+                kidsTip: '시간이 빠듯하면 이 항목은 생략하고 아메요코로 바로 이동해도 무방한 선택 일정.',
+                budget: '',
+                images: []
+            },
+            {
+                id: 'ev_2_4',
+                day: 2,
+                time: '15:30 ~ 17:00',
+                category: 'food',
+                categoryLabel: '🍜 로컬 맛집',
+                title: '아메요코(アメ横) 시장 골목 간식 크롤',
+                desc: '우에노와 오카치마치 사이 고가철도 아래 시장 골목. 꼬치, 해산물 꼬치구이, 저렴한 다치노미(서서 마시는 술집) 노점이 밀집.',
+                kidsTip: '낮술을 즐기는 로컬들 사이 스탠딩 바에서 니혼슈 한 잔 곁들이며 저녁 전 워밍업하기 좋은 곳.',
+                budget: '간식/술: 약 1,500엔 (약 14,000원)',
+                images: []
+            },
+            {
+                id: 'ev_2_5',
+                day: 2,
+                time: '19:00 ~ 22:00',
+                category: 'drink',
+                categoryLabel: '🍶 이자카야·바',
+                title: '간다(神田) 다치노미 골목 크롤',
+                desc: '퇴근한 샐러리맨들의 성지로 불리는 간다역 서쪽 출구 뒷골목. 좁은 스탠딩 바가 밀집해 있으며, 근처 간다 야부소바(神田 藪蕎麦)에서 소바자케로 시작해도 좋습니다.',
+                kidsTip: '다치노미는 대부분 1인 혼술 손님이 절반 이상 — 눈치 보지 말고 카운터에 서서 "생맥주 하나 주세요(生一つください)"로 시작하면 자연스럽습니다.',
+                budget: '술+안주: 약 3,500엔 (약 32,000원)',
+                images: []
+            },
+            // Day 3 (11/26 목) - 카구라자카 & 시부야 나이트아웃
+            {
+                id: 'ev_3_1',
+                day: 3,
+                time: '09:30 ~ 11:30',
+                category: 'spot',
+                categoryLabel: '⛩️ 관광/문화',
+                title: '카구라자카(神楽坂) 골목 산책',
+                desc: '옛 게이샤 마을이었던 돌바닥 골목(효고요코초 등)과 젠코쿠지(비샤몬텐)를 도보로 둘러보는 차분한 아침 산책.',
+                kidsTip: '프랑스 베이커리와 전통 화과자점이 공존하는 독특한 분위기 — 커피 한 잔 테이크아웃해서 걷기 좋습니다.',
+                budget: '',
+                images: []
+            },
+            {
+                id: 'ev_3_2',
+                day: 3,
+                time: '12:00 ~ 13:00',
+                category: 'food',
+                categoryLabel: '🍜 로컬 맛집',
+                title: '카구라자카 골목의 소바 노포에서 자루소바 & 튀김덮밥',
+                desc: '관광객보다 동네 단골이 많은 좁은 골목 소바집에서 가벼운 점심.',
+                kidsTip: '점심 세트 메뉴판이 한자로만 되어 있는 경우가 많은데, N1 실력이면 전혀 문제없이 주문 가능.',
+                budget: '식사: 약 1,200엔 (약 11,000원)',
+                images: []
+            },
+            {
+                id: 'ev_3_3',
+                day: 3,
+                time: '14:00 ~ 16:30',
+                category: 'spot',
+                categoryLabel: '🛍️ 관광/문화',
+                title: '시모키타자와(下北沢) 빈티지샵 & 레코드샵 탐방',
+                desc: '인디 음악·연극·빈티지 패션 씬의 중심지. 좁은 골목마다 개성 있는 셀렉트숍과 중고 레코드점이 이어집니다.',
+                kidsTip: '저녁까지 이어지는 스탠딩 바도 많아 미리 눈여겨봐 두었다가 밤에 다시 들러도 좋음.',
+                budget: '',
+                images: []
+            },
+            {
+                id: 'ev_3_4',
+                day: 3,
+                time: '19:00 ~ 20:30',
+                category: 'drink',
+                categoryLabel: '🍶 이자카야·바',
+                title: "시부야 노베에요코초(のんべい横丁, Drunkard's Alley)",
+                desc: '시부야역 바로 옆, 2차대전 이후 형태가 거의 그대로 남은 초소형 바 골목. 한 집당 좌석이 5~8석 남짓으로 극도로 로컬적인 분위기.',
+                kidsTip: '가게마다 자릿세(오토시/차지)가 있는 경우가 많고, 예약제·단골 위주인 곳도 있으니 문 앞 메뉴를 먼저 확인하고 들어가세요.',
+                budget: '술+안주: 약 3,000엔 (약 27,000원)',
+                images: []
+            },
+            {
+                id: 'ev_3_5',
+                day: 3,
+                time: '21:00 ~ 23:00',
+                category: 'drink',
+                categoryLabel: '🍶 이자카야·바',
+                title: '에비스요코초(恵比寿横丁) 사케바 크롤',
+                desc: '옛 시장 건물을 개조한 실내 포장마차 골목. 공용 테이블이 많아 혼술 손님끼리 자연스럽게 어울리는 분위기로 유명.',
+                kidsTip: '사케 오마카세 잔술 세트를 주문하면 여러 종류의 니혼슈를 부담 없이 비교 시음할 수 있습니다.',
+                budget: '술+안주: 약 4,000엔 (약 36,000원)',
+                images: []
+            },
+            // Day 4 (11/27 금) - 귀국 반나절
+            {
+                id: 'ev_4_1',
+                day: 4,
+                time: '08:00 ~ 09:30',
+                category: 'food',
+                categoryLabel: '🍜 로컬 맛집',
+                title: '츠키지 장외시장(築地場外市場) 스시 & 해산물 조식',
+                desc: '이전한 도매시장(도요스) 대신 여전히 활기찬 소매·먹거리 골목인 장외시장에서 갓 구운 다시마키(달걀말이) 꼬치와 성게·참치 덮밥으로 마지막 아침 식사.',
+                kidsTip: '아침 일찍 갈수록 줄이 짧고 신선도도 좋습니다.',
+                budget: '식사: 약 2,500엔 (약 23,000원)',
+                images: []
+            },
+            {
+                id: 'ev_4_2',
+                day: 4,
+                time: '09:30 ~ 10:30',
+                category: 'hotel',
+                categoryLabel: '🏨 체크아웃',
+                title: '호텔 체크아웃 & 짐 정리',
+                desc: '짐을 정리하고 체크아웃. Suica 잔액은 공항 도착 후 정산기에서 환불 가능.',
+                kidsTip: '모바일 Suica는 환불 없이 그대로 두었다가 다음 방문 때 재사용 가능.',
+                budget: '',
+                images: []
+            },
+            {
+                id: 'ev_4_3',
+                day: 4,
+                time: '10:30 ~ 12:00',
+                category: 'move',
+                categoryLabel: '🚉 나리타 공항 이동',
+                title: '게이세이 스카이라이너로 나리타 공항 이동',
+                desc: '우에노/닛포리에서 스카이라이너 탑승, 약 45분~1시간 소요.',
+                kidsTip: '출국 수속 여유 시간을 고려해 늦어도 정오 전에는 공항행 열차에 탑승하세요.',
+                budget: '스카이라이너 편도: 약 2,570엔 (약 25,000원)',
+                images: []
+            },
+            {
+                id: 'ev_4_4',
+                day: 4,
+                time: '12:00 ~ 15:10',
+                category: 'flight',
+                categoryLabel: '🛍️ 공항 수속',
+                title: '나리타 공항 체크인 & 면세 구역 휴식',
+                desc: '제주항공 7C1130편 탑승 수속 및 수하물 위탁. 남은 엔화로 면세점에서 마지막 쇼핑.',
+                kidsTip: '니혼슈나 위스키를 기념품으로 살 계획이라면 면세점 가격을 시내와 미리 비교해두는 것이 좋습니다.',
+                budget: '',
+                images: []
+            },
+            {
+                id: 'ev_4_5',
+                day: 4,
+                time: '15:10 ~ 18:15',
+                category: 'flight',
+                categoryLabel: '✈️ 귀국 비행 (제주항공 7C1130)',
+                title: '🛫 나리타(NRT) 출발 ➔ 인천(ICN) 도착',
+                desc: '제주항공 7C1130편, 예약번호 AIR135463. 18:15 인천공항 도착으로 3박 4일 도쿄 솔로 여행 마무리.',
+                kidsTip: '',
+                budget: '',
+                images: []
+            }
+        ];
+
+        // State variables
+        let itineraryData = [];
+        let currentTab = 'all';
+        let expandedItemIds = new Set();
+
+        // Toggle a timeline card's expanded (detail) state
+        function toggleItemDetail(itemId) {
+            if (expandedItemIds.has(itemId)) {
+                expandedItemIds.delete(itemId);
+            } else {
+                expandedItemIds.add(itemId);
+            }
+            renderTimeline();
+        }
+
+        // Timeline images are referenced by base filename only (no fixed extension);
+        // try these in order until one actually exists on disk.
+        const IMG_EXT_CANDIDATES = ['jpg', 'jpeg', 'png', 'webp'];
+
+        // Try the next candidate extension for a missing image; fall back to a
+        // labeled placeholder once every extension has failed.
+        function handleImgError(imgEl) {
+            const base = imgEl.dataset.base;
+            const nextIdx = parseInt(imgEl.dataset.extIdx || '0', 10) + 1;
+            if (nextIdx < IMG_EXT_CANDIDATES.length) {
+                imgEl.dataset.extIdx = String(nextIdx);
+                imgEl.src = `images/tokyo-trip/${base}.${IMG_EXT_CANDIDATES[nextIdx]}`;
+                return;
+            }
+            const wrap = imgEl.parentElement;
+            if (!wrap) return;
+            wrap.innerHTML = `<div class="w-full h-full flex flex-col items-center justify-center text-slate-500 text-center px-0.5 leading-tight" style="font-size:7px;">📷<br>${base}</div>`;
+            wrap.style.borderStyle = 'dashed';
+        }
+
+        // Load Itinerary from LocalStorage or Default
+        function loadItinerary() {
+            const saved = localStorage.getItem('emstudio_tokyo_itinerary_v1');
+            if (saved) {
+                try {
+                    itineraryData = JSON.parse(saved);
+                    // Merge new fields like 'budget' from defaultItinerary
+                    itineraryData = itineraryData.map(item => {
+                        const defaultItem = defaultItinerary.find(d => d.id === item.id);
+                        if (defaultItem && defaultItem.budget && !item.budget) {
+                            item.budget = defaultItem.budget;
+                        }
+                        return item;
+                    });
+                } catch (e) {
+                    itineraryData = JSON.parse(JSON.stringify(defaultItinerary));
+                }
+            } else {
+                itineraryData = JSON.parse(JSON.stringify(defaultItinerary));
+            }
+            renderTimeline();
+        }
+
+        // Save Itinerary to LocalStorage
+        function saveItineraryState() {
+            localStorage.setItem('emstudio_tokyo_itinerary_v1', JSON.stringify(itineraryData));
+            renderTimeline();
+        }
+
+        // Filter and Render Timeline
+        function renderTimeline() {
+            const container = document.getElementById('timelineContainer');
+            if (!container) return;
+
+            const daysToShow = currentTab === 'all' ? [1, 2, 3, 4] : [parseInt(currentTab)];
+
+            const dayMeta = {
+                1: { title: '1일차 — 11월 24일 (화)', sub: '인천(ICN) 출국 ➔ 나리타 도착 ➔ 스카이라이너 ➔ 아사쿠사 센소지 ➔ 홋피도리 이자카야', badge: '제주항공 7C1125 출국' },
+                2: { title: '2일차 — 11월 25일 (수)', sub: '야네센 산책(야나카 긴자·네즈신사) ➔ 한테이 쿠시아게 ➔ 아메요코 ➔ 간다 다치노미 골목', badge: '야네센 & 간다' },
+                3: { title: '3일차 — 11월 26일 (목)', sub: '카구라자카 골목 ➔ 시모키타자와 ➔ 시부야 노베에요코초 ➔ 에비스요코초', badge: '카구라자카 & 나이트아웃' },
+                4: { title: '4일차 — 11월 27일 (금)', sub: '츠키지 장외시장 조식 ➔ 체크아웃 ➔ 나리타 공항 ➔ 인천(ICN) 귀국', badge: '제주항공 7C1130 귀국' }
+            };
+
+            let html = '';
+
+            daysToShow.forEach(dayNum => {
+                const meta = dayMeta[dayNum];
+                const dayItems = itineraryData.filter(item => item.day === dayNum);
+
+                html += `
+                    <div class="glass p-5 md:p-6 rounded-2xl border border-slate-700/80 mb-6">
+                        <!-- Day Header -->
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-800">
+                            <div class="flex items-center gap-3">
+                                <span class="w-9 h-9 rounded-xl bg-rose-500 text-white font-black flex items-center justify-center text-sm shadow-md">${dayNum}일</span>
+                                <div>
+                                    <h3 class="text-base md:text-lg font-bold text-white">${meta.title}</h3>
+                                    <p class="text-xs text-slate-400">${meta.sub}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-[11px] font-semibold text-rose-400 px-3 py-1 bg-rose-950/50 rounded-full border border-rose-800">
+                                    ${meta.badge}
+                                </span>
+                                <button onclick="openAddModalForDay(${dayNum})" class="text-xs bg-slate-800 hover:bg-slate-700 text-rose-300 px-2.5 py-1 rounded-lg border border-slate-700 transition">
+                                    + 추가
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Item List -->
+                        <div class="space-y-4 mt-5">
+                `;
+
+                if (dayItems.length === 0) {
+                    html += `
+                        <div class="text-center py-6 text-xs text-slate-500">
+                            등록된 일정이 없습니다. [+ 추가] 버튼으로 새 일정을 등록해보세요.
+                        </div>
+                    `;
+                } else {
+                    dayItems.forEach(item => {
+                        let catBorder = 'border-slate-800';
+                        let timeColor = 'text-slate-400';
+                        if (item.category === 'flight') {
+                            catBorder = 'border-rose-500/40 bg-rose-950/10';
+                            timeColor = 'text-rose-400 font-bold';
+                        } else if (item.category === 'food') {
+                            catBorder = 'border-amber-500/30';
+                            timeColor = 'text-amber-400 font-bold';
+                        } else if (item.category === 'drink') {
+                            catBorder = 'border-fuchsia-500/40 bg-fuchsia-950/10';
+                            timeColor = 'text-fuchsia-400 font-bold';
+                        }
+
+                        const images = item.images || [];
+                        const isExpanded = expandedItemIds.has(item.id);
+
+                        const thumbStrip = images.length ? `
+                            <div class="flex gap-1.5 mt-2">
+                                ${images.map(base => `
+                                    <div class="w-14 h-14 rounded-lg overflow-hidden border border-slate-700 flex-shrink-0 bg-slate-800">
+                                        <img src="images/tokyo-trip/${base}.${IMG_EXT_CANDIDATES[0]}" data-base="${base}" data-ext-idx="0" alt="" class="w-full h-full object-cover" loading="lazy" onerror="handleImgError(this)">
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : '';
+
+                        const bigGallery = images.length ? `
+                            <div class="grid grid-cols-2 gap-2 mb-3">
+                                ${images.map(base => `
+                                    <div class="rounded-xl overflow-hidden border border-slate-700 bg-slate-800 h-28 sm:h-32">
+                                        <img src="images/tokyo-trip/${base}.${IMG_EXT_CANDIDATES[0]}" data-base="${base}" data-ext-idx="0" alt="" class="w-full h-full object-cover" loading="lazy" onerror="handleImgError(this)">
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : '';
+
+                        html += `
+                            <div class="flex gap-3 md:gap-4 items-start group">
+                                <div class="w-20 md:w-28 text-xs font-mono ${timeColor} pt-1 flex-shrink-0">
+                                    ${item.time}
+                                </div>
+                                <div class="bg-slate-900/90 p-4 rounded-2xl border ${catBorder} flex-grow transition hover:border-rose-500/50 cursor-pointer" onclick="toggleItemDetail('${item.id}')">
+                                    <div class="flex flex-col md:flex-row gap-4 w-full">
+                                        <div class="flex-grow min-w-0">
+                                            <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                                                <div class="flex items-center gap-2">
+                                                    <span class="text-xs font-bold text-white">${item.title}</span>
+                                                    ${item.categoryLabel ? `<span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">${item.categoryLabel}</span>` : ''}
+                                                </div>
+                                                <div class="flex items-center gap-1 opacity-80 group-hover:opacity-100 transition no-print">
+                                                    <button onclick="event.stopPropagation(); editScheduleItem('${item.id}')" class="text-[11px] text-rose-400 hover:text-rose-300 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">✏️ 수정</button>
+                                                    <button onclick="event.stopPropagation(); deleteScheduleItem('${item.id}')" class="text-[11px] text-rose-400 hover:text-rose-300 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">🗑️</button>
+                                                </div>
+                                            </div>
+
+                                            ${isExpanded ? `
+                                                ${bigGallery}
+                                                <p class="text-xs text-slate-300 leading-relaxed mb-2">${item.desc}</p>
+                                                ${item.kidsTip ? `
+                                                    <div class="bg-slate-950/60 p-2.5 rounded-xl border border-fuchsia-500/20 text-[11px] text-fuchsia-300 flex items-start gap-1.5">
+                                                        <span>🍶</span>
+                                                        <span><strong>인사이더 팁:</strong> ${item.kidsTip}</span>
+                                                    </div>
+                                                ` : ''}
+                                            ` : `
+                                                <p class="text-xs text-slate-300 leading-relaxed mb-1 line-clamp-2">${item.desc}</p>
+                                                ${thumbStrip}
+                                            `}
+
+                                            <div class="text-[10px] text-slate-500 mt-2 flex items-center gap-1 no-print">
+                                                ${isExpanded ? '🔼 접기' : '🔽 자세히 보기 (상세 설명)'}
+                                            </div>
+                                        </div>
+
+                                        ${item.budget ? `
+                                        <div class="md:w-52 flex-shrink-0 bg-slate-950/40 p-3 rounded-xl border border-slate-700 flex flex-col justify-center">
+                                            <div class="font-bold text-emerald-400 text-[11px] mb-1.5 flex items-center gap-1">💰 1인 기준 예산</div>
+                                            <div class="text-[11px] text-slate-300 leading-relaxed break-keep" style="white-space: pre-wrap;">${item.budget}</div>
+                                        </div>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // ================= MAP LOGIC =================
+        const mapData = {
+            "1": [
+                { lat: 35.7720, lng: 140.3929, title: "나리타 국제공항", info: "입국 및 스카이라이너 탑승", seq: 1 },
+                { lat: 35.7148, lng: 139.7967, title: "센소지 · 나카미세도리", info: "아사쿠사 관광", seq: 2 },
+                { lat: 35.7123, lng: 139.7889, title: "갓파바시 도구가이", info: "요리 도구거리 산책", seq: 3 },
+                { lat: 35.7143, lng: 139.7908, title: "홋피도리", info: "이자카야 크롤", seq: 4 }
+            ],
+            "2": [
+                { lat: 35.7280, lng: 139.7669, title: "야나카 긴자", info: "레트로 상점가 산책", seq: 1 },
+                { lat: 35.7203, lng: 139.7616, title: "네즈신사", info: "도리이 터널 · 한테이", seq: 2 },
+                { lat: 35.7188, lng: 139.7745, title: "우에노 공원", info: "도쿄국립박물관", seq: 3 },
+                { lat: 35.7098, lng: 139.7745, title: "아메요코 시장", info: "간식 & 다치노미", seq: 4 },
+                { lat: 35.6918, lng: 139.7708, title: "간다역 뒷골목", info: "다치노미 크롤", seq: 5 }
+            ],
+            "3": [
+                { lat: 35.7017, lng: 139.7402, title: "카구라자카", info: "골목 산책", seq: 1 },
+                { lat: 35.6613, lng: 139.6683, title: "시모키타자와", info: "빈티지샵 탐방", seq: 2 },
+                { lat: 35.6595, lng: 139.7016, title: "시부야 노베에요코초", info: "초소형 바 골목", seq: 3 },
+                { lat: 35.6467, lng: 139.7100, title: "에비스요코초", info: "사케바 크롤", seq: 4 }
+            ],
+            "4": [
+                { lat: 35.6654, lng: 139.7707, title: "츠키지 장외시장", info: "스시 조식", seq: 1 },
+                { lat: 35.7720, lng: 140.3929, title: "나리타 국제공항", info: "귀국 탑승", seq: 2 }
+            ]
+        };
+
+        const mapInstances = [];
+
+        function renderMap(dayId) {
+            const container = document.getElementById('mapViewContainer');
+            container.classList.remove('hidden');
+            container.innerHTML = '';
+
+            // Cleanup existing map instances
+            mapInstances.forEach(m => m.remove());
+            mapInstances.length = 0;
+
+            if (dayId === 'all') {
+                container.innerHTML = `
+                    <div class="mb-2 text-sm font-bold text-rose-300">🗺️ 4일 전체 코스 (한눈에 보기)</div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        ${[1, 2, 3, 4].map(d => `<div class="rounded-xl overflow-hidden border border-slate-700 bg-slate-800 p-2"><div class="text-xs font-bold text-center mb-1 text-slate-300">${d}일차 동선</div><div id="map-day-${d}" class="w-full h-48 rounded-lg z-0 relative"></div></div>`).join('')}
+                    </div>
+                `;
+                [1, 2, 3, 4].forEach(d => initLeafletMap(`map-day-${d}`, d.toString(), false));
+            } else {
+                container.innerHTML = `
+                    <div class="mb-2 text-sm font-bold text-rose-300">🗺️ ${dayId}일차 동선</div>
+                    <div class="rounded-xl overflow-hidden border border-slate-700 bg-slate-800 p-2">
+                        <div id="map-single" class="w-full h-64 md:h-80 rounded-lg z-0 relative"></div>
+                    </div>
+                `;
+                initLeafletMap('map-single', dayId, true);
+            }
+        }
+
+        function initLeafletMap(elementId, day, isSingle) {
+            if (typeof L === 'undefined') return;
+            const places = mapData[day];
+            if (!places || places.length === 0) return;
+
+            const map = L.map(elementId, {
+                zoomControl: isSingle,
+                dragging: true,
+                touchZoom: true,
+                scrollWheelZoom: false
+            });
+            mapInstances.push(map);
+
+            // Google Maps Tile Layer
+            L.tileLayer('https://mt1.google.com/vt/lyrs=m&hl=kr&x={x}&y={y}&z={z}', {
+                attribution: '&copy; <a href="https://www.google.com/maps">Google Maps</a>'
+            }).addTo(map);
+
+            const latlngs = places.map(p => [p.lat, p.lng]);
+            const polyline = L.polyline(latlngs, {color: '#e11d48', weight: 3, dashArray: '5, 5'}).addTo(map);
+
+            map.fitBounds(polyline.getBounds(), { padding: [20, 20] });
+            setTimeout(() => {
+                map.invalidateSize();
+                map.fitBounds(polyline.getBounds(), { padding: [20, 20] });
+            }, 100);
+
+            places.forEach(p => {
+                const iconHtml = `
+                    <div style="background-color: #e11d48; color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3); font-size: 12px;">
+                        ${p.seq}
+                    </div>
+                `;
+                const customIcon = L.divIcon({
+                    html: iconHtml,
+                    className: '',
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 12],
+                    popupAnchor: [0, -12]
+                });
+
+                const popupContent = `
+                    <div style="text-align: center; min-width: 140px; padding: 8px 4px 4px;">
+                        <strong style="color: #0f172a; font-size: 14px; display: block; margin-bottom: 2px;">${p.title}</strong>
+                        <div style="color: #475569; font-size: 11px; margin-bottom: 8px;">${p.info}</div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.title + ' 도쿄')}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; justify-content: center; gap: 4px; background-color: #e11d48; color: white; padding: 6px 10px; border-radius: 6px; text-decoration: none; font-size: 11px; font-weight: bold; width: 100%; box-sizing: border-box; transition: background-color 0.2s;">
+                            <span>🗺️</span> 구글 맵에서 상세 보기
+                        </a>
+                    </div>
+                `;
+
+                L.marker([p.lat, p.lng], {icon: customIcon}).bindPopup(popupContent).addTo(map);
+            });
+        }
+        // ================= END MAP LOGIC =================
+
+        function changeDayTab(tabKey) {
+            currentTab = tabKey;
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.add('text-slate-400');
+            });
+            const activeBtn = document.getElementById('tab-' + tabKey);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+                activeBtn.classList.remove('text-slate-400');
+            }
+            renderTimeline();
+            renderMap(tabKey);
+        }
+
+        // Modal Handlers
+        function openAddModal() {
+            document.getElementById('modalTitle').innerText = '새 여행 일정 추가';
+            document.getElementById('editItemId').value = '';
+            document.getElementById('scheduleForm').reset();
+            document.getElementById('itemDay').value = currentTab === 'all' ? '1' : currentTab;
+            document.getElementById('scheduleModal').classList.remove('hidden');
+            document.getElementById('scheduleModal').classList.add('flex');
+        }
+
+        function openAddModalForDay(dayNum) {
+            openAddModal();
+            document.getElementById('itemDay').value = dayNum.toString();
+        }
+
+        function editScheduleItem(itemId) {
+            const item = itineraryData.find(i => i.id === itemId);
+            if (!item) return;
+
+            document.getElementById('modalTitle').innerText = '일정 수정';
+            document.getElementById('editItemId').value = item.id;
+            document.getElementById('itemDay').value = item.day.toString();
+            document.getElementById('itemCategory').value = item.category || 'spot';
+            document.getElementById('itemTime').value = item.time;
+            document.getElementById('itemTitle').value = item.title;
+            document.getElementById('itemDesc').value = item.desc;
+            document.getElementById('itemKidsTip').value = item.kidsTip || '';
+
+            document.getElementById('scheduleModal').classList.remove('hidden');
+            document.getElementById('scheduleModal').classList.add('flex');
+        }
+
+        function closeModal() {
+            document.getElementById('scheduleModal').classList.add('hidden');
+            document.getElementById('scheduleModal').classList.remove('flex');
+        }
+
+        function saveScheduleItem(e) {
+            e.preventDefault();
+            const editId = document.getElementById('editItemId').value;
+            const day = parseInt(document.getElementById('itemDay').value);
+            const category = document.getElementById('itemCategory').value;
+            const time = document.getElementById('itemTime').value;
+            const title = document.getElementById('itemTitle').value;
+            const desc = document.getElementById('itemDesc').value;
+            const kidsTip = document.getElementById('itemKidsTip').value;
+
+            const catLabelMap = {
+                flight: '✈️ 비행/항공',
+                food: '🍜 식사/맛집',
+                spot: '⛩️ 관광/체험',
+                drink: '🍶 이자카야/바',
+                move: '🚉 이동/교통',
+                hotel: '🏨 숙소'
+            };
+
+            if (editId) {
+                // Update existing
+                const index = itineraryData.findIndex(i => i.id === editId);
+                if (index !== -1) {
+                    itineraryData[index] = {
+                        ...itineraryData[index],
+                        day, category, categoryLabel: catLabelMap[category] || '',
+                        time, title, desc, kidsTip
+                    };
+                }
+            } else {
+                // Add new
+                const newItem = {
+                    id: 'ev_' + Date.now(),
+                    day, category, categoryLabel: catLabelMap[category] || '',
+                    time, title, desc, kidsTip
+                };
+                itineraryData.push(newItem);
+            }
+
+            closeModal();
+            saveItineraryState();
+        }
+
+        function deleteScheduleItem(itemId) {
+            if (confirm('이 일정을 삭제하시겠습니까?')) {
+                itineraryData = itineraryData.filter(i => i.id !== itemId);
+                saveItineraryState();
+            }
+        }
+
+        function resetItineraryToDefault() {
+            if (confirm('추천 기본 3박 4일 일정으로 복원하시겠습니까? (기존 수정본은 초기화됩니다)')) {
+                itineraryData = JSON.parse(JSON.stringify(defaultItinerary));
+                saveItineraryState();
+            }
+        }
+
+        function exportItineraryJSON() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(itineraryData, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "tokyo_solo_trip_itinerary.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        // D-Day Countdown Calculation (Departure: 2026-11-24 08:25:00)
+        function updateDDay() {
+            const targetDate = new Date('2026-11-24T08:25:00');
+            const now = new Date();
+            const diff = targetDate - now;
+
+            if (diff <= 0) {
+                document.getElementById('ddayBadge').innerText = '여행 진행 중!';
+                document.getElementById('cntDays').innerText = '00';
+                document.getElementById('cntHours').innerText = '00';
+                document.getElementById('cntMinutes').innerText = '00';
+                document.getElementById('cntSeconds').innerText = '00';
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / 1000 / 60) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('ddayBadge').innerText = `D-${days}`;
+            document.getElementById('cntDays').innerText = String(days).padStart(2, '0');
+            document.getElementById('cntHours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('cntMinutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('cntSeconds').innerText = String(seconds).padStart(2, '0');
+        }
+
+        // Checklist Progress Logic
+        function updateChecklistProgress() {
+            const checkboxes = document.querySelectorAll('.checklist-item');
+            if (checkboxes.length === 0) return;
+
+            let checkedCount = 0;
+            checkboxes.forEach(cb => {
+                if (cb.checked) checkedCount++;
+            });
+
+            const percent = Math.round((checkedCount / checkboxes.length) * 100);
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+
+            if (progressBar) progressBar.style.width = percent + '%';
+            if (progressText) progressText.innerText = percent + '% (' + checkedCount + '/' + checkboxes.length + ')';
+        }
+
+        function initChecklist() {
+            const checkboxes = document.querySelectorAll('.checklist-item');
+            checkboxes.forEach(cb => {
+                const saved = localStorage.getItem('chk_' + cb.id);
+                if (saved === 'true') {
+                    cb.checked = true;
+                }
+                cb.addEventListener('change', () => {
+                    localStorage.setItem('chk_' + cb.id, cb.checked);
+                    updateChecklistProgress();
+                });
+            });
+            updateChecklistProgress();
+        }
+
+        function resetChecklist() {
+            if (confirm('체크리스트를 모두 초기화하시겠습니까?')) {
+                const checkboxes = document.querySelectorAll('.checklist-item');
+                checkboxes.forEach(cb => {
+                    cb.checked = false;
+                    localStorage.removeItem('chk_' + cb.id);
+                });
+                updateChecklistProgress();
+            }
+        }
+
+        // Mobile Menu Toggle
+        document.getElementById('mobileMenuBtn')?.addEventListener('click', () => {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Initialize on DOM Loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            loadItinerary();
+            renderMap(currentTab);
+            initChecklist();
+            updateDDay();
+            setInterval(updateDDay, 1000);
+        });
+    </script>
+</body>
+</html>
