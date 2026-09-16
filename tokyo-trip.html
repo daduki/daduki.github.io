@@ -1472,11 +1472,19 @@
             if (saved) {
                 try {
                     itineraryData = JSON.parse(saved);
-                    // Merge new fields like 'budget' from defaultItinerary
+                    // Migrate old single-item structure to A/B/C options
                     itineraryData = itineraryData.map(item => {
                         const defaultItem = defaultItinerary.find(d => d.id === item.id);
-                        if (defaultItem && defaultItem.budget && !item.budget) {
-                            item.budget = defaultItem.budget;
+                        
+                        // If it's an old item missing optionA, convert it or merge from default
+                        if (!item.optionA && defaultItem && defaultItem.optionA) {
+                            item.optionA = defaultItem.optionA;
+                            item.optionB = defaultItem.optionB;
+                            item.optionC = defaultItem.optionC;
+                        } else if (defaultItem) {
+                            if (defaultItem.optionA && !item.optionA) item.optionA = defaultItem.optionA;
+                            if (defaultItem.optionB && !item.optionB) item.optionB = defaultItem.optionB;
+                            if (defaultItem.optionC && !item.optionC) item.optionC = defaultItem.optionC;
                         }
                         return item;
                     });
