@@ -1,0 +1,647 @@
+<title>은찬이 기차 대탐험</title>
+<style>
+:root{
+  --bg:#F6F3EC;
+  --surface:#FFFFFF;
+  --surface-2:#EDEAE1;
+  --ink:#1B2A3D;
+  --ink-soft:#5B6472;
+  --accent:#1E5AA8;
+  --accent-2:#E2672B;
+  --line:rgba(27,42,61,0.13);
+  --good:#2E7D4F;
+  --good-bg:#E4F1E8;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10161F;
+    --surface:#1A2230;
+    --surface-2:#212B3B;
+    --ink:#EDEFF2;
+    --ink-soft:#9AA5B4;
+    --accent:#7FB0EE;
+    --accent-2:#F2985C;
+    --line:rgba(237,239,242,0.14);
+    --good:#7ED0A2;
+    --good-bg:#173226;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10161F;
+  --surface:#1A2230;
+  --surface-2:#212B3B;
+  --ink:#EDEFF2;
+  --ink-soft:#9AA5B4;
+  --accent:#7FB0EE;
+  --accent-2:#F2985C;
+  --line:rgba(237,239,242,0.14);
+  --good:#7ED0A2;
+  --good-bg:#173226;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"IBM Plex Sans","Noto Sans KR",system-ui,sans-serif;
+  padding:0 16px 48px;
+  max-width:920px;
+  margin:0 auto;
+}
+h1,h2,h3{
+  font-family:"Bricolage Grotesque","IBM Plex Sans",sans-serif;
+  text-wrap:balance;
+  margin:0;
+}
+.mono{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;}
+a{color:var(--accent);}
+
+/* header */
+header.hero{
+  padding:28px 0 20px;
+  border-bottom:1px solid var(--line);
+}
+.eyebrow{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:12px;
+  letter-spacing:.08em;
+  color:var(--accent-2);
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+header.hero h1{
+  font-size:clamp(28px,5vw,40px);
+  font-weight:600;
+  line-height:1.15;
+}
+header.hero p.sub{
+  margin-top:10px;
+  color:var(--ink-soft);
+  font-size:15px;
+  max-width:60ch;
+}
+.stats{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:18px;
+}
+.stat{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:10px 14px;
+  min-width:96px;
+}
+.stat .num{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:20px;
+  font-weight:600;
+  color:var(--accent);
+}
+.stat .lbl{
+  font-size:11px;
+  color:var(--ink-soft);
+  margin-top:2px;
+}
+
+/* section */
+section{margin-top:40px;}
+section h2{
+  font-size:22px;
+  font-weight:600;
+  margin-bottom:4px;
+}
+section p.desc{
+  color:var(--ink-soft);
+  font-size:14px;
+  margin-top:6px;
+  margin-bottom:18px;
+  max-width:65ch;
+}
+
+/* route map */
+.routewrap{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:20px 16px 12px;
+  overflow-x:auto;
+}
+svg.routesvg{display:block;min-width:640px;width:100%;height:auto;}
+.routesvg text{font-family:"IBM Plex Sans",sans-serif;fill:var(--ink);}
+.routesvg .sub{fill:var(--ink-soft);font-size:11px;}
+.routesvg .lbl{font-size:13px;font-weight:600;}
+.routesvg .day{font-family:"IBM Plex Mono",monospace;font-size:10.5px;fill:var(--accent-2);}
+
+/* day tabs */
+.tabs{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
+.tab{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:13px;
+  border:1px solid var(--line);
+  background:var(--surface);
+  color:var(--ink-soft);
+  padding:9px 14px;
+  border-radius:999px;
+  cursor:pointer;
+}
+.tab[aria-selected="true"]{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:#fff;
+  font-weight:600;
+}
+.daypanel{display:none;}
+.daypanel.active{display:block;}
+.daymeta{
+  display:flex;
+  gap:16px;
+  flex-wrap:wrap;
+  align-items:baseline;
+  margin-bottom:16px;
+}
+.daymeta h3{font-size:18px;}
+.daymeta .tag{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:12px;
+  color:var(--ink-soft);
+  background:var(--surface-2);
+  padding:3px 9px;
+  border-radius:6px;
+}
+
+.timeline{
+  border-left:2px solid var(--line);
+  margin-left:6px;
+  padding-left:0;
+}
+.item{
+  position:relative;
+  padding:0 0 22px 24px;
+}
+.item:last-child{padding-bottom:2px;}
+.item::before{
+  content:"";
+  position:absolute;
+  left:-7px;
+  top:3px;
+  width:12px;height:12px;
+  border-radius:50%;
+  background:var(--surface);
+  border:2px solid var(--accent);
+}
+.item .time{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:13px;
+  color:var(--accent);
+  font-weight:600;
+}
+.item .title{
+  font-size:15.5px;
+  font-weight:600;
+  margin:2px 0 4px;
+}
+.item .note{
+  font-size:13.5px;
+  color:var(--ink-soft);
+  line-height:1.55;
+}
+.chip{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-family:"IBM Plex Mono",monospace;
+  font-size:11px;
+  padding:2px 8px;
+  border-radius:999px;
+  margin:2px 6px 2px 0;
+  border:1px solid var(--line);
+  white-space:nowrap;
+}
+.chip .dot{width:7px;height:7px;border-radius:50%;flex:none;}
+
+/* train collection */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:10px;
+}
+.card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:14px;
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+}
+.card input[type="checkbox"]{
+  width:19px;height:19px;
+  margin-top:2px;
+  accent-color:var(--good);
+  flex:none;
+  cursor:pointer;
+}
+.card .ct-title{font-size:14px;font-weight:600;}
+.card .ct-sub{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+.card.checked{background:var(--good-bg);border-color:var(--good);}
+.progresswrap{
+  margin:14px 0 20px;
+  background:var(--surface-2);
+  border-radius:999px;
+  height:10px;
+  overflow:hidden;
+}
+.progressbar{
+  height:100%;
+  background:var(--good);
+  width:0%;
+  transition:width .3s ease;
+}
+.progresslabel{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:12px;
+  color:var(--ink-soft);
+  margin-bottom:6px;
+}
+
+/* budget table */
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:12px;
+  overflow:hidden;
+  font-size:13.5px;
+}
+table caption{
+  text-align:left;
+  font-size:12px;
+  color:var(--ink-soft);
+  padding:8px 4px;
+  caption-side:bottom;
+}
+th,td{
+  text-align:left;
+  padding:10px 12px;
+  border-bottom:1px solid var(--line);
+}
+th{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:11.5px;
+  color:var(--ink-soft);
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  background:var(--surface-2);
+}
+td.num{font-family:"IBM Plex Mono",monospace;text-align:right;font-variant-numeric:tabular-nums;}
+tr:last-child td{border-bottom:none;}
+tr.total td{font-weight:700;background:var(--surface-2);}
+
+/* packing checklist */
+.checklist{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:8px;
+}
+.cl-item{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:10px 12px;
+  font-size:13.5px;
+}
+.cl-item input{width:17px;height:17px;accent-color:var(--good);cursor:pointer;flex:none;}
+.cl-item.done label{color:var(--ink-soft);text-decoration:line-through;}
+
+/* notices */
+.notice{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-left:4px solid var(--accent-2);
+  border-radius:10px;
+  padding:14px 16px;
+  font-size:13.5px;
+  color:var(--ink-soft);
+  line-height:1.6;
+}
+.notice b{color:var(--ink);}
+.notice ul{margin:8px 0 0;padding-left:18px;}
+.notice li{margin-bottom:4px;}
+
+footer{
+  margin-top:48px;
+  padding-top:18px;
+  border-top:1px solid var(--line);
+  font-size:12px;
+  color:var(--ink-soft);
+}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<header class="hero">
+  <div class="eyebrow">Family Rail Trip · 2026.11.29 – 12.02</div>
+  <h1>은찬이 기차 대탐험</h1>
+  <p class="sub">기차를 좋아하는 7세 은찬이와 아빠, 3박 4일 동안 KTX부터 무인 경전철까지 — 갈아탈 수 있는 철도는 전부 갈아타 보는 부산·대구 완주 여행.</p>
+  <div class="stats">
+    <div class="stat"><div class="num">4</div><div class="lbl">일 / 3박</div></div>
+    <div class="stat"><div class="num">14</div><div class="lbl">종류의 철도</div></div>
+    <div class="stat"><div class="num">2</div><div class="lbl">도시 (부산·대구)</div></div>
+    <div class="stat"><div class="num">0</div><div class="lbl">자동차·택시</div></div>
+  </div>
+</header>
+
+<section id="route">
+  <h2>여정 한눈에 보기</h2>
+  <p class="desc">청량리에서 출발해 부산에 이틀, 대구에 하루 머물고 서울로 돌아오는 동선. 숙소는 부산·대구 두 곳뿐이라 짐을 옮기는 횟수가 적어요.</p>
+  <div class="routewrap">
+    <svg class="routesvg" viewBox="0 0 900 150" xmlns="http://www.w3.org/2000/svg">
+      <line x1="60" y1="80" x2="840" y2="80" stroke="var(--line)" stroke-width="3"/>
+      <!-- stations -->
+      <g>
+        <circle cx="60" cy="80" r="7" fill="var(--accent)"/>
+        <text x="60" y="60" class="lbl" text-anchor="middle">청량리</text>
+        <text x="60" y="108" class="day" text-anchor="middle">Day1 09:00</text>
+      </g>
+      <g>
+        <circle cx="330" cy="80" r="7" fill="var(--accent)"/>
+        <text x="330" y="60" class="lbl" text-anchor="middle">부전 · 부산</text>
+        <text x="330" y="108" class="day" text-anchor="middle">Day1 13:00 ~ Day3 오전</text>
+      </g>
+      <g>
+        <circle cx="580" cy="80" r="7" fill="var(--accent)"/>
+        <text x="580" y="60" class="lbl" text-anchor="middle">동대구 · 대구</text>
+        <text x="580" y="108" class="day" text-anchor="middle">Day3 ~ Day4 오전</text>
+      </g>
+      <g>
+        <circle cx="840" cy="80" r="7" fill="var(--accent)"/>
+        <text x="840" y="60" class="lbl" text-anchor="middle">서울역</text>
+        <text x="840" y="108" class="day" text-anchor="middle">Day4 귀가</text>
+      </g>
+      <text x="195" y="134" class="sub" text-anchor="middle">KTX-이음 (중앙선) 약 3시간 43분</text>
+      <text x="455" y="134" class="sub" text-anchor="middle">KTX (경부고속선) 약 50분</text>
+      <text x="710" y="134" class="sub" text-anchor="middle">KTX (경부고속선) 약 1시간 40분</text>
+    </svg>
+  </div>
+</section>
+
+<section id="itinerary">
+  <h2>하루하루 일정</h2>
+  <p class="desc">매일 오후 4시 전에 모든 이동을 마치고, 이후엔 숙소에서 간식·저녁과 자유시간을 갖는 패턴이에요.</p>
+  <div class="tabs" role="tablist"></div>
+  <div id="daypanels"></div>
+</section>
+
+<section id="collection">
+  <h2>기차 컬렉션 체크리스트</h2>
+  <p class="desc">이번 여행에서 타보는 철도는 모두 14종류. 하나씩 타볼 때마다 체크해서 완주해보세요. (기록은 이 브라우저에만 저장돼요)</p>
+  <div class="progresslabel"><span id="progtext">0 / 14 완료</span></div>
+  <div class="progresswrap"><div class="progressbar" id="progressbar"></div></div>
+  <div class="grid" id="traincards"></div>
+</section>
+
+<section id="budget">
+  <h2>예산 요약 (아빠+은찬이 2인 기준)</h2>
+  <p class="desc">숙소는 1박 10만원 이하 가성비 기준, 열차 요금은 어린이 할인을 반영한 대략적인 추정치예요. 실제 금액은 코레일톡·각 도시철도 앱에서 예매 시 다시 확인하세요.</p>
+  <table>
+    <thead><tr><th>항목</th><th>내용</th><th>추정 금액</th></tr></thead>
+    <tbody>
+      <tr><td>숙소</td><td>부산 서면 2박 + 대구 동성로 1박 (가성비 게스트하우스·모텔)</td><td class="num">약 220,000원</td></tr>
+      <tr><td>KTX-이음 (청량리 ↔ 부전)</td><td>왕복 대신 편도만 이용, 2인 편도 어린이 할인 반영</td><td class="num">약 55,000원</td></tr>
+      <tr><td>KTX (부산 ↔ 동대구, 동대구 ↔ 서울)</td><td>구간 2회, 2인</td><td class="num">약 110,000원</td></tr>
+      <tr><td>부산 도시철도 · 경전철 · 동해선</td><td>2일차 1일 자유이용권 2인 (지하철+경전철+동해선 통합권 활용 가능)</td><td class="num">약 16,000원</td></tr>
+      <tr><td>대구 도시철도 · 대경선</td><td>3일차 1일권 또는 개별 승차권 2인</td><td class="num">약 10,000원</td></tr>
+      <tr><td>식비 · 간식</td><td>4일 x 2인, 시장 먹거리 위주</td><td class="num">약 160,000원</td></tr>
+      <tr class="total"><td>합계</td><td>2인 기준 3박 4일</td><td class="num">약 571,000원</td></tr>
+    </tbody>
+    <caption>실제 열차 요금·좌석 등급, 어린이 할인 조건은 시기별로 달라질 수 있어요. 코레일톡 앱에서 최신 요금과 실제 운행 시각을 예매 전 꼭 확인하세요.</caption>
+  </table>
+</section>
+
+<section id="packing">
+  <h2>준비물 체크리스트</h2>
+  <div class="checklist" id="packlist"></div>
+</section>
+
+<section id="notes">
+  <h2>미리 알아두면 좋은 점</h2>
+  <div class="notice">
+    <b>예약 관련</b>
+    <ul>
+      <li>KTX-이음(중앙선) 청량리↔부전 구간은 평일 4회, 주말 5회만 운행해요. 11/29(일)은 주말 시간표이니 코레일톡에서 정확한 출발 시각을 미리 예매하세요.</li>
+      <li>대구↔청량리 직통열차가 없어서 귀가일엔 서울역을 거쳐요. 서울역 도착 후 1호선으로 청량리까지 한 번에 갈 수 있어요.</li>
+      <li>부산 도시철도 4호선과 부산김해경전철은 무인 운전이라 맨 앞자리에 앉으면 기관사 시점처럼 선로를 볼 수 있어요. 은찬이가 가장 좋아할 구간이에요.</li>
+    </ul>
+    <b style="display:block;margin-top:10px;">이동 원칙</b>
+    <ul>
+      <li>이번 여행은 기차·지하철만 100% 이용하고 택시도 가능하면 피하는 것을 원칙으로 짰어요. 환승 동선은 도보 이동이 있으니 아이 걸음 속도를 고려해 여유 있게 움직이세요.</li>
+      <li>날짜는 11월 말~12월 초라 아침·저녁으로 쌀쌀해요. 승강장 대기 시간이 많은 일정이니 방한 겉옷을 챙기세요.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  기준일: 2026-09-26 조사. 관광열차·요금·시간표는 코레일 및 각 도시철도 공식 앱(코레일톡, 부산교통공사, 대구교통공사)에서 출발 전 다시 확인하는 걸 권장해요.
+</footer>
+
+<script>
+(function(){
+  const days = [
+    {
+      id:"d1", label:"1일차 · 11/29(일)", title:"청량리 → 부전, 부산 입성",
+      tags:["이동일","KTX-이음"],
+      items:[
+        {time:"08:20", title:"청량리역 출발", note:"KTX-이음(중앙선) 탑승. 청량리는 1호선·경의중앙선·수인분당선이 만나는 역이라 개찰 전에 잠깐 열차를 구경할 수 있어요.", chips:[["KTX-이음","#1E5AA8"]]},
+        {time:"08:20 – 12:03", title:"중앙선 종단 (약 3시간 43분)", note:"원주 – 제천 – 영주 – 안동 – 경주 – 태화강을 지나 부전역까지. 창밖으로 산악 구간과 낙동강, 동해안 풍경이 바뀌는 걸 볼 수 있어요.", chips:[["KTX-이음","#1E5AA8"]]},
+        {time:"12:03", title:"부전역 도착", note:"부전역은 부산 도시철도 1호선과 바로 연결돼요.", chips:[["부산1호선","#EE7D31"]]},
+        {time:"12:20", title:"서면 숙소 체크인", note:"1호선으로 서면역 이동, 가성비 숙소에 짐을 풀어요.", chips:[["부산1호선","#EE7D31"]]},
+        {time:"13:00 – 16:00", title:"서면 시장길 · 늦은 점심", note:"서면 지하상가와 골목 먹자골목 구경, 돼지국밥으로 늦은 점심.", chips:[]},
+        {time:"16:00 이후", title:"숙소에서 휴식", note:"간식과 저녁을 먹으며 패드 게임 시간.", chips:[]}
+      ]
+    },
+    {
+      id:"d2", label:"2일차 · 11/30(월)", title:"부산 지하철 완주의 날",
+      tags:["부산 6개 노선 올콜렉트"],
+      items:[
+        {time:"09:00", title:"서면역 출발", note:"2호선 승차.", chips:[["부산2호선","#3E9B4F"]]},
+        {time:"09:15", title:"덕천역 환승", note:"2호선 → 3호선 환승.", chips:[["부산2호선","#3E9B4F"],["부산3호선","#B98A2A"]]},
+        {time:"09:35", title:"대저역 도착", note:"3호선 → 부산김해경전철 환승.", chips:[["부산3호선","#B98A2A"],["부산김해경전철","#8A4FBF"]]},
+        {time:"09:50 – 10:40", title:"김해공항역 왕복", note:"무인 운전 경전철이라 맨 앞자리에서 선로를 그대로 볼 수 있어요. 활주로 옆이라 비행기 이착륙도 구경 가능.", chips:[["부산김해경전철","#8A4FBF"]]},
+        {time:"10:55", title:"사상역 → 2호선", note:"경전철에서 2호선으로 환승해 남포동 방향으로 이동.", chips:[["부산2호선","#3E9B4F"]]},
+        {time:"11:30 – 13:00", title:"자갈치시장 · 국제시장 점심", note:"1호선 남포동역 인근에서 회·씨앗호떡 등으로 점심.", chips:[["부산1호선","#EE7D31"]]},
+        {time:"13:15", title:"동래역 이동", note:"1호선 타고 동래역까지, 4호선 환승 준비.", chips:[["부산1호선","#EE7D31"]]},
+        {time:"13:45 – 14:25", title:"4호선 안평역 왕복", note:"부산 유일의 무인 경전철 도시철도. 운전실이 없어서 앞유리로 선로가 그대로 보여요.", chips:[["부산4호선","#3FB6C4"]]},
+        {time:"14:40", title:"부전역 이동 · 동해선 환승", note:"1호선으로 부전역 이동 후 도보로 동해선 광역전철 승강장으로.", chips:[["부산1호선","#EE7D31"]]},
+        {time:"14:55 – 15:20", title:"동해선 벡스코역 왕복", note:"부산 시내와 해운대를 잇는 광역철도. 오늘의 마지막 노선 컬렉트!", chips:[["동해선","#2E4A7A"]]},
+        {time:"15:40", title:"서면 숙소 복귀", note:"오후 4시 전 도착, 간식·저녁 시간.", chips:[]}
+      ]
+    },
+    {
+      id:"d3", label:"3일차 · 12/1(화)", title:"부산 → 대구, 모노레일과 광역철도",
+      tags:["KTX","대구 4개 노선"],
+      items:[
+        {time:"08:30", title:"서면역 → 부산역", note:"1호선으로 부산역 이동.", chips:[["부산1호선","#EE7D31"]]},
+        {time:"09:10 – 10:00", title:"KTX 부산 → 동대구", note:"경부고속선, 약 50분.", chips:[["KTX","#1E5AA8"]]},
+        {time:"10:10 – 10:30", title:"대경선 왕복", note:"동대구역에서 서대구역 방향으로 한 구간, 2024년 개통한 광역철도예요.", chips:[["대경선","#C24E4E"]]},
+        {time:"10:40", title:"동대구역 → 반월당역", note:"대구 도시철도 1호선.", chips:[["대구1호선","#D3372F"]]},
+        {time:"11:00", title:"반월당역 → 청라언덕역", note:"2호선으로 환승.", chips:[["대구2호선","#2F8F5B"]]},
+        {time:"11:15 – 11:45", title:"3호선 모노레일 구간 체험", note:"청라언덕역에서 환승, 지상 고가 위를 달리는 과좌식 모노레일. 시야가 탁 트여서 반응이 제일 좋은 구간이에요.", chips:[["대구3호선","#D6A324"]]},
+        {time:"11:50", title:"명덕역 → 1호선 → 중앙로역", note:"1호선으로 환승해 도심으로.", chips:[["대구1호선","#D3372F"]]},
+        {time:"12:00 – 15:30", title:"서문시장 · 김광석다시그리기길", note:"점심과 시장 구경, 골목 벽화거리 산책.", chips:[]},
+        {time:"15:40", title:"동성로 숙소 체크인", note:"오후 4시 전 도착.", chips:[]}
+      ]
+    },
+    {
+      id:"d4", label:"4일차 · 12/2(수)", title:"대구 → 서울, 귀가",
+      tags:["KTX","귀가일"],
+      items:[
+        {time:"09:00 – 10:40", title:"KTX 동대구 → 서울역", note:"경부고속선, 약 1시간 40분.", chips:[["KTX","#1E5AA8"]]},
+        {time:"10:50", title:"서울역 도착", note:"대구↔청량리 직통열차가 없어 서울역을 경유해요.", chips:[]},
+        {time:"11:00", title:"지하철로 귀가", note:"1호선 등으로 환승해 집으로. 3박 4일, 14종류 철도 완주!", chips:[["서울지하철","#5A6472"]]}
+      ]
+    }
+  ];
+
+  const tabsEl = document.querySelector(".tabs");
+  const panelsEl = document.getElementById("daypanels");
+
+  days.forEach((d,i)=>{
+    const tab = document.createElement("button");
+    tab.className="tab";
+    tab.setAttribute("role","tab");
+    tab.setAttribute("aria-selected", i===0 ? "true":"false");
+    tab.textContent = d.label;
+    tab.addEventListener("click", ()=>selectDay(d.id));
+    tabsEl.appendChild(tab);
+
+    const panel = document.createElement("div");
+    panel.className = "daypanel" + (i===0 ? " active":"");
+    panel.id = "panel-"+d.id;
+    panel.innerHTML = `
+      <div class="daymeta">
+        <h3>${d.title}</h3>
+        ${d.tags.map(t=>`<span class="tag">${t}</span>`).join("")}
+      </div>
+      <div class="timeline">
+        ${d.items.map(it=>`
+          <div class="item">
+            <div class="time mono">${it.time}</div>
+            <div class="title">${it.title}</div>
+            <div class="note">${it.note}</div>
+            <div>${it.chips.map(c=>`<span class="chip"><span class="dot" style="background:${c[1]}"></span>${c[0]}</span>`).join("")}</div>
+          </div>
+        `).join("")}
+      </div>
+    `;
+    panelsEl.appendChild(panel);
+  });
+
+  function selectDay(id){
+    document.querySelectorAll(".tab").forEach((t,idx)=>{
+      t.setAttribute("aria-selected", days[idx].id===id ? "true":"false");
+    });
+    document.querySelectorAll(".daypanel").forEach(p=>{
+      p.classList.toggle("active", p.id === "panel-"+id);
+    });
+  }
+
+  // train collection
+  const trains = [
+    ["KTX-이음 (중앙선)","청량리 ↔ 부전, 1일차","#1E5AA8"],
+    ["부산 도시철도 1호선","오렌지 라인","#EE7D31"],
+    ["부산 도시철도 2호선","그린 라인, 양산까지 연장","#3E9B4F"],
+    ["부산 도시철도 3호선","브라운 라인","#B98A2A"],
+    ["부산 도시철도 4호선","무인 운전 경전철","#3FB6C4"],
+    ["부산김해경전철","무인 고무차륜 경전철","#8A4FBF"],
+    ["동해선 광역전철","부산 ↔ 울산","#2E4A7A"],
+    ["KTX (경부고속선)","부산 → 동대구","#1E5AA8"],
+    ["대경선","동대구 ↔ 구미·경산 광역철도","#C24E4E"],
+    ["대구 도시철도 1호선","레드 라인","#D3372F"],
+    ["대구 도시철도 2호선","그린 라인","#2F8F5B"],
+    ["대구 도시철도 3호선","과좌식 모노레일","#D6A324"],
+    ["KTX (경부고속선)","동대구 → 서울역","#1E5AA8"],
+    ["서울 지하철","귀가, 1호선 등","#5A6472"]
+  ];
+
+  const cardsEl = document.getElementById("traincards");
+  const progtext = document.getElementById("progtext");
+  const progressbar = document.getElementById("progressbar");
+
+  let saved = {};
+  try{
+    saved = JSON.parse(localStorage.getItem("eunchan-train-collection") || "{}");
+  }catch(e){ saved = {}; }
+
+  function updateProgress(){
+    const checked = document.querySelectorAll("#traincards input:checked").length;
+    progtext.textContent = `${checked} / ${trains.length} 완료`;
+    progressbar.style.width = (checked/trains.length*100) + "%";
+  }
+
+  trains.forEach((t,i)=>{
+    const key = "t"+i;
+    const card = document.createElement("label");
+    card.className = "card" + (saved[key] ? " checked":"");
+    card.innerHTML = `
+      <input type="checkbox" ${saved[key] ? "checked":""} data-key="${key}">
+      <div>
+        <div class="ct-title">${t[0]}</div>
+        <div class="ct-sub">${t[1]}</div>
+      </div>
+    `;
+    const cb = card.querySelector("input");
+    cb.addEventListener("change", ()=>{
+      card.classList.toggle("checked", cb.checked);
+      saved[key] = cb.checked;
+      try{ localStorage.setItem("eunchan-train-collection", JSON.stringify(saved)); }catch(e){}
+      updateProgress();
+    });
+    cardsEl.appendChild(card);
+  });
+  updateProgress();
+
+  // packing list
+  const packing = [
+    "교통카드 (레일플러스/티머니) 2장",
+    "코레일톡 예매 내역 캡처본",
+    "보조배터리 · 충전 케이블",
+    "패드 + 이어폰 (숙소 휴식용)",
+    "무릎담요 (장거리 KTX-이음용)",
+    "간식 · 물통",
+    "상비약 (해열제, 멀미약)",
+    "방한 겉옷 · 장갑",
+    "편한 운동화",
+    "여벌 옷 · 속옷",
+    "물티슈 · 손소독제",
+    "은찬이 기차 도감/장난감 (대기시간용)"
+  ];
+  const packEl = document.getElementById("packlist");
+  let packSaved = {};
+  try{ packSaved = JSON.parse(localStorage.getItem("eunchan-packing") || "{}"); }catch(e){ packSaved = {}; }
+  packing.forEach((p,i)=>{
+    const key = "p"+i;
+    const item = document.createElement("label");
+    item.className = "cl-item" + (packSaved[key] ? " done":"");
+    item.innerHTML = `<input type="checkbox" ${packSaved[key] ? "checked":""}><span>${p}</span>`;
+    const cb = item.querySelector("input");
+    cb.addEventListener("change", ()=>{
+      item.classList.toggle("done", cb.checked);
+      packSaved[key] = cb.checked;
+      try{ localStorage.setItem("eunchan-packing", JSON.stringify(packSaved)); }catch(e){}
+    });
+    packEl.appendChild(item);
+  });
+})();
+</script>
