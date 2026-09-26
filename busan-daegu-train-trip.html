@@ -444,11 +444,12 @@ footer{
     <tbody>
       <tr><td>숙소</td><td>부산 서면 2박 + 대구 동성로 1박 (가성비 게스트하우스·모텔)</td><td class="num">약 220,000원</td></tr>
       <tr><td>KTX-이음 (청량리 ↔ 부전)</td><td>왕복 대신 편도만 이용, 2인 편도 어린이 할인 반영</td><td class="num">약 55,000원</td></tr>
-      <tr><td>KTX (부산 ↔ 동대구, 동대구 ↔ 서울)</td><td>구간 2회, 2인</td><td class="num">약 110,000원</td></tr>
+      <tr><td>무궁화호 (부산 → 동대구)</td><td>경부선 완행열차, 2인</td><td class="num">약 20,000원</td></tr>
+      <tr><td>KTX (동대구 → 서울)</td><td>경부고속선, 2인</td><td class="num">약 70,000원</td></tr>
       <tr><td>부산 도시철도 · 경전철 · 동해선</td><td>2일차 1일 자유이용권 2인 (지하철+경전철+동해선 통합권 활용 가능)</td><td class="num">약 16,000원</td></tr>
       <tr><td>대구 도시철도 · 대경선</td><td>3일차 1일권 또는 개별 승차권 2인</td><td class="num">약 10,000원</td></tr>
       <tr><td>식비 · 간식</td><td>4일 x 2인, 시장 먹거리 위주</td><td class="num">약 160,000원</td></tr>
-      <tr class="total"><td>합계</td><td>2인 기준 3박 4일</td><td class="num">약 571,000원</td></tr>
+      <tr class="total"><td>합계</td><td>2인 기준 3박 4일</td><td class="num">약 551,000원</td></tr>
     </tbody>
     <caption>실제 열차 요금·좌석 등급, 어린이 할인 조건은 시기별로 달라질 수 있어요. 코레일톡 앱에서 최신 요금과 실제 운행 시각을 예매 전 꼭 확인하세요.</caption>
   </table>
@@ -466,6 +467,7 @@ footer{
     <ul>
       <li>KTX-이음(중앙선) 청량리↔부전 구간은 평일 4회, 주말 5회만 운행해요. 11/29(일)은 주말 시간표이니 코레일톡에서 정확한 출발 시각을 미리 예매하세요.</li>
       <li>대구↔청량리 직통열차가 없어서 귀가일엔 서울역을 거쳐요. 서울역 도착 후 1호선으로 청량리까지 한 번에 갈 수 있어요.</li>
+      <li>3일차 부산→동대구 구간은 일부러 KTX 대신 무궁화호를 탑니다. KTX-이음(1일차)과 KTX(4일차)로 고속열차는 충분히 경험하니, 완행열차만의 정취를 느껴보는 구간이에요. 좌석은 미리 코레일톡에서 지정석으로 예매하세요.</li>
       <li>부산 도시철도 4호선과 부산김해경전철은 무인 운전이라 맨 앞자리에 앉으면 기관사 시점처럼 선로를 볼 수 있어요. 은찬이가 가장 좋아할 구간이에요.</li>
     </ul>
     <b style="display:block;margin-top:10px;">이동 원칙</b>
@@ -486,6 +488,7 @@ footer{
   const modeMeta = {
     ktxeum:   {label:"KTX-이음",        color:"#1E5AA8", shape:"ktx"},
     ktx:      {label:"KTX",             color:"#1E5AA8", shape:"ktx"},
+    mugunghwa:{label:"무궁화호",        color:"#A6432B", shape:"loco"},
     busan1:   {label:"부산1호선",       color:"#EE7D31", shape:"metro"},
     busan2:   {label:"부산2호선",       color:"#3E9B4F", shape:"metro"},
     busan3:   {label:"부산3호선",       color:"#B98A2A", shape:"metro"},
@@ -517,6 +520,17 @@ footer{
         <rect x="26" y="10" width="10" height="5" rx="1.5" fill="#fff" opacity="0.9"/>
         <circle cx="24" cy="21.5" r="2" fill="#2b2f36"/>
         <line x1="4" y1="21.5" x2="44" y2="21.5" stroke="#2b2f36" stroke-width="1.4"/>
+      </svg>`;
+    }
+    if(shape==="loco"){
+      return `<svg viewBox="0 0 48 24" width="${w}" height="${h}" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="28" height="15" rx="2" fill="${color}"/>
+        <path d="M33 9 L42 9 Q44 9 44 11 L44 17 Q44 19 42 19 L33 19 Z" fill="${color}"/>
+        <circle cx="41" cy="11.5" r="1.8" fill="#ffe27a"/>
+        <rect x="9" y="9" width="8" height="6" rx="1" fill="#fff" opacity="0.85"/>
+        <circle cx="13" cy="21.5" r="2.6" fill="#2b2f36"/>
+        <circle cx="24" cy="21.5" r="2.6" fill="#2b2f36"/>
+        <circle cx="35" cy="21.5" r="2.6" fill="#2b2f36"/>
       </svg>`;
     }
     return `<svg viewBox="0 0 48 24" width="${w}" height="${h}" xmlns="http://www.w3.org/2000/svg">
@@ -590,22 +604,22 @@ footer{
       ]
     },
     {
-      id:"d3", label:"3일차 · 12/1(화)", title:"부산 → 대구, 모노레일과 광역철도",
-      tags:["KTX","대구 4개 노선"],
+      id:"d3", label:"3일차 · 12/1(화)", title:"부산 → 대구, 완행열차와 모노레일",
+      tags:["무궁화호","대구 4개 노선"],
       items:[
-        {time:"08:30", title:"서면역 → 부산역", note:"1호선으로 부산역 이동.", modes:["busan1"]},
-        {time:"09:10 – 10:00", title:"KTX 부산 → 동대구", note:"경부고속선, 약 50분.", modes:["ktx"]},
-        {time:"10:10 – 10:30", title:"대경선 왕복", note:"동대구역에서 서대구역 방향으로 한 구간, 2024년 개통한 광역철도예요.", modes:["daegyeong"]},
-        {time:"10:40", title:"동대구역 → 반월당역", note:"대구 도시철도 1호선.", modes:["daegu1"]},
-        {time:"11:00", title:"반월당역 → 청라언덕역", note:"2호선으로 환승.", modes:["daegu2"]},
-        {time:"11:15 – 11:45", title:"3호선 모노레일 구간 체험", note:"청라언덕역에서 환승, 지상 고가 위를 달리는 과좌식 모노레일. 시야가 탁 트여서 반응이 제일 좋은 구간이에요.", modes:["daegu3"]},
-        {time:"11:50", title:"명덕역 → 1호선 → 중앙로역", note:"1호선으로 환승해 도심으로.", modes:["daegu1"]},
-        {time:"12:00 – 15:30", title:"서문시장 · 김광석다시그리기길", note:"점심과 시장 구경, 골목 벽화거리 산책.", modes:[]},
+        {time:"08:15", title:"서면역 → 부산역", note:"1호선으로 부산역 이동.", modes:["busan1"]},
+        {time:"08:50 – 10:15", title:"무궁화호 부산 → 동대구", note:"KTX는 1일차·4일차에 충분히 타보니, 지역간 이동은 완행열차로. 경부선 완행 구간(사상·구포·밀양·청도 등)을 하나씩 지나며 약 1시간 20~30분 걸려요. 좌석은 자유석/입석보다 지정석으로 미리 예매하는 걸 추천.", modes:["mugunghwa"]},
+        {time:"10:25 – 10:45", title:"대경선 왕복", note:"동대구역에서 서대구역 방향으로 한 구간, 2024년 개통한 광역철도예요.", modes:["daegyeong"]},
+        {time:"10:55", title:"동대구역 → 반월당역", note:"대구 도시철도 1호선.", modes:["daegu1"]},
+        {time:"11:15", title:"반월당역 → 청라언덕역", note:"2호선으로 환승.", modes:["daegu2"]},
+        {time:"11:30 – 12:00", title:"3호선 모노레일 구간 체험", note:"청라언덕역에서 환승, 지상 고가 위를 달리는 과좌식 모노레일. 시야가 탁 트여서 반응이 제일 좋은 구간이에요.", modes:["daegu3"]},
+        {time:"12:05", title:"명덕역 → 1호선 → 중앙로역", note:"1호선으로 환승해 도심으로.", modes:["daegu1"]},
+        {time:"12:15 – 15:30", title:"서문시장 · 김광석다시그리기길", note:"점심과 시장 구경, 골목 벽화거리 산책.", modes:[]},
         {time:"15:40", title:"동성로 숙소 체크인", note:"오후 4시 전 도착.", modes:[]}
       ],
       route:[
-        {lat:35.1152, lng:129.0415, label:"부산역", mode:"ktx"},
-        {lat:35.8779, lng:128.6285, label:"동대구역", mode:"ktx"},
+        {lat:35.1152, lng:129.0415, label:"부산역", mode:"mugunghwa"},
+        {lat:35.8779, lng:128.6285, label:"동대구역", mode:"mugunghwa"},
         {lat:35.8789, lng:128.5480, label:"서대구역", mode:"daegyeong"},
         {lat:35.8779, lng:128.6285, label:"동대구역", mode:"daegu1"},
         {lat:35.8656, lng:128.5945, label:"반월당역", mode:"daegu2"},
@@ -781,7 +795,7 @@ footer{
     {mode:"busan4", sub:"무인 운전 경전철"},
     {mode:"bglrt", sub:"무인 고무차륜 경전철"},
     {mode:"donghae", sub:"부산 ↔ 울산"},
-    {mode:"ktx", sub:"경부고속선, 부산 → 동대구"},
+    {mode:"mugunghwa", sub:"경부선 완행열차, 부산 → 동대구"},
     {mode:"daegyeong", sub:"동대구 ↔ 구미·경산 광역철도"},
     {mode:"daegu1", sub:"레드 라인"},
     {mode:"daegu2", sub:"그린 라인"},
