@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지구는 왜 기울어져 있을까? 계절과 백야현상의 비밀 | 은찬이의 공부방</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script src="js/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                        kids: ['"Jua"', 'cursive', 'sans-serif']
+                    },
+                    colors: {
+                        tilt: {
+                            night: '#0b132b',
+                            sun: '#f59e0b',
+                            summer: '#fb923c',
+                            winter: '#38bdf8'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .font-kids { font-family: 'Jua', cursive, sans-serif; }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.88);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        @keyframes softGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(167, 139, 250, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(167, 139, 250, 0.65); }
+        }
+        .glow-violet { animation: softGlow 2.5s infinite ease-in-out; }
+        .slide-fade {
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans flex flex-col justify-between selection:bg-violet-500 selection:text-white">
+
+    <!-- Top Navigation -->
+    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="eunchan-study.html" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition flex items-center gap-1.5 text-xs font-semibold">
+                    <i class="fa-solid fa-arrow-left"></i> 공부방 홈
+                </a>
+                <div>
+                    <h1 class="font-kids text-base md:text-lg text-violet-400 flex items-center gap-2">
+                        <span>🌗 지구는 왜 기울어져 있을까?</span>
+                        <span class="text-[11px] font-sans px-2 py-0.5 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/30">7~10세 초등 맞춤</span>
+                    </h1>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2 md:gap-3">
+                <div class="flex items-center gap-1 bg-slate-800/80 px-2.5 py-1 rounded-full border border-slate-700 text-xs">
+                    <i class="fa-solid fa-layer-group text-violet-400"></i>
+                    <span id="slideIndicator" class="font-kids text-violet-400 text-sm font-bold">1</span>
+                    <span class="text-slate-400 font-kids text-xs">/ 19</span>
+                </div>
+                <button id="ttsBtn" onclick="toggleReadOutLoud()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 hover:text-amber-300 transition text-xs font-semibold" title="친절한 목소리로 읽어주기">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+                <button onclick="toggleIndexDrawer()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-xs font-semibold" title="전체 목차">
+                    <i class="fa-solid fa-list-ol"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="w-full bg-slate-800 h-1.5 overflow-hidden">
+            <div id="topProgressBar" class="bg-gradient-to-r from-violet-500 via-fuchsia-400 to-amber-400 h-full transition-all duration-300" style="width: 5%"></div>
+        </div>
+    </header>
+
+    <!-- Main Slide Stage -->
+    <main class="flex-grow flex items-center justify-center px-3 md:px-6 py-6 max-w-5xl mx-auto w-full">
+        <div id="slideCard" class="w-full glass-card rounded-3xl p-5 md:p-8 border border-white/10 shadow-2xl relative overflow-hidden min-h-[580px] flex flex-col justify-between">
+            <div id="slideBody" class="slide-fade flex-grow flex flex-col justify-center"></div>
+
+            <div class="pt-6 border-t border-white/10 flex items-center justify-between mt-4">
+                <button id="prevBtn" onclick="prevSlide()" class="px-5 py-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:pointer-events-none text-slate-200 font-kids text-sm flex items-center gap-2 transition">
+                    <i class="fa-solid fa-arrow-left"></i> 이전장
+                </button>
+
+                <div class="flex items-center gap-1.5 overflow-x-auto max-w-[200px] md:max-w-[400px] py-1" id="dotsContainer"></div>
+
+                <button id="nextBtn" onclick="nextSlide()" class="px-6 py-2.5 rounded-2xl bg-violet-600 hover:bg-violet-500 text-white font-kids text-sm flex items-center gap-2 shadow-lg shadow-violet-900/40 transition">
+                    다음장 <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Slide Index Modal -->
+    <div id="indexDrawer" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex justify-end">
+        <div class="bg-slate-900 border-l border-slate-700 w-full max-w-md h-full p-6 overflow-y-auto flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-4">
+                    <h3 class="font-kids text-lg text-violet-400">📖 전체 19개 슬라이드 목차</h3>
+                    <button onclick="toggleIndexDrawer()" class="text-slate-400 hover:text-white text-xl">✕</button>
+                </div>
+                <div class="space-y-1.5" id="drawerList"></div>
+            </div>
+            <button onclick="toggleIndexDrawer()" class="w-full py-3 mt-4 bg-slate-800 text-slate-300 rounded-xl font-kids text-sm">닫기</button>
+        </div>
+    </div>
+
+    <!-- Audio FX Synthesizer -->
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, now);
+                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1);
+                osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                osc.start(now);
+                osc.stop(now + 0.5);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(200, now);
+                osc.frequency.exponentialRampToValueAtTime(130, now + 0.25);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'pop') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(320, now);
+                osc.frequency.exponentialRampToValueAtTime(580, now + 0.08);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                osc.start(now);
+                osc.stop(now + 0.1);
+            } else if (type === 'fanfare') {
+                [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+                    const o = audioCtx.createOscillator();
+                    const g = audioCtx.createGain();
+                    o.connect(g);
+                    g.connect(audioCtx.destination);
+                    o.type = 'triangle';
+                    o.frequency.setValueAtTime(freq, now + i * 0.12);
+                    g.gain.setValueAtTime(0.18, now + i * 0.12);
+                    g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.12 + 0.4);
+                    o.start(now + i * 0.12);
+                    o.stop(now + i * 0.12 + 0.4);
+                });
+            }
+        }
+    </script>
+
+    <!-- Slide Engine & Quiz Data -->
+    <script>
+        const QUIZ_POOL = [
+            {
+                q: "여름에 낮이 길어지는 진짜 이유는 무엇일까요?",
+                options: ["지구가 태양에 더 가까워져서", "지구 자전축이 기울어져 햇빛을 더 많이, 더 오래 받기 때문에", "태양이 더 커지기 때문에", "지구가 자전을 멈추기 때문에"],
+                correct: 1,
+                explain: "지구와 태양의 거리는 계절과 거의 관계없어요. 자전축이 23.5도 기울어진 채로 태양을 돌기 때문에 계절이 생기는 거예요!"
+            },
+            {
+                q: "백야현상이 일어나는 대표적인 지역은 어디일까요?",
+                options: ["적도 부근의 브라질", "고위도의 노르웨이·핀란드 같은 북유럽 나라", "남반구의 호주", "사막지역인 사우디아라비아"],
+                correct: 1,
+                explain: "노르웨이나 핀란드처럼 북극권에 가까운 고위도 지역은 여름에 해가 거의 지지 않는 백야현상을 겪어요!"
+            },
+            {
+                q: "북극에서 해가 거의 6개월 동안 지지 않는 계절은 언제일까요?",
+                options: ["북반구의 겨울", "북반구의 여름", "1년 내내 똑같다", "봄과 가을에만"],
+                correct: 1,
+                explain: "북반구가 여름일 때 북극은 태양 쪽으로 기울어 있어서, 거의 6개월 동안 해가 지지 않는 '백야'가 계속돼요!"
+            },
+            {
+                q: "적도 지역에서 1년 내내 낮과 밤의 길이가 거의 일정한 이유는 무엇일까요?",
+                options: ["적도는 태양에서 가장 가까워서", "적도는 지구 자전축 기울기의 영향을 거의 받지 않기 때문에", "적도에는 사계절이 없어서", "적도는 자전을 하지 않아서"],
+                correct: 1,
+                explain: "적도는 지구 기울기의 영향을 가장 적게 받는 위치라서, 계절이 바뀌어도 낮과 밤의 길이가 거의 12시간으로 일정해요!"
+            },
+            {
+                q: "지구의 자전축은 몇 도 정도 기울어져 있을까요?",
+                options: ["약 0도 (전혀 기울지 않음)", "약 23.5도", "약 45도", "약 90도 (완전히 누움)"],
+                correct: 1,
+                explain: "지구 자전축은 수직선에서 약 23.5도 정도 기울어져 있어요. 이 기울기가 계절을 만드는 핵심 비밀이랍니다!"
+            },
+            {
+                q: "북반구가 여름일 때, 남반구는 어떤 계절일까요?",
+                options: ["똑같이 여름", "겨울", "항상 봄", "계절이 없음"],
+                correct: 1,
+                explain: "지구가 기울어진 채 태양을 돌기 때문에, 북반구와 남반구는 항상 정반대의 계절을 겪어요!"
+            },
+            {
+                q: "남극에서 밤이 약 6개월간 계속되는 '극야' 현상이 생기는 계절은?",
+                options: ["남반구의 여름", "남반구의 겨울", "북반구의 봄", "아무 때나 똑같다"],
+                correct: 1,
+                explain: "남반구가 겨울일 때 남극은 태양 반대쪽으로 기울어 있어서, 거의 6개월 동안 해가 뜨지 않는 '극야'가 계속돼요!"
+            },
+            {
+                q: "서울의 낮 길이는 여름(6월)과 겨울(12월)에 어떻게 다를까요?",
+                options: ["거의 비슷하다 (12시간 vs 12시간)", "여름이 더 길다 (약 14~15시간 vs 약 9~10시간)", "겨울이 더 길다", "여름엔 낮이 없다"],
+                correct: 1,
+                explain: "서울은 여름에는 낮이 약 14~15시간으로 길고, 겨울에는 약 9~10시간으로 짧아져요. 지구 기울기 때문이에요!"
+            }
+        ];
+
+        let currentSlide = 1;
+        const totalSlides = 19;
+        let quizState = { questions: [], answers: {}, score: 0 };
+
+        function initQuiz() {
+            const pool = [...QUIZ_POOL];
+            for (let i = pool.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [pool[i], pool[j]] = [pool[j], pool[i]];
+            }
+            quizState.questions = pool.slice(0, 5);
+        }
+        initQuiz();
+
+        function updateProgress() {
+            document.getElementById('slideIndicator').textContent = currentSlide;
+            const pct = (currentSlide / totalSlides) * 100;
+            document.getElementById('topProgressBar').style.width = pct + '%';
+            document.getElementById('prevBtn').disabled = (currentSlide === 1);
+            document.getElementById('nextBtn').disabled = (currentSlide === totalSlides);
+
+            const dotsCont = document.getElementById('dotsContainer');
+            dotsCont.innerHTML = '';
+            for (let i = 1; i <= totalSlides; i++) {
+                const dot = document.createElement('button');
+                dot.className = `w-2 h-2 rounded-full transition-all flex-shrink-0 ${i === currentSlide ? 'w-5 bg-violet-400' : 'bg-slate-700 hover:bg-slate-500'}`;
+                dot.onclick = () => goToSlide(i);
+                dotsCont.appendChild(dot);
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                playSound('pop');
+                currentSlide++;
+                renderSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                playSound('pop');
+                currentSlide--;
+                renderSlide();
+            }
+        }
+
+        function goToSlide(n) {
+            playSound('pop');
+            currentSlide = n;
+            renderSlide();
+            const drawer = document.getElementById('indexDrawer');
+            if (!drawer.classList.contains('hidden')) drawer.classList.add('hidden');
+        }
+
+        function toggleIndexDrawer() {
+            const drawer = document.getElementById('indexDrawer');
+            drawer.classList.toggle('hidden');
+            if (!drawer.classList.contains('hidden')) {
+                const list = document.getElementById('drawerList');
+                list.innerHTML = '';
+                const titles = [
+                    "01. 🌗 표지: 지구는 왜 기울어져 있을까?",
+                    "02. ❓ 궁금증: 겨울엔 왜 해가 빨리 질까?",
+                    "03. 📐 지구 자전축 23.5도의 비밀",
+                    "04. 🪐 기울어진 채 태양을 도는 지구",
+                    "05. ☀️ 여름 vs 겨울, 햇빛 각도 차이",
+                    "06. 📊 서울의 계절별 낮 길이 비교",
+                    "07. 🌐 적도는 왜 낮밤이 항상 비슷할까?",
+                    "08. 🔗 지금까지 정리: 기울기 → 계절 → 낮밤 길이",
+                    "09. 🌙 백야현상이란 무엇일까?",
+                    "10. 📐 백야현상이 생기는 이유",
+                    "11. ❄️ 극지방의 극단적인 낮과 밤",
+                    "12. 📐 극지방에서 극야·백야가 생기는 이유",
+                    "13. ✅ 전체 총정리",
+                    "14. 🎯 실전 퀴즈 1",
+                    "15. 🎯 실전 퀴즈 2",
+                    "16. 🎯 실전 퀴즈 3",
+                    "17. 🎯 실전 퀴즈 4",
+                    "18. 🎯 실전 퀴즈 5",
+                    "19. 🏆 탐험 완료: 지구 계절 마스터 배지"
+                ];
+                titles.forEach((t, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = `w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between transition ${idx + 1 === currentSlide ? 'bg-violet-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}`;
+                    btn.textContent = t;
+                    btn.onclick = () => goToSlide(idx + 1);
+                    list.appendChild(btn);
+                });
+            }
+        }
+
+        function renderSlide() {
+            updateProgress();
+            const body = document.getElementById('slideBody');
+            body.innerHTML = '';
+
+            if (currentSlide === 1) {
+                body.innerHTML = `
+                    <div class="text-center py-4">
+                        <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/30 text-xs font-bold mb-4">
+                            <span>🎒 은찬이의 공부방</span> · <span>지리 탐험 3호</span>
+                        </div>
+                        <h2 class="font-kids text-3xl md:text-5xl text-white mb-4 leading-tight">
+                            지구는 왜<br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-fuchsia-300 to-amber-400">기울어져 있을까?</span> 🌗
+                        </h2>
+                        <p class="text-slate-300 text-sm md:text-base max-w-xl mx-auto leading-relaxed mb-8">
+                            겨울엔 왜 밤이 길고, 여름엔 왜 낮이 길까요?<br>
+                            노르웨이에서는 왜 여름밤에도 해가 지지 않을까요?<br>
+                            <span class="text-violet-400 font-bold">지구가 23.5도 기울어진 비밀</span>을 함께 탐험해봐요!
+                        </p>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3 max-w-lg mx-auto mb-8 text-xs font-kids">
+                            <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 text-slate-300">
+                                <span class="text-xl block mb-1">📐</span> 23.5도 기울기
+                            </div>
+                            <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 text-slate-300">
+                                <span class="text-xl block mb-1">🌙</span> 백야현상
+                            </div>
+                            <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 text-slate-300">
+                                <span class="text-xl block mb-1">❄️</span> 극지방의 비밀
+                            </div>
+                        </div>
+                        <button onclick="nextSlide()" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:from-violet-400 hover:to-fuchsia-400 text-slate-950 font-kids text-lg shadow-xl shadow-violet-900/40 transition-transform active:scale-95 inline-flex items-center gap-2">
+                            <span>신나는 계절 탐험 시작하기 🚀</span>
+                        </button>
+                    </div>
+                `;
+            }
+
+            else if (currentSlide === 2) {
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">도입 · 신기한 호기심</span>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                                겨울엔 왜 해가<br>
+                                <span class="text-amber-400">훨씬 빨리</span> 질까요? 🌇
+                            </h3>
+                            <div class="space-y-3 text-slate-300 text-sm leading-relaxed">
+                                <p class="bg-slate-900/90 p-4 rounded-2xl border border-white/5">
+                                    여름에는 저녁 8시에도 아직 밝은데, 겨울에는 오후 5시만 되어도 벌써 어두워져요. 왜 그럴까요?
+                                </p>
+                                <p class="p-4 bg-violet-950/20 border border-violet-500/30 rounded-2xl text-violet-200">
+                                    👉 <strong>정답은 바로 지구가 "똑바로" 서 있지 않다는 것!</strong><br>
+                                    지구는 자전축이 살짝 기울어진 채로 태양 주위를 빙글빙글 돌고 있어요.
+                                </p>
+                                <p class="text-xs text-slate-400">
+                                    이 작은 기울기 하나가 계절과 낮·밤의 길이, 그리고 백야현상까지 모두 만들어낸답니다!
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-6 bg-slate-900/90 rounded-3xl border border-slate-800 text-center">
+                            <div class="flex items-center justify-around w-full mb-4">
+                                <div class="text-center">
+                                    <div class="text-5xl mb-2">☀️</div>
+                                    <div class="text-xs font-kids text-amber-400">여름 저녁 8시</div>
+                                    <div class="text-[11px] text-slate-400">아직 밝아요!</div>
+                                </div>
+                                <div class="text-3xl text-slate-600">VS</div>
+                                <div class="text-center">
+                                    <div class="text-5xl mb-2">🌆</div>
+                                    <div class="text-xs font-kids text-sky-400">겨울 오후 5시</div>
+                                    <div class="text-[11px] text-slate-400">벌써 어두워요!</div>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-400 font-kids">
+                                "똑같은 하루인데, 왜 이렇게 다를까요?"
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            else if (currentSlide === 3) {
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/30">주제 1 · 기울어진 지구</span>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                                지구는 똑바로 서 있지 않고<br>
+                                <span class="text-violet-400">23.5도</span> 기울어져 있어요! 📐
+                            </h3>
+                            <div class="space-y-3 text-slate-300 text-sm leading-relaxed">
+                                <p class="bg-slate-900/90 p-4 rounded-2xl border border-white/5">
+                                    지구는 팽이처럼 혼자 돌면서(자전) 동시에 태양 주위를 돌아요(공전). 그런데 이 팽이의 축이 수직선에서 <strong>약 23.5도</strong> 비스듬히 기울어져 있답니다.
+                                </p>
+                                <div class="p-4 bg-violet-950/20 border border-violet-500/30 rounded-2xl text-xs text-violet-200">
+                                    🌟 더 놀라운 사실: 지구가 태양 주위를 1년 동안 도는 내내, 이 기울어진 방향은 <strong>항상 똑같은 쪽</strong>을 바라봐요!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-4 bg-slate-900/90 rounded-3xl border border-slate-800">
+                            <svg viewBox="0 0 240 240" class="w-56 h-56">
+                                <line x1="120" y1="8" x2="120" y2="232" stroke="#475569" stroke-width="2" stroke-dasharray="6,6"/>
+                                <circle cx="120" cy="120" r="70" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+                                <circle cx="120" cy="120" r="70" fill="none" stroke="#0ea5e9" stroke-width="1" stroke-dasharray="3,5" opacity="0.5"/>
+                                <line x1="80" y1="28" x2="160" y2="212" stroke="#a78bfa" stroke-width="4" stroke-linecap="round"/>
+                                <circle cx="80" cy="28" r="5" fill="#f59e0b"/>
+                                <circle cx="160" cy="212" r="5" fill="#94a3b8"/>
+                                <text x="60" y="20" fill="#f59e0b" font-size="13" font-weight="bold">N</text>
+                                <text x="165" y="222" fill="#94a3b8" font-size="13" font-weight="bold">S</text>
+                                <path d="M 120 48 A 40 40 0 0 1 143 56" fill="none" stroke="#fbbf24" stroke-width="2"/>
+                                <text x="128" y="44" fill="#fbbf24" font-size="13" font-weight="bold">23.5°</text>
+                                <text x="124" y="118" fill="#64748b" font-size="10">수직선</text>
+                            </svg>
+                            <p class="text-[11px] text-slate-400 mt-3 font-kids text-center">
+                                보라색 선 = 기울어진 자전축 (북극 N ~ 남극 S)<br>
+                                점선 = 진짜 수직선과의 23.5도 차이
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            else if (currentSlide === 4) {
+                body.innerHTML = `
+                    <div class="text-center">
+                        <span class="text-xs font-bold px-3 py-1 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/30">주제 1 · 공전과 계절</span>
+                        <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-5">
+                            기울어진 채로 태양을 도니까<br>
+                            <span class="text-violet-400">계절</span>이 생겨요! 🪐
+                        </h3>
+                        <div class="relative w-[280px] md:w-[360px] h-[280px] md:h-[360px] mx-auto mb-5">
+                            <div class="absolute inset-0 rounded-full border-2 border-dashed border-slate-700"></div>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-amber-400 to-orange-500 shadow-2xl flex items-center justify-center text-2xl">☀️</div>
+                            </div>
+                            <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                                <div class="text-3xl" style="transform: rotate(-23deg);">🌍</div>
+                                <div class="text-[10px] font-kids text-orange-400 mt-1">북반구 여름 🏖️</div>
+                            </div>
+                            <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 text-center">
+                                <div class="text-3xl" style="transform: rotate(-23deg);">🌍</div>
+                                <div class="text-[10px] font-kids text-sky-400 mt-1">북반구 겨울 ⛄</div>
+                            </div>
+                            <div class="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 text-center">
+                                <div class="text-3xl" style="transform: rotate(-23deg);">🌍</div>
+                                <div class="text-[10px] font-kids text-emerald-400 mt-1">환절기(봄)</div>
+                            </div>
+                            <div class="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 text-center">
+                                <div class="text-3xl" style="transform: rotate(-23deg);">🌍</div>
+                                <div class="text-[10px] font-kids text-amber-300 mt-1">환절기(가을)</div>
+                            </div>
+                        </div>
+                        <p class="text-xs md:text-sm text-slate-300 max-w-lg mx-auto bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
+                            지구 4개가 모두 <strong class="text-violet-400">같은 방향</strong>으로 기울어진 것 보이나요? 북극이 태양 쪽을 향할 때는 북반구가 여름, 반대쪽을 향할 때는 북반구가 겨울이 돼요!
+                        </p>
+                    </div>
+                `;
+            }
+
+            else if (currentSlide === 5) {
+                body.innerHTML = `
+                    <div class="text-center">
+                        <span class="text-xs font-bold px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">주제 1 · 햇빛의 각도</span>
+                        <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-5">
+                            여름엔 햇빛이 <span class="text-amber-400">쨍쨍하게 수직으로</span>,<br>
+                            겨울엔 <span class="text-sky-400">비스듬하게</span> 들어와요! ☀️
+                        </h3>
+                        <div class="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+                            <div class="p-4 bg-slate-900/90 rounded-2xl border border-amber-500/30">
+                                <div class="text-xs font-kids text-amber-400 mb-2">🏖️ 여름 (가파른 각도)</div>
+                                <svg viewBox="0 0 200 140" class="w-full h-32">
+                                    <line x1="10" y1="120" x2="190" y2="120" stroke="#475569" stroke-width="2"/>
+                                    <circle cx="150" cy="25" r="14" fill="#f59e0b"/>
+                                    <line x1="150" y1="39" x2="110" y2="120" stroke="#fbbf24" stroke-width="2"/>
+                                    <line x1="150" y1="39" x2="125" y2="120" stroke="#fbbf24" stroke-width="2"/>
+                                    <line x1="150" y1="39" x2="140" y2="120" stroke="#fbbf24" stroke-width="2"/>
+                                </svg>
+                                <p class="text-[11px] text-slate-400 mt-1">좁은 땅에 빛이 세게 집중돼요 → 더 뜨거워요!</p>
+                            </div>
+                            <div class="p-4 bg-slate-900/90 rounded-2xl border border-sky-500/30">
+                                <div class="text-xs font-kids text-sky-400 mb-2">⛄ 겨울 (낮은 각도)</div>
+                                <svg viewBox="0 0 200 140" class="w-full h-32">
+                                    <line x1="10" y1="120" x2="190" y2="120" stroke="#475569" stroke-width="2"/>
+                                    <circle cx="170" cy="70" r="14" fill="#38bdf8"/>
+                                    <line x1="170" y1="84" x2="40" y2="120" stroke="#7dd3fc" stroke-width="2"/>
+                                    <line x1="170" y1="84" x2="90" y2="120" stroke="#7dd3fc" stroke-width="2"/>
+                                    <line x1="170" y1="84" x2="140" y2="120" stroke="#7dd3fc" stroke-width="2"/>
+                                </svg>
+                                <p class="text-[11px] text-slate-400 mt-1">넓은 땅에 빛이 퍼져요 → 덜 따뜻해요!</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-4 max-w-lg mx-auto">
+                            지구가 기울어진 방향 때문에, 북반구가 여름일 땐 태양이 하늘 높이 떠서 빛이 수직으로, 겨울일 땐 태양이 낮게 떠서 빛이 비스듬히 들어와요.
+                        </p>
+                    </div>
+                `;
+            }
+
+            else if (currentSlide === 6) {
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-500/30">주제 1 · 데이터로 확인</span>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                                서울의 낮 길이,<br>
+                                <span class="text-fuchsia-400">여름과 겨울이 5시간</span>이나 달라요!
+                            </h3>
+                            <div class="space-y-3 text-slate-300 text-sm leading-relaxed">
+                                <p class="bg-slate-900/90 p-4 rounded-2xl border border-white/5">
+                                    6월 한여름 서울의 낮은 약 <strong class="text-amber-400">14시간 30분</strong>이나 계속돼요. 하지만 12월 한겨울에는 겨우 <strong class="text-sky-400">9시간 30분</strong>밖에 안 돼요!
+                                </p>
+                                <p class="text-xs text-slate-400 bg-slate-900/60 p-3 rounded-xl">
+                                    💡 똑같은 서울인데 계절마다 낮 길이가 이렇게 다른 건, 지구가 기울어진 채 태양을 돌기 때문이에요.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-5 bg-slate-900/90 rounded-3xl border border-slate-800">
+                            <div class="flex items-end justify-center gap-8 h-[200px] mb-3">
+                                <div class="flex flex-col items-center">
+                                    <span class="text-xs font-kids text-amber-400 mb-1">14.5h</span>
+                                    <div class="w-14 rounded-t-xl bg-gradient-to-t from-amber-600 to-amber-400" style="height: 193px;"></div>
+                                    <span class="text-[11px] text-slate-400 mt-2 font-kids">6월 (여름)</span>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <span class="text-xs font-kids text-sky-400 mb-1">9.5h</span>
+                                    <div class="w-14 rounded-t-xl bg-gradient-to-t from-sky-600 to-sky-400" style="height: 127px;"></div>
+                                    <span class="text-[11px] text-slate-400 mt-2 font-kids">12월 (겨울)</span>
+                                </div>
+                            </div>
+                            <p class="text-[11px] text-slate-500 font-kids">서울 기준 낮 길이(해 뜸~해 짐) 비교</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            else if (currentSlide === 7) {
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">주제 1 · 대조 비교</span>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                                그런데 <span class="text-emerald-400">적도</span>는 항상<br>
+                                낮밤 길이가 똑같아요! 🌐
+                            </h3>
+                            <div class="space-y-3 text-slate-300 text-sm leading-relaxed">
+                                <p class="bg-slate-900/90 p-4 rounded-2xl border border-white/5">
+                                    서울처럼 위도가 높은 곳은 계절마다 낮 길이가 크게 바뀌지만, 지구 한가운데를 둘러싼 <strong>적도</strong> 지역은 1년 내내 낮과 밤이 거의 똑같이 12시간씩이에요.
+                                </p>
+                                <p class="text-xs text-slate-400 bg-slate-900/60 p-3 rounded-xl">
+                                    💡 적도는 지구의 기울어진 축에서 가장 멀리 떨어진 "중심선"이라서, 계절에 따른 각도 변화의 영향을 거의 받지 않기 때문이에요.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="p-4 bg-emerald-950/30 border border-emerald-500/40 rounded-2xl text-center">
+                                <div class="text-xs text-emerald-400 font-kids mb-1">🌍 적도 (1월)</div>
+                                <div class="text-xl font-kids text-white">약 12시간</div>
+                            </div>
+                            <div class="p-4 bg-emerald-950/30 border border-emerald-500/40 rounded-2xl text-center">
+                                <div class="text-xs text-emerald-400 font-kids mb-1">🌍 적도 (7월)</div>
+                                <div class="text-xl font-kids text-white">약 12시간</div>
+                            </div>
+                            <div class="p-4 bg-slate-900 border border-slate-700 rounded-2xl text-center">
+                                <div class="text-xs text-slate-400 font-kids mb-1">🇰🇷 서울 (1월)</div>
+                                <div class="text-xl font-kids text-sky-400">약 9.5시간</div>
+                            </div>
+                            <div class="p-4 bg-slate-900 border border-slate-700 rounded-2xl text-center">
+                                <div class="text-xs text-slate-400 font-kids mb-1">🇰🇷 서울 (7월)</div>
+                                <div class="text-xl font-kids text-amber-400">약 14.5시간</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            else if (currentSlide === 8) {
+                body.innerHTML = `
+                    <div class="text-center max-w-2xl mx-auto py-2">
+                        <span class="text-xs font-bold px-3 py-1 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/30">핵심 정리 1</span>
+                        <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-6">
+                            원인과 결과를 연결해볼까요? 🔗
+                        </h3>
+                        <div class="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-1 text-xs font-kids">
+                            <div class="p-3 bg-slate-900/90 rounded-2xl border border-violet-500/30 w-full md:w-auto">
+                                <div class="text-xl mb-1">📐</div>
+                                <div class="text-violet-300">자전축 23.5도 기울기</div>
+                            </div>
+                            <div class="text-violet-400 text-lg">→</div>
+                            <div class="p-3 bg-slate-900/90 rounded-2xl border border-amber-500/30 w-full md:w-auto">
+                                <div class="text-xl mb-1">🪐</div>
+                                <div class="text-amber-300">같은 방향으로 공전</div>
+                            </div>
+                            <div class="text-violet-400 text-lg">→</div>
+                            <div class="p-3 bg-slate-900/90 rounded-2xl border border-fuchsia-500/30 w-full md:w-auto">
+                                <div class="text-xl mb-1">🍂</div>
+                                <div class="text-fuchsia-300">사계절 발생</div>
+                            </div>
+                            <div class="text-violet-400 text-lg">→</div>
+                            <div class="p-3 bg-slate-900/90 rounded-2xl border border-sky-500/30 w-full md:w-auto">
+                                <div class="text-xl mb-1">⏰</div>
+                                <div class="text-sky-300">낮·밤 길이 변화</div>
+                            </div>
+                        </div>
+                        <div class="mt-6 p-4 bg-gradient-to-r from-violet-950/40 to-fuchsia-950/40 border border-violet-500/30 rounded-2xl inline-block text-xs font-kids text-violet-300">
+                            이제 이 원리가 만드는 더 신기한 현상, 백야와 극야를 알아볼까요? 🌙
+                        </div>
+                    </div>
+                `;
+            }
+
+            else if (currentSlide === 9) {
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30">주제 2 · 백야현상</span>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                                노르웨이에서는 여름밤에도<br>
+                                <span class="text-sky-400">해가 지지 않는다?!</span> 🌙
+                            </h3>
+                            <div class="space-y-3 text-slate-300 text-sm leading-relaxed">
+                                <p class="bg-slate-900/90 p-4 rounded-2xl border border-white/5">
+                                    노르웨이, 핀란드, 아이슬란드처럼 북극에 가까운 나라에서는 한여름에 밤 12시에도 하늘이 환하게 밝은 <strong>백야현상(白夜現象)</strong>이 일어나요.
+                                </p>
+                                <div class="p-4 bg-sky-950/20 border border-sky-500/30 rounded-2xl text-xs text-sky-200">
+                                    🌟 "White Night" 즉, 해가 지평선 아래로 완전히 내려가지 않아서 밤에도 환한 거예요!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-3 bg-slate-900/90 rounded-3xl border border-slate-800">
+                            <div class="relative w-full h-48 rounded-2xl overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1520338801623-6b88fe32bbf2?auto=format&fit=crop&w=800&q=80" onerror="this.src='https://images.unsplash.com/photo-1632175497777-b634a3536237?auto=format&fit=crop&w=800&q=80'" alt="노르웨이의 백야현상" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
+                            </div>
+                            <p class="text-[11px] text-slate-400 mt-3 font-kids text-center">
+                                한밤중에도 밝은 북유럽의 백야현상 🇳🇴
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            else if (currentSlide === 10) {
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30">주제 2 · 원리</span>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                                백야현상은 왜 생길까요? 📐
+                            </h3>
+                            <div class="space-y-3 text-slate-300 text-sm leading-relaxed">
+                                <p class="bg-slate-900/90 p-4 rounded-2xl border border-white/5">
+                                    여름에는 북극 쪽이 태양을 향해 기울어져 있어요. 그래서 북극권(위도 66.5도 이상) 지역은 지구가 하루 종일 자전해도 <strong>햇빛이 비치는 쪽을 벗어나지 않아요!</strong>
+                                </p>
+                                <p class="text-xs text-slate-400 bg-slate-900/60 p-3 rounded-xl">
+                                    💡 해가 완전히 지평선 아래로 내려가지 못하고 낮게 맴돌기만 해서, 밤에도 하늘이 환하게 보이는 거예요.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-4 bg-slate-900/90 rounded-3xl border border-slate-800">
+                            <svg viewBox="0 0 220 220" class="w-52 h-52">
+                                <defs>
+                                    <linearGradient id="dayNight" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#0b132b"/>
+                                        <stop offset="48%" stop-color="#0b132b"/>
+                                        <stop offset="52%" stop-color="#f59e0b"/>
+                                        <stop offset="100%" stop-color="#fbbf24"/>
+                                    </linearGradient>
+                                </defs>
+                                <circle cx="110" cy="110" r="85" fill="url(#dayNight)" stroke="#334155" stroke-width="2"/>
+                                <circle cx="110" cy="110" r="85" fill="none" stroke="#7dd3fc" stroke-width="2" stroke-dasharray="4,4" opacity="0.7"/>
+                                <ellipse cx="110" cy="48" rx="70" ry="16" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="5,4"/>
+                                <text x="60" y="30" fill="#fbbf24" font-size="11" font-weight="bold">북극권</text>
+                                <text x="95" y="112" fill="#e2e8f0" font-size="11">☀️ 태양 방향</text>
+                            </svg>
+                            <p class="text-[11px] text-slate-400 mt-3 font-kids text-center">
+                                점선 원 = 북극권. 여름에는 거의 전체가<br>햇빛 쪼이는 쪽(노란 영역) 안에 머물러요!
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            else if (currentSlide === 11) {
+                body.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">주제 3 · 극지방</span>
+                            <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                                극지방은 <span class="text-indigo-400">6개월은 낮,</span><br>
+                                <span class="text-indigo-300">6개월은 밤</span>이 계속돼요! ❄️
+                            </h3>
+                            <div class="space-y-3 text-slate-300 text-sm leading-relaxed">
+                                <p class="bg-slate-900/90 p-4 rounded-2xl border border-white/5">
+                                    북극과 남극 바로 근처에서는 백야현상이 훨씬 극단적으로 나타나요. 여름에는 거의 <strong>6개월 내내 해가 지지 않는 '백야'</strong>가, 겨울에는 거의 <strong>6개월 내내 해가 뜨지 않는 '극야'</strong>가 이어져요.
+                                </p>
+                                <p class="text-xs text-slate-400 bg-slate-900/60 p-3 rounded-xl">
+                                    💡 극점에 가까울수록 지구가 기울어진 영향을 가장 크게, 가장 오래 받기 때문이에요.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-3 bg-slate-900/90 rounded-3xl border border-slate-800">
+                            <div class="relative w-full h-48 rounded-2xl overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1551415923-31d2072bc248?auto=format&fit=crop&w=800&q=80" onerror="this.src='https://images.unsplash.com/photo-1486566584569-b9319dc74315?auto=format&fit=crop&w=800&q=80'" alt="남극의 얼음 풍경" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
+                            </div>
+                            <p class="text-[11px] text-slate-400 mt-3 font-kids text-center">
+                                극지방은 1년이 딱 '낮 반년 + 밤 반년'! 🧊
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            else if (currentSlide === 12) {
+                body.innerHTML = `
+                    <div class="text-center">
+                        <span class="text-xs font-bold px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">주제 3 · 원리</span>
+                        <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-5">
+                            극지방에서 극야·백야가 생기는 이유 📐
+                        </h3>
+                        <div class="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+                            <div class="p-4 bg-slate-900/90 rounded-2xl border border-amber-500/30">
+                                <div class="text-xs font-kids text-amber-400 mb-2">☀️ 북극이 태양 쪽으로 기울 때</div>
+                                <svg viewBox="0 0 200 120" class="w-full h-28">
+                                    <circle cx="100" cy="60" r="45" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+                                    <circle cx="100" cy="20" r="5" fill="#fbbf24"/>
+                                    <line x1="170" y1="60" x2="60" y2="60" stroke="#fbbf24" stroke-width="2" stroke-dasharray="3,3"/>
+                                    <text x="140" y="55" fill="#fbbf24" font-size="10">☀️ 태양</text>
+                                </svg>
+                                <p class="text-[11px] text-slate-400 mt-1">북극(노란 점)이 계속 햇빛 쪽 → 백야</p>
+                            </div>
+                            <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-600">
+                                <div class="text-xs font-kids text-slate-300 mb-2">🌑 북극이 태양 반대로 기울 때</div>
+                                <svg viewBox="0 0 200 120" class="w-full h-28">
+                                    <circle cx="100" cy="60" r="45" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+                                    <circle cx="100" cy="20" r="5" fill="#64748b"/>
+                                    <line x1="170" y1="60" x2="60" y2="60" stroke="#fbbf24" stroke-width="2" stroke-dasharray="3,3"/>
+                                    <text x="140" y="55" fill="#fbbf24" font-size="10">☀️ 태양</text>
+                                </svg>
+                                <p class="text-[11px] text-slate-400 mt-1">북극(회색 점)이 계속 반대쪽 → 극야</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-4 max-w-lg mx-auto">
+                            지구가 자전(하루 1바퀴)해도 극점은 계속 같은 쪽(햇빛 or 그늘)에 머물러서, 몇 달씩 낮이나 밤이 이어지는 거예요!
+                        </p>
+                    </div>
+                `;
+            }
+
+            else if (currentSlide === 13) {
+                body.innerHTML = `
+                    <div class="text-center max-w-2xl mx-auto py-2">
+                        <span class="text-xs font-bold px-3 py-1 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/30">전체 핵심 정리</span>
+                        <h3 class="font-kids text-2xl md:text-3xl text-white mt-3 mb-4">
+                            오늘 배운 3가지를 꼭 기억해요! 🌟
+                        </h3>
+                        <div class="grid md:grid-cols-3 gap-3 text-left mb-6">
+                            <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-800">
+                                <div class="text-2xl mb-2">📐</div>
+                                <h4 class="font-kids text-sm text-violet-400 mb-1">1. 기울어진 지구</h4>
+                                <p class="text-xs text-slate-400">지구 자전축은 23.5도 기울어진 채 항상 같은 방향을 가리키며 태양을 돌아요.</p>
+                            </div>
+                            <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-800">
+                                <div class="text-2xl mb-2">⏰</div>
+                                <h4 class="font-kids text-sm text-amber-400 mb-1">2. 계절과 낮밤 길이</h4>
+                                <p class="text-xs text-slate-400">이 기울기 때문에 사계절이 생기고, 여름엔 낮이, 겨울엔 밤이 길어져요. 적도는 거의 변화 없어요.</p>
+                            </div>
+                            <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-800">
+                                <div class="text-2xl mb-2">🌙</div>
+                                <h4 class="font-kids text-sm text-sky-400 mb-1">3. 백야와 극야</h4>
+                                <p class="text-xs text-slate-400">고위도·극지방에서는 기울기 효과가 극대화되어 몇 달씩 낮 또는 밤이 계속돼요.</p>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gradient-to-r from-violet-950/40 to-fuchsia-950/40 border border-violet-500/30 rounded-2xl inline-block text-xs font-kids text-violet-300">
+                            이제 배운 내용을 복습하는 5문제 퀴즈를 풀어볼까요? 🎯
+                        </div>
+                    </div>
+                `;
+            }
+
+            else if (currentSlide >= 14 && currentSlide <= 18) {
+                renderQuizSlide(currentSlide - 14);
+            }
+
+            else if (currentSlide === 19) {
+                renderCompletionSlide();
+            }
+        }
+
+        function renderQuizSlide(qIndex) {
+            const body = document.getElementById('slideBody');
+            const q = quizState.questions[qIndex];
+            const chosen = quizState.answers[qIndex];
+
+            body.innerHTML = `
+                <div class="max-w-xl mx-auto text-center py-2">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-500/30 text-xs font-bold mb-3">
+                        <span>🎯 실전 퀴즈 ${qIndex + 1} / 5</span>
+                    </div>
+                    <h3 class="font-kids text-xl md:text-2xl text-white mb-5 leading-relaxed">
+                        ${q.q}
+                    </h3>
+                    <div class="grid grid-cols-1 gap-3 max-w-md mx-auto" id="quizOptions">
+                        ${q.options.map((opt, i) => {
+                            let btnClass = "bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700";
+                            if (chosen !== undefined) {
+                                if (i === q.correct) {
+                                    btnClass = "bg-emerald-600 text-white border-emerald-400 ring-2 ring-emerald-400 font-bold";
+                                } else if (i === chosen) {
+                                    btnClass = "bg-rose-600 text-white border-rose-400 ring-2 ring-rose-400 line-through opacity-70";
+                                } else {
+                                    btnClass = "bg-slate-900/50 text-slate-500 border-slate-800 pointer-events-none";
+                                }
+                            }
+                            return `
+                                <button onclick="selectQuizAnswer(${qIndex}, ${i})" class="p-3.5 rounded-2xl font-kids text-sm text-left transition-all active:scale-95 ${btnClass}">
+                                    ${String.fromCharCode(65 + i)}. ${opt}
+                                </button>
+                            `;
+                        }).join('')}
+                    </div>
+                    <div class="min-h-[60px] mt-4 flex items-center justify-center">
+                        ${chosen !== undefined ? `
+                            <div class="w-full p-3 rounded-xl ${chosen === q.correct ? 'bg-emerald-950/60 border border-emerald-500/40 text-emerald-300' : 'bg-rose-950/60 border border-rose-500/40 text-rose-300'} text-xs font-kids animate-pop flex items-start gap-2 text-left">
+                                <span class="text-lg flex-shrink-0">${chosen === q.correct ? '🎉' : '💡'}</span>
+                                <span>${q.explain}</span>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectQuizAnswer(qIndex, optIndex) {
+            if (quizState.answers[qIndex] !== undefined) return;
+            quizState.answers[qIndex] = optIndex;
+            const q = quizState.questions[qIndex];
+            if (optIndex === q.correct) {
+                playSound('correct');
+                quizState.score++;
+            } else {
+                playSound('wrong');
+            }
+            renderSlide();
+        }
+
+        function renderCompletionSlide() {
+            playSound('fanfare');
+            if (window.confetti) {
+                window.confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+            }
+            const body = document.getElementById('slideBody');
+            body.innerHTML = `
+                <div class="text-center max-w-xl mx-auto py-2">
+                    <div class="w-24 h-24 mx-auto rounded-3xl bg-gradient-to-tr from-violet-500 via-fuchsia-400 to-amber-400 flex items-center justify-center text-5xl shadow-2xl mb-4 border-2 border-white/20 animate-pop">
+                        🏆
+                    </div>
+                    <span class="px-4 py-1 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/30 text-xs font-bold font-kids">
+                        수료증 수여
+                    </span>
+                    <h3 class="font-kids text-3xl md:text-4xl text-white mt-2 mb-2">
+                        축하합니다! 은찬이는 이제<br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-fuchsia-300 to-amber-400">지구 계절 탐험 마스터</span>예요! 🌟
+                    </h3>
+                    <p class="text-slate-300 text-xs md:text-sm mb-6 leading-relaxed">
+                        23.5도 기울어진 지구의 비밀부터 계절과 낮밤 길이, 백야현상과 극지방의 극단적인 낮과 밤까지 모두 정복했어요!
+                    </p>
+
+                    <div class="bg-slate-900/90 p-5 rounded-3xl border border-slate-800 max-w-md mx-auto mb-6 text-left">
+                        <div class="flex items-center justify-between pb-3 border-b border-white/10 mb-3">
+                            <span class="text-xs text-slate-400">최종 퀴즈 점수</span>
+                            <span class="font-kids text-xl text-violet-400">맞춘 문제: ${quizState.score} / 5</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3 text-xs font-kids">
+                            <div class="p-3 bg-slate-950 rounded-2xl text-slate-300">
+                                🌟 획득 칭호: <span class="text-amber-400">지구과학 박사</span>
+                            </div>
+                            <div class="p-3 bg-slate-950 rounded-2xl text-slate-300">
+                                🎖️ 완료 배지: <span class="text-violet-400">계절 마스터</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+                        <button onclick="restartExperience()" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-kids text-sm flex items-center justify-center gap-2 transition">
+                            <i class="fa-solid fa-rotate-left"></i> 처음부터 다시 보기
+                        </button>
+                        <a href="eunchan-study.html" class="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:from-violet-400 hover:to-fuchsia-400 text-slate-950 font-kids text-sm shadow-xl shadow-violet-900/40 flex items-center justify-center gap-2 transition">
+                            🎒 공부방 홈으로 가기 <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        function restartExperience() {
+            quizState.answers = {};
+            quizState.score = 0;
+            initQuiz();
+            currentSlide = 1;
+            renderSlide();
+        }
+
+        // Text-to-Speech (TTS)
+        let isSpeaking = false;
+        function toggleReadOutLoud() {
+            if (!('speechSynthesis' in window)) {
+                alert('이 브라우저는 음성 읽어주기를 지원하지 않습니다.');
+                return;
+            }
+            if (isSpeaking) {
+                window.speechSynthesis.cancel();
+                isSpeaking = false;
+                document.getElementById('ttsBtn').classList.remove('text-violet-400', 'animate-pulse');
+                document.getElementById('ttsBtn').classList.add('text-amber-400');
+                return;
+            }
+
+            const slide = document.getElementById('slideBody');
+            if (!slide) return;
+            const textToRead = slide.innerText.replace(/[📐🪐☀️⛄🌙❄️✅🎯🏆🚀📊🌐🔗🌟🎖️💡👉🇳🇴🧊🏖️🌇🌆]/g, ' ');
+
+            const utterance = new SpeechSynthesisUtterance(textToRead);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.95;
+            utterance.pitch = 1.05;
+
+            utterance.onstart = () => {
+                isSpeaking = true;
+                document.getElementById('ttsBtn').classList.remove('text-amber-400');
+                document.getElementById('ttsBtn').classList.add('text-violet-400', 'animate-pulse');
+            };
+
+            utterance.onend = () => {
+                isSpeaking = false;
+                document.getElementById('ttsBtn').classList.remove('text-violet-400', 'animate-pulse');
+                document.getElementById('ttsBtn').classList.add('text-amber-400');
+            };
+
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Keyboard Navigation
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'PageDown') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+        });
+
+        // Touch Swipe Navigation
+        let touchStartX = 0;
+        let touchEndX = 0;
+        document.addEventListener('touchstart', e => {
+            if (e.target.closest('button, a, input, select, textarea, .no-swipe')) return;
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 75) nextSlide();
+            if (touchEndX - touchStartX > 75) prevSlide();
+        }, { passive: true });
+
+        renderSlide();
+    </script>
+</body>
+</html>

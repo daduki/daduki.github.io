@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>마카오에는 왜 타르트가 유명할까? 식민지 문화 탐험 카드뉴스 & 퀴즈 (7~10세) | 은찬이의 공부방</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                        kids: ['"Jua"', 'cursive', 'sans-serif']
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            dark: '#0f172a',
+                            card: '#1e293b',
+                            cardBorder: '#334155',
+                            accent: '#f59e0b',
+                            ruby: '#ef4444',
+                            sky: '#0284c7'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .font-kids { font-family: 'Jua', cursive, sans-serif; }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .flip-card {
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+        @keyframes pop {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-pop { animation: pop 0.4s ease-out forwards; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-indigo-500 selection:text-white pb-20">
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <a href="eunchan-study.html" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-400 hover:text-indigo-300 transition flex items-center gap-1.5 text-xs font-semibold">
+                    <i class="fa-solid fa-graduation-cap"></i> 공부방 홈
+                </a>
+                <div>
+                    <h1 class="font-kids text-lg md:text-xl text-indigo-400 flex items-center gap-2">
+                        <span>🥮 마카오 타르트와 식민지 문화 탐험</span>
+                        <span class="text-xs font-sans px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">7~10세 눈높이</span>
+                    </h1>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="index.html" class="text-xs text-slate-400 hover:text-slate-200 transition px-2 py-1 rounded bg-slate-800">
+                    <i class="fa-solid fa-house mr-1"></i>메인
+                </a>
+                <button id="resetProgressBtn" onclick="resetProgress()" class="text-xs text-rose-400 hover:text-rose-300 transition px-2 py-1 rounded bg-rose-950/40 border border-rose-800/40" title="학습 진척도 초기화">
+                    <i class="fa-solid fa-rotate-left mr-1"></i>초기화
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto px-4 pt-6">
+
+        <!-- Progress Overview Banner -->
+        <section class="glass-card rounded-2xl p-5 mb-8 border border-indigo-500/30 shadow-2xl relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-4 w-full md:w-auto">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-600 to-amber-400 flex items-center justify-center text-3xl shadow-lg shrink-0">
+                        🥮
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h2 class="font-kids text-xl text-white">식민지 문화 탐험 진척도</h2>
+                            <span id="badgeLevel" class="text-xs px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold font-sans">
+                                🌟 초보 탐험가
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-0.5">
+                            마카오 에그타르트의 비밀부터 세계 곳곳의 식민지 문화 흔적까지! 8가지 카드를 읽고 퀴즈를 풀면 <span class="text-indigo-400 font-bold">문화 탐험 마스터 배지</span>를 획득할 수 있어요!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Progress Stats -->
+                <div class="w-full md:w-72 bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+                    <div class="flex justify-between items-center text-xs font-semibold mb-1.5">
+                        <span class="text-slate-300">탐험 완료</span>
+                        <span id="progressText" class="text-indigo-400 font-kids text-sm">0 / 8 (0%)</span>
+                    </div>
+                    <div class="w-full bg-slate-800 rounded-full h-3 overflow-hidden p-0.5">
+                        <div id="progressBar" class="bg-gradient-to-r from-indigo-500 to-amber-400 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category Tabs -->
+        <div class="flex flex-wrap items-center gap-2 mb-6 pb-2 overflow-x-auto">
+            <button onclick="filterCards('all')" class="cat-btn active px-4 py-2 rounded-xl text-xs font-semibold bg-indigo-600 text-white transition shadow-md shadow-indigo-900/30 flex items-center gap-1.5" data-cat="all">
+                <i class="fa-solid fa-layer-group"></i> 전체 모험 (8)
+            </button>
+            <button onclick="filterCards('history')" class="cat-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1.5" data-cat="history">
+                <i class="fa-solid fa-landmark"></i> 마카오의 역사 (1)
+            </button>
+            <button onclick="filterCards('food')" class="cat-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1.5" data-cat="food">
+                <i class="fa-solid fa-utensils"></i> 음식의 비밀 (1)
+            </button>
+            <button onclick="filterCards('architecture')" class="cat-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1.5" data-cat="architecture">
+                <i class="fa-solid fa-building-columns"></i> 건축 이야기 (1)
+            </button>
+            <button onclick="filterCards('language')" class="cat-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1.5" data-cat="language">
+                <i class="fa-solid fa-comments"></i> 언어의 흔적 (1)
+            </button>
+            <button onclick="filterCards('comparison')" class="cat-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1.5" data-cat="comparison">
+                <i class="fa-solid fa-earth-asia"></i> 세계 비교 여행 (3)
+            </button>
+            <button onclick="filterCards('summary')" class="cat-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1.5" data-cat="summary">
+                <i class="fa-solid fa-star"></i> 핵심 정리 (1)
+            </button>
+        </div>
+
+        <!-- Cards Grid Container -->
+        <div id="cardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- CARD 1: 마카오는 어디? (역사) -->
+            <div class="card-item flip-card group" data-id="1" data-cat="history">
+                <div class="flip-card-inner relative w-full h-[520px] rounded-2xl">
+                    <!-- FRONT -->
+                    <div class="flip-card-front absolute inset-0 glass-card rounded-2xl border border-slate-700/60 p-5 flex flex-col justify-between overflow-hidden shadow-xl hover:border-indigo-500/50 transition">
+                        <div class="complete-badge hidden absolute inset-0 bg-indigo-950/70 backdrop-blur-xs z-20 flex flex-col items-center justify-center p-4">
+                            <div class="w-16 h-16 rounded-full bg-indigo-500 text-white flex items-center justify-center text-3xl shadow-lg animate-pop mb-2">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="font-kids text-lg text-indigo-300">탐험 완료!</span>
+                            <span class="text-xs text-slate-300">퀴즈를 모두 맞혔어요</span>
+                            <button onclick="flipCard(this)" class="mt-4 px-3 py-1.5 rounded-lg bg-slate-800 text-xs text-slate-200 hover:bg-slate-700 border border-slate-700">
+                                퀴즈 다시 풀기 <i class="fa-solid fa-arrow-rotate-right ml-1"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <div class="relative h-44 rounded-xl overflow-hidden mb-3.5 group-hover:scale-[1.02] transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1516037551965-fadf81e1bcc3?auto=format&fit=crop&w=800&q=80" onerror="this.src='https://images.unsplash.com/photo-1561958635-a4f95d86c771?auto=format&fit=crop&w=800&q=80'" alt="마카오의 모습" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-indigo-600/90 text-white text-[11px] font-bold">
+                                    01. 마카오의 역사
+                                </span>
+                                <span class="absolute bottom-2 left-2.5 text-xs text-slate-200 font-semibold flex items-center gap-1">
+                                    🇲🇴 중국 속의 작은 유럽, 마카오
+                                </span>
+                            </div>
+                            <h3 class="font-kids text-lg text-indigo-400 mb-1.5 flex items-center gap-1.5">
+                                마카오는 왜 "작은 유럽"이라 불릴까?
+                            </h3>
+                            <div class="space-y-1.5 text-xs text-slate-300 leading-relaxed">
+                                <p>• <strong>중국 속 특별한 도시</strong>: 마카오는 지금은 중국의 특별행정구이지만, 홍콩 바로 옆에 있는 작은 반도예요.</p>
+                                <p>• <strong>442년간의 포르투갈 통치</strong>: 1557년부터 1999년까지 아주 먼 유럽의 나라 <span class="text-amber-300 font-bold">포르투갈</span>이 마카오를 다스렸어요!</p>
+                                <p>• <strong>지금도 남은 흔적</strong>: 그래서 마카오에는 지금도 유럽풍 건물, 음식, 언어가 함께 어우러져 있답니다.</p>
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">배운 내용 퀴즈 풀기</span>
+                            <button onclick="flipCard(this)" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-indigo-950">
+                                퀴즈 도전 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- BACK -->
+                    <div class="flip-card-back absolute inset-0 glass-card rounded-2xl border border-amber-500/40 p-5 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold text-amber-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-question"></i> O/X 퀴즈 #01
+                                </span>
+                                <button onclick="flipCard(this)" class="text-slate-400 hover:text-white text-xs">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i>카드 다시보기
+                                </button>
+                            </div>
+                            <h4 class="font-kids text-base text-white mb-3">
+                                Q. 마카오는 과거 442년 동안 포르투갈의 지배를 받다가 1999년에 중국으로 반환되었다?
+                            </h4>
+                            <div class="grid grid-cols-2 gap-3 mt-4">
+                                <button onclick="checkQuiz(1, 'O', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-emerald-600/30 border border-slate-700 hover:border-emerald-500 text-emerald-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>⭕️ 그렇다 (O)</span>
+                                </button>
+                                <button onclick="checkQuiz(1, 'X', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-rose-600/30 border border-slate-700 hover:border-rose-500 text-rose-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>❌ 아니다 (X)</span>
+                                </button>
+                            </div>
+                            <div id="quiz-feedback-1" class="hidden mt-3 p-3 rounded-xl text-xs"></div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 text-center">정답을 맞히면 탐험 완료 배지가 부여됩니다!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 2: 에그타르트의 비밀 (음식) -->
+            <div class="card-item flip-card group" data-id="2" data-cat="food">
+                <div class="flip-card-inner relative w-full h-[520px] rounded-2xl">
+                    <div class="flip-card-front absolute inset-0 glass-card rounded-2xl border border-slate-700/60 p-5 flex flex-col justify-between overflow-hidden shadow-xl hover:border-indigo-500/50 transition">
+                        <div class="complete-badge hidden absolute inset-0 bg-indigo-950/70 backdrop-blur-xs z-20 flex flex-col items-center justify-center p-4">
+                            <div class="w-16 h-16 rounded-full bg-indigo-500 text-white flex items-center justify-center text-3xl shadow-lg animate-pop mb-2">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="font-kids text-lg text-indigo-300">탐험 완료!</span>
+                            <span class="text-xs text-slate-300">퀴즈를 모두 맞혔어요</span>
+                            <button onclick="flipCard(this)" class="mt-4 px-3 py-1.5 rounded-lg bg-slate-800 text-xs text-slate-200 hover:bg-slate-700 border border-slate-700">
+                                퀴즈 다시 풀기 <i class="fa-solid fa-arrow-rotate-right ml-1"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <div class="relative h-44 rounded-xl overflow-hidden mb-3.5 group-hover:scale-[1.02] transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1716360806681-b4defdfba134?auto=format&fit=crop&w=800&q=80" onerror="this.src='https://images.unsplash.com/photo-1774451606210-719a9017212e?auto=format&fit=crop&w=800&q=80'" alt="마카오 에그타르트 (포르투갈식 파스텔 드 나타)" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-amber-600/90 text-white text-[11px] font-bold">
+                                    02. 맛있는 비밀
+                                </span>
+                                <span class="absolute bottom-2 left-2.5 text-xs text-slate-200 font-semibold flex items-center gap-1">
+                                    🥮 바삭한 마카오 에그타르트
+                                </span>
+                            </div>
+                            <h3 class="font-kids text-lg text-indigo-400 mb-1.5 flex items-center gap-1.5">
+                                마카오에는 왜 타르트가 유명할까?
+                            </h3>
+                            <div class="space-y-1.5 text-xs text-slate-300 leading-relaxed">
+                                <p>• <strong>원래는 포르투갈 과자</strong>: 마카오 에그타르트의 원래 이름은 <span class="text-amber-300 font-bold">"파스텔 드 나타"</span>, 포르투갈의 전통 디저트예요.</p>
+                                <p>• <strong>바다를 건너온 레시피</strong>: 포르투갈이 마카오를 다스리던 시절, 포르투갈 사람들이 이 과자 만드는 법을 가져왔어요.</p>
+                                <p>• <strong>마카오만의 명물로</strong>: 시간이 지나며 현지식으로 조금씩 바뀌어 지금은 '마카오 에그타르트'라는 세계적인 명물이 되었답니다!</p>
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">배운 내용 퀴즈 풀기</span>
+                            <button onclick="flipCard(this)" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-indigo-950">
+                                퀴즈 도전 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flip-card-back absolute inset-0 glass-card rounded-2xl border border-amber-500/40 p-5 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold text-amber-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-question"></i> O/X 퀴즈 #02
+                                </span>
+                                <button onclick="flipCard(this)" class="text-slate-400 hover:text-white text-xs">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i>카드 다시보기
+                                </button>
+                            </div>
+                            <h4 class="font-kids text-base text-white mb-3">
+                                Q. 마카오 에그타르트는 원래 포르투갈에서 전해진 과자이다?
+                            </h4>
+                            <div class="grid grid-cols-2 gap-3 mt-4">
+                                <button onclick="checkQuiz(2, 'O', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-emerald-600/30 border border-slate-700 hover:border-emerald-500 text-emerald-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>⭕️ 그렇다 (O)</span>
+                                </button>
+                                <button onclick="checkQuiz(2, 'X', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-rose-600/30 border border-slate-700 hover:border-rose-500 text-rose-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>❌ 아니다 (X)</span>
+                                </button>
+                            </div>
+                            <div id="quiz-feedback-2" class="hidden mt-3 p-3 rounded-xl text-xs"></div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 text-center">정답을 맞히면 탐험 완료 배지가 부여됩니다!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 3: 세나도 광장 (건축) -->
+            <div class="card-item flip-card group" data-id="3" data-cat="architecture">
+                <div class="flip-card-inner relative w-full h-[520px] rounded-2xl">
+                    <div class="flip-card-front absolute inset-0 glass-card rounded-2xl border border-slate-700/60 p-5 flex flex-col justify-between overflow-hidden shadow-xl hover:border-indigo-500/50 transition">
+                        <div class="complete-badge hidden absolute inset-0 bg-indigo-950/70 backdrop-blur-xs z-20 flex flex-col items-center justify-center p-4">
+                            <div class="w-16 h-16 rounded-full bg-indigo-500 text-white flex items-center justify-center text-3xl shadow-lg animate-pop mb-2">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="font-kids text-lg text-indigo-300">탐험 완료!</span>
+                            <span class="text-xs text-slate-300">퀴즈를 모두 맞혔어요</span>
+                            <button onclick="flipCard(this)" class="mt-4 px-3 py-1.5 rounded-lg bg-slate-800 text-xs text-slate-200 hover:bg-slate-700 border border-slate-700">
+                                퀴즈 다시 풀기 <i class="fa-solid fa-arrow-rotate-right ml-1"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <div class="relative h-44 rounded-xl overflow-hidden mb-3.5 group-hover:scale-[1.02] transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1553660148-d3ffd5cfe5a8?auto=format&fit=crop&w=800&q=80" onerror="this.src='https://images.unsplash.com/photo-1549166533-a14a8093640b?auto=format&fit=crop&w=800&q=80'" alt="마카오 세나도 광장의 유럽풍 건물" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-sky-600/90 text-white text-[11px] font-bold">
+                                    03. 건축 이야기
+                                </span>
+                                <span class="absolute bottom-2 left-2.5 text-xs text-slate-200 font-semibold flex items-center gap-1">
+                                    🏛️ 세나도 광장의 물결무늬 바닥
+                                </span>
+                            </div>
+                            <h3 class="font-kids text-lg text-indigo-400 mb-1.5 flex items-center gap-1.5">
+                                마카오 한복판에 유럽 거리가 있다?
+                            </h3>
+                            <div class="space-y-1.5 text-xs text-slate-300 leading-relaxed">
+                                <p>• <strong>파도처럼 일렁이는 바닥</strong>: 세나도 광장에는 흑백 돌을 파도 모양으로 깐 <span class="text-amber-300 font-bold">"칼사다 포르투게사"</span>라는 포르투갈 전통 바닥 장식이 있어요.</p>
+                                <p>• <strong>유럽풍 건물들</strong>: 주변에는 노랑·분홍 파스텔색의 성당과 건물들이 늘어서 있어 마치 유럽 도시 같아요.</p>
+                                <p>• <strong>동서양의 만남</strong>: 중국의 간판과 포르투갈식 건물이 한 거리에 함께 있는 신기한 풍경이랍니다!</p>
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">배운 내용 퀴즈 풀기</span>
+                            <button onclick="flipCard(this)" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-indigo-950">
+                                퀴즈 도전 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flip-card-back absolute inset-0 glass-card rounded-2xl border border-amber-500/40 p-5 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold text-amber-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-question"></i> O/X 퀴즈 #03
+                                </span>
+                                <button onclick="flipCard(this)" class="text-slate-400 hover:text-white text-xs">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i>카드 다시보기
+                                </button>
+                            </div>
+                            <h4 class="font-kids text-base text-white mb-3">
+                                Q. 세나도 광장의 독특한 물결무늬 바닥은 원래 한국의 전통 문양이다?
+                            </h4>
+                            <div class="grid grid-cols-2 gap-3 mt-4">
+                                <button onclick="checkQuiz(3, 'O', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-emerald-600/30 border border-slate-700 hover:border-emerald-500 text-emerald-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>⭕️ 그렇다 (O)</span>
+                                </button>
+                                <button onclick="checkQuiz(3, 'X', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-rose-600/30 border border-slate-700 hover:border-rose-500 text-rose-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>❌ 아니다 (X)</span>
+                                </button>
+                            </div>
+                            <div id="quiz-feedback-3" class="hidden mt-3 p-3 rounded-xl text-xs"></div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 text-center">정답을 맞히면 탐험 완료 배지가 부여됩니다!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 4: 마카오의 언어 (언어) -->
+            <div class="card-item flip-card group" data-id="4" data-cat="language">
+                <div class="flip-card-inner relative w-full h-[520px] rounded-2xl">
+                    <div class="flip-card-front absolute inset-0 glass-card rounded-2xl border border-slate-700/60 p-5 flex flex-col justify-between overflow-hidden shadow-xl hover:border-indigo-500/50 transition">
+                        <div class="complete-badge hidden absolute inset-0 bg-indigo-950/70 backdrop-blur-xs z-20 flex flex-col items-center justify-center p-4">
+                            <div class="w-16 h-16 rounded-full bg-indigo-500 text-white flex items-center justify-center text-3xl shadow-lg animate-pop mb-2">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="font-kids text-lg text-indigo-300">탐험 완료!</span>
+                            <span class="text-xs text-slate-300">퀴즈를 모두 맞혔어요</span>
+                            <button onclick="flipCard(this)" class="mt-4 px-3 py-1.5 rounded-lg bg-slate-800 text-xs text-slate-200 hover:bg-slate-700 border border-slate-700">
+                                퀴즈 다시 풀기 <i class="fa-solid fa-arrow-rotate-right ml-1"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <div class="relative h-44 rounded-xl overflow-hidden mb-3.5 group-hover:scale-[1.02] transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1561958635-a4f95d86c771?auto=format&fit=crop&w=800&q=80" onerror="this.src='https://images.unsplash.com/photo-1555331446-0ff637678740?auto=format&fit=crop&w=800&q=80'" alt="마카오 거리의 이중 언어 표지판" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-emerald-600/90 text-white text-[11px] font-bold">
+                                    04. 언어의 흔적
+                                </span>
+                                <span class="absolute bottom-2 left-2.5 text-xs text-slate-200 font-semibold flex items-center gap-1">
+                                    🗣️ 두 가지 공식 언어
+                                </span>
+                            </div>
+                            <h3 class="font-kids text-lg text-indigo-400 mb-1.5 flex items-center gap-1.5">
+                                마카오 거리 표지판엔 왜 두 가지 글자가?
+                            </h3>
+                            <div class="space-y-1.5 text-xs text-slate-300 leading-relaxed">
+                                <p>• <strong>공식 언어가 두 개</strong>: 마카오는 중국어(광둥어)와 함께 <span class="text-amber-300 font-bold">포르투갈어</span>를 공식 언어로 쓰고 있어요.</p>
+                                <p>• <strong>길 이름도 포르투갈어</strong>: 도로 표지판, 건물 이름에 지금도 포르투갈어가 나란히 쓰여 있답니다.</p>
+                                <p>• <strong>언어는 문화의 증거</strong>: 음식이나 건축처럼, 언어에도 442년간의 식민 지배 역사가 고스란히 남아있는 거예요.</p>
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">배운 내용 퀴즈 풀기</span>
+                            <button onclick="flipCard(this)" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-indigo-950">
+                                퀴즈 도전 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flip-card-back absolute inset-0 glass-card rounded-2xl border border-amber-500/40 p-5 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold text-amber-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-question"></i> O/X 퀴즈 #04
+                                </span>
+                                <button onclick="flipCard(this)" class="text-slate-400 hover:text-white text-xs">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i>카드 다시보기
+                                </button>
+                            </div>
+                            <h4 class="font-kids text-base text-white mb-3">
+                                Q. 마카오의 공식 언어 중 하나는 포르투갈어이다?
+                            </h4>
+                            <div class="grid grid-cols-2 gap-3 mt-4">
+                                <button onclick="checkQuiz(4, 'O', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-emerald-600/30 border border-slate-700 hover:border-emerald-500 text-emerald-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>⭕️ 그렇다 (O)</span>
+                                </button>
+                                <button onclick="checkQuiz(4, 'X', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-rose-600/30 border border-slate-700 hover:border-rose-500 text-rose-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>❌ 아니다 (X)</span>
+                                </button>
+                            </div>
+                            <div id="quiz-feedback-4" class="hidden mt-3 p-3 rounded-xl text-xs"></div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 text-center">정답을 맞히면 탐험 완료 배지가 부여됩니다!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 5: 비교여행 - 베트남 (비교) -->
+            <div class="card-item flip-card group" data-id="5" data-cat="comparison">
+                <div class="flip-card-inner relative w-full h-[520px] rounded-2xl">
+                    <div class="flip-card-front absolute inset-0 glass-card rounded-2xl border border-slate-700/60 p-5 flex flex-col justify-between overflow-hidden shadow-xl hover:border-indigo-500/50 transition">
+                        <div class="complete-badge hidden absolute inset-0 bg-indigo-950/70 backdrop-blur-xs z-20 flex flex-col items-center justify-center p-4">
+                            <div class="w-16 h-16 rounded-full bg-indigo-500 text-white flex items-center justify-center text-3xl shadow-lg animate-pop mb-2">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="font-kids text-lg text-indigo-300">탐험 완료!</span>
+                            <span class="text-xs text-slate-300">퀴즈를 모두 맞혔어요</span>
+                            <button onclick="flipCard(this)" class="mt-4 px-3 py-1.5 rounded-lg bg-slate-800 text-xs text-slate-200 hover:bg-slate-700 border border-slate-700">
+                                퀴즈 다시 풀기 <i class="fa-solid fa-arrow-rotate-right ml-1"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <div class="relative h-44 rounded-xl overflow-hidden mb-3.5 group-hover:scale-[1.02] transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1600454309261-3dc9b7597637?auto=format&fit=crop&w=800&q=80" onerror="this.src='https://images.unsplash.com/photo-1562147600-ee6e0707973b?auto=format&fit=crop&w=800&q=80'" alt="베트남 바게트빵 반미 샌드위치" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-rose-600/90 text-white text-[11px] font-bold">
+                                    05. 비교 여행 ①
+                                </span>
+                                <span class="absolute bottom-2 left-2.5 text-xs text-slate-200 font-semibold flex items-center gap-1">
+                                    🇻🇳 베트남의 바게트빵, 반미
+                                </span>
+                            </div>
+                            <h3 class="font-kids text-lg text-indigo-400 mb-1.5 flex items-center gap-1.5">
+                                베트남에 왜 프랑스빵이 있을까?
+                            </h3>
+                            <div class="space-y-1.5 text-xs text-slate-300 leading-relaxed">
+                                <p>• <strong>프랑스의 지배</strong>: 베트남은 1887년부터 1954년까지 약 70년 가까이 <span class="text-amber-300 font-bold">프랑스</span>의 지배를 받았어요.</p>
+                                <p>• <strong>바게트빵이 전해짐</strong>: 그때 프랑스의 바게트빵 만드는 법이 전해져서, 지금은 "반미"라는 베트남식 바게트 샌드위치가 되었답니다.</p>
+                                <p>• <strong>커피 문화도 함께</strong>: 진한 베트남 커피 문화도 이 시기에 자리 잡은 흔적이에요!</p>
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">배운 내용 퀴즈 풀기</span>
+                            <button onclick="flipCard(this)" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-indigo-950">
+                                퀴즈 도전 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flip-card-back absolute inset-0 glass-card rounded-2xl border border-amber-500/40 p-5 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold text-amber-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-question"></i> O/X 퀴즈 #05
+                                </span>
+                                <button onclick="flipCard(this)" class="text-slate-400 hover:text-white text-xs">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i>카드 다시보기
+                                </button>
+                            </div>
+                            <h4 class="font-kids text-base text-white mb-3">
+                                Q. 베트남의 바게트빵(반미) 문화는 프랑스의 식민 지배 영향을 받은 것이다?
+                            </h4>
+                            <div class="grid grid-cols-2 gap-3 mt-4">
+                                <button onclick="checkQuiz(5, 'O', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-emerald-600/30 border border-slate-700 hover:border-emerald-500 text-emerald-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>⭕️ 그렇다 (O)</span>
+                                </button>
+                                <button onclick="checkQuiz(5, 'X', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-rose-600/30 border border-slate-700 hover:border-rose-500 text-rose-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>❌ 아니다 (X)</span>
+                                </button>
+                            </div>
+                            <div id="quiz-feedback-5" class="hidden mt-3 p-3 rounded-xl text-xs"></div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 text-center">정답을 맞히면 탐험 완료 배지가 부여됩니다!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 6: 비교여행 - 인도 (비교) -->
+            <div class="card-item flip-card group" data-id="6" data-cat="comparison">
+                <div class="flip-card-inner relative w-full h-[520px] rounded-2xl">
+                    <div class="flip-card-front absolute inset-0 glass-card rounded-2xl border border-slate-700/60 p-5 flex flex-col justify-between overflow-hidden shadow-xl hover:border-indigo-500/50 transition">
+                        <div class="complete-badge hidden absolute inset-0 bg-indigo-950/70 backdrop-blur-xs z-20 flex flex-col items-center justify-center p-4">
+                            <div class="w-16 h-16 rounded-full bg-indigo-500 text-white flex items-center justify-center text-3xl shadow-lg animate-pop mb-2">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="font-kids text-lg text-indigo-300">탐험 완료!</span>
+                            <span class="text-xs text-slate-300">퀴즈를 모두 맞혔어요</span>
+                            <button onclick="flipCard(this)" class="mt-4 px-3 py-1.5 rounded-lg bg-slate-800 text-xs text-slate-200 hover:bg-slate-700 border border-slate-700">
+                                퀴즈 다시 풀기 <i class="fa-solid fa-arrow-rotate-right ml-1"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <div class="relative h-44 rounded-xl overflow-hidden mb-3.5 group-hover:scale-[1.02] transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1625033405953-f20401c7d848?auto=format&fit=crop&w=800&q=80" onerror="this.src='https://images.unsplash.com/photo-1536514888772-a269c6a8a198?auto=format&fit=crop&w=800&q=80'" alt="인도의 홍차 짜이 문화" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-orange-600/90 text-white text-[11px] font-bold">
+                                    06. 비교 여행 ②
+                                </span>
+                                <span class="absolute bottom-2 left-2.5 text-xs text-slate-200 font-semibold flex items-center gap-1">
+                                    🇮🇳 인도의 홍차, 짜이
+                                </span>
+                            </div>
+                            <h3 class="font-kids text-lg text-indigo-400 mb-1.5 flex items-center gap-1.5">
+                                인도에서 영어를 많이 쓰는 이유는?
+                            </h3>
+                            <div class="space-y-1.5 text-xs text-slate-300 leading-relaxed">
+                                <p>• <strong>영국의 지배</strong>: 인도는 약 200년 가까이 <span class="text-amber-300 font-bold">영국</span>의 지배를 받았던 역사가 있어요.</p>
+                                <p>• <strong>홍차 문화의 시작</strong>: 그때 영국의 홍차 문화가 전해져, 지금 인도에서는 우유와 향신료를 넣은 "짜이"를 즐겨 마셔요.</p>
+                                <p>• <strong>영어도 함께</strong>: 그래서 지금도 인도에서는 영어가 아주 널리 쓰이는 공용어 중 하나랍니다!</p>
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">배운 내용 퀴즈 풀기</span>
+                            <button onclick="flipCard(this)" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-indigo-950">
+                                퀴즈 도전 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flip-card-back absolute inset-0 glass-card rounded-2xl border border-amber-500/40 p-5 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold text-amber-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-question"></i> O/X 퀴즈 #06
+                                </span>
+                                <button onclick="flipCard(this)" class="text-slate-400 hover:text-white text-xs">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i>카드 다시보기
+                                </button>
+                            </div>
+                            <h4 class="font-kids text-base text-white mb-3">
+                                Q. 인도의 홍차(짜이) 문화와 영어 사용은 영국의 식민 지배 영향을 받은 것이다?
+                            </h4>
+                            <div class="grid grid-cols-2 gap-3 mt-4">
+                                <button onclick="checkQuiz(6, 'O', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-emerald-600/30 border border-slate-700 hover:border-emerald-500 text-emerald-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>⭕️ 그렇다 (O)</span>
+                                </button>
+                                <button onclick="checkQuiz(6, 'X', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-rose-600/30 border border-slate-700 hover:border-rose-500 text-rose-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>❌ 아니다 (X)</span>
+                                </button>
+                            </div>
+                            <div id="quiz-feedback-6" class="hidden mt-3 p-3 rounded-xl text-xs"></div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 text-center">정답을 맞히면 탐험 완료 배지가 부여됩니다!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 7: 비교여행 - 필리핀 (비교) -->
+            <div class="card-item flip-card group" data-id="7" data-cat="comparison">
+                <div class="flip-card-inner relative w-full h-[520px] rounded-2xl">
+                    <div class="flip-card-front absolute inset-0 glass-card rounded-2xl border border-slate-700/60 p-5 flex flex-col justify-between overflow-hidden shadow-xl hover:border-indigo-500/50 transition">
+                        <div class="complete-badge hidden absolute inset-0 bg-indigo-950/70 backdrop-blur-xs z-20 flex flex-col items-center justify-center p-4">
+                            <div class="w-16 h-16 rounded-full bg-indigo-500 text-white flex items-center justify-center text-3xl shadow-lg animate-pop mb-2">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="font-kids text-lg text-indigo-300">탐험 완료!</span>
+                            <span class="text-xs text-slate-300">퀴즈를 모두 맞혔어요</span>
+                            <button onclick="flipCard(this)" class="mt-4 px-3 py-1.5 rounded-lg bg-slate-800 text-xs text-slate-200 hover:bg-slate-700 border border-slate-700">
+                                퀴즈 다시 풀기 <i class="fa-solid fa-arrow-rotate-right ml-1"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <div class="relative h-44 rounded-xl overflow-hidden mb-3.5 group-hover:scale-[1.02] transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1790115653318-0bdf6c3b1d9b?auto=format&fit=crop&w=800&q=80" onerror="this.src='https://images.unsplash.com/photo-1760549310131-b09d86c601e3?auto=format&fit=crop&w=800&q=80'" alt="필리핀의 스페인식 성당" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-amber-600/90 text-white text-[11px] font-bold">
+                                    07. 비교 여행 ③
+                                </span>
+                                <span class="absolute bottom-2 left-2.5 text-xs text-slate-200 font-semibold flex items-center gap-1">
+                                    🇵🇭 필리핀의 스페인식 성당
+                                </span>
+                            </div>
+                            <h3 class="font-kids text-lg text-indigo-400 mb-1.5 flex items-center gap-1.5">
+                                필리핀 사람 이름이 스페인어 같은 이유는?
+                            </h3>
+                            <div class="space-y-1.5 text-xs text-slate-300 leading-relaxed">
+                                <p>• <strong>스페인의 지배</strong>: 필리핀은 무려 약 300년 넘게 <span class="text-amber-300 font-bold">스페인</span>의 지배를 받았어요.</p>
+                                <p>• <strong>이름과 성당</strong>: 그래서 지금도 많은 필리핀 사람의 이름이 스페인식이고, 거리마다 화려한 스페인풍 성당을 볼 수 있어요.</p>
+                                <p>• <strong>종교도 함께 전해짐</strong>: 필리핀이 아시아에서 가톨릭을 믿는 사람이 가장 많은 나라가 된 것도 이 때문이랍니다!</p>
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">배운 내용 퀴즈 풀기</span>
+                            <button onclick="flipCard(this)" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-indigo-950">
+                                퀴즈 도전 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flip-card-back absolute inset-0 glass-card rounded-2xl border border-amber-500/40 p-5 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold text-amber-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-question"></i> O/X 퀴즈 #07
+                                </span>
+                                <button onclick="flipCard(this)" class="text-slate-400 hover:text-white text-xs">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i>카드 다시보기
+                                </button>
+                            </div>
+                            <h4 class="font-kids text-base text-white mb-3">
+                                Q. 필리핀의 스페인식 이름과 성당 건축은 약 300년간의 스페인 지배 영향이다?
+                            </h4>
+                            <div class="grid grid-cols-2 gap-3 mt-4">
+                                <button onclick="checkQuiz(7, 'O', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-emerald-600/30 border border-slate-700 hover:border-emerald-500 text-emerald-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>⭕️ 그렇다 (O)</span>
+                                </button>
+                                <button onclick="checkQuiz(7, 'X', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-rose-600/30 border border-slate-700 hover:border-rose-500 text-rose-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>❌ 아니다 (X)</span>
+                                </button>
+                            </div>
+                            <div id="quiz-feedback-7" class="hidden mt-3 p-3 rounded-xl text-xs"></div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 text-center">정답을 맞히면 탐험 완료 배지가 부여됩니다!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 8: 핵심 정리 (summary) -->
+            <div class="card-item flip-card group" data-id="8" data-cat="summary">
+                <div class="flip-card-inner relative w-full h-[520px] rounded-2xl">
+                    <div class="flip-card-front absolute inset-0 glass-card rounded-2xl border border-slate-700/60 p-5 flex flex-col justify-between overflow-hidden shadow-xl hover:border-indigo-500/50 transition">
+                        <div class="complete-badge hidden absolute inset-0 bg-indigo-950/70 backdrop-blur-xs z-20 flex flex-col items-center justify-center p-4">
+                            <div class="w-16 h-16 rounded-full bg-indigo-500 text-white flex items-center justify-center text-3xl shadow-lg animate-pop mb-2">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="font-kids text-lg text-indigo-300">탐험 완료!</span>
+                            <span class="text-xs text-slate-300">퀴즈를 모두 맞혔어요</span>
+                            <button onclick="flipCard(this)" class="mt-4 px-3 py-1.5 rounded-lg bg-slate-800 text-xs text-slate-200 hover:bg-slate-700 border border-slate-700">
+                                퀴즈 다시 풀기 <i class="fa-solid fa-arrow-rotate-right ml-1"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <div class="relative h-44 rounded-xl overflow-hidden mb-3.5 group-hover:scale-[1.02] transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1591107576521-87091dc07797?auto=format&fit=crop&w=800&q=80" onerror="this.src='https://images.unsplash.com/photo-1668396001678-d33131800ea7?auto=format&fit=crop&w=800&q=80'" alt="세계 여러 나라의 음식 문화" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-indigo-600/90 text-white text-[11px] font-bold">
+                                    08. 핵심 정리
+                                </span>
+                                <span class="absolute bottom-2 left-2.5 text-xs text-slate-200 font-semibold flex items-center gap-1">
+                                    🌍 식민지가 남긴 문화 지도
+                                </span>
+                            </div>
+                            <h3 class="font-kids text-lg text-indigo-400 mb-1.5 flex items-center gap-1.5">
+                                역사는 음식과 말에 흔적을 남긴다!
+                            </h3>
+                            <div class="space-y-1.5 text-xs text-slate-300 leading-relaxed">
+                                <p>• <strong>마카오 → 에그타르트</strong>: 포르투갈의 영향으로 지금도 맛있는 에그타르트를 즐겨요.</p>
+                                <p>• <strong>베트남 → 반미, 인도 → 짜이, 필리핀 → 성당</strong>: 각각 프랑스·영국·스페인의 흔적이 지금도 생활 곳곳에 남아있어요.</p>
+                                <p>• <strong>문화는 사라지지 않아요</strong>: 식민지 시대는 끝났지만, 그때 전해진 음식·언어·건축은 그 나라만의 멋진 문화로 다시 태어났답니다!</p>
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">배운 내용 퀴즈 풀기</span>
+                            <button onclick="flipCard(this)" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-indigo-950">
+                                퀴즈 도전 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flip-card-back absolute inset-0 glass-card rounded-2xl border border-amber-500/40 p-5 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold text-amber-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-question"></i> O/X 퀴즈 #08
+                                </span>
+                                <button onclick="flipCard(this)" class="text-slate-400 hover:text-white text-xs">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i>카드 다시보기
+                                </button>
+                            </div>
+                            <h4 class="font-kids text-base text-white mb-3">
+                                Q. 식민지 시대의 음식·언어·건축 흔적은 지금도 그 나라만의 문화로 남아있다?
+                            </h4>
+                            <div class="grid grid-cols-2 gap-3 mt-4">
+                                <button onclick="checkQuiz(8, 'O', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-emerald-600/30 border border-slate-700 hover:border-emerald-500 text-emerald-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>⭕️ 그렇다 (O)</span>
+                                </button>
+                                <button onclick="checkQuiz(8, 'X', this)" class="quiz-btn p-4 rounded-xl bg-slate-800/80 hover:bg-rose-600/30 border border-slate-700 hover:border-rose-500 text-rose-400 font-kids text-2xl transition flex flex-col items-center gap-1">
+                                    <span>❌ 아니다 (X)</span>
+                                </button>
+                            </div>
+                            <div id="quiz-feedback-8" class="hidden mt-3 p-3 rounded-xl text-xs"></div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 text-center">정답을 맞히면 탐험 완료 배지가 부여됩니다!</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Master Celebration Modal -->
+    <div id="masterModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="glass-card max-w-md w-full rounded-3xl p-6 border-2 border-indigo-400 shadow-2xl text-center relative overflow-hidden animate-pop">
+            <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-tr from-amber-400 to-indigo-400 text-slate-950 flex items-center justify-center text-4xl shadow-xl mb-4">
+                👑
+            </div>
+            <span class="px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-bold border border-indigo-500/40">
+                문화 탐험 수료증 획득!
+            </span>
+            <h3 class="font-kids text-2xl text-white mt-2 mb-1">
+                축하합니다! 은찬이는 이제 <br><span class="text-amber-400">세계 문화 탐험 마스터</span>예요!
+            </h3>
+            <p class="text-xs text-slate-300 leading-relaxed my-3">
+                마카오 에그타르트부터 베트남, 인도, 필리핀까지! 식민지 시대가 세계 곳곳에 남긴 문화 흔적을 모두 찾아냈어요 🌍✨
+            </p>
+            <div class="flex gap-2 justify-center mt-5">
+                <button onclick="closeMasterModal()" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-950 transition">
+                    신나게 더 탐험하기! 🚀
+                </button>
+                <a href="eunchan-study.html" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs border border-slate-700 transition flex items-center gap-1">
+                    공부방 홈으로 <i class="fa-solid fa-house"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Logic -->
+    <script>
+        const STORAGE_KEY = 'emstudio_world_culture_quiz_progress';
+        const TOTAL_CARDS = 8;
+
+        // Correct Answers Map
+        const quizAnswers = {
+            1: 'O',
+            2: 'O',
+            3: 'X',
+            4: 'O',
+            5: 'O',
+            6: 'O',
+            7: 'O',
+            8: 'O'
+        };
+
+        // Explanations Map
+        const quizExplanations = {
+            1: '마카오는 1557년부터 포르투갈의 지배를 받다가 1999년 12월 20일, 442년 만에 중국으로 반환되었어요!',
+            2: '마카오 에그타르트는 포르투갈의 전통 과자 "파스텔 드 나타"가 마카오에 전해지면서 유명해진 것이랍니다!',
+            3: '세나도 광장의 물결무늬 바닥은 사실 포르투갈의 전통 돌바닥 장식(칼사다 포르투게사) 양식이에요. 한국 전통 문양이 아니랍니다!',
+            4: '마카오는 중국어(광둥어)와 포르투갈어를 공식 언어로 함께 사용하는 특별한 도시예요!',
+            5: '베트남은 1887년부터 1954년까지 프랑스의 지배를 받으면서 바게트빵이 전해져 "반미"라는 샌드위치로 다시 태어났어요!',
+            6: '인도는 영국의 지배를 받으며 홍차 문화가 퍼졌고, 지금도 "짜이"라는 달콤한 밀크티를 즐겨 마셔요. 영어도 널리 쓰이게 되었답니다!',
+            7: '필리핀은 약 300년간 스페인의 지배를 받으며 스페인식 이름과 지명, 그리고 화려한 성당 건축 양식이 뿌리내렸어요!',
+            8: '이렇게 식민지 시대의 영향은 지금도 음식, 언어, 건축처럼 그 나라만의 독특한 문화로 남아있답니다!'
+        };
+
+        // Load Progress
+        function getProgress() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                return saved ? JSON.parse(saved) : {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveProgress(progress) {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        // Update UI based on progress
+        function updateProgressUI() {
+            const progress = getProgress();
+            const completedCount = Object.keys(progress).filter(id => progress[id] === true).length;
+            const pct = Math.round((completedCount / TOTAL_CARDS) * 100);
+
+            document.getElementById('progressText').textContent = `${completedCount} / ${TOTAL_CARDS} (${pct}%)`;
+            document.getElementById('progressBar').style.width = `${pct}%`;
+
+            const badge = document.getElementById('badgeLevel');
+            if (completedCount === 0) {
+                badge.textContent = '🌟 초보 탐험가';
+                badge.className = 'text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700 font-semibold font-sans';
+            } else if (completedCount < 4) {
+                badge.textContent = '🥉 호기심 탐험가';
+                badge.className = 'text-xs px-2.5 py-0.5 rounded-full bg-amber-900/40 text-amber-300 border border-amber-700/50 font-semibold font-sans';
+            } else if (completedCount < 8) {
+                badge.textContent = '🥈 열정의 문화 탐험대장';
+                badge.className = 'text-xs px-2.5 py-0.5 rounded-full bg-sky-900/40 text-sky-300 border border-sky-700/50 font-semibold font-sans';
+            } else {
+                badge.textContent = '👑 세계 문화 탐험 마스터!';
+                badge.className = 'text-xs px-2.5 py-0.5 rounded-full bg-indigo-900/40 text-indigo-300 border border-indigo-500/50 font-semibold font-sans animate-pulse';
+            }
+
+            document.querySelectorAll('.card-item').forEach(card => {
+                const id = card.getAttribute('data-id');
+                const badgeOverlay = card.querySelector('.complete-badge');
+                if (progress[id]) {
+                    badgeOverlay.classList.remove('hidden');
+                } else {
+                    badgeOverlay.classList.add('hidden');
+                }
+            });
+
+            if (completedCount === TOTAL_CARDS && !sessionStorage.getItem('master_modal_shown')) {
+                document.getElementById('masterModal').classList.remove('hidden');
+                sessionStorage.setItem('master_modal_shown', 'true');
+            }
+        }
+
+        // Flip Card Handler
+        function flipCard(btn) {
+            const flipCard = btn.closest('.flip-card');
+            flipCard.classList.toggle('flipped');
+        }
+
+        // Check Quiz Answer
+        function checkQuiz(id, answer, btn) {
+            const isCorrect = (quizAnswers[id] === answer);
+            const feedbackEl = document.getElementById(`quiz-feedback-${id}`);
+            const parentCard = btn.closest('.flip-card');
+            const explanation = quizExplanations[id];
+
+            feedbackEl.classList.remove('hidden', 'bg-emerald-950/60', 'border-emerald-500', 'text-emerald-300', 'bg-rose-950/60', 'border-rose-500', 'text-rose-300');
+
+            if (isCorrect) {
+                feedbackEl.classList.add('bg-emerald-950/60', 'border', 'border-emerald-500', 'text-emerald-300');
+                feedbackEl.innerHTML = `
+                    <div class="flex items-start gap-2">
+                        <span class="text-base">🎉</span>
+                        <div>
+                            <strong class="font-bold">딩동댕! 정답이에요!</strong>
+                            <p class="text-[11px] text-slate-300 mt-0.5">${explanation}</p>
+                        </div>
+                    </div>
+                `;
+
+                const progress = getProgress();
+                progress[id] = true;
+                saveProgress(progress);
+
+                setTimeout(() => {
+                    parentCard.classList.remove('flipped');
+                    updateProgressUI();
+                }, 1800);
+
+            } else {
+                feedbackEl.classList.add('bg-rose-950/60', 'border', 'border-rose-500', 'text-rose-300');
+                feedbackEl.innerHTML = `
+                    <div class="flex items-start gap-2">
+                        <span class="text-base">💡</span>
+                        <div>
+                            <strong class="font-bold">아쉬워요! 다시 한번 생각해보세요.</strong>
+                            <p class="text-[11px] text-slate-300 mt-0.5">카드의 내용을 다시 읽어보고 도전해보세요!</p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Category Filter
+        function filterCards(cat) {
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                if (btn.getAttribute('data-cat') === cat) {
+                    btn.classList.add('bg-indigo-600', 'text-white', 'shadow-md', 'shadow-indigo-900/30');
+                    btn.classList.remove('bg-slate-800', 'text-slate-300');
+                } else {
+                    btn.classList.remove('bg-indigo-600', 'text-white', 'shadow-md', 'shadow-indigo-900/30');
+                    btn.classList.add('bg-slate-800', 'text-slate-300');
+                }
+            });
+
+            document.querySelectorAll('.card-item').forEach(card => {
+                const cardCat = card.getAttribute('data-cat');
+                if (cat === 'all' || cardCat === cat) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // Reset Progress
+        function resetProgress() {
+            if (confirm('모든 퀴즈 진척도와 배지를 처음부터 다시 풀도록 초기화할까요?')) {
+                localStorage.removeItem(STORAGE_KEY);
+                sessionStorage.removeItem('master_modal_shown');
+                updateProgressUI();
+            }
+        }
+
+        function closeMasterModal() {
+            document.getElementById('masterModal').classList.add('hidden');
+        }
+
+        // Init on DOM load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateProgressUI();
+        });
+    </script>
+</body>
+</html>
