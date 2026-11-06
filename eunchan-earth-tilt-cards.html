@@ -969,12 +969,21 @@
         // Touch Swipe Navigation
         let touchStartX = 0;
         let touchEndX = 0;
+        let touchStartedOnInteractive = false;
         document.addEventListener('touchstart', e => {
-            if (e.target.closest('button, a, input, select, textarea, .no-swipe')) return;
+            if (e.target.closest('button, a, input, select, textarea, .no-swipe')) {
+                touchStartedOnInteractive = true;
+                return;
+            }
+            touchStartedOnInteractive = false;
             touchStartX = e.changedTouches[0].screenX;
         }, { passive: true });
 
         document.addEventListener('touchend', e => {
+            if (touchStartedOnInteractive) {
+                touchStartedOnInteractive = false;
+                return;
+            }
             touchEndX = e.changedTouches[0].screenX;
             if (touchStartX - touchEndX > 75) nextSlide();
             if (touchEndX - touchStartX > 75) prevSlide();
